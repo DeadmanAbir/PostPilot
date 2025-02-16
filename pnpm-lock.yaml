@@ -20,15 +20,16 @@ importers:
 
   apps/http-backend:
     dependencies:
+      express:
+        specifier: ^4.21.2
+        version: 4.21.2
+    devDependencies:
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
       '@types/express':
         specifier: ^5.0.0
         version: 5.0.0
-      express:
-        specifier: ^4.21.2
-        version: 4.21.2
 
   apps/web:
     dependencies:
