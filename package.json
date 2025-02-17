@@ -1,5 +1,5 @@
 {
-  "name": "PostPilot",
+  "name": "Postilot",
   "private": true,
   "scripts": {
     "build": "turbo run build",
