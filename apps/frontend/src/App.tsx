@@ -16,7 +16,6 @@ import {
   Clock,
   Target,
 } from "lucide-react";
-import Button from "@repo/ui/custom_button";
 function App() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [isAnnual, setIsAnnual] = useState(true);
@@ -190,7 +189,6 @@ function App() {
     <div>
       {/* Navigation */}
       <nav className="nav bg-slate-600">
-        <Button />
         <div className="container nav-container">
           <a href="/" className="nav-logo">
             <Linkedin size={32} className="text-primary" />
