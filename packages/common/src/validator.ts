@@ -5,3 +5,11 @@ export const demoValidator = z.object({
 });
 
 // demoValidator.parse(body); will do the validation
+
+export const youtubeValidator = z.object({
+  url: z.string(),
+});
+
+export const twitterValidator = z.object({
+  tweetUrl: z.string(),
+});
