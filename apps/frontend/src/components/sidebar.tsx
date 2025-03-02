@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Button } from "./ui/button";
 import { Home, FileText, Calendar, BarChart2, Settings } from "lucide-react";
 
@@ -21,6 +22,12 @@ export function Sidebar() {
           <BarChart2 className="mr-2 h-4 w-4" />
           Analytics
         </Button>
+        <Link to="/sources">
+          <Button variant="ghost" className="w-full justify-start">
+            <BarChart2 className="mr-2 h-4 w-4" />
+            Sources
+          </Button>
+        </Link>
         <Button variant="ghost" className="w-full justify-start">
           <Settings className="mr-2 h-4 w-4" />
           Settings
