@@ -1,12 +1,10 @@
 import { Header } from "./header";
 import { PostGenerator } from "./post-generator";
 import { SchedulingSidebar } from "./scheduling-sidebar";
-import { Sidebar } from "./sidebar";
 
 export function Dashboard() {
   return (
     <div className="flex h-screen bg-background">
-      <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden">
         <Header />
         <div className="flex flex-1 overflow-hidden">
