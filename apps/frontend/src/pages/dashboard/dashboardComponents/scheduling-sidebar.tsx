@@ -4,7 +4,6 @@ import { Button } from "../../../components/ui/button";
 import { Calendar } from "../../../components/ui/calendar";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avatar";
 import {
   Tooltip,
   TooltipContent,
@@ -12,11 +11,16 @@ import {
   TooltipTrigger,
 } from "../../../components/ui/tooltip";
 import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
+
+import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "../../../components/ui/dialog";
 
 interface ScheduledPost {
@@ -121,37 +125,45 @@ export function SchedulingSidebar() {
           </div>
         </CardContent>
       </Card>
+      <Collapsible>
+        <CollapsibleTrigger asChild>
+          <Button className="w-full mb-3">
+            Schedule Post
+          </Button>
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <Card >
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Schedule Post</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div>
-              <Label>Date</Label>
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                className="rounded-md border"
-              />
-            </div>
-            <div>
-              <Label htmlFor="time">Time</Label>
-              <Input
-                id="time"
-                type="time"
-                value={time}
-                onChange={(e) => setTime(e.target.value)}
-              />
-            </div>
-            <Button onClick={handleSchedule} className="w-full">
-              Schedule
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+            <CardContent className="p-4">
+              <div className="space-y-4">
+                <div>
+                  <Label>Date</Label>
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    className="rounded-md border"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="time">Time</Label>
+                  <Input
+                    id="time"
+                    type="time"
+                    value={time}
+                    onChange={(e) => setTime(e.target.value)}
+                  />
+                </div>
+                <Button onClick={handleSchedule} className="w-full">
+                  Schedule
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </CollapsibleContent>
+      </Collapsible>
+
+
 
       <Dialog open={!!selectedPost} onOpenChange={() => setSelectedPost(null)}>
         <DialogContent>
