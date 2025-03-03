@@ -13,12 +13,18 @@ import { RegenerateModal } from "../../../components/regenerate-modal";
 export function PostGenerator() {
   const [generatedPost, setGeneratedPost] = useState("");
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
-
+  const [loading, setLoading] = useState(false)
   const handleGenerate = async () => {
-    // TODO: Implement actual AI generation logic
+    setLoading(true)
+    await new Promise((res) => {
+      setTimeout(() => {
+        res(undefined)
+      }, 2000)
+    })
     setGeneratedPost(
       "This is a sample generated post. Replace with actual AI-generated content."
     );
+    setLoading(false)
   };
 
   const handleRegenerate = async (additionalContext: string) => {
@@ -37,14 +43,45 @@ export function PostGenerator() {
           <Textarea
             placeholder="Enter your prompt for AI generation..."
             className="min-h-[100px]"
+            value={generatedPost}
           />
         </CardContent>
         <CardFooter>
-          <Button onClick={handleGenerate}>Generate Post</Button>
+
+          {generatedPost ? (<Button
+            onClick={() => setIsRegenerateModalOpen(true)}
+            disabled={loading}
+            className="relative "
+          >
+            <div className={`transform transition-transform duration-300 ${loading ? '-translate-y-[250%]' : 'translate-y-0'}`}>
+              Regenerate Post
+            </div>
+            <div className={`absolute transform transition-transform duration-300 ${loading ? 'translate-y-0' : 'translate-y-[250%]'}`}>
+              <div className="flex items-center gap-2">
+                <span>Loading</span>
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+              </div>
+            </div>
+          </Button>) : (<Button
+            onClick={handleGenerate}
+            disabled={loading}
+            className="relative "
+          >
+            <div className={`transform transition-transform duration-300 ${loading ? '-translate-y-[250%]' : 'translate-y-0'}`}>
+              {generatedPost ? "Regenerate Post" : "Generate Post"}
+            </div>
+            <div className={`absolute transform transition-transform duration-300 ${loading ? 'translate-y-0' : 'translate-y-[250%]'}`}>
+              <div className="flex items-center gap-2">
+                <span>Loading</span>
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+              </div>
+            </div>
+          </Button>)}
+
         </CardFooter>
       </Card>
 
-      {generatedPost && (
+      {/* {generatedPost && (
         <Card>
           <CardHeader>
             <CardTitle>Generated Post</CardTitle>
@@ -62,7 +99,7 @@ export function PostGenerator() {
             <Button className="ml-2">Use This Post</Button>
           </CardFooter>
         </Card>
-      )}
+      )} */}
 
       <RegenerateModal
         isOpen={isRegenerateModalOpen}
