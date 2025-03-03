@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { Button } from "./ui/button";
-import { Textarea } from "./ui/textarea";
+import { Button } from "../../../components/ui/button";
+import { Textarea } from "../../../components/ui/textarea";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "../../../components/ui/card";
 
-import { RegenerateModal } from "./regenerate-modal";
+import { RegenerateModal } from "../../../components/regenerate-modal";
 export function PostGenerator() {
   const [generatedPost, setGeneratedPost] = useState("");
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);

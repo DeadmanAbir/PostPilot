@@ -1,23 +1,23 @@
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Button } from "./ui/button";
-import { Calendar } from "./ui/calendar";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
+import { Button } from "../../../components/ui/button";
+import { Calendar } from "../../../components/ui/calendar";
+import { Input } from "../../../components/ui/input";
+import { Label } from "../../../components/ui/label";
+import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avatar";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "./ui/tooltip";
+} from "../../../components/ui/tooltip";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
+} from "../../../components/ui/dialog";
 
 interface ScheduledPost {
   id: string;

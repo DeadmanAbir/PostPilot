@@ -1,6 +1,7 @@
-import { Header } from "./header";
-import { PostGenerator } from "./post-generator";
-import { SchedulingSidebar } from "./scheduling-sidebar";
+import { Header } from "@/pages/dashboard/dashboardComponents/header";
+import { PostGenerator } from "@/pages/dashboard/dashboardComponents/post-generator";
+import { SchedulingSidebar } from "@/pages/dashboard/dashboardComponents/scheduling-sidebar";
+
 
 export function Dashboard() {
   return (
