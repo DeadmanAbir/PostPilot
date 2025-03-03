@@ -8,6 +8,14 @@ import {
   CardHeader,
   CardTitle,
 } from "../../../components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 
 import { RegenerateModal } from "../../../components/regenerate-modal";
 export function PostGenerator() {
@@ -46,7 +54,7 @@ export function PostGenerator() {
             value={generatedPost}
           />
         </CardContent>
-        <CardFooter>
+        <CardFooter className="flex gap-2">
 
           {generatedPost ? (<Button
             onClick={() => setIsRegenerateModalOpen(true)}
@@ -77,6 +85,16 @@ export function PostGenerator() {
               </div>
             </div>
           </Button>)}
+          <Select>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Theme" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="light">Light</SelectItem>
+              <SelectItem value="dark">Dark</SelectItem>
+              <SelectItem value="system">System</SelectItem>
+            </SelectContent>
+          </Select>
 
         </CardFooter>
       </Card>
