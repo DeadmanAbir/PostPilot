@@ -1,14 +1,14 @@
-import { DocumentCard } from "@/components/cards/document-card";
-import { NoteCard } from "@/components/cards/note-card";
-import { TweetCard } from "@/components/cards/tweet-card";
-import { WebpageCard } from "@/components/cards/webpage-card";
-import { YoutubeCard } from "@/components/cards/youtube-card";
-import { FilesTab } from "@/components/content-tabs/files-tab";
-import { ImagesTab } from "@/components/content-tabs/images-tab";
-import { TextNoteTab } from "@/components/content-tabs/text-node-tab";
-import { TweetsTab } from "@/components/content-tabs/tweets-tab";
-import { WebsitesTab } from "@/components/content-tabs/websites-tab";
-import { YouTubeTab } from "@/components/content-tabs/youtube-tab";
+import { DocumentCard } from "@/pages/sources/sourcesComponents/cards/document-card";
+import { NoteCard } from "@/pages/sources/sourcesComponents/cards/note-card";
+import { TweetCard } from "@/pages/sources/sourcesComponents/cards/tweet-card";
+import { WebpageCard } from "@/pages/sources/sourcesComponents/cards/webpage-card";
+import { YoutubeCard } from "@/pages/sources/sourcesComponents/cards/youtube-card";
+import { FilesTab } from "@/pages/sources/sourcesComponents/content-tabs/files-tab";
+import { ImagesTab } from "@/pages/sources/sourcesComponents/content-tabs/images-tab";
+import { TextNoteTab } from "@/pages/sources/sourcesComponents/content-tabs/text-node-tab";
+import { TweetsTab } from "@/pages/sources/sourcesComponents/content-tabs/tweets-tab";
+import { WebsitesTab } from "@/pages/sources/sourcesComponents/content-tabs/websites-tab";
+import { YouTubeTab } from "@/pages/sources/sourcesComponents/content-tabs/youtube-tab";
 import { Nav } from "@/components/nav";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -19,7 +19,7 @@ import {
   TwitterIcon,
   YoutubeIcon,
 } from "lucide-react";
-const sources = () => {
+const Sources = () => {
   return (
     <div className="space-y-4">
       <Tabs defaultValue="youtube" className="w-full">
@@ -102,4 +102,4 @@ const sources = () => {
   );
 };
 
-export default sources;
+export default Sources;
