@@ -22,6 +22,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../../components/ui/dialog";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 interface ScheduledPost {
   id: string;
@@ -80,6 +81,7 @@ const mockUpcomingPosts: ScheduledPost[] = [
 export function SchedulingSidebar() {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [time, setTime] = useState("12:00");
+  const [open,setOpen]=useState(false)
   const [scheduledPosts, setScheduledPosts] =
     useState<ScheduledPost[]>(mockUpcomingPosts);
   const [selectedPost, setSelectedPost] = useState<ScheduledPost | null>(null);
@@ -125,12 +127,13 @@ export function SchedulingSidebar() {
           </div>
         </CardContent>
       </Card>
-      <Collapsible>
-        <CollapsibleTrigger asChild>
-          <Button className="w-full mb-3">
-            Schedule Post
-          </Button>
-        </CollapsibleTrigger>
+      <Collapsible open={open} onOpenChange={setOpen}>
+      <CollapsibleTrigger asChild>
+  <Button className="w-full mb-3 flex justify-between items-center">
+    <span> Schedule Post</span> 
+    {open ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+  </Button>
+</CollapsibleTrigger>
         <CollapsibleContent>
           <Card >
 
