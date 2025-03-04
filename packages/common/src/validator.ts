@@ -7,9 +7,13 @@ export const demoValidator = z.object({
 // demoValidator.parse(body); will do the validation
 
 export const youtubeValidator = z.object({
-  url: z.string(),
+  url: z.string().url(),
 });
 
 export const twitterValidator = z.object({
-  tweetUrl: z.string(),
+  tweetUrl: z.string().url(),
+});
+
+export const websiteUrlValidator = z.object({
+  url: z.string().url(),
 });
