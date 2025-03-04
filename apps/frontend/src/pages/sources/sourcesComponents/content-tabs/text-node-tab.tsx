@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { lazy, useState } from "react";
+import { lazy, Suspense, useState } from "react";
 // Import the Editor component with SSR disabled
 const Editor = lazy(() => import("../../../../components/tiptap-editor"));
 
@@ -12,17 +12,26 @@ export function TextNoteTab() {
     setCharCount(content.length);
   };
 
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Text Note</CardTitle>
       </CardHeader>
       <CardContent>
-        <Editor
-          value={content}
-          onChange={setContent}
-          placeholder="Write your note..."
-        />
+        <Suspense fallback={ <div className="h-20 flex items-center justify-center gap-4">
+          Loading..
+          <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+
+        </div> }>
+
+          <Editor
+            value={content}
+            onChange={setContent}
+            placeholder="Write your note..."
+          />
+        </Suspense>
+
         <div className="mt-2 text-sm text-muted-foreground">
           Words: {wordCount} | Characters: {charCount}
         </div>
