@@ -21,8 +21,8 @@ import {
 } from "lucide-react";
 const Sources = () => {
   return (
-    <div className="space-y-4">
-      <Tabs defaultValue="youtube" className="w-full">
+    <div className="space-y-4 p-5">
+      <Tabs defaultValue="youtube" className="w-full min-h-screen ">
         <TabsList>
           <TabsTrigger value="youtube">
             <YoutubeIcon className="mr-2 h-4 w-4" />
