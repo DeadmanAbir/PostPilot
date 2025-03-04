@@ -1,9 +1,17 @@
 import { Request, Response } from "express";
+import FirecrawlApp from "@mendable/firecrawl-js";
 import "dotenv/config";
+import createError from "http-errors";
 import { ApifyClient } from "apify-client";
+import { ZodError } from "zod";
 // helper functions
-import { youtubeValidator, twitterValidator } from "@repo/common/validator";
+import {
+  youtubeValidator,
+  twitterValidator,
+  websiteUrlValidator,
+} from "@repo/common/validator";
 import { extractTweetId } from "@/utils/helper";
+
 export async function fetchYoutubeVideoDetails(
   request: Request,
   response: Response
@@ -29,8 +37,17 @@ export async function fetchYoutubeVideoDetails(
     console.log("Results from dataset");
     const { items } = await client.dataset(run.defaultDatasetId).listItems();
     response.status(200).json(items[0]?.captions);
-  } catch (e: any) {
-    response.status(422).json({ error: e.message });
+  } catch (e: unknown) {
+    console.log(e);
+    if (e instanceof ZodError) {
+      response
+        .status(422)
+        .json({ error: "Invalid request body", details: e.errors });
+    } else if (e instanceof Error) {
+      response.status(500).json({ error: e.message });
+    } else {
+      response.status(500).json({ error: "An unknown error occurred" });
+    }
   }
 }
 
@@ -39,7 +56,7 @@ export async function fetchTweets(request: Request, response: Response) {
     const { tweetUrl } = twitterValidator.parse(request.body);
     const tweetId = extractTweetId(tweetUrl);
     if (!tweetId) {
-      throw new Error(`No Tweet ID found for : ${tweetUrl}`);
+      throw createError(500, `No Tweet ID found for : ${tweetUrl}`);
     }
     const input = {
       tweetIDs: [tweetId],
@@ -53,9 +70,44 @@ export async function fetchTweets(request: Request, response: Response) {
     const { items } = await client.dataset(run.defaultDatasetId).listItems();
 
     response.status(200).json(items[0]);
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.log(e);
-    response.status(422).json({ error: e.message });
+    if (e instanceof ZodError) {
+      response
+        .status(422)
+        .json({ error: "Invalid request body", details: e.errors });
+    } else if (e instanceof Error) {
+      response.status(500).json({ error: e.message });
+    } else {
+      response.status(500).json({ error: "An unknown error occurred" });
+    }
+  }
+}
+
+export async function fetchWebsiteUrl(request: Request, response: Response) {
+  try {
+    const { url } = websiteUrlValidator.parse(request.body);
+    const app = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
+
+    const scrapeResponse = await app.scrapeUrl(url, {
+      formats: ["screenshot"],
+    });
+
+    if (!scrapeResponse.success) {
+      throw createError(500, `Failed to scrape: ${scrapeResponse.error}`);
+    }
+    response.status(200).json(scrapeResponse);
+  } catch (e: unknown) {
+    console.log(e);
+    if (e instanceof ZodError) {
+      response
+        .status(422)
+        .json({ error: "Invalid request body", details: e.errors });
+    } else if (e instanceof Error) {
+      response.status(500).json({ error: e.message });
+    } else {
+      response.status(500).json({ error: "An unknown error occurred" });
+    }
   }
 }
 
