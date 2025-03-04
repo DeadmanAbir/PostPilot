@@ -1,7 +1,7 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { lazy, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 // Import the Editor component with SSR disabled
-const Editor = lazy(() => import("../tiptap-editor"));
+const Editor = lazy(() => import("../../../../components/tiptap-editor"));
 
 export function TextNoteTab() {
   const [wordCount, setWordCount] = useState(0);
