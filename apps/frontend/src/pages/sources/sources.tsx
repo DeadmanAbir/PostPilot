@@ -63,8 +63,8 @@ const Sources = () => {
   };
 
   return (
-    <div ref={containerRef} className="h-screen overflow-hidden p-5">
-      <div className="h-screen flex flex-col items-center justify-between pb-3  ">
+    <div ref={containerRef} className=" p-5">
+      <div className="min-h-screen flex flex-col items-center justify-between pb-3  ">
         <LinkSection />
         <div className="flex flex-col items-center">
           <span> Your Sources</span>
@@ -74,7 +74,7 @@ const Sources = () => {
           </Button>
         </div>
       </div>
-      <div className="h-screen flex items-center justify-center  ">
+      <div className="min-h-screen flex items-center justify-center overflow-visible  ">
         <PreviewSection />
       </div>
     </div>

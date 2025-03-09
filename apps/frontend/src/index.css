@@ -64,3 +64,6 @@
     @apply bg-background text-foreground;
   }
 }
+.react-tweet-theme {
+  --tweet-container-margin: 0 0 !important;
+}

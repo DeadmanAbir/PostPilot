@@ -9,7 +9,7 @@ const PreviewSection = () => {
     return ( <div className="w-full h-full p-4">
          <Nav />
       <main className="container mx-auto p-4  w-full ">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 justify-start">
           <WebpageCard
             title="Example Website"
             url="https://example.com/article"
@@ -20,10 +20,7 @@ const PreviewSection = () => {
             preview="A comprehensive proposal for..."
           />
           <TweetCard
-            username="John Doe"
-            handle="johndoe"
-            content="This is an example tweet with some interesting content..."
-            avatar="/placeholder.svg"
+            id="1898052198762004978"
           />
           <YoutubeCard
             title="How to Build a Second Brain"
