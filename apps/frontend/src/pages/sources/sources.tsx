@@ -1,103 +1,82 @@
-import { DocumentCard } from "@/pages/sources/sourcesComponents/cards/document-card";
-import { NoteCard } from "@/pages/sources/sourcesComponents/cards/note-card";
-import { TweetCard } from "@/pages/sources/sourcesComponents/cards/tweet-card";
-import { WebpageCard } from "@/pages/sources/sourcesComponents/cards/webpage-card";
-import { YoutubeCard } from "@/pages/sources/sourcesComponents/cards/youtube-card";
-import { FilesTab } from "@/pages/sources/sourcesComponents/content-tabs/files-tab";
-import { ImagesTab } from "@/pages/sources/sourcesComponents/content-tabs/images-tab";
-import { TextNoteTab } from "@/pages/sources/sourcesComponents/content-tabs/text-node-tab";
-import { TweetsTab } from "@/pages/sources/sourcesComponents/content-tabs/tweets-tab";
-import { WebsitesTab } from "@/pages/sources/sourcesComponents/content-tabs/websites-tab";
-import { YouTubeTab } from "@/pages/sources/sourcesComponents/content-tabs/youtube-tab";
-import { Nav } from "@/components/nav";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  FileIcon,
-  FileTextIcon,
-  ImageIcon,
-  LinkIcon,
-  TwitterIcon,
-  YoutubeIcon,
-} from "lucide-react";
+
+
+import { useEffect, useRef } from "react";
+import LinkSection from "./sourcesComponents/links-sections";
+import PreviewSection from "./sourcesComponents/preview-section";
+import { ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
 const Sources = () => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let isScrolling = false;
+
+    const handleScroll = (event: WheelEvent) => {
+      if (isScrolling) return;
+
+      isScrolling = true;
+      const sections = Array.from(container.children) as HTMLElement[];
+      const direction = event.deltaY > 0 ? 1 : -1;
+
+      const currentSection = sections.find(
+        (section) => section.getBoundingClientRect().top >= 0
+      );
+
+      if (currentSection) {
+        const nextIndex = Math.max(
+          0,
+          Math.min(sections.indexOf(currentSection) + direction, sections.length - 1)
+        );
+
+        sections[nextIndex].scrollIntoView({ behavior: "smooth" });
+      }
+
+      setTimeout(() => {
+        isScrolling = false;
+      }, 800);
+    };
+
+    container.addEventListener("wheel", handleScroll);
+
+    return () => container.removeEventListener("wheel", handleScroll);
+  }, []);
+  const scrollToNextSection = (direction: 1 | -1) => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const sections = Array.from(container.children) as HTMLElement[];
+    const currentSection = sections.find(
+      (section) => section.getBoundingClientRect().top >= 0
+    );
+
+    if (currentSection) {
+      const nextIndex = Math.max(
+        0,
+        Math.min(sections.indexOf(currentSection) + direction, sections.length - 1)
+      );
+
+      sections[nextIndex].scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <div className="space-y-4 p-5">
-      <Tabs defaultValue="youtube" className="w-full min-h-screen ">
-        <TabsList>
-          <TabsTrigger value="youtube">
-            <YoutubeIcon className="mr-2 h-4 w-4" />
-            YouTube Video
-          </TabsTrigger>
-          <TabsTrigger value="files">
-            <FileIcon className="mr-2 h-4 w-4" />
-            Files
-          </TabsTrigger>
-          <TabsTrigger value="images">
-            <ImageIcon className="mr-2 h-4 w-4" />
-            Images
-          </TabsTrigger>
-          <TabsTrigger value="tweets">
-            <TwitterIcon className="mr-2 h-4 w-4" />
-            Tweets
-          </TabsTrigger>
-          <TabsTrigger value="notes">
-            <FileTextIcon className="mr-2 h-4 w-4" />
-            Text Note
-          </TabsTrigger>
-          <TabsTrigger value="websites">
-            <LinkIcon className="mr-2 h-4 w-4" />
-            Websites/Articles
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="youtube">
-          <YouTubeTab />
-        </TabsContent>
-        <TabsContent value="files">
-          <FilesTab />
-        </TabsContent>
-        <TabsContent value="images">
-          <ImagesTab />
-        </TabsContent>
-        <TabsContent value="tweets">
-          <TweetsTab />
-        </TabsContent>
-        <TabsContent value="notes">
-          <TextNoteTab />
-        </TabsContent>
-        <TabsContent value="websites">
-          <WebsitesTab />
-        </TabsContent>
-      </Tabs>
-      <Nav />
-      <main className="container mx-auto p-4">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <WebpageCard
-            title="Example Website"
-            url="https://example.com/article"
-          />
-          <DocumentCard
-            title="Project Proposal"
-            type="PDF Document"
-            preview="A comprehensive proposal for..."
-          />
-          <TweetCard
-            username="John Doe"
-            handle="johndoe"
-            content="This is an example tweet with some interesting content..."
-            avatar="/placeholder.svg"
-          />
-          <YoutubeCard
-            title="How to Build a Second Brain"
-            thumbnail="/placeholder.svg"
-            videoId="xyz123"
-          />
-          <NoteCard
-            title="Meeting Notes"
-            content="Key points from today's meeting..."
-            timestamp="2 hours ago"
-          />
+    <div ref={containerRef} className="h-screen overflow-hidden p-5">
+      <div className="h-screen flex flex-col items-center justify-between pb-3  ">
+        <LinkSection />
+        <div className="flex flex-col items-center">
+          <span> Your Sources</span>
+          <Button variant={"ghost"} size={"icon"} onClick={() => scrollToNextSection(1)}>
+            <ChevronDown />
+
+          </Button>
         </div>
-      </main>
+      </div>
+      <div className="h-screen flex items-center justify-center ">
+        <PreviewSection />
+      </div>
     </div>
   );
 };
