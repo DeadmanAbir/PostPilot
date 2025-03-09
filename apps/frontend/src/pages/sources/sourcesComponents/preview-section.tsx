@@ -6,7 +6,7 @@ import { YoutubeCard } from "@/pages/sources/sourcesComponents/cards/youtube-car
 
 import { Nav } from "@/components/nav";
 const PreviewSection = () => {
-    return ( <div className="w-full">
+    return ( <div className="w-full h-full p-4">
          <Nav />
       <main className="container mx-auto p-4  w-full ">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

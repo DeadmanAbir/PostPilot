@@ -74,7 +74,7 @@ const Sources = () => {
           </Button>
         </div>
       </div>
-      <div className="h-screen flex items-center justify-center ">
+      <div className="h-screen flex items-center justify-center  ">
         <PreviewSection />
       </div>
     </div>
