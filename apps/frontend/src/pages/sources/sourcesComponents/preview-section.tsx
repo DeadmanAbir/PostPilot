@@ -22,11 +22,13 @@ const PreviewSection = () => {
           <TweetCard
             id="1898052198762004978"
           />
+          <div className="col-span-2">
           <YoutubeCard
-            title="How to Build a Second Brain"
-            thumbnail="/placeholder.svg"
-            videoId="xyz123"
-          />
+           
+           videoId="https://youtu.be/HDdHKrHdd-o?si=J0Nq2GT1ZREWAMHo"
+         />
+          </div>
+         
           <NoteCard
             title="Meeting Notes"
             content="Key points from today's meeting..."
