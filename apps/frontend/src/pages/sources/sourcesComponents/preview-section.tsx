@@ -51,7 +51,7 @@ const PreviewSection = () => {
       timestamp="2 hours ago"
     />
    
-    <div className=" col-span-2 flex items-center justify-center bg-red-400">
+    <div className=" col-span-2 flex items-center justify-center ">
     <YoutubeCard
       videoId="https://www.youtube.com/embed/pNlq-EVld70?si=37liFmxxC7U_D14y"
     />
