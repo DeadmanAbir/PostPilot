@@ -2,6 +2,7 @@ import { Container } from "@/components/container";
 import Sidebar from "../components/sidebar/index";
 import { createRootRoute,  Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { Header } from "@/pages/dashboard/dashboardComponents/header";
 
 export const Route = createRootRoute({
   component: () => (
@@ -17,6 +18,7 @@ export const Route = createRootRoute({
       <hr /> */}
       <Sidebar />
       <Container>
+      <Header />
         <Outlet />
 
       </Container>

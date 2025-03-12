@@ -64,9 +64,9 @@ const Sources = () => {
 
   return (
     <div ref={containerRef} className=" p-5">
-      <div className="min-h-screen flex flex-col items-center justify-between pb-3  ">
+      <div className="min-h-screen flex flex-col items-center justify-between  relative  ">
         <LinkSection />
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center absolute bottom-24">
           <span> Your Sources</span>
           <Button variant={"ghost"} size={"icon"} onClick={() => scrollToNextSection(1)}>
             <ChevronDown />
