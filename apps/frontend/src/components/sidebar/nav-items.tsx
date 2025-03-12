@@ -5,6 +5,7 @@ import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
+import { collapseSidebar, useAppDispatch } from "../../../store/index";
 
 interface NavItemProps {
   icon: LucideIcon;
@@ -19,7 +20,7 @@ export const NavItem = ({
   href,
   isActive,
 }: NavItemProps) => {
-
+  const dispatch = useAppDispatch();
   return (
     <Button
       asChild
@@ -29,6 +30,7 @@ export const NavItem = ({
 "justify-start",
         isActive && "bg-accent"
       )}
+      onClick={() => dispatch(collapseSidebar())} 
     >
       <Link to={href}>
         <div className="flex items-center gap-x-4">
