@@ -48,10 +48,10 @@ const PreviewSection = () => {
                     <TweetCard
                         id="1898052198762004978"
                     />
-                    <div className="col-span-2">
+                    <div className="col-span-2 ">
                         <YoutubeCard
 
-                            videoId="https://youtu.be/HDdHKrHdd-o?si=J0Nq2GT1ZREWAMHo"
+                            videoId="https://www.youtube.com/embed/pNlq-EVld70?si=37liFmxxC7U_D14y"
                         />
                     </div>
 
