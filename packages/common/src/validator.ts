@@ -17,3 +17,7 @@ export const twitterValidator = z.object({
 export const websiteUrlValidator = z.object({
   url: z.string().url(),
 });
+
+export const postGenerateValidator = z.object({
+  query: z.string(),
+});
