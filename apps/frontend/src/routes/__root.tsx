@@ -1,8 +1,7 @@
-import { Container } from "@/components/container";
 import Sidebar from "../components/sidebar/index";
 import { createRootRoute,  Outlet } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Header } from "@/pages/dashboard/dashboardComponents/header";
+import Toggle from "@/components/sidebar/toggle";
 
 export const Route = createRootRoute({
   component: () => (
@@ -17,12 +16,14 @@ export const Route = createRootRoute({
       </div>
       <hr /> */}
       <Sidebar />
-      <Container>
+      <div className="mx-auto container">
       <Header />
         <Outlet />
+        <div className="fixed bottom-0 left-5 ">
+        <Toggle/>
+        </div>
 
-      </Container>
-      <TanStackRouterDevtools />
+      </div>
     </>
   ),
 });

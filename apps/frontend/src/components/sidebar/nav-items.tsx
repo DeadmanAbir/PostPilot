@@ -4,7 +4,6 @@ import { LucideIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { selectSidebarCollapsed, useAppSelector } from "../../../store/index";
 import { Link } from "@tanstack/react-router";
 
 interface NavItemProps {
@@ -20,7 +19,6 @@ export const NavItem = ({
   href,
   isActive,
 }: NavItemProps) => {
-  const collapsed = useAppSelector(selectSidebarCollapsed);
 
   return (
     <Button
@@ -28,14 +26,14 @@ export const NavItem = ({
       variant="ghost"
       className={cn(
         "w-full h-12",
-        collapsed ? "justify-center" : "justify-start",
+"justify-start",
         isActive && "bg-accent"
       )}
     >
       <Link to={href}>
         <div className="flex items-center gap-x-4">
-          <Icon className={cn("h-4 w-4", collapsed ? "mr-0" : "mr-2")} />
-          {!collapsed && <span>{label}</span>}
+          <Icon className={cn("h-4 w-4", "mr-2")} />
+          {<span>{label}</span>}
         </div>
       </Link>
     </Button>
