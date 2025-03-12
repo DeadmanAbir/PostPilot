@@ -35,33 +35,35 @@ const PreviewSection = () => {
                 </TabsTrigger>
             </TabsList>
             <TabsContent value="all">
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 justify-start">
-                    <WebpageCard
-                        title="Example Website"
-                        url="https://example.com/article"
-                    />
-                    <DocumentCard
-                        title="Project Proposal"
-                        type="PDF Document"
-                        preview="A comprehensive proposal for..."
-                    />
-                    <TweetCard
-                        id="1898052198762004978"
-                    />
-                    <div className="col-span-2 ">
-                        <YoutubeCard
+  <div className="grid grid-cols-3 gap-4">
+    <WebpageCard
+      title="Example Website"
+      url="https://example.com/article"
+    />
+    <DocumentCard
+      title="Project Proposal"
+      type="PDF Document"
+      preview="A comprehensive proposal for..."
+    />
+        <NoteCard
+      title="Meeting Notes"
+      content="Key points from today's meeting..."
+      timestamp="2 hours ago"
+    />
+   
+    <div className=" col-span-2 flex items-center justify-center bg-red-400">
+    <YoutubeCard
+      videoId="https://www.youtube.com/embed/pNlq-EVld70?si=37liFmxxC7U_D14y"
+    />
+    
+  </div>
+  <div className="">
+    <TweetCard id="1898052198762004978" />
+    </div>
 
-                            videoId="https://www.youtube.com/embed/pNlq-EVld70?si=37liFmxxC7U_D14y"
-                        />
-                    </div>
-
-                    <NoteCard
-                        title="Meeting Notes"
-                        content="Key points from today's meeting..."
-                        timestamp="2 hours ago"
-                    />
-                </div>
-            </TabsContent>
+  </div>
+  
+</TabsContent>
 
         </Tabs>
 
