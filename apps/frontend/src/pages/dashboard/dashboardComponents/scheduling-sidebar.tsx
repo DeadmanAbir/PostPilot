@@ -4,12 +4,7 @@ import { Button } from "../../../components/ui/button";
 import { Calendar } from "../../../components/ui/calendar";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../../../components/ui/tooltip";
+
 import {
   Collapsible,
   CollapsibleContent,
@@ -23,6 +18,7 @@ import {
   DialogTitle,
 } from "../../../components/ui/dialog";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { AvatarCircles } from "@/components/avatar-circle";
 
 interface ScheduledPost {
   id: string;
@@ -77,7 +73,34 @@ const mockUpcomingPosts: ScheduledPost[] = [
     image: "/placeholder.svg?height=40&width=40",
   },
 ];
-
+const avatars = [
+  {
+    imageUrl: "https://github.com/faisal004.png",
+    profileUrl: "https://github.com/faisal004",
+  },
+  {
+    imageUrl: "https://github.com/faisal004.png",
+    profileUrl: "https://github.com/faisal004",
+  },  {
+    profileUrl: "https://github.com/faisal004",
+    imageUrl: "https://github.com/faisal004.png",
+  },  {
+    imageUrl: "https://github.com/faisal004.png",
+    profileUrl: "https://github.com/faisal004",
+  },  {
+    imageUrl: "https://github.com/faisal004.png",
+    profileUrl: "https://github.com/faisal004",
+  },  {
+    imageUrl: "https://github.com/faisal004.png",
+    profileUrl: "https://github.com/faisal004",
+  },  {
+    imageUrl: "https://github.com/faisal004.png",
+    profileUrl: "https://github.com/faisal004",
+  },  {
+    imageUrl: "https://github.com/faisal004.png",
+    profileUrl: "https://github.com/faisal004",
+  },
+];
 export function SchedulingSidebar() {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [time, setTime] = useState("12:00");
@@ -106,25 +129,7 @@ export function SchedulingSidebar() {
           <CardTitle>Upcoming Posts</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-wrap gap-2">
-            {scheduledPosts.slice(0, 5).map((post) => (
-              <TooltipProvider key={post.id}>
-                <Tooltip>
-                  <TooltipTrigger asChild></TooltipTrigger>
-                  <TooltipContent>
-                    <p>
-                      {post.date.toDateString()} at {post.time}
-                    </p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            ))}
-            {scheduledPosts.length > 5 && (
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-muted-foreground text-muted text-sm">
-                +{scheduledPosts.length - 5}
-              </div>
-            )}
-          </div>
+        <AvatarCircles numPeople={10} avatarUrls={avatars} />;
         </CardContent>
       </Card>
       <Collapsible open={open} onOpenChange={setOpen}>
