@@ -15,18 +15,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Badge } from "@/components/ui/badge"
-import { RegenerateModal } from "../../../components/regenerate-modal";
+} from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Check, Search, X } from "lucide-react";
+import { RegenerateModal } from "@/components/regenerate-modal";
 
 const options = ["Profile", "Billing", "Team", "Subscription"];
 
 export function PostGenerator() {
   const [generatedPost, setGeneratedPost] = useState("");
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
@@ -39,16 +39,16 @@ export function PostGenerator() {
     setSelectedItems(selectedItems.filter((i) => i !== item));
   };
   const handleGenerate = async () => {
-    setLoading(true)
+    setLoading(true);
     await new Promise((res) => {
       setTimeout(() => {
-        res(undefined)
-      }, 2000)
-    })
+        res(undefined);
+      }, 2000);
+    });
     setGeneratedPost(
       "This is a sample generated post. Replace with actual AI-generated content."
     );
-    setLoading(false)
+    setLoading(false);
   };
 
   const handleRegenerate = async (additionalContext: string) => {
@@ -72,55 +72,66 @@ export function PostGenerator() {
         </CardContent>
         <CardFooter className="flex  flex-col items-start justify-start gap-2">
           <div className="flex gap-2">
-            {generatedPost ? (<Button
-              onClick={() => setIsRegenerateModalOpen(true)}
-              disabled={loading}
-              className="relative overflow-hidden"
-            >
-              <div className={`transform transition-transform duration-300 ${loading ? '-translate-y-[250%]' : 'translate-y-0'}`}>
-                Regenerate Post
-              </div>
-              <div className={`absolute transform transition-transform duration-300 ${loading ? 'translate-y-0' : 'translate-y-[250%]'}`}>
-                <div className="flex items-center gap-2">
-                  <span>Loading</span>
-                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+            {generatedPost ? (
+              <Button
+                onClick={() => setIsRegenerateModalOpen(true)}
+                disabled={loading}
+                className="relative overflow-hidden"
+              >
+                <div
+                  className={`transform transition-transform duration-300 ${loading ? "-translate-y-[250%]" : "translate-y-0"}`}
+                >
+                  Regenerate Post
                 </div>
-              </div>
-            </Button>) : (<Button
-              onClick={handleGenerate}
-              disabled={loading}
-              className="relative overflow-hidden"
-            >
-              <div className={`transform transition-transform duration-300 ${loading ? '-translate-y-[250%]' : 'translate-y-0'}`}>
-                {generatedPost ? "Regenerate Post" : "Generate Post"}
-              </div>
-              <div className={`absolute transform transition-transform duration-300 ${loading ? 'translate-y-0' : 'translate-y-[250%]'}`}>
-                <div className="flex items-center gap-2">
-                  <span>Loading</span>
-                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                <div
+                  className={`absolute transform transition-transform duration-300 ${loading ? "translate-y-0" : "translate-y-[250%]"}`}
+                >
+                  <div className="flex items-center gap-2">
+                    <span>Loading</span>
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                  </div>
                 </div>
-              </div>
-            </Button>)}
+              </Button>
+            ) : (
+              <Button
+                onClick={handleGenerate}
+                disabled={loading}
+                className="relative overflow-hidden"
+              >
+                <div
+                  className={`transform transition-transform duration-300 ${loading ? "-translate-y-[250%]" : "translate-y-0"}`}
+                >
+                  {generatedPost ? "Regenerate Post" : "Generate Post"}
+                </div>
+                <div
+                  className={`absolute transform transition-transform duration-300 ${loading ? "translate-y-0" : "translate-y-[250%]"}`}
+                >
+                  <div className="flex items-center gap-2">
+                    <span>Loading</span>
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                  </div>
+                </div>
+              </Button>
+            )}
             <DropdownMenu>
-              <DropdownMenuTrigger asChild >
-                <Button variant={"outline"}>
-                  Select Options
-
-                </Button>
+              <DropdownMenuTrigger asChild>
+                <Button variant={"outline"}>Select Options</Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-56">
-                <DropdownMenuLabel className="relative" >
+                <DropdownMenuLabel className="relative">
                   <Input
                     className="focus-visible:ring-0 rounded-sm pr-8 "
                     placeholder="Search..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                   />
-                  <Search className="absolute top-4 right-4 size-4 font-light"/>
+                  <Search className="absolute top-4 right-4 size-4 font-light" />
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {options
-                  .filter((item) => item.toLowerCase().includes(search.toLowerCase()))
+                  .filter((item) =>
+                    item.toLowerCase().includes(search.toLowerCase())
+                  )
                   .map((item) => (
                     <DropdownMenuItem
                       key={item}
@@ -140,19 +151,23 @@ export function PostGenerator() {
           {selectedItems.length > 0 && (
             <div className="flex flex-wrap gap-1 mt-3">
               {selectedItems.map((item) => (
-                <Badge key={item} variant="outline" className="flex items-center gap-1">
+                <Badge
+                  key={item}
+                  variant="outline"
+                  className="flex items-center gap-1"
+                >
                   {item}
-                  <X size={12} className="cursor-pointer" onClick={() => removeItem(item)} />
+                  <X
+                    size={12}
+                    className="cursor-pointer"
+                    onClick={() => removeItem(item)}
+                  />
                 </Badge>
               ))}
             </div>
           )}
-
         </CardFooter>
-
-
       </Card>
-
 
       <RegenerateModal
         isOpen={isRegenerateModalOpen}
