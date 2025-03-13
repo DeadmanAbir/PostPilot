@@ -81,22 +81,22 @@ const avatars = [
   {
     imageUrl: "https://github.com/faisal004.png",
     profileUrl: "https://github.com/faisal004",
-  },  {
+  }, {
     profileUrl: "https://github.com/faisal004",
     imageUrl: "https://github.com/faisal004.png",
-  },  {
+  }, {
     imageUrl: "https://github.com/faisal004.png",
     profileUrl: "https://github.com/faisal004",
-  },  {
+  }, {
     imageUrl: "https://github.com/faisal004.png",
     profileUrl: "https://github.com/faisal004",
-  },  {
+  }, {
     imageUrl: "https://github.com/faisal004.png",
     profileUrl: "https://github.com/faisal004",
-  },  {
+  }, {
     imageUrl: "https://github.com/faisal004.png",
     profileUrl: "https://github.com/faisal004",
-  },  {
+  }, {
     imageUrl: "https://github.com/faisal004.png",
     profileUrl: "https://github.com/faisal004",
   },
@@ -104,7 +104,7 @@ const avatars = [
 export function SchedulingSidebar() {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [time, setTime] = useState("12:00");
-  const [open,setOpen]=useState(false)
+  const [open, setOpen] = useState(false)
   const [scheduledPosts, setScheduledPosts] =
     useState<ScheduledPost[]>(mockUpcomingPosts);
   const [selectedPost, setSelectedPost] = useState<ScheduledPost | null>(null);
@@ -129,16 +129,16 @@ export function SchedulingSidebar() {
           <CardTitle>Upcoming Posts</CardTitle>
         </CardHeader>
         <CardContent>
-        <AvatarCircles numPeople={10} avatarUrls={avatars} />;
+          <AvatarCircles numPeople={10} avatarUrls={avatars} />
         </CardContent>
       </Card>
       <Collapsible open={open} onOpenChange={setOpen}>
-      <CollapsibleTrigger asChild>
-  <Button className="w-full mb-3 flex justify-between items-center">
-    <span> Schedule Post</span> 
-    {open ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-  </Button>
-</CollapsibleTrigger>
+        <CollapsibleTrigger asChild>
+          <Button className="w-full mb-3 flex justify-between items-center">
+            <span> Schedule Post</span>
+            {open ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </Button>
+        </CollapsibleTrigger>
         <CollapsibleContent>
           <Card >
 
