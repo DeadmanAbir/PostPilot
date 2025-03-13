@@ -6,14 +6,14 @@ import { useState } from "react";
 import { ScheduledPostCard } from "./scheduled-post-card";
 import { ScheduledPostModal } from "./scheduled-post-modal";
 import { EditScheduleModal } from "./edit-schedule-modal";
-import { Button } from "../ui/button";
+import { Button } from "../../components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "../../components/ui/select";
 import { ArrowDownAZ, ArrowUpAZ } from "lucide-react";
 
 // Define the ScheduledPost type
@@ -149,10 +149,10 @@ export function ScheduledPostsPage() {
 
   return (
     <div className="container mx-auto py-6 space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 px-5">
         <h1 className="text-3xl font-bold">Scheduled Posts</h1>
 
-        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto ">
           {/* Sort toggle */}
           <Button
             variant="outline"
@@ -190,7 +190,7 @@ export function ScheduledPostsPage() {
       </div>
 
       {/* Grid of scheduled post cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-5">
         {sortedAndFilteredPosts.map((post) => (
           <ScheduledPostCard
             key={post.id}
