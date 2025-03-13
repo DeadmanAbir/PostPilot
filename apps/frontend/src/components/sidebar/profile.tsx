@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 
 const Profile = () => {
     return (<div className=" dark:bg-zinc-900 dark:text-white">
-        <div className="border-t border-zinc-600  p-1">
+        <div className="border-t dark:border-zinc-600  p-1">
             <Button variant={"ghost"} className="flex items-center justify-start gap-3 px-3 py-2 w-full rounded-none">
                 <Settings className="size-5" /> <div>
                     Settings
@@ -16,7 +16,7 @@ const Profile = () => {
                 </div>
             </Button>
         </div>
-        <div className="flex items-start gap-2 border-t border-zinc-600 p-3">
+        <div className="flex items-start gap-2 border-t dark:border-zinc-600 p-3">
             <Avatar>
                 <AvatarImage src="https://github.com/shadcn.png" />
                 <AvatarFallback>CN</AvatarFallback>
