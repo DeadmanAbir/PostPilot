@@ -77,7 +77,7 @@ export function ScheduledPostCard({
         </p>
       </CardContent>
 
-      <CardFooter className="p-4 pt-0 border-t mt-auto">
+      <CardFooter className="p-4 pt-3 border-t mt-auto">
         <div
           className="flex items-center text-muted-foreground text-sm cursor-pointer hover:text-primary transition-colors"
           onClick={handleDateClick}
