@@ -9,7 +9,7 @@ import {
 } from "../../components/ui/dialog";
 import { Button } from "../../components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
-import { Clock, Edit, Trash2 } from "lucide-react";
+import { Clock,  Trash2 } from "lucide-react";
 import { ScheduledPost } from "./scheduled-posts-page";
 
 interface ScheduledPostModalProps {
@@ -83,20 +83,12 @@ export function ScheduledPostModal({
           )}
         </div>
 
-        <DialogFooter className="flex justify-between sm:justify-between">
+        <DialogFooter className="flex items-center justify-end">
           <Button variant="destructive" size="sm" className="gap-1">
             <Trash2 className="h-4 w-4" />
             <span>Delete</span>
           </Button>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" className="gap-1">
-              <Edit className="h-4 w-4" />
-              <span>Edit</span>
-            </Button>
-            <Button size="sm" onClick={onClose}>
-              Close
-            </Button>
-          </div>
+
         </DialogFooter>
       </DialogContent>
     </Dialog>
