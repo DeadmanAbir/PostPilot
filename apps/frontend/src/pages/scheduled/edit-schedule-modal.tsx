@@ -75,7 +75,7 @@ export function EditScheduleModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Edit Schedule</DialogTitle>
         </DialogHeader>
@@ -89,13 +89,13 @@ export function EditScheduleModal({
             </p>
           </div>
 
-          <div className="grid gap-2">
-            <Label>Date</Label>
+          <div className="w-full flex flex-col items-center justify-center ">
+            <Label className="w-full flex items-center justify-start">Date</Label>
             <Calendar
               mode="single"
               selected={date}
               onSelect={setDate}
-              className="rounded-md border"
+              className=" flex items-center "
               initialFocus
             />
           </div>
