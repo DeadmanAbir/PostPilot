@@ -3,7 +3,7 @@ import { Settings, User } from "lucide-react";
 import { Button } from "../ui/button";
 
 const Profile = () => {
-    return (<div className=" dark:bg-zinc-900 dark:text-white">
+    return (<div className=" dark:bg-black dark:text-white">
         <div className="border-t dark:border-zinc-600  p-1">
             <Button variant={"ghost"} className="flex items-center justify-start gap-3 px-3 py-2 w-full rounded-none">
                 <Settings className="size-5" /> <div>
