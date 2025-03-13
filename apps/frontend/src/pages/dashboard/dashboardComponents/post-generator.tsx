@@ -25,6 +25,7 @@ const options = ["Profile", "Billing", "Team", "Subscription"];
 
 export function PostGenerator() {
   const [generatedPost, setGeneratedPost] = useState("");
+  const [postGenerated, setPostGenerated] = useState(false);
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
@@ -49,6 +50,7 @@ export function PostGenerator() {
       "This is a sample generated post. Replace with actual AI-generated content."
     );
     setLoading(false);
+    setPostGenerated(true)
   };
 
   const handleRegenerate = async (additionalContext: string) => {
@@ -68,11 +70,12 @@ export function PostGenerator() {
             placeholder="Enter your prompt for AI generation..."
             className="min-h-[100px]"
             value={generatedPost}
+            onChange={(e)=>setGeneratedPost(e.target.value)}
           />
         </CardContent>
         <CardFooter className="flex  flex-col items-start justify-start gap-2">
           <div className="flex gap-2">
-            {generatedPost ? (
+            {postGenerated ? (
               <Button
                 onClick={() => setIsRegenerateModalOpen(true)}
                 disabled={loading}
@@ -101,7 +104,7 @@ export function PostGenerator() {
                 <div
                   className={`transform transition-transform duration-300 ${loading ? "-translate-y-[250%]" : "translate-y-0"}`}
                 >
-                  {generatedPost ? "Regenerate Post" : "Generate Post"}
+                  {postGenerated ? "Regenerate Post" : "Generate Post"}
                 </div>
                 <div
                   className={`absolute transform transition-transform duration-300 ${loading ? "translate-y-0" : "translate-y-[250%]"}`}
