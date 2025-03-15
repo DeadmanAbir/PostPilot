@@ -1,5 +1,22 @@
+
+import Navbar from "./homePageComponents/navbar"
+import HeroSection from "./homePageComponents/hero-section"
+import FeatureGrid from "./homePageComponents/feature-grid"
+import EfficiencySection from "./homePageComponents/effeciency-section"
+import CallToAction from "./homePageComponents/call-to-action"
+import Footer from "./homePageComponents/footer"
 const HomePage = () => {
-    return ( <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Assumenda, eveniet tempora quis praesentium est beatae velit fugit error! Officiis voluptatibus quam aperiam sequi similique maiores dolores dicta eaque tempora at quibusdam voluptas debitis dignissimos eius unde architecto enim obcaecati ea labore veniam voluptates in, commodi fuga! Corrupti commodi rerum aliquid deleniti quibusdam, possimus eligendi, vel non itaque soluta beatae dicta quos repudiandae atque illum suscipit perspiciatis. Sequi perferendis odit totam esse animi voluptatum. Vel laborum maxime rem cumque aperiam hic unde assumenda perspiciatis nam? Esse fugit aperiam quasi eos cupiditate quidem vitae minus. Beatae reiciendis accusamus et officiis amet quasi?</div> );
+    return (
+        <div className="min-h-screen bg-black text-white">
+       <Navbar/>
+  
+    <HeroSection/>
+  <FeatureGrid/>
+ <EfficiencySection/>
+  <CallToAction/>
+       <Footer/>
+    
+      </div>);
 }
- 
+
 export default HomePage;
