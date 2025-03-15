@@ -25,12 +25,8 @@ export const NavItem = ({
     <Button
       asChild
       variant="ghost"
-      className={cn(
-        "w-full h-12",
-"justify-start",
-        isActive && "bg-accent"
-      )}
-      onClick={() => dispatch(collapseSidebar())} 
+      className={cn("w-full h-12", "justify-start", isActive && "bg-accent")}
+      onClick={() => dispatch(collapseSidebar())}
     >
       <Link to={href}>
         <div className="flex items-center gap-x-4">
