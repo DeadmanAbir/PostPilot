@@ -10,7 +10,7 @@ export const Navigation = () => {
   const routes = [
     {
       label: "Dashboard",
-      href: `/`,
+      href: `/dashboard`,
       icon: Home,
     },
     {
