@@ -3,7 +3,11 @@ import { Check, X, Mic, Search, MessageSquare, } from "lucide-react"
 
 const FeatureGrid = () => {
   return (
-    <section className="container mx-auto pb-20">
+    <div>
+ <section className="container mx-auto pb-20">
+      <div>
+        Features
+      </div>
     <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
       {/* Image Classification */}
       <Card className="border-0 bg-zinc-900/50 p-6">
@@ -151,6 +155,8 @@ const FeatureGrid = () => {
       </Card>
     </div>
   </section>
+    </div>
+   
     );
 }
 
