@@ -7,12 +7,22 @@ import Footer from "./homePageComponents/footer";
 const HomePage = () => {
   return (
     <div className="min-h-screen bg-black text-white">
+      {/* Header */}
       <Navbar />
 
+      {/* Hero Section */}
       <HeroSection />
+
+      {/* Features Grid */}
       <FeatureGrid />
+
+      {/* Maximize Efficiency Section */}
       <EfficiencySection />
+
+      {/* CTA Section */}
+
       <CallToAction />
+      {/* Footer */}
       <Footer />
     </div>
   );
