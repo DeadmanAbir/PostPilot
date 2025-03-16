@@ -1,163 +1,139 @@
-import { Card } from "@/components/ui/card";
-import { Check, X, Mic, Search, MessageSquare, } from "lucide-react"
+
 
 const FeatureGrid = () => {
   return (
-    <div>
- <section className="container mx-auto pb-20">
-      <div>
-        Features
+    <div className="border-b-2 border-dotted w-full ">
+      <div className="w-full border-b-2 border-dotted">
+        <div className="text-transparent bg-clip-text text-center py-10 bg-gradient-to-b font-mono tracking-widest from-white to-zinc-600  md:text-9xl text-6xl border-r-[2px] border-l-2 border-dotted container mx-auto">
+          Features
+        </div>
       </div>
-    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-      {/* Image Classification */}
-      <Card className="border-0 bg-zinc-900/50 p-6">
-        <h3 className="text-xl font-bold">Accurate Image Classification</h3>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Enhance support by precisely categorizing images for faster resolutions
-        </p>
-        <div className="mt-6 overflow-hidden rounded-lg">
-          <div className="relative">
-            <img
-              src="/placeholder.svg?height=240&width=320"
-              width={320}
-              height={240}
-              alt="Coffee spill example"
-              className="w-full object-cover"
-            />
-            <div className="absolute right-2 top-2 rounded bg-purple-600 px-2 py-1 text-xs">Analysis Result</div>
-            <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-3 text-xs">
-              <div>Beverage (coffee)</div>
-              <div>Tilt cup and pooled</div>
-              <div>and exposure to</div>
-              <div>transport</div>
-            </div>
-          </div>
-        </div>
-      </Card>
 
-      {/* Automated Quality Audits */}
-      <Card className="border-0 bg-zinc-900/50 p-6">
-        <h3 className="text-xl font-bold">Automated Quality Audits</h3>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Ensure complete oversight by automating quality checks across all interactions
-        </p>
-        <div className="mt-6 space-y-4">
-          <div className="rounded-lg bg-zinc-800/70 p-4">
-            <div className="flex items-center gap-2 text-orange-400">
-              <span className="text-lg">📋</span>
-              <span className="font-medium">SOP coverage</span>
-            </div>
-            <div className="mt-4 space-y-3">
-              <div className="flex items-center gap-2 rounded-md bg-zinc-800 p-3">
-                <Check className="h-5 w-5 text-green-500" />
-                <span>Greeting & Introduction</span>
-              </div>
-              <div className="flex items-center gap-2 rounded-md bg-zinc-800 p-3">
-                <X className="h-5 w-5 text-red-500" />
-                <span>Customer Sentiment</span>
-              </div>
-              <div className="flex items-center gap-2 rounded-md bg-zinc-800 p-3">
-                <Check className="h-5 w-5 text-green-500" />
-                <span>Action</span>
-              </div>
-              <div className="flex items-center gap-2 rounded-md bg-zinc-800 p-3">
-                <Check className="h-5 w-5 text-green-500" />
-                <span>Closure</span>
-              </div>
-            </div>
-          </div>
-          <div className="rounded-lg bg-zinc-800/70 p-4">
-            <div className="flex items-center gap-2">
-              <MessageSquare className="h-5 w-5 text-muted-foreground" />
-              <span>
-                As a loyal customer, I find this experience very <span className="text-red-500">disappointing</span>
-              </span>
-            </div>
-          </div>
-        </div>
-      </Card>
+      <section className="container mx-auto p-5 border-r-[2px] border-l-2 border-dotted flex items-center justify-center">
 
-      {/* Intelligent Conversations */}
-      <Card className="border-0 bg-zinc-900/50 p-6">
-        <h3 className="text-xl font-bold">Intelligent Conversations.</h3>
-        <h3 className="text-xl font-bold">Effortless Support</h3>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Seamlessly integrate data sources and SOPs to generate accurate responses and actions
-        </p>
-        <div className="mt-6">
-          <div className="rounded-lg bg-zinc-800 p-4">
-            <div className="mb-4 flex justify-end space-x-2">
-              <div className="h-3 w-3 rounded-full bg-zinc-700"></div>
-              <div className="h-3 w-3 rounded-full bg-zinc-700"></div>
-              <div className="h-3 w-3 rounded-full bg-zinc-700"></div>
-            </div>
-            <div className="space-y-4">
-              <div className="rounded-lg bg-purple-600 p-3 text-sm">Hello, how can I assist you today?</div>
-              <div className="rounded-lg bg-zinc-700 p-3 text-right text-sm">I received a spilled coffee.</div>
-              <div className="rounded-lg bg-purple-600 p-3 text-sm">
-                Please upload an image of the spilled coffee so that I can assist you better.
+        <div className="grid gap-4 lg:grid-cols-3 lg:grid-rows-2 ">
+          {/* first bento grid element */}
+          <div className="relative lg:row-span-2">
+            <div className="absolute inset-px rounded-lg bg-zinc-900 lg:rounded-l-[2rem]" />
+
+            <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
+              <div className="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
+                <p className="mt-2 text-lg/7 font-medium tracking-tight text-white max-lg:text-center">
+                  Real-time notifications
+                </p>
+                <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
+                  Get notified about critical events the moment they happen,
+                  no matter if you&apos;re at home or on the go.
+                </p>
               </div>
-              <div className="flex justify-end">
-                <div className="w-32 rounded-lg bg-zinc-700 p-2">
-                  <div className="flex items-center gap-2">
-                    <div className="h-10 w-10 rounded-full bg-zinc-600"></div>
-                    <span className="text-xs">Sure, here it is.</span>
-                  </div>
+
+              <div className="relative min-h-[30rem] w-full grow [container-type:inline-size] max-lg:mx-auto max-lg:max-w-sm">
+                <div className="absolute inset-x-10 bottom-0 top-10 overflow-hidden rounded-t-[12cqw] border-x-[3cqw] border-t-[3cqw] border-gray-700 bg-gray-900 shadow-2xl">
+                  <img
+                    className="size-full object-cover object-top"
+                    src="/phone-screen.png"
+                    alt="Phone screen displaying app interface"
+
+                  />
                 </div>
               </div>
-              <div className="rounded-lg bg-purple-600 p-3 text-sm">
-                Thanks for the image! I was able to verify the spillage. Would you like a replacement or refund?
+            </div>
+
+            <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 lg:rounded-l-[2rem]" />
+          </div>
+
+          {/* second bento grid element */}
+          <div className="relative max-lg:row-start-1">
+            <div className="absolute inset-px rounded-lg bg-zinc-900 max-lg:rounded-t-[2rem]" />
+            <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
+              <div className="px-8 pt-8 sm:px-10 sm:pt-10">
+                <p className="mt-2 text-lg/7 font-medium tracking-tight text-white max-lg:text-center">
+                  Track Any Event
+                </p>
+                <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
+                  From new user signups to successful payments, PingBot
+                  notifies you for all critical events in your SaaS.
+                </p>
               </div>
-              <div className="rounded-lg bg-zinc-700 p-3 text-right text-sm">A replacement works for me.</div>
-              <div className="rounded-lg bg-purple-600 p-3 text-sm">
-                Thanks for the confirmation! A replacement order has been placed for you.
+              <div className="flex flex-1 items-center justify-center px-8 max-lg:pb-12 max-lg:pt-10 sm:px-10 lg:pb-2">
+                <img
+                  className="w-full max-lg:max-w-xs"
+                  src="/bento-any-event.png"
+                  alt="Bento box illustrating event tracking"
+                  width={500}
+                  height={300}
+                />
               </div>
             </div>
-          </div>
-        </div>
-      </Card>
 
-      {/* Voice AI Agents */}
-      <Card className="border-0 bg-zinc-900/50 p-6">
-        <h3 className="text-xl font-bold">Voice AI Agents</h3>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Build and deploy low cost voice AI agents that talk and take actions like humans
-        </p>
-        <div className="mt-6 space-y-3">
-          <div className="flex items-center gap-3 rounded-md bg-zinc-800 p-3">
-            <Mic className="h-5 w-5 text-muted-foreground" />
-            <span>Low latency audio streaming</span>
+            <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 max-lg:rounded-t-[2rem]" />
           </div>
-          <div className="flex items-center gap-3 rounded-md bg-zinc-800 p-3">
-            <span className="flex h-5 w-5 items-center justify-center text-muted-foreground">🌐</span>
-            <span>Multilingual support</span>
-          </div>
-          <div className="flex items-center gap-3 rounded-md bg-zinc-800 p-3">
-            <X className="h-5 w-5 text-muted-foreground" />
-            <span>Function calling</span>
-          </div>
-        </div>
-      </Card>
 
-      {/* AI Powered Analytics */}
-      <Card className="border-0 bg-zinc-900/50 p-6">
-        <h3 className="text-xl font-bold">AI Powered Analytics</h3>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Identify issues, ask questions and unlock valuable insights from your interactions
-        </p>
-        <div className="mt-6 space-y-4">
-          <div className="flex items-center gap-2 rounded-md bg-zinc-800 p-3">
-            <Search className="h-5 w-5 text-muted-foreground" />
-            <span className="text-muted-foreground">Type your question</span>
+          {/* third bento grid element */}
+          <div className="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2">
+            <div className="absolute inset-px rounded-lg bg-zinc-900" />
+            <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)]">
+              <div className="px-8 pt-8 sm:px-10 sm:pt-10">
+                <p className="mt-2 text-lg/7 font-medium tracking-tight text-white max-lg:text-center">
+                  Track Any Properties
+                </p>
+                <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
+                  Add any custom data you like to an event, such as a user
+                  email, a purchase amount or an exceeded quota.
+                </p>
+              </div>
+
+              <div className="flex flex-1 items-center justify-center px-8 max-lg:pb-12 max-lg:pt-10 sm:px-10 lg:pb-2">
+                <img
+                  className="w-full max-lg:max-w-xs"
+                  src="/bento-custom-data.png"
+                  alt="Bento box illustrating custom data tracking"
+                  width={500}
+                  height={300}
+                />
+              </div>
+            </div>
+
+            <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5" />
           </div>
-          <div className="rounded-md bg-zinc-800 p-3 text-sm">Which issues frequently lead to escalations?</div>
+
+          {/* fourth bento grid element */}
+          <div className="relative lg:row-span-2">
+            <div className="absolute inset-px rounded-lg bg-zinc-900 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]" />
+
+            <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]">
+              <div className="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
+                <p className="mt-2 text-lg/7 font-medium tracking-tight text-white max-lg:text-center">
+                  Easy Integration
+                </p>
+                <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
+                  Connect PingBot with your existing workflows in minutes
+                  and call our intuitive logging API from any language.
+                </p>
+              </div>
+
+              <div className="relative min-h-[30rem] w-full grow">
+                <div className="absolute bottom-0 left-10 right-0 top-10 overflow-hidden rounded-tl-xl bg-gray-900 shadow-2xl">
+                  <div className="flex bg-gray-800/40 ring-1 ring-white/5">
+                    <div className="-mb-px flex text-sm/6 font-medium text-gray-400">
+                      <div className="border-b border-r border-b-white/20 border-r-white/10 bg-zinc-900/5 px-4 py-2 text-white">
+                        Postpilot.js
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+
+            <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]" />
+          </div>
         </div>
-      </Card>
+      </section>
     </div>
-  </section>
-    </div>
-   
-    );
+
+  );
 }
 
 export default FeatureGrid;
