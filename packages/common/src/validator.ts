@@ -21,3 +21,7 @@ export const websiteUrlValidator = z.object({
 export const postGenerateValidator = z.object({
   query: z.string(),
 });
+
+export const profileIdValidator = z.object({
+  id: z.string(),
+});
