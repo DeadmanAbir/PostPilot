@@ -6,7 +6,7 @@ import CallToAction from "./homePageComponents/call-to-action";
 import Footer from "./homePageComponents/footer";
 const HomePage = () => {
   return (
-    <div className="min-h-screen bg-black text-white px-5">
+    <div className="min-h-screen bg-black text-white  flex flex-col items-center justify-center">
       {/* Header */}
       <Navbar />
 
