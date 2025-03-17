@@ -54,16 +54,16 @@ export function SignUp({ onToggle }: SignUpProps) {
       throw new Error(error.message);
       return;
     }
-
+    console.log("User data:", data);
     fetch("https://your-backend-endpoint.com/api/createProfile", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${user?.accessToken}`,
+        Authorization: `Bearer ${data?.session?.access_token}`,
       },
       body: JSON.stringify({
-        name: user?.user?.user_metadata.displayName,
-        email: user?.user?.user_metadata.email,
+        name: data?.user?.user_metadata.displayName,
+        email: data?.user?.user_metadata.email,
       }),
     })
       .then((response) => response.json())
