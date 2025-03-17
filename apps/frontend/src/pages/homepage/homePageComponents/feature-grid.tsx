@@ -1,6 +1,5 @@
 import ResponseEffect from "./feature-grid/response-animation";
 
-
 const FeatureGrid = () => {
   return (
     <div className="border-b-2 border-dotted w-full ">
@@ -11,7 +10,6 @@ const FeatureGrid = () => {
       </div>
 
       <section className="container mx-auto p-5 border-r-[2px] border-l-2 border-dotted flex items-center justify-center">
-
         <div className="grid gap-4 lg:grid-cols-3 lg:grid-rows-2 ">
           {/* first bento grid element */}
           <div className="relative lg:row-span-2">
@@ -22,15 +20,20 @@ const FeatureGrid = () => {
                 <p className="mt-2 text-lg/7 font-medium tracking-tight text-white max-lg:text-center">
                   Real-time notifications
                 </p>
-                <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  Get notified about critical events the moment they happen,
-                  no matter if you&apos;re at home or on the go.
+                <p className="mt-2 max-w-lg text-sm/6 text-gray-400 max-lg:text-center">
+                  Get notified about critical events the moment they happen, no
+                  matter if you&apos;re at home or on the go.
                 </p>
               </div>
 
               <div className="relative min-h-[30rem] w-full grow [container-type:inline-size] max-lg:mx-auto max-lg:max-w-sm">
-                <div className="absolute inset-x-10 bottom-0 top-10 overflow-hidden rounded-t-[12cqw] border-x-[3cqw] border-t-[3cqw] border-gray-700 bg-gray-900 shadow-2xl">
-                  <ResponseEffect/>
+                <div className="absolute inset-x-10 bottom-0 top-10 overflow-hidden rounded-t-[12cqw] border-x-[3cqw] border-t-[3cqw] border-zinc-700 bg-black shadow-2xl">
+                  <div className="absolute left-1/2 -translate-x-1/2 top-4">
+                    <div className="bg-zinc-800 rounded-full px-8 py-1.5 flex items-center justify-center gap-2 shadow-lg">
+                      <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse"></div>
+                    </div>
+                  </div>
+                  <ResponseEffect />
                 </div>
               </div>
             </div>
@@ -47,8 +50,8 @@ const FeatureGrid = () => {
                   Track Any Event
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  From new user signups to successful payments, PingBot
-                  notifies you for all critical events in your SaaS.
+                  From new user signups to successful payments, PingBot notifies
+                  you for all critical events in your SaaS.
                 </p>
               </div>
               <div className="flex flex-1 items-center justify-center px-8 max-lg:pb-12 max-lg:pt-10 sm:px-10 lg:pb-2">
@@ -103,8 +106,8 @@ const FeatureGrid = () => {
                   Easy Integration
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  Connect PingBot with your existing workflows in minutes
-                  and call our intuitive logging API from any language.
+                  Connect PingBot with your existing workflows in minutes and
+                  call our intuitive logging API from any language.
                 </p>
               </div>
 
@@ -117,8 +120,6 @@ const FeatureGrid = () => {
                       </div>
                     </div>
                   </div>
-
-
                 </div>
               </div>
             </div>
@@ -128,8 +129,7 @@ const FeatureGrid = () => {
         </div>
       </section>
     </div>
-
   );
-}
+};
 
 export default FeatureGrid;
