@@ -1,4 +1,3 @@
-import { CircleCheck } from "lucide-react";
 import ResponseEffect from "./feature-grid/response-animation";
 import SelectAnimation from "./feature-grid/select-animation";
 import StaggerFeatures from "./feature-grid/stagger-features";
@@ -8,7 +7,10 @@ const FeatureGrid = () => {
   return (
     <div className="border-b-2 border-dotted w-full ">
       <div className="w-full border-b-2 border-dotted">
-        <div className="text-transparent bg-clip-text text-center py-10 bg-gradient-to-b font-mono tracking-widest from-white to-zinc-600  md:text-9xl text-6xl border-r-[2px] border-l-2 border-dotted container mx-auto">
+        
+        <div className="text-transparent bg-clip-text text-center py-10 bg-gradient-to-b font-mono tracking-widest from-white to-zinc-600  md:text-9xl text-6xl border-r-[2px] border-l-2 border-dotted container mx-auto relative overflow-hidden drop-shadow-[0_0_20px_rgba(34,197,94,0.7)]">
+        {/* <div className="absolute inset-0 left-1/2 translate-y-[260px] -translate-x-48  top-0 size-96 bg-green-700 rounded-2xl blur-3xl"></div>        */}
+
           Features
         </div>
       </div>
