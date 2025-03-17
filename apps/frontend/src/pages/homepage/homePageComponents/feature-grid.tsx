@@ -1,6 +1,7 @@
 import { CircleCheck } from "lucide-react";
 import ResponseEffect from "./feature-grid/response-animation";
 import SelectAnimation from "./feature-grid/select-animation";
+import StaggerFeatures from "./feature-grid/stagger-features";
 
 const FeatureGrid = () => {
   return (
@@ -124,15 +125,7 @@ const FeatureGrid = () => {
               </div>
 
               <div className="relative min-h-[30rem] w-full grow">
-                <div className="absolute bottom-0 left-10 right-0 top-10 overflow-hidden rounded-tl-xl bg-gray-900 shadow-2xl">
-                  <div className="flex bg-gray-800/40 ring-1 ring-white/5">
-                    <div className="-mb-px flex text-sm/6 font-medium text-gray-400">
-                      <div className="border-b border-r border-b-white/20 border-r-white/10 bg-zinc-900/5 px-4 py-2 text-white">
-                        Postpilot.js
-                      </div>
-                    </div>
-                  </div>
-                </div>
+             <StaggerFeatures/>
               </div>
             </div>
 
