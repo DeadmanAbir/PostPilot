@@ -103,7 +103,7 @@ const FeatureGrid = () => {
                 </p>
               </div>
 
-              <div className="relative min-h-[30rem] w-full grow flex">
+              <div className="relative min-h-[30rem] w-full grow flex items-center justify-center">
              <StaggerFeatures/>
               </div>
             </div>
