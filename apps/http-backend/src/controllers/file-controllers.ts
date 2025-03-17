@@ -10,18 +10,28 @@ import {
   twitterValidator,
   websiteUrlValidator,
 } from "@repo/common/validator";
-import { extractTweetId } from "@/utils/helper";
+import { extractTweetId, getUserId } from "@/utils/helper";
+import { createClient } from "@supabase/supabase-js";
+
+if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
+  throw new Error("Please provide SUPABASE_URL and SUPABASE_KEY in .env file");
+}
+
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
+);
 
 export async function fetchYoutubeVideoDetails(
   request: Request,
   response: Response
 ) {
   try {
-    const data = youtubeValidator.parse(request.body);
+    const body = youtubeValidator.parse(request.body);
 
     const input = {
       outputFormat: "textWithTimestamps",
-      urls: [data.url],
+      urls: [body.url],
       maxRetries: 6,
       proxyOptions: {
         useApifyProxy: true,
@@ -33,10 +43,29 @@ export async function fetchYoutubeVideoDetails(
     });
     const run = await client.actor("1s7eXiaukVuOr4Ueg").call(input);
 
-    // Fetch and print Actor results from the run's dataset (if any)
-    console.log("Results from dataset");
     const { items } = await client.dataset(run.defaultDatasetId).listItems();
-    response.status(200).json(items[0]?.captions);
+
+    const videoData = {
+      url: body.url,
+      video: items[0]?.captions,
+    };
+
+    const { data, error } = await supabase.from("files").insert([
+      {
+        user_id: getUserId(),
+        tweet: JSON.stringify(videoData),
+      },
+    ]);
+
+    if (error) {
+      console.log(error);
+      throw createError(
+        500,
+        `Failed to insert youtube video transcripts : ${error}`
+      );
+    }
+
+    response.status(200).json(videoData);
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {
@@ -69,7 +98,26 @@ export async function fetchTweets(request: Request, response: Response) {
 
     const { items } = await client.dataset(run.defaultDatasetId).listItems();
 
-    response.status(200).json(items[0]);
+    const tweetData = {
+      url: tweetUrl,
+      tweet: items[0]?.text,
+    };
+
+    const userId = getUserId();
+
+    const { data, error } = await supabase
+      .from("tweets")
+      .insert([
+        { user_id: getUserId(), url: tweetData.url, tweet: tweetData.tweet },
+      ])
+      .select();
+
+    if (error) {
+      console.log(error);
+      throw createError(500, `Failed to insert tweet data: ${error}`);
+    }
+
+    response.status(200).json(data);
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {
@@ -77,6 +125,7 @@ export async function fetchTweets(request: Request, response: Response) {
         .status(422)
         .json({ error: "Invalid request body", details: e.errors });
     } else if (e instanceof Error) {
+      console.log(e);
       response.status(500).json({ error: e.message });
     } else {
       response.status(500).json({ error: "An unknown error occurred" });
@@ -96,7 +145,30 @@ export async function fetchWebsiteUrl(request: Request, response: Response) {
     if (!scrapeResponse.success) {
       throw createError(500, `Failed to scrape: ${scrapeResponse.error}`);
     }
-    response.status(200).json(scrapeResponse);
+    const websiteData = {
+      url: url,
+      screenshot: scrapeResponse.screenshot,
+      title: scrapeResponse.title,
+    };
+
+    const { data, error } = await supabase
+      .from("websites")
+      .insert([
+        {
+          user_id: getUserId(),
+          url: url,
+          screenshot: websiteData.screenshot,
+          title: websiteData.title,
+        },
+      ])
+      .select();
+
+    if (error) {
+      console.log(error);
+      throw createError(500, `Failed to insert website data`);
+    }
+
+    response.status(200).json(data);
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {

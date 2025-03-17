@@ -1,13 +1,21 @@
 import { Request, Response } from "express";
-import { ChatOpenAI } from "@/utils/chatOpenAi";
-import {
-  generatePostPrompt,
-  improveQueryPrompt,
-  regeneratePostPrompt,
-} from "@/utils/constant";
+
+import { generatePostPrompt, regeneratePostPrompt } from "@/utils/constant";
 import { ZodError } from "zod";
 import { postGenerateValidator } from "@repo/common/validator";
-import { ChatGemini } from "@/utils/chatGemini";
+import { createClient, getUserId, improvePrompt } from "@/utils/helper";
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
+import "dotenv/config";
+import createError from "http-errors";
+
+if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
+  throw new Error("Please provide SUPABASE_URL and SUPABASE_KEY in .env file");
+}
+
+const supabase = createSupabaseClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
+);
 
 export const generatePost = async (request: Request, response: Response) => {
   try {
@@ -25,9 +33,25 @@ export const generatePost = async (request: Request, response: Response) => {
       systemInstruction: generatePostPrompt,
       outputFormat: "{`post_content`: ``}",
     });
-
     // @ts-ignore
-    response.status(200).json(JSON.parse(data.content));
+    const postData = JSON.parse(data.content);
+    const { data: insertedData, error } = await supabase
+      .from("post")
+      .insert([
+        {
+          user_id: getUserId(),
+          user_query: query,
+          enhanced_query: parsedPromptData.enhanced_prompt,
+          post_content: postData.post_content,
+        },
+      ])
+      .select();
+    if (error) {
+      console.log(error);
+      throw createError(500, `Failed to insert post data: ${error}`);
+    }
+
+    response.status(200).json(insertedData);
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {
@@ -67,38 +91,4 @@ export const regeneratePost = async (request: Request, response: Response) => {
       response.status(500).json({ error: "An unknown error occurred" });
     }
   }
-};
-
-export const improvePrompt = async (prompt: string): Promise<string> => {
-  try {
-    const chatOpenAI = createClient("OpenAI");
-
-    const data = await chatOpenAI.chat({
-      prompt: prompt,
-      systemInstruction: improveQueryPrompt,
-      outputFormat: `{"enhanced_prompt": ""}`,
-      temperature: 0.6,
-    });
-
-    return JSON.stringify(data);
-  } catch (e: unknown) {
-    console.log(e);
-    throw new Error("Error in improving prompt");
-  }
-};
-
-export const createClient = (llm: "OpenAI" | "Gemini") => {
-  if (llm == "OpenAI") {
-    const chatOpenAI = new ChatOpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-      model: "gpt-4o-mini",
-    });
-
-    return chatOpenAI;
-  }
-  const chatGemini = new ChatGemini({
-    apiKey: process.env.GEMINI_API_KEY!,
-    model: "gemini-2.0-flash",
-  });
-  return chatGemini;
 };
