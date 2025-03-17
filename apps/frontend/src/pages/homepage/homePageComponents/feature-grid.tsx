@@ -2,6 +2,7 @@ import { CircleCheck } from "lucide-react";
 import ResponseEffect from "./feature-grid/response-animation";
 import SelectAnimation from "./feature-grid/select-animation";
 import StaggerFeatures from "./feature-grid/stagger-features";
+import OrbitAnimation from "./feature-grid/rotate-animation";
 
 const FeatureGrid = () => {
   return (
@@ -56,32 +57,10 @@ const FeatureGrid = () => {
                   From new user signups to successful payments,
                 </p>
               </div>
-              <div className="flex flex-1 items-center justify-center px-2 max-lg:pb-12 max-lg:pt-10 sm:px-2 lg:pb-2">
-                <div className="bg-black w-full h-fit rounded-3xl mt-1 px-3 py-5">
-                  {/* <div className="flex items-center p-3 space-x-2">
-                    <Book />
-                    <span>Sop Cover</span>
-                  </div> */}
-                  <div className="flex flex-col space-y-2 ">
-                    <div className="flex items-center gap-2 bg-zinc-800 p-2 rounded-full">
-                      <CircleCheck fill="green" className="text-black" />{" "}
-                      <span>Greeting & Introduction</span>
-                    </div>
-                    <div className="flex items-center gap-2 bg-zinc-800 p-2 rounded-full">
-                      <CircleCheck fill="green" className="text-black" />{" "}
-                      <span>Greeting & Introduction</span>
-                    </div>
-                    <div className="flex items-center gap-2 bg-zinc-800 p-2 rounded-full">
-                      <CircleCheck fill="green" className="text-black" />{" "}
-                      <span>Greeting & Introduction</span>
-                    </div>
-                    <div className="flex items-center gap-2 bg-zinc-800 p-2 rounded-full">
-                      <CircleCheck fill="green" className="text-black" />{" "}
-                      <span>Greeting & Introduction</span>
-                    </div>
-                  </div>
-                </div>
+              <div className="absolute inset-0 mt-32">
+              <OrbitAnimation/>
               </div>
+             
             </div>
 
             <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 max-lg:rounded-t-[2rem]" />
@@ -101,7 +80,7 @@ const FeatureGrid = () => {
                 </p>
               </div>
 
-              <div className="flex flex-1 items-center justify-center px-8 max-lg:pb-12 max-lg:pt-10 sm:px-10 lg:pb-2">
+              <div className="flex flex-1  items-center justify-center px-8 max-lg:pb-12 max-lg:pt-10 sm:px-10 lg:pb-2">
                <SelectAnimation/>
               </div>
             </div>
@@ -124,13 +103,14 @@ const FeatureGrid = () => {
                 </p>
               </div>
 
-              <div className="relative min-h-[30rem] w-full grow">
+              <div className="relative min-h-[30rem] w-full grow flex">
              <StaggerFeatures/>
               </div>
             </div>
 
             <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]" />
           </div>
+          
         </div>
       </section>
     </div>
