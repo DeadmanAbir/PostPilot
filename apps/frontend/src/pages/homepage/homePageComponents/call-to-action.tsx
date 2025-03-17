@@ -1,15 +1,30 @@
-import { Button } from "@/components/ui/button";
+import { Link } from "@tanstack/react-router";
 
 const CallToAction = () => {
-  return (<section className="container mx-auto py-20">
-    <div className="rounded-xl bg-zinc-900 px-6 py-16 text-center">
-      <h2 className="text-4xl font-bold">Ready to transform your business?</h2>
-      <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-        Get started and see how AI can transform your customer interactions—faster, smarter, better.
-      </p>
-      <Button className="mt-8 bg-purple-600 px-8 py-6 text-base hover:bg-purple-700">Get in touch</Button>
+  return (
+    <div className="w-full border-b-2 border-dotted">
+      <section className="container mx-auto border-r-[2px] border-l-2 border-dotted overflow-hidden ">
+        <div className=" relative items-center justify-center z-40 md:p-20 p-5 bg-gradient-to-br from-slate-800  to-zinc-900   w-full ">
+          <div className="absolute rounded-md inset-0 w-full h-full opacity-10  [mask-image:radial-gradient(#fff,transparent,75%)]  bg-[url('/noise.webp')]  bg-contain z-0"></div>
+
+          <div className="z-40 flex flex-col items-center justify-center gap-3  ">
+            <div className="text-center z-40 text-balance mx-auto text-3xl md:text-5xl font-semibold tracking-[-0.015em] text-white ">
+              Contact
+            </div>
+            <span className="mt-1 md:text-xl text-md max-w-[26rem] text-center mx-auto z-40  text-neutral-200">
+              Looking for specific use cases and support?
+            </span>
+            <Link
+              to=""
+              className="bg-neutral-900 relative z-40 hover:bg-black/90 border border-transparent text-white text-sm md:text-sm transition font-medium duration-200 rounded-full px-4 py-2 flex items-center justify-center shadow-[0px_-1px_0px_0px_#FFFFFF40_inset,_0px_1px_0px_0px_#FFFFFF40_inset] "
+            >
+              Lets Chat
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
-  </section>);
-}
+  );
+};
 
 export default CallToAction;
