@@ -1,3 +1,4 @@
+import { Book, Check, CheckCircle, CircleCheck } from "lucide-react";
 import ResponseEffect from "./feature-grid/response-animation";
 
 const FeatureGrid = () => {
@@ -49,19 +50,35 @@ const FeatureGrid = () => {
                 <p className="mt-2 text-lg/7 font-medium tracking-tight text-white max-lg:text-center">
                   Track Any Event
                 </p>
-                <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  From new user signups to successful payments, PingBot notifies
-                  you for all critical events in your SaaS.
+                <p className="my-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
+                  From new user signups to successful payments,
                 </p>
               </div>
-              <div className="flex flex-1 items-center justify-center px-8 max-lg:pb-12 max-lg:pt-10 sm:px-10 lg:pb-2">
-                <img
-                  className="w-full max-lg:max-w-xs"
-                  src="/bento-any-event.png"
-                  alt="Bento box illustrating event tracking"
-                  width={500}
-                  height={300}
-                />
+              <div className="flex flex-1 items-center justify-center px-2 max-lg:pb-12 max-lg:pt-10 sm:px-2 lg:pb-2">
+                <div className="bg-black w-full h-fit rounded-3xl mt-1 px-3 py-5">
+                  {/* <div className="flex items-center p-3 space-x-2">
+                    <Book />
+                    <span>Sop Cover</span>
+                  </div> */}
+                  <div className="flex flex-col space-y-2 ">
+                    <div className="flex items-center gap-2 bg-zinc-800 p-2 rounded-full">
+                      <CircleCheck fill="green" className="text-black" />{" "}
+                      <span>Greeting & Introduction</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-zinc-800 p-2 rounded-full">
+                      <CircleCheck fill="green" className="text-black" />{" "}
+                      <span>Greeting & Introduction</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-zinc-800 p-2 rounded-full">
+                      <CircleCheck fill="green" className="text-black" />{" "}
+                      <span>Greeting & Introduction</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-zinc-800 p-2 rounded-full">
+                      <CircleCheck fill="green" className="text-black" />{" "}
+                      <span>Greeting & Introduction</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
