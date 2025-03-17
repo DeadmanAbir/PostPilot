@@ -1,5 +1,6 @@
-import { Book, Check, CheckCircle, CircleCheck } from "lucide-react";
+import { CircleCheck } from "lucide-react";
 import ResponseEffect from "./feature-grid/response-animation";
+import SelectAnimation from "./feature-grid/select-animation";
 
 const FeatureGrid = () => {
   return (
@@ -100,13 +101,7 @@ const FeatureGrid = () => {
               </div>
 
               <div className="flex flex-1 items-center justify-center px-8 max-lg:pb-12 max-lg:pt-10 sm:px-10 lg:pb-2">
-                <img
-                  className="w-full max-lg:max-w-xs"
-                  src="/bento-custom-data.png"
-                  alt="Bento box illustrating custom data tracking"
-                  width={500}
-                  height={300}
-                />
+               <SelectAnimation/>
               </div>
             </div>
 
