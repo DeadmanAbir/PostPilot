@@ -1,5 +1,5 @@
 import type React from "react";
-
+import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,7 @@ interface SignUpProps {
 
 export function SignUp({ onToggle }: SignUpProps) {
   const { user } = useAuth();
-
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -42,38 +42,40 @@ export function SignUp({ onToggle }: SignUpProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: { displayName: formData.name },
+        },
+      });
+      if (error) {
+        throw new Error(error.message);
+        return;
+      }
+      console.log("User data:", data);
 
-    const { data, error } = await supabase.auth.signUp({
-      email: formData.email,
-      password: formData.password,
-      options: {
-        data: { displayName: formData.name },
-      },
-    });
-    if (error) {
-      throw new Error(error.message);
-      return;
+      const response = await fetch("/api/onboard-user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${data?.session?.access_token}`,
+        },
+      });
+
+      const result = await response.json();
+      console.log("Backend response:", result);
+      navigate({
+        to: "/dashboard",
+      });
+    } catch (err: unknown) {
+      console.error("Error:", err);
     }
-    console.log("User data:", data);
-    fetch("https://your-backend-endpoint.com/api/createProfile", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${data?.session?.access_token}`,
-      },
-      body: JSON.stringify({
-        name: data?.user?.user_metadata.displayName,
-        email: data?.user?.user_metadata.email,
-      }),
-    })
-      .then((response) => response.json())
-      .then((result) => console.log("Backend response:", result))
-      .catch((err) => console.error("Backend error:", err));
   };
 
   const handleSocialSignUp = (provider: string) => {
     console.log(`Sign up with ${provider}`);
-    // Implement social sign up logic here
   };
 
   // Toggle password visibility

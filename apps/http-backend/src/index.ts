@@ -3,9 +3,12 @@ import express from "express";
 import fileRouter from "@/routes/context-processing-route";
 import postRouter from "@/routes/post-generation.route";
 import profileRouter from "@/routes/profile-route";
+import cors from "cors";
+
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Hello Worldss!");
@@ -15,6 +18,6 @@ app.use("/api", fileRouter);
 app.use("/api", postRouter);
 app.use("/api", profileRouter);
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+app.listen(9000, () => {
+  console.log("Server is running on port 9000");
 });
