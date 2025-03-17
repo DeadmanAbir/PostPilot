@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ReadingIllustration } from "./reading-illustration";
+import { supabase } from "@/lib/supabaseClient";
 
 interface SignInProps {
   onToggle: () => void;
@@ -32,10 +33,18 @@ export function SignIn({ onToggle }: SignInProps) {
     setFormData((prev) => ({ ...prev, rememberMe: checked }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle sign in logic here
-    console.log("Sign in data:", formData);
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: formData.email,
+      password: formData.password,
+    });
+
+    if (error) {
+      console.log(error.message);
+    }
+
+    console.log(data);
   };
 
   const handleSocialSignIn = (provider: string) => {

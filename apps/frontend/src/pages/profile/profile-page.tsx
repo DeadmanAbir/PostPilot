@@ -43,6 +43,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Link } from "@tanstack/react-router";
+import { supabase } from "@/lib/supabaseClient";
+import { useNavigate } from "@tanstack/react-router";
 interface Course {
   id: string;
   title: string;
@@ -115,7 +117,9 @@ const tasks: Task[] = [
 ];
 
 export function ProfilePage() {
-  const [name, setName] = useState("Alexandre Naud");
+  const navigate = useNavigate();
+
+  const [name, setName] = useState("");
   const [profileImage, setProfileImage] = useState("/placeholder.svg");
   const [editName, setEditName] = useState("");
 
@@ -136,6 +140,18 @@ export function ProfilePage() {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleLogOut = async () => {
+    console.log("logging out");
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      console.error(error.message);
+    }
+    navigate({
+      to: "/onboard",
+    });
   };
 
   return (
@@ -417,7 +433,9 @@ export function ProfilePage() {
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction>Log Out</AlertDialogAction>
+                      <AlertDialogAction onClick={handleLogOut}>
+                        Log Out
+                      </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
