@@ -38,7 +38,8 @@
     "react-redux": "^9.2.0",
     "react-tweet": "^3.2.2",
     "tailwind-merge": "^3.0.1",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "@supabase/supabase-js": "^2.49.1"
   },
   "devDependencies": {
     "@repo/common": "workspace:*",
