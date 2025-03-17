@@ -1,4 +1,5 @@
-
+import { Book, Check, CheckCircle, CircleCheck } from "lucide-react";
+import ResponseEffect from "./feature-grid/response-animation";
 
 const FeatureGrid = () => {
   return (
@@ -10,7 +11,6 @@ const FeatureGrid = () => {
       </div>
 
       <section className="container mx-auto p-5 border-r-[2px] border-l-2 border-dotted flex items-center justify-center">
-
         <div className="grid gap-4 lg:grid-cols-3 lg:grid-rows-2 ">
           {/* first bento grid element */}
           <div className="relative lg:row-span-2">
@@ -21,20 +21,20 @@ const FeatureGrid = () => {
                 <p className="mt-2 text-lg/7 font-medium tracking-tight text-white max-lg:text-center">
                   Real-time notifications
                 </p>
-                <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  Get notified about critical events the moment they happen,
-                  no matter if you&apos;re at home or on the go.
+                <p className="mt-2 max-w-lg text-sm/6 text-gray-400 max-lg:text-center">
+                  Get notified about critical events the moment they happen, no
+                  matter if you&apos;re at home or on the go.
                 </p>
               </div>
 
               <div className="relative min-h-[30rem] w-full grow [container-type:inline-size] max-lg:mx-auto max-lg:max-w-sm">
-                <div className="absolute inset-x-10 bottom-0 top-10 overflow-hidden rounded-t-[12cqw] border-x-[3cqw] border-t-[3cqw] border-gray-700 bg-gray-900 shadow-2xl">
-                  <img
-                    className="size-full object-cover object-top"
-                    src="/phone-screen.png"
-                    alt="Phone screen displaying app interface"
-
-                  />
+                <div className="absolute inset-x-10 bottom-0 top-10 overflow-hidden rounded-t-[12cqw] border-x-[3cqw] border-t-[3cqw] border-zinc-700 bg-black shadow-2xl">
+                  <div className="absolute left-1/2 -translate-x-1/2 top-4">
+                    <div className="bg-zinc-800 rounded-full px-8 py-1.5 flex items-center justify-center gap-2 shadow-lg">
+                      <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse"></div>
+                    </div>
+                  </div>
+                  <ResponseEffect />
                 </div>
               </div>
             </div>
@@ -50,19 +50,35 @@ const FeatureGrid = () => {
                 <p className="mt-2 text-lg/7 font-medium tracking-tight text-white max-lg:text-center">
                   Track Any Event
                 </p>
-                <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  From new user signups to successful payments, PingBot
-                  notifies you for all critical events in your SaaS.
+                <p className="my-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
+                  From new user signups to successful payments,
                 </p>
               </div>
-              <div className="flex flex-1 items-center justify-center px-8 max-lg:pb-12 max-lg:pt-10 sm:px-10 lg:pb-2">
-                <img
-                  className="w-full max-lg:max-w-xs"
-                  src="/bento-any-event.png"
-                  alt="Bento box illustrating event tracking"
-                  width={500}
-                  height={300}
-                />
+              <div className="flex flex-1 items-center justify-center px-2 max-lg:pb-12 max-lg:pt-10 sm:px-2 lg:pb-2">
+                <div className="bg-black w-full h-fit rounded-3xl mt-1 px-3 py-5">
+                  {/* <div className="flex items-center p-3 space-x-2">
+                    <Book />
+                    <span>Sop Cover</span>
+                  </div> */}
+                  <div className="flex flex-col space-y-2 ">
+                    <div className="flex items-center gap-2 bg-zinc-800 p-2 rounded-full">
+                      <CircleCheck fill="green" className="text-black" />{" "}
+                      <span>Greeting & Introduction</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-zinc-800 p-2 rounded-full">
+                      <CircleCheck fill="green" className="text-black" />{" "}
+                      <span>Greeting & Introduction</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-zinc-800 p-2 rounded-full">
+                      <CircleCheck fill="green" className="text-black" />{" "}
+                      <span>Greeting & Introduction</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-zinc-800 p-2 rounded-full">
+                      <CircleCheck fill="green" className="text-black" />{" "}
+                      <span>Greeting & Introduction</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -107,8 +123,8 @@ const FeatureGrid = () => {
                   Easy Integration
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  Connect PingBot with your existing workflows in minutes
-                  and call our intuitive logging API from any language.
+                  Connect PingBot with your existing workflows in minutes and
+                  call our intuitive logging API from any language.
                 </p>
               </div>
 
@@ -121,8 +137,6 @@ const FeatureGrid = () => {
                       </div>
                     </div>
                   </div>
-
-
                 </div>
               </div>
             </div>
@@ -132,8 +146,7 @@ const FeatureGrid = () => {
         </div>
       </section>
     </div>
-
   );
-}
+};
 
 export default FeatureGrid;
