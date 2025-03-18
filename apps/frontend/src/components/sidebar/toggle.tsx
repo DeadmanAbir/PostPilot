@@ -14,7 +14,7 @@ const Toggle = () => {
 
     <>
       {collapsed && (
-        <div className="w-full hidden lg:flex items-center justify-center pt-4 mb-4 ">
+        <div className="w-full flex items-center justify-center pt-4 mb-4 ">
           <Hint label={label} side="right" asChild>
             <Button onMouseEnter={() => dispatch(expandSidebar())} variant="outline" className="h-auto p-2">
               <Menu className='h-4 w-4' />
