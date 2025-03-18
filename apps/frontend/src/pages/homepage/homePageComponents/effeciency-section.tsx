@@ -17,12 +17,12 @@ const EfficiencySection = () => {
       </p>
       </div>
     </div>
-    <section className="container mx-auto p-10 text-center border-r-[2px] border-l-2 border-dotted">
+    <section className="container mx-auto p-10 text-center border-r-[2px] border-l-2 border-dotted ">
       
 
-      <div className=" grid gap-6 md:grid-cols-3">
+      <div className=" grid gap-6 md:grid-cols-3 text-white">
         {/* 80% Queries Card */}
-        <Card className="border-0 bg-zinc-900/50 p-6 text-left">
+        <Card className="border-0 bg-zinc-900 p-6 text-left text-white">
           <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-md bg-indigo-950 text-purple-400">
             <Monitor className="h-6 w-6" />
           </div>
@@ -33,7 +33,7 @@ const EfficiencySection = () => {
         </Card>
 
         {/* 25% Compliance Card */}
-        <Card className="border-0 bg-zinc-900/50 p-6 text-left">
+        <Card className="border-0 bg-zinc-900 p-6 text-left text-white">
           <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-md bg-amber-950 text-amber-400">
             <FileCheck className="h-6 w-6" />
           </div>
@@ -44,7 +44,7 @@ const EfficiencySection = () => {
         </Card>
 
         {/* 20% Resolution Time Card */}
-        <Card className="border-0 bg-zinc-900/50 p-6 text-left">
+        <Card className="border-0 bg-zinc-900 p-6 text-left text-white">
           <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-md bg-green-950 text-green-400">
             <Clock className="h-6 w-6" />
           </div>
