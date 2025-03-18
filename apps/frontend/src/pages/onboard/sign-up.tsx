@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff } from "lucide-react";
 import { ReadingIllustration } from "./reading-illustration";
 import { supabase } from "@/lib/supabaseClient";
-import { useAuth } from "@/lib/provider/supabaseAuthProvider";
+import { useAuth } from "providers/supabaseAuthProvider";
 
 interface SignUpProps {
   onToggle: () => void;

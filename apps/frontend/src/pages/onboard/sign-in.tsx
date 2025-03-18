@@ -1,7 +1,7 @@
 import type React from "react";
 
 import { useState } from "react";
-
+import { useNavigate } from "@tanstack/react-router";
 import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -16,6 +16,7 @@ interface SignInProps {
 }
 
 export function SignIn({ onToggle }: SignInProps) {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -42,9 +43,13 @@ export function SignIn({ onToggle }: SignInProps) {
 
     if (error) {
       console.log(error.message);
+      return;
     }
 
     console.log(data);
+    navigate({
+      to: "/dashboard",
+    });
   };
 
   const handleSocialSignIn = (provider: string) => {

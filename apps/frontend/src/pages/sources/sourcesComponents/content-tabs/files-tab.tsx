@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/lib/supabaseClient";
-import { useAuth } from "@/lib/provider/supabaseAuthProvider";
 import { FileUploadDetail } from "@repo/common/types";
+import { useAuth } from "providers/supabaseAuthProvider";
 
 export function FilesTab() {
   const { user } = useAuth();
