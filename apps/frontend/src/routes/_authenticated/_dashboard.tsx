@@ -3,7 +3,7 @@ import Toggle from '@/components/sidebar/toggle'
 import { Header } from '@/pages/dashboard/dashboardComponents/header'
 import { createFileRoute, Outlet} from '@tanstack/react-router'
 
-export const Route = createFileRoute('/_dashboard')({
+export const Route = createFileRoute('/_authenticated/_dashboard')({
   
   component: () => (
     <>
