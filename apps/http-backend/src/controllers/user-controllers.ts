@@ -4,13 +4,9 @@ import "dotenv/config";
 import createError from "http-errors";
 import { ZodError } from "zod";
 
-import {
-  fileUploadDetailsValidator,
-  profileIdValidator,
-} from "@repo/common/validator";
+import { profileIdValidator } from "@repo/common/validator";
 
 import jwt from "jsonwebtoken";
-import { getUserId } from "@/utils/helper";
 
 if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
   throw new Error("Please provide SUPABASE_URL and SUPABASE_KEY in .env file");
@@ -148,42 +144,6 @@ export async function getUser(request: Request, response: Response) {
     } else {
       throw createError(401, "Unauthorized: Invalid token provided.");
     }
-  } catch (e: unknown) {
-    console.log(e);
-    if (e instanceof ZodError) {
-      response
-        .status(422)
-        .json({ error: "Invalid request body", details: e.errors });
-    } else if (e instanceof Error) {
-      response.status(500).json({ error: e.message });
-    } else {
-      response.status(500).json({ error: "An unknown error occurred" });
-    }
-  }
-}
-
-export async function saveFileData(request: Request, response: Response) {
-  try {
-    const paths = fileUploadDetailsValidator.parse(request.body);
-
-    const data = paths.map((path) => {
-      return {
-        user_id: getUserId(),
-        url: path.path,
-        name: path.fileName,
-      };
-    });
-
-    const { data: fileData, error } = await supabase
-      .from("files")
-      .insert(data)
-      .select();
-
-    if (error) {
-      console.log(error);
-      throw createError(500, `Failed to insert file data: ${error.message}`);
-    }
-    response.status(200).json({ fileData });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {

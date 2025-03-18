@@ -1,6 +1,6 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
-import { ThemeProvider } from "../providers/theme-provider";
+import { ThemeProvider } from "@/providers/theme-provider";
 import { Provider } from "react-redux";
 import { store } from "../store/index";
 import { useAuth } from "./hooks/useAuth";

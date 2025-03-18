@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/lib/supabaseClient";
-import { FileUploadDetail } from "@repo/common/types";
-import { useAuth } from "providers/supabaseAuthProvider";
+import { LocalFileUploadDetail } from "@repo/common/types";
+import { useAuth } from "@/providers/supabaseAuthProvider";
 
 export function FilesTab() {
   const { user } = useAuth();
@@ -21,7 +21,7 @@ export function FilesTab() {
   ) => {
     let files: File[] = [];
 
-    const uploadDetails: FileUploadDetail = [];
+    const uploadDetails: LocalFileUploadDetail = [];
 
     if (e.target.files) {
       files = Array.from(e.target.files);

@@ -9,6 +9,8 @@ import {
   youtubeValidator,
   twitterValidator,
   websiteUrlValidator,
+  localFileUploadDetailsValidator,
+  remoteFileUploadDetailsValidator,
 } from "@repo/common/validator";
 import { extractTweetId, getUserId } from "@/utils/helper";
 import { createClient } from "@supabase/supabase-js";
@@ -169,6 +171,78 @@ export async function fetchWebsiteUrl(request: Request, response: Response) {
     }
 
     response.status(200).json(data);
+  } catch (e: unknown) {
+    console.log(e);
+    if (e instanceof ZodError) {
+      response
+        .status(422)
+        .json({ error: "Invalid request body", details: e.errors });
+    } else if (e instanceof Error) {
+      response.status(500).json({ error: e.message });
+    } else {
+      response.status(500).json({ error: "An unknown error occurred" });
+    }
+  }
+}
+
+export async function saveLocalFileData(request: Request, response: Response) {
+  try {
+    const paths = localFileUploadDetailsValidator.parse(request.body);
+
+    const data = paths.map((path) => {
+      return {
+        user_id: getUserId(),
+        url: path.path,
+        name: path.fileName,
+      };
+    });
+
+    const { data: fileData, error } = await supabase
+      .from("files")
+      .insert(data)
+      .select();
+
+    if (error) {
+      console.log(error);
+      throw createError(500, `Failed to insert file data: ${error.message}`);
+    }
+    response.status(200).json({ fileData });
+  } catch (e: unknown) {
+    console.log(e);
+    if (e instanceof ZodError) {
+      response
+        .status(422)
+        .json({ error: "Invalid request body", details: e.errors });
+    } else if (e instanceof Error) {
+      response.status(500).json({ error: e.message });
+    } else {
+      response.status(500).json({ error: "An unknown error occurred" });
+    }
+  }
+}
+
+export async function saveRemoteFileData(request: Request, response: Response) {
+  try {
+    const data = remoteFileUploadDetailsValidator.parse(request.body);
+
+    const imageData = data.map((file) => {
+      return {
+        user_id: getUserId(),
+        url: file.url,
+        name: file.fileName,
+      };
+    });
+
+    const { data: fileData, error } = await supabase
+      .from("files")
+      .insert(imageData)
+      .select();
+
+    if (error) {
+      console.log(error);
+      throw createError(500, `Failed to insert file data: ${error.message}`);
+    }
+    response.status(200).json({ fileData });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {

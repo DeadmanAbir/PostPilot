@@ -1,6 +1,16 @@
 import { z } from "zod";
-import { demoValidator, fileUploadDetailsValidator } from "./validator";
+import {
+  demoValidator,
+  localFileUploadDetailsValidator,
+  remoteFileUploadDetailsValidator,
+} from "./validator";
 
 export type DemoType = z.infer<typeof demoValidator>;
 
-export type FileUploadDetail = z.infer<typeof fileUploadDetailsValidator>;
+export type LocalFileUploadDetail = z.infer<
+  typeof localFileUploadDetailsValidator
+>;
+
+export type RemoteFileUploadDetail = z.infer<
+  typeof remoteFileUploadDetailsValidator
+>;
