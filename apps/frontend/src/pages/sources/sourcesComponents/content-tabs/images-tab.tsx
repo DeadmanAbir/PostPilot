@@ -18,8 +18,15 @@ export function ImagesTab() {
     }
   };
 
-  const handleRemoteImageLoad = () => {
+  const handleRemoteImageLoad = async () => {
     if (remoteImageUrl) {
+      const response = await fetch(remoteImageUrl);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+        return;
+      }
+
       setRemoteImages([...remoteImages, remoteImageUrl]);
       setRemoteImageUrl("");
     }
@@ -68,22 +75,38 @@ export function ImagesTab() {
             <h4 className="mb-2 font-semibold">Image Previews:</h4>
             <div className="grid grid-cols-3 gap-4">
               {localImages.map((file, index) => (
-                <div key={`local-${index}`} className="relative aspect-square">
-                  <img
-                    src={URL.createObjectURL(file) || "/placeholder.svg"}
-                    alt={`Local image ${index + 1}`}
-                    className="object-cover rounded"
-                  />
-                </div>
+                <>
+                  <div
+                    key={`local-${index}`}
+                    className="relative aspect-square"
+                  >
+                    <img
+                      src={URL.createObjectURL(file) || "/placeholder.svg"}
+                      alt={`Local image ${index + 1}`}
+                      className="object-cover rounded"
+                    />
+                  </div>
+                  <Button variant="default" size="sm">
+                    Load
+                  </Button>
+                </>
               ))}
               {remoteImages.map((url, index) => (
-                <div key={`remote-${index}`} className="relative aspect-square">
-                  <img
-                    src={url || "/placeholder.svg"}
-                    alt={`Remote image ${index + 1}`}
-                    className="object-cover rounded"
-                  />
-                </div>
+                <>
+                  <div
+                    key={`remote-${index}`}
+                    className="relative aspect-square"
+                  >
+                    <img
+                      src={url || "/placeholder.svg"}
+                      alt={`Remote image ${index + 1}`}
+                      className="object-cover rounded"
+                    />
+                  </div>
+                  <Button variant="default" size="sm">
+                    Load
+                  </Button>
+                </>
               ))}
             </div>
           </div>

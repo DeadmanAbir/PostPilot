@@ -21,6 +21,8 @@ router.post("/add-local-file", saveLocalFileData);
 
 router.post("/add-remote-file", saveRemoteFileData);
 
+router.post("/add-text-node", saveRemoteFileData);
+
 router.get("/files", getUsersAdmin);
 
 export default router;

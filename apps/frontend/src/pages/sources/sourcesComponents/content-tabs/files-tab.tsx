@@ -112,6 +112,9 @@ export function FilesTab() {
                     </li>
                   ))}
                 </ul>
+                <Button variant="default" size="sm">
+                  Load
+                </Button>
               </div>
             )}
           </TabsContent>
@@ -148,6 +151,9 @@ export function FilesTab() {
                     </li>
                   ))}
                 </ul>
+                <Button variant="default" size="sm">
+                  Load
+                </Button>
               </div>
             )}
           </TabsContent>

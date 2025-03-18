@@ -39,3 +39,8 @@ export const remoteFileUploadDetailsValidator = z.array(
     url: z.string().url(),
   })
 );
+
+export const textNodeDataValidaor = z.object({
+  name: z.string(),
+  description: z.string(),
+});

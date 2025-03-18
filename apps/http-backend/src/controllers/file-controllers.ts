@@ -11,6 +11,7 @@ import {
   websiteUrlValidator,
   localFileUploadDetailsValidator,
   remoteFileUploadDetailsValidator,
+  textNodeDataValidaor,
 } from "@repo/common/validator";
 import { extractTweetId, getUserId } from "@/utils/helper";
 import { createClient } from "@supabase/supabase-js";
@@ -243,6 +244,37 @@ export async function saveRemoteFileData(request: Request, response: Response) {
       throw createError(500, `Failed to insert file data: ${error.message}`);
     }
     response.status(200).json({ fileData });
+  } catch (e: unknown) {
+    console.log(e);
+    if (e instanceof ZodError) {
+      response
+        .status(422)
+        .json({ error: "Invalid request body", details: e.errors });
+    } else if (e instanceof Error) {
+      response.status(500).json({ error: e.message });
+    } else {
+      response.status(500).json({ error: "An unknown error occurred" });
+    }
+  }
+}
+
+export async function saveTextNodeData(request: Request, response: Response) {
+  try {
+    const { name, description } = textNodeDataValidaor.parse(request.body);
+
+    const { data, error } = await supabase
+      .from("text_node")
+      .insert([{ user_id: getUserId(), name: name, description }])
+      .select();
+
+    if (error) {
+      console.log(error);
+      throw createError(
+        500,
+        `Failed to insert text node  data: ${error.message}`
+      );
+    }
+    response.status(200).json({ data });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {
