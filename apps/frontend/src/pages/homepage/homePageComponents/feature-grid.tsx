@@ -15,7 +15,7 @@ const FeatureGrid = () => {
         </div>
       </div>
 
-      <section className="container mx-auto p-5 border-r-[2px] border-l-2 border-dotted flex items-center justify-center">
+      <section className="container mx-auto p-5 border-r-[2px] border-l-2 border-dotted flex items-center justify-center ">
         <div className="grid gap-4 lg:grid-cols-3 lg:grid-rows-2 ">
           {/* first bento grid element */}
           <div className="relative lg:row-span-2">
@@ -105,7 +105,7 @@ const FeatureGrid = () => {
                 </p>
               </div>
 
-              <div className="relative min-h-[30rem] w-full grow flex items-center justify-center">
+              <div className="relative max-h-[30rem] w-full grow flex items-center justify-center mt-4">
              <StaggerFeatures/>
               </div>
             </div>

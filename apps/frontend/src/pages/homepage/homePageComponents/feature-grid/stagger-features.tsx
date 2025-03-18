@@ -20,12 +20,7 @@ const features = [
     description: "Tailored to your content strategy",
     color: "text-green-500",
   },
-  {
-    icon: Code,
-    title: "API Integration",
-    description: "Seamless connection with your tools",
-    color: "text-yellow-500",
-  },
+
 ];
 
 const FeatureCard = ({ icon: Icon, title, description, color, index }) => {
@@ -56,8 +51,8 @@ const FeatureCard = ({ icon: Icon, title, description, color, index }) => {
 
 const StaggerFeatures = () => {
   return (
-    <div className="">
-      <div className="grid grid-cols-1 gap-2 px-5 pt-2 pb-5">
+    <div className="w-full">
+      <div className="grid grid-cols-1 gap-2 px-5 pt-2 pb-5 w-full">
         {features.map((feature, index) => (
           <FeatureCard key={feature.title} {...feature} index={index} />
         ))}

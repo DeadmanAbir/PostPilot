@@ -1,3 +1,4 @@
+import { TextShimmer } from "@/components/generate-text";
 import { TextEffect } from "@/components/text-effect";
 import { motion, useAnimate } from "motion/react";
 import { useState } from "react";
@@ -8,10 +9,15 @@ const ResponseEffect = () => {
   const [triggerAns, setTriggerAns] = useState(false);
   const [hasCompleted, setHasCompleted] = useState(false);
   const [callCount, setCallCount] = useState(0);
+  const [showGenerate, setShowGenerate] = useState(false)
 
   const runAnimation = async () => {
     await animate(".enter-button", { scale: 0.9 }, { duration: 0.1 });
     await animate(".enter-button", { scale: 1 }, { duration: 0.1 });
+    setTimeout(()=>{
+      setShowGenerate(true)
+
+    },1000)
   };
 
   const handleQuestionComplete = () => {
@@ -32,6 +38,7 @@ const ResponseEffect = () => {
         setCallCount(0);
         setHasCompleted(false);
         setTrigger(true);
+        setShowGenerate(false)
       }
       if (prev === 0) {
         setTriggerAns(false);
@@ -92,9 +99,23 @@ const ResponseEffect = () => {
               Animate your ideas with motion-primitives
             </TextEffect>
           </div>
-          <motion.div className="enter-button px-4 py-1 bg-neutral-700 rounded text-sm">
-            Enter ↵
+
+          <motion.div
+            className="enter-button px-4 py-1 bg-neutral-700 rounded text-sm "
+            layout
+            initial={{ width: "auto" }}
+            animate={{ width: "auto" }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+          >
+            {showGenerate ? (
+              <TextShimmer className="font-mono text-sm" duration={1}>
+                Generating code...
+              </TextShimmer>
+            ) : (
+              <span>Enter ↵</span>
+            )}
           </motion.div>
+
         </div>
         <div className="   bg-neutral-800 rounded h-full p-3 w-full min-h-60 ">
           <TextEffect
@@ -103,12 +124,10 @@ const ResponseEffect = () => {
             trigger={triggerAns}
             onAnimationComplete={handleComplete}
           >
-            Lorem ipsum dolor, sit amet consectetur enim veritatis, iure minus
-            ipsa rerum veniam neque amet. Qui pariatur saepe ipsam fugit,
-            voluptatibus cum. Harum necessitatibus dolore minus in, fugit error
-            maiores et!
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.taque dolore recusandae, velit reprehenderit non asperiores hic minus? Debitis.
           </TextEffect>
         </div>
+
       </div>
     </div>
   );

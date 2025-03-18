@@ -27,7 +27,7 @@ export const Wrapper = ({ children }: WrapperProps) => {
     <aside
       onMouseLeave={() => dispatch(collapseSidebar())}
       className={cn(
-        'flex left-0 fixed flex-col w-[70px] lg:w-60 h-full bg-background border-r transition-transform duration-300 z-50 rounded-2xl dark:bg-zinc-900',
+        'flex left-0 fixed flex-col w-60 h-full bg-background border-r transition-transform duration-300 z-50 rounded-2xl dark:bg-zinc-900',
         collapsed && ' -translate-x-full transition-transform duration-300',
       )}
     >
