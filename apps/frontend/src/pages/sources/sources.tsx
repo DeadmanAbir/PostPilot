@@ -1,5 +1,3 @@
-
-
 import { useEffect, useRef } from "react";
 import LinkSection from "./sourcesComponents/links-sections";
 import PreviewSection from "./sourcesComponents/preview-section";
@@ -28,7 +26,10 @@ const Sources = () => {
       if (currentSection) {
         const nextIndex = Math.max(
           0,
-          Math.min(sections.indexOf(currentSection) + direction, sections.length - 1)
+          Math.min(
+            sections.indexOf(currentSection) + direction,
+            sections.length - 1
+          )
         );
 
         sections[nextIndex].scrollIntoView({ behavior: "smooth" });
@@ -43,6 +44,7 @@ const Sources = () => {
 
     return () => container.removeEventListener("wheel", handleScroll);
   }, []);
+
   const scrollToNextSection = (direction: 1 | -1) => {
     const container = containerRef.current;
     if (!container) return;
@@ -55,7 +57,10 @@ const Sources = () => {
     if (currentSection) {
       const nextIndex = Math.max(
         0,
-        Math.min(sections.indexOf(currentSection) + direction, sections.length - 1)
+        Math.min(
+          sections.indexOf(currentSection) + direction,
+          sections.length - 1
+        )
       );
 
       sections[nextIndex].scrollIntoView({ behavior: "smooth" });
@@ -68,9 +73,12 @@ const Sources = () => {
         <LinkSection />
         <div className="flex flex-col items-center absolute bottom-24">
           <span> Your Sources</span>
-          <Button variant={"ghost"} size={"icon"} onClick={() => scrollToNextSection(1)}>
+          <Button
+            variant={"ghost"}
+            size={"icon"}
+            onClick={() => scrollToNextSection(1)}
+          >
             <ChevronDown />
-
           </Button>
         </div>
       </div>

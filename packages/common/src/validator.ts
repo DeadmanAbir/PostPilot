@@ -25,3 +25,17 @@ export const postGenerateValidator = z.object({
 export const profileIdValidator = z.object({
   id: z.string(),
 });
+
+export const localFileUploadDetailsValidator = z.array(
+  z.object({
+    fileName: z.string(),
+    path: z.string(),
+  })
+);
+
+export const remoteFileUploadDetailsValidator = z.array(
+  z.object({
+    fileName: z.string(),
+    url: z.string().url(),
+  })
+);

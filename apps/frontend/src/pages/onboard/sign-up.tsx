@@ -1,5 +1,5 @@
 import type React from "react";
-
+import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -9,12 +9,17 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff } from "lucide-react";
 import { ReadingIllustration } from "./reading-illustration";
+import { supabase } from "@/lib/supabaseClient";
+import { useAuth } from "@/providers/supabaseAuthProvider";
 
 interface SignUpProps {
   onToggle: () => void;
 }
 
 export function SignUp({ onToggle }: SignUpProps) {
+  const { user } = useAuth();
+  console.log(user);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -36,15 +41,42 @@ export function SignUp({ onToggle }: SignUpProps) {
     setFormData((prev) => ({ ...prev, agreeToTerms: checked }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle sign up logic here
-    console.log("Sign up data:", formData);
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: { displayName: formData.name },
+        },
+      });
+      if (error) {
+        throw new Error(error.message);
+        return;
+      }
+      console.log("User data:", data);
+
+      const response = await fetch("/api/onboard-user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${data?.session?.access_token}`,
+        },
+      });
+
+      const result = await response.json();
+      console.log("Backend response:", result);
+      navigate({
+        to: "/dashboard",
+      });
+    } catch (err: unknown) {
+      console.error("Error:", err);
+    }
   };
 
   const handleSocialSignUp = (provider: string) => {
     console.log(`Sign up with ${provider}`);
-    // Implement social sign up logic here
   };
 
   // Toggle password visibility
@@ -56,7 +88,6 @@ export function SignUp({ onToggle }: SignUpProps) {
   const toggleConfirmPasswordVisibility = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
-
   return (
     <div className="flex min-h-screen">
       {/* Left side - Form */}

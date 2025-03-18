@@ -24,7 +24,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    },
+    }
   },
-  "include": ["src"]
+  "include": ["src", "providers/supabaseAuthProvider.tsx"]
 }

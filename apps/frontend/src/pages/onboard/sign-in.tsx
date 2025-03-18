@@ -1,7 +1,7 @@
 import type React from "react";
 
 import { useState } from "react";
-
+import { useNavigate } from "@tanstack/react-router";
 import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -9,12 +9,14 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ReadingIllustration } from "./reading-illustration";
+import { supabase } from "@/lib/supabaseClient";
 
 interface SignInProps {
   onToggle: () => void;
 }
 
 export function SignIn({ onToggle }: SignInProps) {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -32,10 +34,22 @@ export function SignIn({ onToggle }: SignInProps) {
     setFormData((prev) => ({ ...prev, rememberMe: checked }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle sign in logic here
-    console.log("Sign in data:", formData);
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: formData.email,
+      password: formData.password,
+    });
+
+    if (error) {
+      console.log(error.message);
+      return;
+    }
+
+    console.log(data);
+    navigate({
+      to: "/dashboard",
+    });
   };
 
   const handleSocialSignIn = (provider: string) => {
