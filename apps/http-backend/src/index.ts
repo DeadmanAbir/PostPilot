@@ -2,7 +2,7 @@ import express from "express";
 // import {DemoType} from "@repo/common/types";
 import fileRouter from "@/routes/context-processing-route";
 import postRouter from "@/routes/post-generation.route";
-import profileRouter from "@/routes/profile-route";
+import profileRouter from "@/routes/user-route";
 import cors from "cors";
 
 const app = express();

@@ -6,16 +6,53 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { supabase } from "@/lib/supabaseClient";
+import { useAuth } from "@/lib/provider/supabaseAuthProvider";
+import { FileUploadDetail } from "@repo/common/types";
 
 export function FilesTab() {
+  const { user } = useAuth();
   const [localFiles, setLocalFiles] = useState<File[]>([]);
   const [remoteFileUrl, setRemoteFileUrl] = useState("");
   const [remoteFiles, setRemoteFiles] = useState<string[]>([]);
 
-  const handleLocalFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLocalFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    let files: File[] = [];
+
+    const uploadDetails: FileUploadDetail = [];
+
     if (e.target.files) {
-      setLocalFiles(Array.from(e.target.files));
+      files = Array.from(e.target.files);
+      setLocalFiles(files);
+    } else {
+      throw new Error("No files selected");
     }
+    const uploads = files.map(async (file) => {
+      const encodedName = btoa(file.name);
+      const filePath = `${user?.user?.id}/${encodedName}`;
+
+      const { data, error } = await supabase.storage
+        .from("post-pilot")
+        .upload(filePath, file);
+
+      if (error) {
+        console.error("Error uploading file:", file.name, error);
+        return null; // Skip failed uploads
+      }
+      uploadDetails.push({
+        fileName: encodedName,
+        path: data.fullPath,
+      });
+      return data;
+    });
+    await Promise.all(uploads);
+
+    // const successfulUploads = results.filter((result) => result !== null);
+
+    console.log("Uploaded files:", uploadDetails);
+    // call insert-file endpoint before that fix naming issue
   };
 
   const handleRemoteFileLoad = () => {

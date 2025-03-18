@@ -25,3 +25,10 @@ export const postGenerateValidator = z.object({
 export const profileIdValidator = z.object({
   id: z.string(),
 });
+
+export const fileUploadDetailsValidator = z.array(
+  z.object({
+    fileName: z.string(),
+    path: z.string(),
+  })
+);

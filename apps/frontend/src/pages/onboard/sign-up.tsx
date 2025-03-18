@@ -18,6 +18,7 @@ interface SignUpProps {
 
 export function SignUp({ onToggle }: SignUpProps) {
   const { user } = useAuth();
+  console.log(user);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",

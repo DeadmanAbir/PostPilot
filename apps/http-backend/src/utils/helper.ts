@@ -42,5 +42,5 @@ export const createClient = (llm: "OpenAI" | "Gemini") => {
 };
 
 export const getUserId = (): string => {
-  return "aba9a698-b5b1-4c9c-b39f-9c6467cc19f1";
+  return "9429221f-dd43-4cd4-8ae4-3655cff775ee";
 };
