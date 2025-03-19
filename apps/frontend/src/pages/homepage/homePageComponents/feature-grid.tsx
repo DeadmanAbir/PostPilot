@@ -3,6 +3,7 @@ import SelectAnimation from "./feature-grid/select-animation";
 import StaggerFeatures from "./feature-grid/stagger-features";
 import OrbitAnimation from "./feature-grid/rotate-animation";
 import StepsAnimation from "./feature-grid/steps-animation";
+import Rotate from "./feature-grid/rotater-animation";
 
 const FeatureGrid = () => {
   return (
@@ -60,10 +61,10 @@ const FeatureGrid = () => {
                   From new user signups to successful payments,
                 </p>
               </div>
-             <div className="h-40">
-             <OrbitAnimation />
+              <div className="h-40">
+                <OrbitAnimation />
 
-             </div>
+              </div>
             </div>
 
             <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 max-lg:rounded-t-[2rem]" />
@@ -115,7 +116,7 @@ const FeatureGrid = () => {
           </div>
 
         </div>
-        <div className="grid grid-cols-2 gap-4 mt-[16px] w-full">
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-4 mt-[16px] w-full">
           <div className="relative ">
             <div className="absolute inset-px rounded-lg bg-zinc-900 lg:rounded-bl-[2rem]" />
 
@@ -130,27 +131,21 @@ const FeatureGrid = () => {
                 </p>
               </div>
 
-<div>
-  <StepsAnimation/>
-</div>
+              <div>
+                <StepsAnimation />
+              </div>
             </div>
 
           </div>
           <div className="relative ">
             <div className="absolute inset-px rounded-lg bg-zinc-900 lg:rounded-br-[2rem]" />
 
-            <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
-              <div className="px-8 pb-3 pt-6 sm:px-10 sm:pb-0 ">
-                <p className="mt-2 text-lg/7 font-medium tracking-tight text-white max-lg:text-center">
-                  Real-time notifications
-                </p>
-                <p className="mt-2 max-w-lg text-sm/6 text-gray-400 max-lg:text-center">
-                  Get notified about critical events the moment they happen, no
-                  matter if you&apos;re at home or on the go.
-                </p>
+            <div className="relative flex items-center justify-center  h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
+
+
+              <div>
+                <Rotate />
               </div>
-
-
             </div>
 
           </div>
