@@ -34,16 +34,16 @@ const FeatureCard = ({ icon: Icon, title, description, color, index }) => {
         stiffness: 100,
       }}
       whileHover={{ scale: 1.05 }}
-      className="relative bg-zinc-900/50 rounded-xl p-6 backdrop-blur-sm border-2 border-dashed"
+      className="relative bg-black rounded-xl p-3 backdrop-blur-sm border-2 "
     >
       <motion.div
         transition={{ duration: 0.6, ease: "easeInOut" }}
         className={`${color} mb-4`}
       >
-        <Icon size={24} />
+        <Icon size={16} />
       </motion.div>
 
-      <h3 className="text-lg font-semibold mb-2">{title}</h3>
+      <h3 className="text-lg font-semibold ">{title}</h3>
       <p className="text-zinc-400 text-sm">{description}</p>
     </motion.div>
   );
@@ -52,7 +52,7 @@ const FeatureCard = ({ icon: Icon, title, description, color, index }) => {
 const StaggerFeatures = () => {
   return (
     <div className="w-full">
-      <div className="grid grid-cols-1 gap-2 px-5 pt-2 pb-5 w-full">
+      <div className="grid grid-cols-1 gap-4 px-5 pt-2 pb-5 w-full">
         {features.map((feature, index) => (
           <FeatureCard key={feature.title} {...feature} index={index} />
         ))}
