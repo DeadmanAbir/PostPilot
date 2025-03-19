@@ -1,8 +1,6 @@
-"use client";
-
 import type React from "react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowLeft,
   ChevronRight,
@@ -45,6 +43,8 @@ import {
 import { Link } from "@tanstack/react-router";
 import { supabase } from "@/lib/supabaseClient";
 import { useNavigate } from "@tanstack/react-router";
+import axios from "axios";
+import LinkedInConnect from "./profileComponents/linkedin-connect";
 interface Course {
   id: string;
   title: string;
@@ -122,6 +122,41 @@ export function ProfilePage() {
   const [name, setName] = useState("");
   const [profileImage, setProfileImage] = useState("/placeholder.svg");
   const [editName, setEditName] = useState("");
+
+  const [isLinkedInConnected, setIsLinkedInConnected] = useState(false);
+  const [message, setMessage] = useState<{
+    text: string;
+    type: "success" | "error";
+  } | null>(null);
+
+  // Check if LinkedIn is already connected
+  useEffect(() => {
+    const checkLinkedInConnection = async () => {
+      try {
+        const response = await axios.get("/api/auth/linkedin/status");
+        setIsLinkedInConnected(response.data.connected);
+      } catch (error) {
+        console.error("Error checking LinkedIn status:", error);
+      }
+    };
+
+    checkLinkedInConnection();
+  }, []);
+
+  const handleSuccess = () => {
+    setIsLinkedInConnected(true);
+    setMessage({
+      text: "LinkedIn account connected successfully!",
+      type: "success",
+    });
+  };
+
+  const handleFailure = (error: string) => {
+    setMessage({
+      text: `LinkedIn connection failed: ${error}`,
+      type: "error",
+    });
+  };
 
   const handleNameChange = () => {
     if (editName.trim()) {
@@ -288,9 +323,17 @@ export function ProfilePage() {
                       Connected as {name}
                     </p>
                   </div>
-                  <Button variant="outline" size="sm">
-                    Manage
-                  </Button>
+
+                  {isLinkedInConnected ? (
+                    <Button variant="outline" size="sm">
+                      Connected
+                    </Button>
+                  ) : (
+                    <LinkedInConnect
+                      onSuccess={handleSuccess}
+                      onFailure={handleFailure}
+                    />
+                  )}
                 </div>
               </CardContent>
             </Card>
