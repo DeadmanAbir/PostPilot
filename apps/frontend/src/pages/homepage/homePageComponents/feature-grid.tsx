@@ -24,8 +24,8 @@ const FeatureGrid = () => {
             <div className="absolute inset-px rounded-lg bg-zinc-900 lg:rounded-tl-[2rem]" />
 
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
-              <div className="px-8 pb-3 pt-6 sm:px-10 sm:pb-0 ">
-                <p className="mt-2 text-lg/7 font-medium tracking-tight text-white max-lg:text-center">
+              <div className="px-8  pt-6 sm:px-10 sm:pb-0 ">
+                <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
                   Real-time notifications
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-400 max-lg:text-center">
@@ -54,7 +54,7 @@ const FeatureGrid = () => {
             <div className="absolute inset-px rounded-lg bg-zinc-900 max-lg:rounded-t-[2rem]" />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
               <div className="px-8 pt-6 sm:px-10 ">
-                <p className="mt-2 text-lg/7 font-medium tracking-tight text-white max-lg:text-center">
+                <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
                   Track Any Event
                 </p>
                 <p className="my-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
@@ -75,7 +75,7 @@ const FeatureGrid = () => {
             <div className="absolute inset-px rounded-lg bg-zinc-900" />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)]">
               <div className="px-8 pt-6 sm:px-10 ">
-                <p className="mt-2 text-lg/7 font-medium tracking-tight text-white max-lg:text-center">
+                <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
                   Track Any Properties
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
@@ -98,7 +98,7 @@ const FeatureGrid = () => {
 
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]">
               <div className="px-8 pb-3 pt-6 sm:px-10 sm:pb-0 ">
-                <p className="mt-2 text-lg/7 font-medium tracking-tight text-white max-lg:text-center">
+                <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
                   Easy Integration
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
@@ -122,7 +122,7 @@ const FeatureGrid = () => {
 
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8 pb-3 pt-6 sm:px-10 sm:pb-0 ">
-                <p className="mt-2 text-lg/7 font-medium tracking-tight text-white max-lg:text-center">
+                <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
                   Real-time notifications
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-400 max-lg:text-center">
