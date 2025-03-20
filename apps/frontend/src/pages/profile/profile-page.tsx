@@ -133,7 +133,7 @@ export function ProfilePage() {
   useEffect(() => {
     const checkLinkedInConnection = async () => {
       try {
-        const response = await axios.get("/api/auth/linkedin/status");
+        const response = await axios.get("/api/linkedin/status");
         setIsLinkedInConnected(response.data.connected);
       } catch (error) {
         console.error("Error checking LinkedIn status:", error);

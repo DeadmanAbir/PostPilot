@@ -20,7 +20,7 @@ const LinkedInConnect: React.FC<LinkedInConnectProps> = ({
       setIsConnecting(true);
 
       // Send the code to your backend
-      await axios.post("/api/auth/linkedin", {
+      await axios.post("/api/linkedin/credentials", {
         code,
         redirectUri: window.location.origin + "/linkedin-callback",
       });
@@ -42,10 +42,11 @@ const LinkedInConnect: React.FC<LinkedInConnectProps> = ({
   return (
     <div className="linkedin-connect-container">
       <LinkedIn
-        clientId={import.meta.env.VITE_REACT_APP_LINKEDIN_CLIENT_ID as string}
+        clientId={import.meta.env.VITE_LINKEDIN_CLIENT_ID as string}
         redirectUri={`${window.location.origin}/linkedin-callback`}
         onSuccess={(code) => handleSuccess(code)}
         onError={(error) => {
+          console.log(error);
           handleFailure(error);
         }}
       >

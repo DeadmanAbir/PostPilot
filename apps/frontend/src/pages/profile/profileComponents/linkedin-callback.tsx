@@ -1,4 +1,3 @@
-// src/components/LinkedInCallback.tsx
 import { useNavigate } from "@tanstack/react-router";
 import React, { useEffect } from "react";
 import { LinkedInCallback as LinkedInCallbackHandler } from "react-linkedin-login-oauth2";

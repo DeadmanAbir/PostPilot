@@ -1,7 +1,17 @@
+import {
+  getLinkedinCredentials,
+  getLinkedinStatus,
+  handleLinkedinCallback,
+  postToLinkedin,
+} from "@/controllers/linkedin-auth-controller";
 import express, { Router } from "express";
 
 const router: Router = express.Router();
 
-// router.post("/linkedin", generatePost);
+router.get("/status", getLinkedinStatus);
+router.get("/callback", handleLinkedinCallback);
+
+router.post("/post", postToLinkedin);
+router.post("/get-credentials", getLinkedinCredentials);
 
 export default router;

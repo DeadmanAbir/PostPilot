@@ -3,8 +3,18 @@ import "dotenv/config";
 import createError from "http-errors";
 import { ZodError } from "zod";
 import { createClient } from "@supabase/supabase-js";
-import axios from "axios";
-import { getUserId } from "@/utils/helper";
+import axios, { get } from "axios";
+import {
+  exchangeCodeForToken,
+  getCredentialsFromDB,
+  getLinkedInAuthUrl,
+  getLinkedInProfile,
+  getUserId,
+  postToLinkedIn,
+  storeCredentialsInDB,
+  validateAndRefreshToken,
+} from "@/utils/helper";
+import crypto from "crypto";
 
 if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
   throw new Error("Please provide SUPABASE_URL and SUPABASE_KEY in .env file");
@@ -20,76 +30,97 @@ export async function getLinkedinCredentials(
   response: Response
 ) {
   try {
-    const { code, redirectUri } = request.body;
+    // Get user ID from query parameter (in a real app, this would typically come from a session or token)
+    const userId = getUserId();
 
-    if (!code || !redirectUri) {
-      throw createError(
-        400,
-        "Authorization code and redirect URI are required"
-      );
+    if (!userId) {
+      response.status(400).json({ error: "User ID is required" });
+      return;
     }
+
+    // Generate a state parameter to prevent CSRF attacks
+    const state = crypto.randomBytes(20).toString("hex");
+
+    // Store state in session or database (using userId as key)
+    // In a real application, you would store this in a secure session or temporary database record
+    // For simplicity, we'll just include it in the redirect_uri
+
+    // Generate the LinkedIn authorization URL with the state parameter
+    const authUrl = getLinkedInAuthUrl(`${state}_${userId}`);
+
+    // Return the authorization URL to the frontend for redirection
+    response.status(200).json({ authUrl });
+  } catch (e: unknown) {
+    console.log(e);
+    if (e instanceof ZodError) {
+      response
+        .status(422)
+        .json({ error: "Invalid request body", details: e.errors });
+    } else if (e instanceof Error) {
+      response.status(500).json({ error: e.message });
+    } else {
+      response.status(500).json({ error: "An unknown error occurred" });
+    }
+  }
+}
+
+export async function handleLinkedinCallback(
+  request: Request,
+  response: Response
+) {
+  try {
+    const { code, state, error } = request.query;
+
+    if (error) {
+      response
+        .status(400)
+        .json({ error: `LinkedIn authorization error: ${error}` });
+      return;
+    }
+
+    // Validate state to prevent CSRF attacks
+    // Extract user ID from state (in a real app, you'd validate against a stored state)
+    const stateParts = (state as string).split("_");
+    if (stateParts.length !== 2) {
+      response.status(400).json({ error: "Invalid state parameter" });
+      return;
+    }
+
+    const userId = getUserId();
 
     // Exchange authorization code for access token
-    const tokenResponse = await axios.post(
-      "https://www.linkedin.com/oauth/v2/accessToken",
-      null,
-      {
-        params: {
-          grant_type: "authorization_code",
-          code,
-          redirect_uri: redirectUri,
-          client_id: process.env.LINKEDIN_CLIENT_ID,
-          client_secret: process.env.LINKEDIN_CLIENT_SECRET,
-        },
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
+    const tokenData = await exchangeCodeForToken(code as string);
+
+    // Get user's LinkedIn profile to get their LinkedIn ID
+    const profile = await getLinkedInProfile(tokenData.access_token);
+
+    // Store credentials in Supabase
+    const stored = await storeCredentialsInDB(
+      userId,
+      tokenData.access_token,
+      tokenData.refresh_token,
+      tokenData.expires_in,
+      profile.id
     );
 
-    const { access_token, refresh_token, expires_in } = tokenResponse.data;
-
-    // Get LinkedIn user profile
-    const profileResponse = await axios.get(
-      "https://api.linkedin.com/v2/userinfo",
-      {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
-      }
-    );
-
-    const { sub: linkedinId } = profileResponse.data;
-
-    // Get user from session (assuming user is already authenticated)
-    // In a real application, you would get this from your auth system
-
-    const expiresAt = new Date();
-    expiresAt.setSeconds(expiresAt.getSeconds() + expires_in);
-
-    const { data, error: dbError } = await supabase
-      .from("linkedin")
-      .insert([
-        {
-          user_id: getUserId(),
-          access_token,
-          refresh_token,
-          expires_at: expiresAt.toISOString(),
-          linkedin_id: linkedinId,
-          updated_at: new Date().toISOString(),
-        },
-      ])
-      .select();
-
-    if (dbError) {
-      console.log(dbError);
-      throw createError(
-        500,
-        `Failed to insert linkedin credentials : ${dbError}`
-      );
+    if (!stored) {
+      response
+        .status(500)
+        .json({ error: "Failed to store LinkedIn credentials" });
     }
 
-    response.status(200).json({ success: true });
+    // Redirect to a successful connection page or close the popup window
+    response.send(`
+      <html>
+        <body>
+          <script>
+            window.opener.postMessage({ type: 'LINKEDIN_AUTH_SUCCESS' }, '*');
+            window.close();
+          </script>
+          <p>LinkedIn account connected successfully! You can close this window.</p>
+        </body>
+      </html>
+    `);
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {
@@ -114,10 +145,8 @@ export async function getLinkedinStatus(request: Request, response: Response) {
 
     if (!data || error) {
       console.log(error);
-      throw createError(
-        500,
-        `Failed to retrieve linkedin credentials : ${error}`
-      );
+      response.status(200).json({ connected: false });
+      return;
     }
 
     // Check if token is expired
@@ -126,6 +155,75 @@ export async function getLinkedinStatus(request: Request, response: Response) {
     response.status(200).json({
       connected: !isExpired,
       linkedinId: data.linkedin_id,
+    });
+  } catch (e: unknown) {
+    console.log(e);
+    if (e instanceof ZodError) {
+      response
+        .status(422)
+        .json({ error: "Invalid request body", details: e.errors });
+    } else if (e instanceof Error) {
+      response.status(500).json({ error: e.message });
+    } else {
+      response.status(500).json({ error: "An unknown error occurred" });
+    }
+  }
+}
+
+// there will be a middleware for this
+export async function postToLinkedin(request: Request, response: Response) {
+  try {
+    // Get user ID from request body (in a real app, this would typically come from authentication)
+    const { text, shareUrl, title, visibility } = request.body;
+    const userId = getUserId();
+    if (!userId) {
+      response.status(400).json({ error: "User ID is required" });
+      return;
+    }
+
+    if (!text) {
+      response.status(400).json({ error: "Post text is required" });
+      return;
+    }
+
+    // Retrieve LinkedIn credentials from Supabase
+    const credentials = await getCredentialsFromDB(userId);
+
+    if (!credentials) {
+      response.status(404).json({
+        error: "LinkedIn credentials not found",
+        needsAuth: true,
+      });
+      return;
+    }
+
+    // Validate and refresh token if needed
+    const validAccessToken = await validateAndRefreshToken(userId, credentials);
+
+    if (!validAccessToken) {
+      response.status(401).json({
+        error: "LinkedIn authentication expired",
+        needsAuth: true,
+      });
+      return;
+    }
+
+    // Post to LinkedIn
+    const postId = await postToLinkedIn(
+      validAccessToken,
+      credentials.linkedin_id,
+      {
+        text,
+        shareUrl,
+        title,
+        visibility,
+      }
+    );
+
+    response.status(201).json({
+      success: true,
+      message: "Content posted to LinkedIn successfully",
+      postId,
     });
   } catch (e: unknown) {
     console.log(e);
