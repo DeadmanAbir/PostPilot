@@ -43,7 +43,7 @@ const HeroSection = () => {
           }}
         >
           <img
-            src="/polygon.svg"
+            src="/round.svg"
             alt=""
             className="w-full h-full object-contain"
           />
