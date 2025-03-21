@@ -1,6 +1,5 @@
 import type React from "react";
-
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   ArrowLeft,
   ChevronRight,
@@ -43,8 +42,6 @@ import {
 import { Link } from "@tanstack/react-router";
 import { supabase } from "@/lib/supabaseClient";
 import { useNavigate } from "@tanstack/react-router";
-import axios from "axios";
-import LinkedInConnect from "./profileComponents/linkedin-connect";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 
 interface Course {
@@ -125,11 +122,6 @@ export function ProfilePage() {
   const [profileImage, setProfileImage] = useState("/placeholder.svg");
   const [editName, setEditName] = useState("");
 
-  const [message, setMessage] = useState<{
-    text: string;
-    type: "success" | "error";
-  } | null>(null);
-
   const handleConnect = async () => {
     try {
       // Call the get-credentials endpoint to start the OAuth flow
@@ -139,19 +131,10 @@ export function ProfilePage() {
       const data = await response.json();
 
       console.log(data.authUrl);
-      // Open the LinkedIn authorization URL in a popup window
-      // const authWindow = window.open(
-      //   data.authUrl,
-      //   "LinkedIn Authorization",
-      //   "width=600,height=600"
-      // );
+
       window.location.href = data.authUrl;
     } catch (error) {
       console.error("LinkedIn connection error:", error);
-      setMessage({
-        text: error as string,
-        type: "error",
-      });
     }
   };
 
@@ -163,7 +146,8 @@ export function ProfilePage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          text: "hiii",
+          text: "hiii23222",
+          visibility: "PUBLIC",
         }),
       });
 
@@ -172,18 +156,8 @@ export function ProfilePage() {
       if (!response.ok) {
         throw new Error(data.message || "Failed to post to LinkedIn");
       }
-
-      setMessage({
-        text: "Successfully posted to LinkedIn!",
-        type: "success",
-      });
     } catch (error) {
       console.error("LinkedIn post error:", error);
-      setMessage({
-        text:
-          error instanceof Error ? error.message : "Error posting to LinkedIn",
-        type: "error",
-      });
     }
   };
 
