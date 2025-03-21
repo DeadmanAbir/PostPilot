@@ -44,3 +44,15 @@ export const textNodeDataValidaor = z.object({
   name: z.string(),
   description: z.string(),
 });
+
+export const linkedinCallbackValidator = z.object({
+  code: z.string(),
+  error: z.string().optional(),
+});
+
+export const linkedinPostValidator = z.object({
+  text: z.string(),
+  shareUrl: z.string().optional(),
+  title: z.string().optional(),
+  visibility: z.enum(["PUBLIC", "CONNECTIONS"]),
+});

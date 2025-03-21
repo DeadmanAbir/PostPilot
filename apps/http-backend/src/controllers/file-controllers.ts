@@ -1,10 +1,9 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import FirecrawlApp from "@mendable/firecrawl-js";
 import "dotenv/config";
 import createError from "http-errors";
 import { ApifyClient } from "apify-client";
 import { ZodError } from "zod";
-// helper functions
 import {
   youtubeValidator,
   twitterValidator,
@@ -14,19 +13,11 @@ import {
   textNodeDataValidaor,
 } from "@repo/common/validator";
 import { extractTweetId, getUserId } from "@/utils/helper";
-import { createClient } from "@supabase/supabase-js";
-
-if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
-  throw new Error("Please provide SUPABASE_URL and SUPABASE_KEY in .env file");
-}
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY
-);
+import { supabase } from "@/utils/supabaseClient";
+import { AuthRequest } from "@/middlewares/authMiddleware";
 
 export async function fetchYoutubeVideoDetails(
-  request: Request,
+  request: AuthRequest,
   response: Response
 ) {
   try {
@@ -83,7 +74,7 @@ export async function fetchYoutubeVideoDetails(
   }
 }
 
-export async function fetchTweets(request: Request, response: Response) {
+export const fetchTweets = async (request: AuthRequest, response: Response) => {
   try {
     const { tweetUrl } = twitterValidator.parse(request.body);
     const tweetId = extractTweetId(tweetUrl);
@@ -134,9 +125,12 @@ export async function fetchTweets(request: Request, response: Response) {
       response.status(500).json({ error: "An unknown error occurred" });
     }
   }
-}
+};
 
-export async function fetchWebsiteUrl(request: Request, response: Response) {
+export async function fetchWebsiteUrl(
+  request: AuthRequest,
+  response: Response
+) {
   try {
     const { url } = websiteUrlValidator.parse(request.body);
     const app = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
@@ -186,7 +180,10 @@ export async function fetchWebsiteUrl(request: Request, response: Response) {
   }
 }
 
-export async function saveLocalFileData(request: Request, response: Response) {
+export async function saveLocalFileData(
+  request: AuthRequest,
+  response: Response
+) {
   try {
     const paths = localFileUploadDetailsValidator.parse(request.body);
 
@@ -222,7 +219,10 @@ export async function saveLocalFileData(request: Request, response: Response) {
   }
 }
 
-export async function saveRemoteFileData(request: Request, response: Response) {
+export async function saveRemoteFileData(
+  request: AuthRequest,
+  response: Response
+) {
   try {
     const data = remoteFileUploadDetailsValidator.parse(request.body);
 
@@ -258,7 +258,10 @@ export async function saveRemoteFileData(request: Request, response: Response) {
   }
 }
 
-export async function saveTextNodeData(request: Request, response: Response) {
+export async function saveTextNodeData(
+  request: AuthRequest,
+  response: Response
+) {
   try {
     const { name, description } = textNodeDataValidaor.parse(request.body);
 
@@ -289,6 +292,8 @@ export async function saveTextNodeData(request: Request, response: Response) {
   }
 }
 
-export function getUsersAdmin(request: Request, response: Response) {
+export function getUsersAdmin(request: AuthRequest, response: Response) {
+  console.log(request.userId, request.email, request.displayName);
+
   response.status(200).json("Sorry, cant find that");
 }

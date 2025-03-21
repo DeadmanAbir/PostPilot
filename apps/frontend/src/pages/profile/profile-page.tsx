@@ -1,7 +1,4 @@
-"use client";
-
 import type React from "react";
-
 import { useState } from "react";
 import {
   ArrowLeft,
@@ -45,6 +42,8 @@ import {
 import { Link } from "@tanstack/react-router";
 import { supabase } from "@/lib/supabaseClient";
 import { useNavigate } from "@tanstack/react-router";
+import { useAuth } from "@/providers/supabaseAuthProvider";
+
 interface Course {
   id: string;
   title: string;
@@ -118,10 +117,54 @@ const tasks: Task[] = [
 
 export function ProfilePage() {
   const navigate = useNavigate();
-
+  const { user } = useAuth();
   const [name, setName] = useState("");
   const [profileImage, setProfileImage] = useState("/placeholder.svg");
   const [editName, setEditName] = useState("");
+
+  const handleConnect = async () => {
+    try {
+      const response = await fetch(
+        `/api/linkedin/get-credentials?userId=${user?.user?.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user?.accessToken}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      console.log(data.authUrl);
+
+      window.location.href = data.authUrl;
+    } catch (error) {
+      console.error("LinkedIn connection error:", error);
+    }
+  };
+
+  const handlePost = async () => {
+    try {
+      const response = await fetch("/api/linkedin/post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: "hiii2322288",
+          visibility: "PUBLIC",
+        }),
+      });
+
+      const data = await response.json();
+      console.log(data);
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to post to LinkedIn");
+      }
+    } catch (error) {
+      console.error("LinkedIn post error:", error);
+    }
+  };
 
   const handleNameChange = () => {
     if (editName.trim()) {
@@ -288,8 +331,9 @@ export function ProfilePage() {
                       Connected as {name}
                     </p>
                   </div>
-                  <Button variant="outline" size="sm">
-                    Manage
+
+                  <Button onClick={handleConnect} variant="outline" size="sm">
+                    Connect
                   </Button>
                 </div>
               </CardContent>
@@ -441,6 +485,9 @@ export function ProfilePage() {
                 </AlertDialog>
               </CardContent>
             </Card>
+            <Button onClick={handlePost} variant="default">
+              Post
+            </Button>
           </div>
         </div>
       </div>
