@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import "dotenv/config";
 import createError from "http-errors";
 import { ZodError } from "zod";
@@ -18,9 +18,10 @@ import {
   linkedinPostValidator,
 } from "@repo/common/validator";
 import { supabase } from "@/utils/supabaseClient";
+import { AuthRequest } from "@/middlewares/authMiddleware";
 
 export async function getLinkedinCredentials(
-  request: Request,
+  request: AuthRequest,
   response: Response
 ) {
   try {
@@ -55,7 +56,7 @@ export async function getLinkedinCredentials(
 }
 
 export async function handleLinkedinCallback(
-  request: Request,
+  request: AuthRequest,
   response: Response
 ) {
   try {
@@ -107,7 +108,10 @@ export async function handleLinkedinCallback(
   }
 }
 
-export async function getLinkedinStatus(request: Request, response: Response) {
+export async function getLinkedinStatus(
+  request: AuthRequest,
+  response: Response
+) {
   try {
     const { data, error } = await supabase
       .from("linkedin")
@@ -142,7 +146,7 @@ export async function getLinkedinStatus(request: Request, response: Response) {
   }
 }
 
-export async function postToLinkedin(request: Request, response: Response) {
+export async function postToLinkedin(request: AuthRequest, response: Response) {
   try {
     const { text, shareUrl, title, visibility } = linkedinPostValidator.parse(
       request.body

@@ -5,11 +5,21 @@ import postRouter from "@/routes/post-generation.route";
 import profileRouter from "@/routes/user-route";
 import linkedinRouter from "@/routes/linkedin-auth-route";
 import cors from "cors";
+import { authMiddleware } from "./middlewares/authMiddleware";
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
+
+const publicRoutes = ["/"];
+
+app.use((req, res, next) => {
+  if (publicRoutes.includes(req.path)) {
+    return next();
+  }
+  authMiddleware(req, res, next);
+});
 
 app.get("/", (req, res) => {
   res.send("Hello Worldss!");
