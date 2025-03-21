@@ -63,7 +63,7 @@ export const createClient = (llm: "OpenAI" | "Gemini") => {
  * Generate LinkedIn authorization URL
  */
 export function getLinkedInAuthUrl(state: string): string {
-  const scope = "r_liteprofile r_emailaddress w_member_social";
+  const scope = "openid email w_member_social";
   // LinkedIn OAuth configuration
 
   const LINKEDIN_CLIENT_ID = process.env.LINKEDIN_CLIENT_ID as string;
@@ -83,7 +83,7 @@ export function getLinkedInAuthUrl(state: string): string {
     `response_type=code&` +
     `client_id=${LINKEDIN_CLIENT_ID}&` +
     `redirect_uri=${encodeURIComponent(LINKEDIN_REDIRECT_URI)}&` +
-    `scope=${encodeURIComponent(scope)}&` +
+    `scope=profile%20email%20w_member_social%20openid&` +
     `state=${encodeURIComponent(state)}`
   );
 }
@@ -330,7 +330,7 @@ export async function postToLinkedIn(
   content: PostContent
 ): Promise<string> {
   try {
-    const { text, shareUrl, title, visibility = "CONNECTIONS" } = content;
+    const { text, shareUrl, title, visibility = "PUBLIC" } = content;
 
     // Create post payload
     const postPayload: any = {

@@ -12,6 +12,6 @@ router.get("/status", getLinkedinStatus);
 router.get("/callback", handleLinkedinCallback);
 
 router.post("/post", postToLinkedin);
-router.post("/get-credentials", getLinkedinCredentials);
+router.get("/get-credentials", getLinkedinCredentials);
 
 export default router;

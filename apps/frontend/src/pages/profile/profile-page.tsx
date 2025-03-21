@@ -45,6 +45,8 @@ import { supabase } from "@/lib/supabaseClient";
 import { useNavigate } from "@tanstack/react-router";
 import axios from "axios";
 import LinkedInConnect from "./profileComponents/linkedin-connect";
+import { useAuth } from "@/providers/supabaseAuthProvider";
+
 interface Course {
   id: string;
   title: string;
@@ -118,44 +120,71 @@ const tasks: Task[] = [
 
 export function ProfilePage() {
   const navigate = useNavigate();
-
+  const { user } = useAuth();
   const [name, setName] = useState("");
   const [profileImage, setProfileImage] = useState("/placeholder.svg");
   const [editName, setEditName] = useState("");
 
-  const [isLinkedInConnected, setIsLinkedInConnected] = useState(false);
   const [message, setMessage] = useState<{
     text: string;
     type: "success" | "error";
   } | null>(null);
 
-  // Check if LinkedIn is already connected
-  useEffect(() => {
-    const checkLinkedInConnection = async () => {
-      try {
-        const response = await axios.get("/api/linkedin/status");
-        setIsLinkedInConnected(response.data.connected);
-      } catch (error) {
-        console.error("Error checking LinkedIn status:", error);
-      }
-    };
+  const handleConnect = async () => {
+    try {
+      // Call the get-credentials endpoint to start the OAuth flow
+      const response = await fetch(
+        `/api/linkedin/get-credentials?userId=${user?.user?.id}`
+      );
+      const data = await response.json();
 
-    checkLinkedInConnection();
-  }, []);
-
-  const handleSuccess = () => {
-    setIsLinkedInConnected(true);
-    setMessage({
-      text: "LinkedIn account connected successfully!",
-      type: "success",
-    });
+      console.log(data.authUrl);
+      // Open the LinkedIn authorization URL in a popup window
+      // const authWindow = window.open(
+      //   data.authUrl,
+      //   "LinkedIn Authorization",
+      //   "width=600,height=600"
+      // );
+      window.location.href = data.authUrl;
+    } catch (error) {
+      console.error("LinkedIn connection error:", error);
+      setMessage({
+        text: error as string,
+        type: "error",
+      });
+    }
   };
 
-  const handleFailure = (error: string) => {
-    setMessage({
-      text: `LinkedIn connection failed: ${error}`,
-      type: "error",
-    });
+  const handlePost = async () => {
+    try {
+      const response = await fetch("/api/linkedin/post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: "hiii",
+        }),
+      });
+
+      const data = await response.json();
+      console.log(data);
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to post to LinkedIn");
+      }
+
+      setMessage({
+        text: "Successfully posted to LinkedIn!",
+        type: "success",
+      });
+    } catch (error) {
+      console.error("LinkedIn post error:", error);
+      setMessage({
+        text:
+          error instanceof Error ? error.message : "Error posting to LinkedIn",
+        type: "error",
+      });
+    }
   };
 
   const handleNameChange = () => {
@@ -324,16 +353,9 @@ export function ProfilePage() {
                     </p>
                   </div>
 
-                  {isLinkedInConnected ? (
-                    <Button variant="outline" size="sm">
-                      Connected
-                    </Button>
-                  ) : (
-                    <LinkedInConnect
-                      onSuccess={handleSuccess}
-                      onFailure={handleFailure}
-                    />
-                  )}
+                  <Button onClick={handleConnect} variant="outline" size="sm">
+                    Connect
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -484,6 +506,9 @@ export function ProfilePage() {
                 </AlertDialog>
               </CardContent>
             </Card>
+            <Button onClick={handlePost} variant="default">
+              Post
+            </Button>
           </div>
         </div>
       </div>

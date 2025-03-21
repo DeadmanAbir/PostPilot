@@ -71,6 +71,10 @@ export async function handleLinkedinCallback(
   try {
     const { code, state, error } = request.query;
 
+    // console.log("code: ", code);
+    // console.log("state: ", state);
+    // console.log("error: ", error);
+    console.log("callback triggered");
     if (error) {
       response
         .status(400)
@@ -81,6 +85,7 @@ export async function handleLinkedinCallback(
     // Validate state to prevent CSRF attacks
     // Extract user ID from state (in a real app, you'd validate against a stored state)
     const stateParts = (state as string).split("_");
+    console.log("stateParts: ", stateParts.length);
     if (stateParts.length !== 2) {
       response.status(400).json({ error: "Invalid state parameter" });
       return;
@@ -89,10 +94,15 @@ export async function handleLinkedinCallback(
     const userId = getUserId();
 
     // Exchange authorization code for access token
+    console.log("getting token: ");
     const tokenData = await exchangeCodeForToken(code as string);
+
+    console.log("tokenData: ", tokenData);
 
     // Get user's LinkedIn profile to get their LinkedIn ID
     const profile = await getLinkedInProfile(tokenData.access_token);
+
+    console.log("profile: ", profile);
 
     // Store credentials in Supabase
     const stored = await storeCredentialsInDB(
@@ -103,24 +113,28 @@ export async function handleLinkedinCallback(
       profile.id
     );
 
+    console.log("stored: ", stored);
+
     if (!stored) {
       response
         .status(500)
         .json({ error: "Failed to store LinkedIn credentials" });
     }
-
+    console.log("redirecting to profile");
     // Redirect to a successful connection page or close the popup window
-    response.send(`
-      <html>
-        <body>
-          <script>
-            window.opener.postMessage({ type: 'LINKEDIN_AUTH_SUCCESS' }, '*');
-            window.close();
-          </script>
-          <p>LinkedIn account connected successfully! You can close this window.</p>
-        </body>
-      </html>
-    `);
+    // response.send(`
+    //   <html>
+    //     <body>
+    //       <script>
+    //         window.opener.postMessage({ type: 'LINKEDIN_AUTH_SUCCESS' }, '*');
+    //         window.close();
+    //       </script>
+    //       <p>LinkedIn account connected successfully! You can close this window.</p>
+    //     </body>
+    //   </html>
+    // `);
+
+    response.redirect(`http://localhost:5173/profile`);
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {
