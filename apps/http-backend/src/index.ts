@@ -1,18 +1,35 @@
 import express from "express";
-// import {DemoType} from "@repo/common/types";
 import fileRouter from "@/routes/context-processing-route";
 import postRouter from "@/routes/post-generation.route";
 import profileRouter from "@/routes/user-route";
 import linkedinRouter from "@/routes/linkedin-auth-route";
 import cors from "cors";
 import { authMiddleware } from "./middlewares/authMiddleware";
+import session from "express-session";
+
+declare module "express-session" {
+  interface SessionData {
+    userId: string;
+  }
+}
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 
-const publicRoutes = ["/"];
+app.use(
+  session({
+    secret: "your-secret-key", // Replace with a secure random string
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
+    },
+  })
+);
+
+const publicRoutes = ["/", "/api/linkedin/callback"];
 
 app.use((req, res, next) => {
   if (publicRoutes.includes(req.path)) {

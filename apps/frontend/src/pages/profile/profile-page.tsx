@@ -124,10 +124,15 @@ export function ProfilePage() {
 
   const handleConnect = async () => {
     try {
-      // Call the get-credentials endpoint to start the OAuth flow
       const response = await fetch(
-        `/api/linkedin/get-credentials?userId=${user?.user?.id}`
+        `/api/linkedin/get-credentials?userId=${user?.user?.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user?.accessToken}`,
+          },
+        }
       );
+
       const data = await response.json();
 
       console.log(data.authUrl);

@@ -10,8 +10,8 @@ const router: Router = express.Router();
 
 router.get("/status", getLinkedinStatus);
 router.get("/callback", handleLinkedinCallback);
+router.get("/get-credentials", getLinkedinCredentials);
 
 router.post("/post", postToLinkedin);
-router.get("/get-credentials", getLinkedinCredentials);
 
 export default router;

@@ -47,7 +47,6 @@ export const textNodeDataValidaor = z.object({
 
 export const linkedinCallbackValidator = z.object({
   code: z.string(),
-  state: z.string(),
   error: z.string().optional(),
 });
 

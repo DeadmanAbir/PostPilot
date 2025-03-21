@@ -7,7 +7,6 @@ import {
   getCredentialsFromDB,
   getLinkedInAuthUrl,
   getLinkedInProfile,
-  getUserId,
   postToLinkedIn,
   storeCredentialsInDB,
   validateAndRefreshToken,
@@ -19,26 +18,22 @@ import {
 } from "@repo/common/validator";
 import { supabase } from "@/utils/supabaseClient";
 import { AuthRequest } from "@/middlewares/authMiddleware";
+import { get } from "http";
 
 export async function getLinkedinCredentials(
   request: AuthRequest,
   response: Response
 ) {
   try {
-    const userId = getUserId();
-
-    if (!userId) {
-      response.status(400).json({ error: "User ID is required" });
-      return;
-    }
-
+    const userId = request.userId;
     const state = crypto.randomBytes(20).toString("hex");
 
+    request.session.userId = userId;
     // Store state in session or database (using userId as key)
     // In a real application, you would store this in a secure session or temporary database record
     // For simplicity, we'll just include it in the redirect_uri
 
-    const authUrl = getLinkedInAuthUrl(`${state}_${userId}`);
+    const authUrl = getLinkedInAuthUrl(state);
 
     response.status(200).json({ authUrl });
   } catch (e: unknown) {
@@ -60,21 +55,14 @@ export async function handleLinkedinCallback(
   response: Response
 ) {
   try {
-    const { code, state, error } = linkedinCallbackValidator.parse(
-      request.query
-    );
+    const { code, error } = linkedinCallbackValidator.parse(request.query);
 
     if (error) {
       throw createError(400, `LinkedIn authorization error: ${error}`);
     }
 
-    const stateParts = (state as string).split("_");
-
-    if (stateParts.length !== 2) {
-      throw createError(400, "Invalid state parameter");
-    }
-
-    const userId = getUserId();
+    console.log("callback session : ", request.session.userId);
+    const userId = request.session.userId;
 
     const tokenData = await exchangeCodeForToken(code as string);
 
@@ -82,7 +70,7 @@ export async function handleLinkedinCallback(
     const profile = await getLinkedInProfile(tokenData.access_token);
 
     const stored = await storeCredentialsInDB(
-      userId,
+      userId!,
       tokenData.access_token,
       tokenData.expires_in,
       profile.id,
@@ -92,8 +80,12 @@ export async function handleLinkedinCallback(
     if (!stored) {
       throw createError(500, "Failed to store LinkedIn credentials");
     }
-
-    response.redirect(process.env.REDIRECT_URL!);
+    request.session.destroy((err) => {
+      if (err) {
+        console.error("could not destroy session", err);
+      }
+      response.redirect(process.env.REDIRECT_URL!);
+    });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {
@@ -116,7 +108,7 @@ export async function getLinkedinStatus(
     const { data, error } = await supabase
       .from("linkedin")
       .select("id, linkedin_id, expires_at")
-      .eq("user_id", getUserId())
+      .eq("user_id", request.userId)
       .single();
 
     if (error) {
@@ -152,7 +144,7 @@ export async function postToLinkedin(request: AuthRequest, response: Response) {
       request.body
     );
 
-    const userId = getUserId();
+    const userId = request.userId;
 
     const credentials = await getCredentialsFromDB(userId);
 
