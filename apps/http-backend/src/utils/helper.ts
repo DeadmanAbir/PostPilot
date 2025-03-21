@@ -11,18 +11,12 @@ interface LinkedInCredentials {
   expires_at?: string;
   linkedin_id: string;
 }
+import { PostContent } from "@repo/common/types";
 
-interface PostContent {
-  text: string;
-  shareUrl?: string;
-  title?: string;
-  visibility: "PUBLIC" | "CONNECTIONS";
-}
-
-export function extractTweetId(url: string): string | null {
+export const extractTweetId = (url: string): string | null => {
   const match = url.match(/status\/(\d+)/);
   return match?.[1] ?? null;
-}
+};
 
 export const improvePrompt = async (prompt: string): Promise<string> => {
   try {
@@ -58,12 +52,7 @@ export const createClient = (llm: "OpenAI" | "Gemini") => {
   return chatGemini;
 };
 
-/**
- * Generate LinkedIn authorization URL
- */
-export function getLinkedInAuthUrl(state: string): string {
-  // LinkedIn OAuth configuration
-
+export const getLinkedInAuthUrl = (state: string): string => {
   const LINKEDIN_CLIENT_ID = process.env.LINKEDIN_CLIENT_ID as string;
   const LINKEDIN_CLIENT_SECRET = process.env.LINKEDIN_CLIENT_SECRET as string;
   const LINKEDIN_REDIRECT_URI = process.env.LINKEDIN_REDIRECT_URI as string;
@@ -84,12 +73,14 @@ export function getLinkedInAuthUrl(state: string): string {
     `scope=profile%20email%20w_member_social%20openid&` +
     `state=${encodeURIComponent(state)}`
   );
-}
+};
 
-export async function exchangeCodeForToken(code: string): Promise<{
+export const exchangeCodeForToken = async (
+  code: string
+): Promise<{
   access_token: string;
   expires_in: number;
-}> {
+}> => {
   const LINKEDIN_CLIENT_ID = process.env.LINKEDIN_CLIENT_ID as string;
   const LINKEDIN_CLIENT_SECRET = process.env.LINKEDIN_CLIENT_SECRET as string;
   const LINKEDIN_REDIRECT_URI = process.env.LINKEDIN_REDIRECT_URI as string;
@@ -132,66 +123,11 @@ export async function exchangeCodeForToken(code: string): Promise<{
     console.error("LinkedIn token exchange error:", error);
     throw error;
   }
-}
+};
 
-/**
- * Refresh an expired access token
- */
-export async function refreshLinkedInToken(refreshToken: string): Promise<{
-  access_token: string;
-  refresh_token?: string;
-  expires_in: number;
-}> {
-  const LINKEDIN_CLIENT_ID = process.env.LINKEDIN_CLIENT_ID as string;
-  const LINKEDIN_CLIENT_SECRET = process.env.LINKEDIN_CLIENT_SECRET as string;
-  const LINKEDIN_REDIRECT_URI = process.env.LINKEDIN_REDIRECT_URI as string;
-
-  if (
-    !LINKEDIN_CLIENT_ID ||
-    !LINKEDIN_CLIENT_SECRET ||
-    !LINKEDIN_REDIRECT_URI
-  ) {
-    throw new Error("Missing LinkedIn environment variables");
-  }
-  console.log("getting refresh token");
-  try {
-    const params = new URLSearchParams({
-      grant_type: "refresh_token",
-      refresh_token: refreshToken,
-      client_id: LINKEDIN_CLIENT_ID,
-      client_secret: LINKEDIN_CLIENT_SECRET,
-    });
-
-    const response = await fetch(
-      "https://www.linkedin.com/oauth/v2/accessToken",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: params,
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`LinkedIn API error: ${response.status}`);
-    }
-    const data = await response.json();
-    console.log("response: ", data);
-
-    return data;
-  } catch (error) {
-    console.error("LinkedIn token refresh error:", error);
-    throw error;
-  }
-}
-
-/**
- * Get user profile information from LinkedIn
- */
-export async function getLinkedInProfile(
+export const getLinkedInProfile = async (
   accessToken: string
-): Promise<{ id: string; email: string }> {
+): Promise<{ id: string; email: string; picture?: string }> => {
   try {
     const response = await fetch("https://api.linkedin.com/v2/userinfo", {
       headers: {
@@ -204,27 +140,25 @@ export async function getLinkedInProfile(
     }
 
     const data = await response.json();
-
+    console.log(" profile data: ", data);
     return {
       id: data.sub,
       email: data.email,
+      picture: data.picture,
     };
   } catch (error) {
     console.error("LinkedIn profile error:", error);
     throw error;
   }
-}
-
-export const getUserId = (): string => {
-  return "cc2ae124-4439-4454-831d-5e94b889c192";
 };
 
-/**
- * Get LinkedIn credentials for a user from Supabase
- */
-export async function getCredentialsFromDB(
+export const getUserId = (): string => {
+  return "bd3ab8a6-a4d0-4b15-8242-32b9902f3673";
+};
+
+export const getCredentialsFromDB = async (
   userId: string
-): Promise<LinkedInCredentials | null> {
+): Promise<LinkedInCredentials | null> => {
   try {
     const { data, error } = await supabase
       .from("linkedin")
@@ -242,27 +176,25 @@ export async function getCredentialsFromDB(
     console.error("Error getting LinkedIn credentials:", error);
     return null;
   }
-}
+};
 
-/**
- * Store LinkedIn credentials in Supabase
- */
-export async function storeCredentialsInDB(
+export const storeCredentialsInDB = async (
   userId: string,
   accessToken: string,
   expiresIn: number,
-  linkedinId: string
-): Promise<boolean> {
+  linkedinId: string,
+  picture?: string
+): Promise<boolean> => {
   try {
-    // Calculate token expiration date
     const expiresAt = new Date();
     expiresAt.setSeconds(expiresAt.getSeconds() + expiresIn);
 
     const { error } = await supabase.from("linkedin").upsert({
       user_id: userId,
       access_token: accessToken,
+      profile_pic: picture,
       expires_at: expiresAt.toISOString(),
-      linkedin_id: linkedinId,
+      profile_id: linkedinId,
       updated_at: new Date().toISOString(),
     });
 
@@ -276,19 +208,15 @@ export async function storeCredentialsInDB(
     console.error("Error storing credentials:", error);
     return false;
   }
-}
+};
 
-/**
- * Validate access token and refresh if needed
- */
-export async function validateAndRefreshToken(
-  userId: string,
+export const validateAndRefreshToken = async (
   credentials: LinkedInCredentials
-): Promise<string | null> {
+): Promise<string | null> => {
   try {
     if (
       credentials.expires_at &&
-      new Date(credentials.expires_at) > new Date()
+      new Date(credentials.expires_at) < new Date()
     ) {
       return credentials.access_token;
     }
@@ -299,18 +227,15 @@ export async function validateAndRefreshToken(
     console.error("Access Token Expired:", error);
     return null;
   }
-}
+};
 
-/**
- * Post content to LinkedIn
- */
-export async function postToLinkedIn(
+export const postToLinkedIn = async (
   accessToken: string,
   linkedinId: string,
   content: PostContent
-): Promise<string> {
+): Promise<string> => {
   try {
-    const { text, shareUrl, title, visibility = "PUBLIC" } = content;
+    const { text, shareUrl, title, visibility } = content;
 
     // Create post payload
     const postPayload: any = {
@@ -372,4 +297,4 @@ export async function postToLinkedIn(
     console.error("LinkedIn posting error:", error);
     throw error;
   }
-}
+};

@@ -146,7 +146,7 @@ export function ProfilePage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          text: "hiii23222",
+          text: "hiii2322288",
           visibility: "PUBLIC",
         }),
       });

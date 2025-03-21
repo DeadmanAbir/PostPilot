@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import "dotenv/config";
 import createError from "http-errors";
 import { ZodError } from "zod";
-import { createClient } from "@supabase/supabase-js";
 import {
   exchangeCodeForToken,
   getCredentialsFromDB,
@@ -18,15 +17,7 @@ import {
   linkedinCallbackValidator,
   linkedinPostValidator,
 } from "@repo/common/validator";
-
-if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
-  throw new Error("Please provide SUPABASE_URL and SUPABASE_KEY in .env file");
-}
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY
-);
+import { supabase } from "@/utils/supabaseClient";
 
 export async function getLinkedinCredentials(
   request: Request,
@@ -46,10 +37,8 @@ export async function getLinkedinCredentials(
     // In a real application, you would store this in a secure session or temporary database record
     // For simplicity, we'll just include it in the redirect_uri
 
-    // Generate the LinkedIn authorization URL with the state parameter
     const authUrl = getLinkedInAuthUrl(`${state}_${userId}`);
 
-    // Return the authorization URL to the frontend for redirection
     response.status(200).json({ authUrl });
   } catch (e: unknown) {
     console.log(e);
@@ -86,22 +75,17 @@ export async function handleLinkedinCallback(
 
     const userId = getUserId();
 
-    // Exchange authorization code for access token
-
     const tokenData = await exchangeCodeForToken(code as string);
-
-    console.log("tokenData: ", tokenData);
 
     // Get user's LinkedIn profile to get their LinkedIn ID
     const profile = await getLinkedInProfile(tokenData.access_token);
-
-    console.log("profile: ", profile);
 
     const stored = await storeCredentialsInDB(
       userId,
       tokenData.access_token,
       tokenData.expires_in,
-      profile.id
+      profile.id,
+      profile.picture
     );
 
     if (!stored) {
@@ -131,7 +115,7 @@ export async function getLinkedinStatus(request: Request, response: Response) {
       .eq("user_id", getUserId())
       .single();
 
-    if (!data || error) {
+    if (error) {
       console.log(error);
       response.status(200).json({ connected: false });
       return;
@@ -173,7 +157,7 @@ export async function postToLinkedin(request: Request, response: Response) {
     }
 
     // Validate and refresh token if needed
-    const validAccessToken = await validateAndRefreshToken(userId, credentials);
+    const validAccessToken = await validateAndRefreshToken(credentials);
     if (!validAccessToken) {
       throw createError(401, "LinkedIn authentication expired");
     }
