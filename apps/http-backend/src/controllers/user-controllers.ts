@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { createClient } from "@supabase/supabase-js";
 import "dotenv/config";
 import createError from "http-errors";
 import { ZodError } from "zod";
@@ -7,15 +6,7 @@ import { ZodError } from "zod";
 import { profileIdValidator } from "@repo/common/validator";
 
 import jwt from "jsonwebtoken";
-
-if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
-  throw new Error("Please provide SUPABASE_URL and SUPABASE_KEY in .env file");
-}
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY
-);
+import { supabase } from "@/utils/supabaseClient";
 
 export async function getProfileData(request: Request, response: Response) {
   try {
@@ -48,47 +39,23 @@ export async function getProfileData(request: Request, response: Response) {
 
 export async function addNewUserData(request: Request, response: Response) {
   try {
-    const authHeader = request.headers.authorization;
+    const { data, error } = await supabase
+      .from("users")
+      .insert([
+        {
+          id: request.userId,
+          name: request.displayName,
+          email: request.email,
+        },
+      ])
+      .select();
 
-    if (!authHeader) {
-      throw createError(401, "Unauthorized: No headers provided.");
+    if (error) {
+      console.log(error);
+      throw createError(500, `Failed to insert user data: ${error.message}`);
     }
 
-    const token = authHeader.split(" ")[1];
-
-    if (!token) {
-      throw createError(401, "Unauthorized: No token provided.");
-    }
-
-    const decoded = jwt.verify(token, process.env.SUPABASE_JWT_SECRET!);
-
-    console.log("decoded", decoded);
-    if (
-      typeof decoded !== "string" &&
-      decoded.sub &&
-      decoded.user_metadata &&
-      decoded.email
-    ) {
-      const { data, error } = await supabase
-        .from("users")
-        .insert([
-          {
-            id: decoded.sub,
-            name: decoded.user_metadata.displayName,
-            email: decoded.email,
-          },
-        ])
-        .select();
-
-      if (error) {
-        console.log(error);
-        throw createError(500, `Failed to insert user data: ${error.message}`);
-      }
-
-      response.status(200).json({ data });
-    } else {
-      throw createError(401, "Unauthorized: Invalid token provided.");
-    }
+    response.status(200).json({ data });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {

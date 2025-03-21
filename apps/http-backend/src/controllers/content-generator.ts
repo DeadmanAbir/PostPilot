@@ -4,19 +4,10 @@ import { generatePostPrompt, regeneratePostPrompt } from "@/utils/constant";
 import { ZodError } from "zod";
 import { postGenerateValidator } from "@repo/common/validator";
 import { createClient, getUserId, improvePrompt } from "@/utils/helper";
-import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import "dotenv/config";
 import createError from "http-errors";
 import { AuthRequest } from "@/middlewares/authMiddleware";
-
-if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
-  throw new Error("Please provide SUPABASE_URL and SUPABASE_KEY in .env file");
-}
-
-const supabase = createSupabaseClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY
-);
+import { supabase } from "@/utils/supabaseClient";
 
 export const generatePost = async (
   request: AuthRequest,
