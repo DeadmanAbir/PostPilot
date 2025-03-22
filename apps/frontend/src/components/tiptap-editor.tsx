@@ -114,7 +114,7 @@ export default function Editor({ value, onChange, placeholder }: EditorProps) {
       },
     },
     onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
+      onChange(editor.getText());
     },
   });
 

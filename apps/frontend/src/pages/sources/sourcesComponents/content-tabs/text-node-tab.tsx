@@ -9,7 +9,6 @@ export function TextNoteTab() {
     name: "Text Editor",
     description: "",
   });
-
   return (
     <Card>
       <CardHeader>
@@ -60,6 +59,7 @@ export function TextNoteTab() {
     </Card>
   );
 }
+
 const countWords = (text: string | null | undefined): number => {
   if (!text) {
     return 0;
