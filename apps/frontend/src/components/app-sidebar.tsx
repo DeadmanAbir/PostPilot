@@ -52,7 +52,7 @@ export function AppSidebar() {
     <Sidebar variant="floating" collapsible="icon" className="rounded-r-xl " onMouseLeave={() => setOpen(false)} onMouseEnter={() => setOpen(true)} >
       <SidebarContent>
         <SidebarGroup>
-          {open && (
+          {open ? (
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
@@ -61,6 +61,16 @@ export function AppSidebar() {
               className="text-3xl font-bold my-3 px-2 whitespace-nowrap"
             >
               Post Pilot
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="text-3xl font-bold my-3 px-2 whitespace-nowrap"
+            >
+              P
             </motion.div>
           )}
 

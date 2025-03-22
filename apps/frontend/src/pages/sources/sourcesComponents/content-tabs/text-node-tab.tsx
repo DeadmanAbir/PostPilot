@@ -21,7 +21,7 @@ export function TextNoteTab() {
               name: e.target.value,
             });
           }}
-          className="font-semibold"
+          className="font-semibold outline-none"
         />
       </CardHeader>
       <CardContent>

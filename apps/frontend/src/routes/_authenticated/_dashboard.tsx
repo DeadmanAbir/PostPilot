@@ -1,7 +1,6 @@
 import { AppSidebar } from '@/components/app-sidebar'
 
 import { SidebarProvider } from '@/components/ui/sidebar'
-import { Header } from '@/pages/dashboard/dashboardComponents/header'
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_authenticated/_dashboard')({
@@ -19,7 +18,7 @@ export const Route = createFileRoute('/_authenticated/_dashboard')({
       <hr /> */}
       <SidebarProvider>
         <AppSidebar />
-        <main className='w-full dark:bg-black bg-white '>
+        <main className='w-full dark:bg-black bg-white  max-w-[1440px] mx-auto'>
           <Outlet />
         </main>
       </SidebarProvider>
