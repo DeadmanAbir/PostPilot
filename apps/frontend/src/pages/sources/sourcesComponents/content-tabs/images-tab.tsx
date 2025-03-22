@@ -33,7 +33,7 @@ export function ImagesTab() {
   };
 
   return (
-    <Card>
+    <Card id="imageLoad">
       <CardHeader>
         <CardTitle>Images</CardTitle>
       </CardHeader>
@@ -43,7 +43,7 @@ export function ImagesTab() {
             <TabsTrigger value="local">Local Upload</TabsTrigger>
             <TabsTrigger value="remote">Remote URL</TabsTrigger>
           </TabsList>
-          <TabsContent value="local">
+          <TabsContent id="imageLoad" value="local" className="max-h-[30vh] overflow-y-scroll">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="image-upload">Upload Images</Label>
               <Input
@@ -54,8 +54,36 @@ export function ImagesTab() {
                 onChange={handleLocalImageChange}
               />
             </div>
+            {(localImages.length > 0) && (
+              <div className="mt-4">
+                <h4 className="mb-2 font-semibold">Image Previews:</h4>
+                <div className="flex flex-wrap gap-5">
+                  {localImages.map((file, index) => (
+
+                    <div
+                      key={`local-${index}`}
+                      className="relative aspect-square"
+                    >
+                      <img
+                        src={URL.createObjectURL(file) || "/placeholder.svg"}
+                        alt={`Local image ${index + 1}`}
+                        className="object-cover rounded size-20"
+                      />
+                    </div>
+
+
+                  ))}
+                  <div className="w-full flex items-center justify-center">
+                    <Button variant="default" size="sm" className="w-1/4 mt-5">
+                      Load
+                    </Button>
+                  </div>
+                </div>
+
+              </div>
+            )}
           </TabsContent>
-          <TabsContent value="remote">
+          <TabsContent id="imageLoad" value="remote" className="max-h-[30vh] overflow-y-scroll">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="image-url">Image URL</Label>
               <div className="flex space-x-2">
@@ -68,49 +96,38 @@ export function ImagesTab() {
                 <Button onClick={handleRemoteImageLoad}>Load Image</Button>
               </div>
             </div>
+            {(remoteImages.length > 0) && (
+              <div className="mt-4">
+                <h4 className="mb-2 font-semibold">Image Previews:</h4>
+                <div className="flex flex-wrap gap-5">
+
+                  {remoteImages.map((url, index) => (
+                    <>
+                      <div
+                        key={`remote-${index}`}
+                        className="relative aspect-square"
+                      >
+                        <img
+                          src={url || "/placeholder.svg"}
+                          alt={`Remote image ${index + 1}`}
+                          className="object-cover rounded"
+                        />
+                      </div>
+
+                    </>
+                  ))}
+                </div>
+                <div className="w-full flex items-center justify-center">
+                  <Button variant="default" size="sm" className="w-1/4 mt-5">
+                    Load
+                  </Button>
+                </div>
+
+              </div>
+            )}
           </TabsContent>
         </Tabs>
-        {(localImages.length > 0 || remoteImages.length > 0) && (
-          <div className="mt-4">
-            <h4 className="mb-2 font-semibold">Image Previews:</h4>
-            <div className="grid grid-cols-3 gap-4">
-              {localImages.map((file, index) => (
-                <>
-                  <div
-                    key={`local-${index}`}
-                    className="relative aspect-square"
-                  >
-                    <img
-                      src={URL.createObjectURL(file) || "/placeholder.svg"}
-                      alt={`Local image ${index + 1}`}
-                      className="object-cover rounded"
-                    />
-                  </div>
-                  <Button variant="default" size="sm">
-                    Load
-                  </Button>
-                </>
-              ))}
-              {remoteImages.map((url, index) => (
-                <>
-                  <div
-                    key={`remote-${index}`}
-                    className="relative aspect-square"
-                  >
-                    <img
-                      src={url || "/placeholder.svg"}
-                      alt={`Remote image ${index + 1}`}
-                      className="object-cover rounded"
-                    />
-                  </div>
-                  <Button variant="default" size="sm">
-                    Load
-                  </Button>
-                </>
-              ))}
-            </div>
-          </div>
-        )}
+
       </CardContent>
     </Card>
   );

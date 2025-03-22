@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/lib/supabaseClient";
 import { LocalFileUploadDetail } from "@repo/common/types";
 import { useAuth } from "@/providers/supabaseAuthProvider";
+import { motion, AnimatePresence } from "motion/react";
 
 export function FilesTab() {
   const { user } = useAuth();
@@ -81,7 +82,7 @@ export function FilesTab() {
             <TabsTrigger value="local">Local Upload</TabsTrigger>
             <TabsTrigger value="remote">Remote URL</TabsTrigger>
           </TabsList>
-          <TabsContent value="local">
+          <TabsContent id="imageLoad" value="local" className="max-h-[30vh] overflow-y-scroll">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="file-upload">Upload Files</Label>
               <Input
@@ -95,13 +96,18 @@ export function FilesTab() {
             {localFiles.length > 0 && (
               <div className="mt-4">
                 <h4 className="mb-2 font-semibold">Uploaded Files:</h4>
-                <ul className="space-y-2">
+                <ul className="gap-2 flex flex-wrap ">
+                <AnimatePresence>
                   {localFiles.map((file, index) => (
-                    <li
-                      key={index}
-                      className="flex items-center justify-between bg-muted p-2 rounded"
-                    >
-                      <span>{file.name}</span>
+                    <motion.li
+                    key={index}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 10 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex items-center justify-between bg-muted px-3 py-1 rounded-full"
+                  >
+                      <span className="truncate w-20 ">{file.name}</span>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -109,12 +115,16 @@ export function FilesTab() {
                       >
                         <X className="h-4 w-4" />
                       </Button>
-                    </li>
+                    </motion.li>
                   ))}
+                  </AnimatePresence>
                 </ul>
-                <Button variant="default" size="sm">
-                  Load
-                </Button>
+                <div className="w-full flex items-center justify-center mt-2">
+                  <Button variant="default" size="sm" className="w-1/4">
+                    Load
+                  </Button>
+                </div>
+
               </div>
             )}
           </TabsContent>
@@ -134,13 +144,18 @@ export function FilesTab() {
             {remoteFiles.length > 0 && (
               <div className="mt-4">
                 <h4 className="mb-2 font-semibold">Remote Files:</h4>
-                <ul className="space-y-2">
+                <ul className="gap-2 flex flex-wrap ">
+                <AnimatePresence>
                   {remoteFiles.map((url, index) => (
-                    <li
-                      key={index}
-                      className="flex items-center justify-between bg-muted p-2 rounded"
-                    >
-                      <span className="truncate">{url}</span>
+                     <motion.li
+                     key={index}
+                     initial={{ opacity: 0, x: -10 }}
+                     animate={{ opacity: 1, x: 0 }}
+                     exit={{ opacity: 0, x: 10 }}
+                     transition={{ duration: 0.2 }}
+                     className="flex items-center justify-between bg-muted px-3 py-1 rounded-full"
+                   >
+                      <span className="truncate w-20 ">{url}</span>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -148,12 +163,15 @@ export function FilesTab() {
                       >
                         <X className="h-4 w-4" />
                       </Button>
-                    </li>
+                    </motion.li>
                   ))}
+                  </AnimatePresence>
                 </ul>
-                <Button variant="default" size="sm">
-                  Load
-                </Button>
+                <div className="w-full flex items-center justify-center mt-2">
+                  <Button variant="default" size="sm" className="w-1/4">
+                    Load
+                  </Button>
+                </div>
               </div>
             )}
           </TabsContent>
