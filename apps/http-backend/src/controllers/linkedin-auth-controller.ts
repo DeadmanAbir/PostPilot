@@ -156,10 +156,9 @@ export async function postToLinkedin(request: AuthRequest, response: Response) {
     if (!validAccessToken) {
       throw createError(401, "LinkedIn authentication expired");
     }
-
     const postId = await postToLinkedIn(
       validAccessToken,
-      credentials.linkedin_id,
+      credentials.profile_id,
       {
         text,
         shareUrl,
