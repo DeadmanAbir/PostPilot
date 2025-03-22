@@ -15,8 +15,7 @@ import {
 } from "@/components/ui/sidebar"
 import { NavUser } from "./nav-user"
 import { Link } from "@tanstack/react-router"
-import { ModeToggle } from "./mode-toggle"
-import { Button } from "./ui/button"
+
 import { useTheme } from "@/providers/theme-provider"
 
 // Menu items.
