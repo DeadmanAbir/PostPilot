@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
 import { Button } from "../../../components/ui/button";
 import { Calendar } from "../../../components/ui/calendar";
 import { Input } from "../../../components/ui/input";
@@ -9,7 +14,7 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+} from "@/components/ui/collapsible";
 
 import {
   Dialog,
@@ -51,97 +56,83 @@ const mockUpcomingPosts: ScheduledPost[] = [
     content: "Join us for a live webinar",
     image: "/placeholder.svg?height=40&width=40",
   },
-  {
-    id: "4",
-    date: new Date(2024, 2, 18),
-    time: "11:00",
-    content: "Industry insights: New trends for 2024",
-    image: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: "5",
-    date: new Date(2024, 2, 19),
-    time: "16:00",
-    content: "Customer success story: How Company X increased productivity",
-    image: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: "6",
-    date: new Date(2024, 2, 20),
-    time: "13:00",
-    content: "Tips for effective networking on LinkedIn",
-    image: "/placeholder.svg?height=40&width=40",
-  },
 ];
-const avatars = [
-  {
-    imageUrl: "https://github.com/faisal004.png",
-    profileUrl: "https://github.com/faisal004",
-  },
-  {
-    imageUrl: "https://github.com/faisal004.png",
-    profileUrl: "https://github.com/faisal004",
-  }, {
-    profileUrl: "https://github.com/faisal004",
-    imageUrl: "https://github.com/faisal004.png",
-  }, {
-    imageUrl: "https://github.com/faisal004.png",
-    profileUrl: "https://github.com/faisal004",
-  }, {
-    imageUrl: "https://github.com/faisal004.png",
-    profileUrl: "https://github.com/faisal004",
-  }, {
-    imageUrl: "https://github.com/faisal004.png",
-    profileUrl: "https://github.com/faisal004",
-  }, {
-    imageUrl: "https://github.com/faisal004.png",
-    profileUrl: "https://github.com/faisal004",
-  }, {
-    imageUrl: "https://github.com/faisal004.png",
-    profileUrl: "https://github.com/faisal004",
-  },
-];
+
+const avatars = Array(10).fill({
+  imageUrl: "https://github.com/faisal004.png",
+  profileUrl: "https://github.com/faisal004",
+});
+
 export function SchedulingSidebar() {
-  const [date, setDate] = useState<Date | undefined>(new Date());
-  const [time, setTime] = useState("12:00");
-  const [open, setOpen] = useState(false)
+  const getCurrentTime = () => {
+    const now = new Date();
+    return now.toTimeString().slice(0, 5); // Extracts "HH:MM"
+  };
+
+  const [date, setDate] = useState<Date>(new Date());
+  const [time, setTime] = useState(getCurrentTime());
+  const [open, setOpen] = useState(false);
   const [scheduledPosts, setScheduledPosts] =
     useState<ScheduledPost[]>(mockUpcomingPosts);
   const [selectedPost, setSelectedPost] = useState<ScheduledPost | null>(null);
 
   const handleSchedule = () => {
-    if (date) {
-      const newPost: ScheduledPost = {
-        id: (scheduledPosts.length + 1).toString(),
-        date,
-        time,
-        content: "New scheduled post",
-        image: "/placeholder.svg?height=40&width=40",
-      };
-      setScheduledPosts([...scheduledPosts, newPost]);
+    const today = new Date();
+    const selectedDate = new Date(date);
+    selectedDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    // Prevent scheduling past dates
+    if (selectedDate < today) {
+      alert("Cannot schedule a post in the past.");
+      return;
     }
+
+    // Prevent scheduling past times for today
+    if (
+      selectedDate.getTime() === today.getTime() &&
+      time < getCurrentTime()
+    ) {
+      alert("Cannot schedule a post in the past time.");
+      return;
+    }
+
+    const newPost: ScheduledPost = {
+      id: (scheduledPosts.length + 1).toString(),
+      date,
+      time,
+      content: "New scheduled post",
+      image: "/placeholder.svg?height=40&width=40",
+    };
+
+    setScheduledPosts([...scheduledPosts, newPost]);
+    setOpen(false); // Close the collapsible after scheduling
   };
 
   return (
-    <aside className="w-96 border-l bg-muted p-4 overflow-y-auto">
+    <aside className="w-96 border-l bg-muted p-4 overflow-y-auto" id="imageLoad">
       <Card className="mb-4">
         <CardHeader>
           <CardTitle>Upcoming Posts</CardTitle>
         </CardHeader>
         <CardContent>
-          <AvatarCircles numPeople={10} avatarUrls={avatars} />
+          <AvatarCircles numPeople={avatars.length} avatarUrls={avatars} />
         </CardContent>
       </Card>
+
       <Collapsible open={open} onOpenChange={setOpen}>
         <CollapsibleTrigger asChild>
           <Button className="w-full mb-3 flex justify-between items-center">
-            <span> Schedule Post</span>
-            {open ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            <span>Schedule Post</span>
+            {open ? (
+              <ChevronUp className="w-4 h-4" />
+            ) : (
+              <ChevronDown className="w-4 h-4" />
+            )}
           </Button>
         </CollapsibleTrigger>
         <CollapsibleContent>
-          <Card >
-
+          <Card>
             <CardContent className="p-4">
               <div className="space-y-4">
                 <div>
@@ -149,7 +140,7 @@ export function SchedulingSidebar() {
                   <Calendar
                     mode="single"
                     selected={date}
-                    onSelect={setDate}
+                    onSelect={(newDate) => newDate && setDate(newDate)}
                     className="rounded-md border"
                   />
                 </div>
@@ -159,6 +150,7 @@ export function SchedulingSidebar() {
                     id="time"
                     type="time"
                     value={time}
+                    min={date.toDateString() === new Date().toDateString() ? getCurrentTime() : undefined}
                     onChange={(e) => setTime(e.target.value)}
                   />
                 </div>
@@ -170,8 +162,6 @@ export function SchedulingSidebar() {
           </Card>
         </CollapsibleContent>
       </Collapsible>
-
-
 
       <Dialog open={!!selectedPost} onOpenChange={() => setSelectedPost(null)}>
         <DialogContent>
