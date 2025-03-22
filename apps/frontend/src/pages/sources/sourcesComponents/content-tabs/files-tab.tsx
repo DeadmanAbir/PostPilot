@@ -81,7 +81,7 @@ export function FilesTab() {
             <TabsTrigger value="local">Local Upload</TabsTrigger>
             <TabsTrigger value="remote">Remote URL</TabsTrigger>
           </TabsList>
-          <TabsContent value="local">
+          <TabsContent id="imageLoad" value="local" className="max-h-[30vh] overflow-y-scroll">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="file-upload">Upload Files</Label>
               <Input
@@ -95,13 +95,13 @@ export function FilesTab() {
             {localFiles.length > 0 && (
               <div className="mt-4">
                 <h4 className="mb-2 font-semibold">Uploaded Files:</h4>
-                <ul className="space-y-2">
+                <ul className="gap-2 flex flex-wrap ">
                   {localFiles.map((file, index) => (
                     <li
                       key={index}
-                      className="flex items-center justify-between bg-muted p-2 rounded"
+                      className="flex items-center justify-between bg-muted px-3 py-1 rounded-full "
                     >
-                      <span>{file.name}</span>
+                      <span className="truncate w-20 ">{file.name}</span>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -112,9 +112,12 @@ export function FilesTab() {
                     </li>
                   ))}
                 </ul>
-                <Button variant="default" size="sm">
-                  Load
-                </Button>
+                <div className="w-full flex items-center justify-center mt-2">
+                  <Button variant="default" size="sm" className="w-1/4">
+                    Load
+                  </Button>
+                </div>
+
               </div>
             )}
           </TabsContent>
@@ -134,13 +137,13 @@ export function FilesTab() {
             {remoteFiles.length > 0 && (
               <div className="mt-4">
                 <h4 className="mb-2 font-semibold">Remote Files:</h4>
-                <ul className="space-y-2">
+                <ul className="gap-2 flex flex-wrap ">
                   {remoteFiles.map((url, index) => (
                     <li
                       key={index}
-                      className="flex items-center justify-between bg-muted p-2 rounded"
+                      className="flex items-center justify-between bg-muted px-3 py-1 rounded-full "
                     >
-                      <span className="truncate">{url}</span>
+                      <span className="truncate w-20 ">{url}</span>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -151,9 +154,11 @@ export function FilesTab() {
                     </li>
                   ))}
                 </ul>
-                <Button variant="default" size="sm">
-                  Load
-                </Button>
+                <div className="w-full flex items-center justify-center mt-2">
+                  <Button variant="default" size="sm" className="w-1/4">
+                    Load
+                  </Button>
+                </div>
               </div>
             )}
           </TabsContent>
