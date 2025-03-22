@@ -1,5 +1,6 @@
 import {
   ConnectToLinkedinResponse,
+  PostDetail,
   ProfileDetails,
   ProfileUpdateResponse,
 } from "@repo/common/types";
@@ -27,3 +28,16 @@ export const updateProfileQuery = (
     ...options,
   });
 };
+
+// export const generatePostQuery = (
+//   accessToken: string,
+//   details: PostDetail,
+//   options = {}
+// ) => {
+//   return useQuery<ProfileUpdateResponse>({
+//     queryKey: ["linkedin_post"],
+//     queryFn: () => updateProfile(accessToken!, details),
+//     enabled: false,
+//     ...options,
+//   });
+// };

@@ -3,6 +3,7 @@ import {
   demoValidator,
   linkedinPostValidator,
   localFileUploadDetailsValidator,
+  postGenerateValidator,
   profileUpdateValidator,
   remoteFileUploadDetailsValidator,
 } from "./validator";
@@ -26,5 +27,7 @@ export type ConnectToLinkedinResponse = {
 export type ProfileUpdateResponse = {
   success: boolean;
 };
+
+export type PostDetail = z.infer<typeof postGenerateValidator>;
 
 export type ProfileDetails = z.infer<typeof profileUpdateValidator>;

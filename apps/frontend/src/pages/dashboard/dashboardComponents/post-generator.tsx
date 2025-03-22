@@ -20,12 +20,15 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Check, Search, X } from "lucide-react";
 import { RegenerateModal } from "@/components/regenerate-modal";
-import { Switch } from "@/components/ui/switch"
+import { Switch } from "@/components/ui/switch";
 import { motion } from "motion/react";
+import { useAuth } from "@/providers/supabaseAuthProvider";
 
 const options = ["Profile", "Billing", "Team", "Subscription"];
 
 export function PostGenerator() {
+  const { user } = useAuth();
+  console.log(user);
   const [generatedPost, setGeneratedPost] = useState("");
   const [postGenerated, setPostGenerated] = useState(false);
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
@@ -52,7 +55,7 @@ export function PostGenerator() {
       "This is a sample generated post. Replace with actual AI-generated content."
     );
     setLoading(false);
-    setPostGenerated(true)
+    setPostGenerated(true);
   };
 
   const handleRegenerate = async (additionalContext: string) => {
@@ -72,6 +75,7 @@ export function PostGenerator() {
             placeholder="Enter your prompt for AI generation..."
             className="min-h-[100px]"
             value={generatedPost}
+            required
             onChange={(e) => setGeneratedPost(e.target.value)}
           />
         </CardContent>
@@ -154,17 +158,18 @@ export function PostGenerator() {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            {postGenerated && <motion.div initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ duration: 0.2 }} className="flex items-center justify-center gap-1">
-              <span>
-                Connection Only
-              </span>
-              <Switch />
-
-            </motion.div>}
-
+            {postGenerated && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.2 }}
+                className="flex items-center justify-center gap-1"
+              >
+                <span>Connection Only</span>
+                <Switch />
+              </motion.div>
+            )}
           </div>
 
           {selectedItems.length > 0 && (

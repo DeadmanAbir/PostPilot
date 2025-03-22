@@ -34,7 +34,7 @@ export const generatePost = async (
       .from("post")
       .insert([
         {
-          user_id: getUserId(),
+          user_id: request.userId,
           user_query: query,
           enhanced_query: parsedPromptData.enhanced_prompt,
           post_content: postData.post_content,
@@ -46,7 +46,7 @@ export const generatePost = async (
       throw createError(500, `Failed to insert post data: ${error}`);
     }
 
-    response.status(200).json(insertedData);
+    response.status(200).json({ insertedData });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {
