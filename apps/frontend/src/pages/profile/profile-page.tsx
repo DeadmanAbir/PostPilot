@@ -44,7 +44,7 @@ import { supabase } from "@/lib/supabaseClient";
 import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { Route } from "@/routes/_authenticated/profile";
-import { connectLinkedinQuery } from "@/lib/queries";
+import { connectLinkedinQuery, updateProfileQuery } from "@/lib/queries";
 
 interface Course {
   id: string;
@@ -127,14 +127,24 @@ export function ProfilePage() {
   const isLinkedinExpired =
     data.linkedin?.expires_at && new Date(data.expires_at) < new Date();
 
-  const { refetch } = connectLinkedinQuery(user?.accessToken!);
+  const { refetch: connectLinkedinRefetch } = connectLinkedinQuery(
+    user?.accessToken!
+  );
+  const { refetch: updateProfileRefetch } = updateProfileQuery(
+    user?.accessToken!,
+    {
+      name: editName,
+    }
+  );
 
   const handleConnect = async () => {
     try {
-      const { data: AuthData, error: newError } = await refetch();
+      const { data: AuthData, error: newError } =
+        await connectLinkedinRefetch();
 
       if (newError) {
         console.error("LinkedIn connection error:", newError);
+        alert("LinkedIn connection error:");
         return;
       }
 
@@ -168,10 +178,20 @@ export function ProfilePage() {
     }
   };
 
-  const handleNameChange = () => {
+  const handleNameChange = async () => {
     if (editName.trim()) {
       setName(editName);
     }
+    alert(editName);
+    const { data: renamedData, error: udateProfileError } =
+      await updateProfileRefetch();
+
+    if (udateProfileError || !renamedData?.success) {
+      console.error(udateProfileError);
+      alert("Error in updating profile:");
+      return;
+    }
+    alert("Profile updated successfully");
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -323,10 +343,10 @@ export function ProfilePage() {
                   <div className="flex-1 space-y-1">
                     <p className="text-sm font-medium leading-none">LinkedIn</p>
                     <p className="text-sm text-muted-foreground">
-                      {isLinkedinExpired ? "Connected As" : "Not connected"}
+                      {!isLinkedinExpired ? "Connected As" : "Not connected"}
                     </p>
                   </div>
-                  {isLinkedinExpired ? (
+                  {!isLinkedinExpired ? (
                     <div className="flex flex-col ">
                       <Avatar className="h-8 w-8">
                         <AvatarImage
