@@ -14,9 +14,10 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { NavUser } from "./nav-user"
-import { Link } from "@tanstack/react-router"
+import { Link, useLocation } from "@tanstack/react-router"
 
 import { useTheme } from "@/providers/theme-provider"
+import { cn } from "@/lib/utils"
 
 // Menu items.
 const items = [
@@ -47,7 +48,7 @@ const data = {
 export function AppSidebar() {
   const { setOpen, open } = useSidebar()
   const { theme, setTheme } = useTheme();
-
+  const pathname = useLocation()
   return (
     <Sidebar variant="floating" collapsible="icon" className="rounded-r-xl " onMouseLeave={() => setOpen(false)} onMouseEnter={() => setOpen(true)} >
       <SidebarContent>
@@ -78,17 +79,21 @@ export function AppSidebar() {
 
 
 
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link to={item.url}>
-                      {item.icon}
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+            <SidebarMenu >
+              {items.map((item) => {
+                const isActive = pathname.href === item.url
+                return (
+                  <SidebarMenuItem key={item.title} >
+                    <SidebarMenuButton asChild isActive={isActive}>
+                      <Link to={item.url}>
+                        {item.icon}
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )
+              })}
+
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -96,8 +101,8 @@ export function AppSidebar() {
       <SidebarFooter>
         <SidebarMenuButton onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="w-full" >
           <div className="flex items-center capitalize justify-between w-full">
-            {open &&   theme}
-           
+            {open && theme}
+
             {theme === "dark" ? (
               <Sun className="size-5 transition-all" />
             ) : (
