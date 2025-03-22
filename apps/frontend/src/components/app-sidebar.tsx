@@ -17,7 +17,6 @@ import { NavUser } from "./nav-user"
 import { Link, useLocation } from "@tanstack/react-router"
 
 import { useTheme } from "@/providers/theme-provider"
-import { cn } from "@/lib/utils"
 
 // Menu items.
 const items = [
