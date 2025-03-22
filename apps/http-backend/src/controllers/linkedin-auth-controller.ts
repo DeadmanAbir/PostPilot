@@ -113,8 +113,7 @@ export async function getLinkedinStatus(
 
     if (error) {
       console.log(error);
-      response.status(200).json({ connected: false });
-      return;
+      throw createError(500, "Failed to fetch LinkedIn credentials");
     }
 
     // Check if token is expired

@@ -189,14 +189,19 @@ export const storeCredentialsInDB = async (
     const expiresAt = new Date();
     expiresAt.setSeconds(expiresAt.getSeconds() + expiresIn);
 
-    const { error } = await supabase.from("linkedin").upsert({
-      user_id: userId,
-      access_token: accessToken,
-      profile_pic: picture,
-      expires_at: expiresAt.toISOString(),
-      profile_id: linkedinId,
-      updated_at: new Date().toISOString(),
-    });
+    const { error } = await supabase.from("linkedin").upsert(
+      [
+        {
+          user_id: userId,
+          access_token: accessToken,
+          expires_at: expiresAt.toISOString(),
+          profile_id: linkedinId,
+          profile_pic: picture,
+          updated_at: new Date().toISOString(),
+        },
+      ],
+      { onConflict: "user_id" }
+    );
 
     if (error) {
       console.error("Error storing LinkedIn credentials:", error);
