@@ -71,7 +71,7 @@ const Sources = () => {
     <div ref={containerRef} className=" p-5">
       <div className="min-h-screen flex flex-col items-center justify-between  relative  ">
         <LinkSection />
-        <div className="flex flex-col items-center absolute bottom-24">
+        <div className="flex flex-col items-center absolute bottom-5">
           <span> Your Sources</span>
           <Button
             variant={"ghost"}
