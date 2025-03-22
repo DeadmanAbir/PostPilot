@@ -123,7 +123,7 @@ export function SchedulingSidebar() {
   };
 
   return (
-    <aside className="w-80 border-l bg-muted p-4 overflow-y-auto">
+    <aside className="w-96 border-l bg-muted p-4 overflow-y-auto">
       <Card className="mb-4">
         <CardHeader>
           <CardTitle>Upcoming Posts</CardTitle>
