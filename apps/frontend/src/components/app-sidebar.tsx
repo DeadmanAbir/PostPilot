@@ -5,6 +5,7 @@ import { BarChart2, Calendar, Home,  } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -13,6 +14,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { NavUser } from "./nav-user"
 
 // Menu items.
 const items = [
@@ -33,7 +35,13 @@ const items = [
   }
 ]
 
-
+const data = {
+  user: {
+    name: "Faisal",
+    email: "m@example.com",
+    avatar: "https://github.com/faisal004.png",
+  },
+}
 export function AppSidebar() {
  const { setOpen } =useSidebar()
   return (
@@ -60,6 +68,9 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <NavUser user={data.user} />
+      </SidebarFooter>
     </Sidebar>
   )
 }
