@@ -19,8 +19,7 @@ export const Route = createFileRoute('/_authenticated/_dashboard')({
       <hr /> */}
       <SidebarProvider>
         <AppSidebar />
-        <main className='w-full '>
-          <SidebarTrigger />
+        <main className='w-full dark:bg-black bg-white '>
           <Header/>
           <Outlet />
         </main>

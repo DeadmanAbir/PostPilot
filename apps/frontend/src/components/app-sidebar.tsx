@@ -1,4 +1,6 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+"use client"
+import { BarChart2, Calendar, Home,  } from "lucide-react"
+
 
 import {
   Sidebar,
@@ -9,50 +11,46 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar"
 
 // Menu items.
 const items = [
   {
-    title: "Home",
-    url: "#",
-    icon: Home,
+    title: "Dashboard",
+    url: `/dashboard`,
+    icon: <Home className="size-10" />,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
+    title: "Sources",
+    url: "/sources",
+    icon: <BarChart2 />,
   },
   {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
+    title: "Scheduled Posts",
+    url: `/scheduled`,
+    icon: <Calendar />,
+  }
 ]
 
+
 export function AppSidebar() {
+ const { setOpen } =useSidebar()
   return (
-    <Sidebar>
+    <Sidebar variant="floating" collapsible="icon" className="rounded-r-xl " onMouseLeave={()=>setOpen(false)} onMouseEnter={()=>setOpen(true)} >
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-3xl font-bold my-3 ">Post Pilot</SidebarGroupLabel>
           <SidebarGroupContent>
+
+        
+
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
-                      <item.icon />
+                      {item.icon}
                       <span>{item.title}</span>
                     </a>
                   </SidebarMenuButton>
