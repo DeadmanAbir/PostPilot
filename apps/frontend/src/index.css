@@ -67,3 +67,8 @@
 .react-tweet-theme {
   --tweet-container-margin: 0 0 !important;
 }
+
+#imageLoad{
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
