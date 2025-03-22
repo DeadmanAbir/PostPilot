@@ -1,14 +1,13 @@
 "use client"
-import { BarChart2, Calendar, Home,  } from "lucide-react"
+import { BarChart2, Calendar, Home, } from "lucide-react"
 
-
+import { motion } from "motion/react"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -44,15 +43,26 @@ const data = {
   },
 }
 export function AppSidebar() {
- const { setOpen } =useSidebar()
+  const { setOpen, open } = useSidebar()
   return (
-    <Sidebar variant="floating" collapsible="icon" className="rounded-r-xl " onMouseLeave={()=>setOpen(false)} onMouseEnter={()=>setOpen(true)} >
+    <Sidebar variant="floating" collapsible="icon" className="rounded-r-xl " onMouseLeave={() => setOpen(false)} onMouseEnter={() => setOpen(true)} >
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-3xl font-bold my-3 ">Post Pilot</SidebarGroupLabel>
+          {open && (
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="text-3xl font-bold my-3 px-2 whitespace-nowrap"
+            >
+              Post Pilot
+            </motion.div>
+          )}
+
           <SidebarGroupContent>
 
-        
+
 
             <SidebarMenu>
               {items.map((item) => (
