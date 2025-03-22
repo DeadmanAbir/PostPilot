@@ -17,3 +17,7 @@ export type RemoteFileUploadDetail = z.infer<
 >;
 
 export type PostContent = z.infer<typeof linkedinPostValidator>;
+
+export type ConnectToLinkedinResponse = {
+  authUrl: string;
+};

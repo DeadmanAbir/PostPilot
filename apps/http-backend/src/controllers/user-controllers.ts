@@ -3,19 +3,15 @@ import "dotenv/config";
 import createError from "http-errors";
 import { ZodError } from "zod";
 
-import { profileIdValidator } from "@repo/common/validator";
-
 import jwt from "jsonwebtoken";
 import { supabase } from "@/utils/supabaseClient";
 
 export async function getProfileData(request: Request, response: Response) {
   try {
-    const { id } = profileIdValidator.parse(request.params);
-
     const { data: users, error } = await supabase
       .from("users")
-      .select("name , email, profile_url")
-      .eq("id", id);
+      .select("name , email, profile_url, linkedin(expires_at, profile_pic)")
+      .eq("id", request.userId);
 
     if (error) {
       console.log(error);

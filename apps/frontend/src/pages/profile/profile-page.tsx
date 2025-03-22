@@ -43,6 +43,8 @@ import { Link } from "@tanstack/react-router";
 import { supabase } from "@/lib/supabaseClient";
 import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/providers/supabaseAuthProvider";
+import { Route } from "@/routes/_authenticated/profile";
+import { connectLinkedinQuery } from "@/lib/queries";
 
 interface Course {
   id: string;
@@ -116,28 +118,27 @@ const tasks: Task[] = [
 ];
 
 export function ProfilePage() {
+  const data = Route.useLoaderData();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [name, setName] = useState("");
-  const [profileImage, setProfileImage] = useState("/placeholder.svg");
+  const [name, setName] = useState(data.name);
+  const [profileImage, setProfileImage] = useState(data.profile_url);
   const [editName, setEditName] = useState("");
+  const isLinkedinExpired =
+    data.linkedin?.expires_at && new Date(data.expires_at) < new Date();
+
+  const { refetch } = connectLinkedinQuery(user?.accessToken!);
 
   const handleConnect = async () => {
     try {
-      const response = await fetch(
-        `/api/linkedin/get-credentials?userId=${user?.user?.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user?.accessToken}`,
-          },
-        }
-      );
+      const { data: AuthData, error: newError } = await refetch();
 
-      const data = await response.json();
+      if (newError) {
+        console.error("LinkedIn connection error:", newError);
+        return;
+      }
 
-      console.log(data.authUrl);
-
-      window.location.href = data.authUrl;
+      window.location.href = AuthData?.authUrl!;
     } catch (error) {
       console.error("LinkedIn connection error:", error);
     }
@@ -149,9 +150,10 @@ export function ProfilePage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.accessToken}`,
         },
         body: JSON.stringify({
-          text: "hiii2322288",
+          text: "Hello from post pilot",
           visibility: "PUBLIC",
         }),
       });
@@ -211,23 +213,16 @@ export function ProfilePage() {
       <div className="relative h-48 bg-gradient-to-br from-blue-400 to-purple-400">
         <div className="absolute -bottom-12 left-1/2 -translate-x-1/2">
           <Avatar className="h-24 w-24 border-4 border-background">
-            <AvatarImage src={profileImage} alt={name} />
-            <AvatarFallback>
-              {name
-                .split(" ")
-                .map((n) => n[0])
-                .join("")}
-            </AvatarFallback>
+            <AvatarImage src={data.profile_url} alt={name} />
+            <AvatarFallback>{name}</AvatarFallback>
           </Avatar>
         </div>
       </div>
 
       {/* Profile Info */}
       <div className="text-center mt-16 space-y-1">
-        <h1 className="text-2xl font-bold">{name}</h1>
-        <p className="text-muted-foreground">
-          Member since Aug 23, 2023 • New York, USA
-        </p>
+        <h1 className="text-2xl font-bold">{data.name}</h1>
+        <p className="text-muted-foreground">{data.email}</p>
       </div>
 
       {/* Stats */}
@@ -328,13 +323,27 @@ export function ProfilePage() {
                   <div className="flex-1 space-y-1">
                     <p className="text-sm font-medium leading-none">LinkedIn</p>
                     <p className="text-sm text-muted-foreground">
-                      Connected as {name}
+                      {isLinkedinExpired ? "Connected As" : "Not connected"}
                     </p>
                   </div>
-
-                  <Button onClick={handleConnect} variant="outline" size="sm">
-                    Connect
-                  </Button>
+                  {isLinkedinExpired ? (
+                    <div className="flex flex-col ">
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage
+                          src={data.linkedin.profile_pic}
+                          alt={name}
+                        />
+                        <AvatarFallback>{name}</AvatarFallback>
+                      </Avatar>
+                      <Button variant="outline" size="sm">
+                        DisConnect
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button onClick={handleConnect} variant="outline" size="sm">
+                      Connect
+                    </Button>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -409,12 +418,7 @@ export function ProfilePage() {
                           <div className="flex justify-center">
                             <Avatar className="h-24 w-24">
                               <AvatarImage src={profileImage} alt={name} />
-                              <AvatarFallback>
-                                {name
-                                  .split(" ")
-                                  .map((n) => n[0])
-                                  .join("")}
-                              </AvatarFallback>
+                              <AvatarFallback>{name}</AvatarFallback>
                             </Avatar>
                           </div>
                           <div>
@@ -437,12 +441,7 @@ export function ProfilePage() {
                   <div className="flex items-center space-x-4">
                     <Avatar>
                       <AvatarImage src={profileImage} alt={name} />
-                      <AvatarFallback>
-                        {name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
-                      </AvatarFallback>
+                      <AvatarFallback>{name}</AvatarFallback>
                     </Avatar>
                     <p className="text-sm text-muted-foreground">
                       Current profile picture
