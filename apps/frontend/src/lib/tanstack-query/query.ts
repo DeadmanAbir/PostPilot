@@ -1,11 +1,10 @@
 import {
   ConnectToLinkedinResponse,
-  PostDetail,
   ProfileDetails,
   ProfileUpdateResponse,
 } from "@repo/common/types";
 import { useQuery } from "@tanstack/react-query";
-import { connectToLinkedin, updateProfile } from "./api";
+import { connectToLinkedin, updateProfile } from "@/lib/api";
 
 export const connectLinkedinQuery = (accessToken: string, options = {}) => {
   return useQuery<ConnectToLinkedinResponse>({
@@ -28,16 +27,3 @@ export const updateProfileQuery = (
     ...options,
   });
 };
-
-// export const generatePostQuery = (
-//   accessToken: string,
-//   details: PostDetail,
-//   options = {}
-// ) => {
-//   return useQuery<ProfileUpdateResponse>({
-//     queryKey: ["linkedin_post"],
-//     queryFn: () => updateProfile(accessToken!, details),
-//     enabled: false,
-//     ...options,
-//   });
-// };

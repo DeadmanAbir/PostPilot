@@ -23,18 +23,30 @@ import { RegenerateModal } from "@/components/regenerate-modal";
 import { Switch } from "@/components/ui/switch";
 import { motion } from "motion/react";
 import { useAuth } from "@/providers/supabaseAuthProvider";
+import { generatePostFn } from "@/lib/tanstack-query/mutation";
+import { LinkedinPostResponse } from "@repo/common/types";
 
 const options = ["Profile", "Billing", "Team", "Subscription"];
 
 export function PostGenerator() {
   const { user } = useAuth();
-  console.log(user);
   const [generatedPost, setGeneratedPost] = useState("");
   const [postGenerated, setPostGenerated] = useState(false);
+  const [connectionOnly, setConnectionOnly] = useState(false);
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const { mutate, isPending } = generatePostFn(user?.accessToken!, {
+    onSuccess: (data: LinkedinPostResponse) => {
+      setGeneratedPost(data.post_content);
+      alert("Post generated successfully");
+    },
+    onError: (error: unknown) => {
+      console.log(error);
+      alert("error in posting");
+    },
+  });
 
   const toggleSelect = (item: string) => {
     setSelectedItems((prev) =>
@@ -46,16 +58,9 @@ export function PostGenerator() {
   };
   const handleGenerate = async () => {
     setLoading(true);
-    await new Promise((res) => {
-      setTimeout(() => {
-        res(undefined);
-      }, 2000);
+    mutate({
+      query: generatedPost,
     });
-    setGeneratedPost(
-      "This is a sample generated post. Replace with actual AI-generated content."
-    );
-    setLoading(false);
-    setPostGenerated(true);
   };
 
   const handleRegenerate = async (additionalContext: string) => {
@@ -75,6 +80,7 @@ export function PostGenerator() {
             placeholder="Enter your prompt for AI generation..."
             className="min-h-[100px]"
             value={generatedPost}
+            disabled={isPending}
             required
             onChange={(e) => setGeneratedPost(e.target.value)}
           />
@@ -85,16 +91,16 @@ export function PostGenerator() {
               {postGenerated ? (
                 <Button
                   onClick={() => setIsRegenerateModalOpen(true)}
-                  disabled={loading}
+                  disabled={isPending}
                   className="relative overflow-hidden"
                 >
                   <div
-                    className={`transform transition-transform duration-300 ${loading ? "-translate-y-[250%]" : "translate-y-0"}`}
+                    className={`transform transition-transform duration-300 ${isPending ? "-translate-y-[250%]" : "translate-y-0"}`}
                   >
                     Regenerate Post
                   </div>
                   <div
-                    className={`absolute transform transition-transform duration-300 ${loading ? "translate-y-0" : "translate-y-[250%]"}`}
+                    className={`absolute transform transition-transform duration-300 ${isPending ? "translate-y-0" : "translate-y-[250%]"}`}
                   >
                     <div className="flex items-center gap-2">
                       <span>Loading</span>
@@ -105,16 +111,16 @@ export function PostGenerator() {
               ) : (
                 <Button
                   onClick={handleGenerate}
-                  disabled={loading}
+                  disabled={isPending}
                   className="relative overflow-hidden"
                 >
                   <div
-                    className={`transform transition-transform duration-300 ${loading ? "-translate-y-[250%]" : "translate-y-0"}`}
+                    className={`transform transition-transform duration-300 ${isPending ? "-translate-y-[250%]" : "translate-y-0"}`}
                   >
                     {postGenerated ? "Regenerate Post" : "Generate Post"}
                   </div>
                   <div
-                    className={`absolute transform transition-transform duration-300 ${loading ? "translate-y-0" : "translate-y-[250%]"}`}
+                    className={`absolute transform transition-transform duration-300 ${isPending ? "translate-y-0" : "translate-y-[250%]"}`}
                   >
                     <div className="flex items-center gap-2">
                       <span>Loading</span>
@@ -167,7 +173,11 @@ export function PostGenerator() {
                 className="flex items-center justify-center gap-1"
               >
                 <span>Connection Only</span>
-                <Switch />
+                <Switch
+                  checked={connectionOnly}
+                  onCheckedChange={setConnectionOnly}
+                  disabled={isPending}
+                />
               </motion.div>
             )}
           </div>

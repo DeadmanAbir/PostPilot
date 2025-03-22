@@ -40,7 +40,7 @@ export const generatePost = async (
           post_content: postData.post_content,
         },
       ])
-      .select();
+      .select("post_content");
     if (error) {
       console.log(error);
       throw createError(500, `Failed to insert post data: ${error}`);
