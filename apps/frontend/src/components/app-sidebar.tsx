@@ -78,11 +78,11 @@ export function AppSidebar() {
 
 
 
-            <SidebarMenu >
+            <SidebarMenu className="mt-3" >
               {items.map((item) => {
                 const isActive = pathname.href === item.url
                 return (
-                  <SidebarMenuItem key={item.title} >
+                  <SidebarMenuItem key={item.title}  >
                     <SidebarMenuButton asChild isActive={isActive}>
                       <Link to={item.url}>
                         {item.icon}
