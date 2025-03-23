@@ -41,6 +41,7 @@ export function PostGenerator() {
     onSuccess: (data: LinkedinPostResponse) => {
       setGeneratedPost(data.post_content);
       alert("Post generated successfully");
+      setPostGenerated(true);
     },
     onError: (error: unknown) => {
       console.log(error);
@@ -58,9 +59,11 @@ export function PostGenerator() {
   };
   const handleGenerate = async () => {
     setLoading(true);
-    mutate({
-      query: generatedPost,
-    });
+    // mutate({
+    //   query: generatedPost,
+    // });
+    setGeneratedPost("demo post");
+    setPostGenerated(true);
   };
 
   const handleRegenerate = async (additionalContext: string) => {
