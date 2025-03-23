@@ -44,7 +44,10 @@ import { supabase } from "@/lib/supabaseClient";
 import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { Route } from "@/routes/_authenticated/profile";
-import { connectLinkedinQuery, updateProfileQuery } from "@/lib/queries";
+import {
+  connectLinkedinQuery,
+  updateProfileQuery,
+} from "@/lib/tanstack-query/query";
 
 interface Course {
   id: string;
