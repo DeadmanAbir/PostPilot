@@ -4,6 +4,7 @@ import {
   linkedinPostValidator,
   localFileUploadDetailsValidator,
   postGenerateValidator,
+  postRegenerateValidator,
   profileUpdateValidator,
   remoteFileUploadDetailsValidator,
 } from "./validator";
@@ -35,3 +36,5 @@ export type LinkedinPostResponse = {
 export type PostDetail = z.infer<typeof postGenerateValidator>;
 
 export type ProfileDetails = z.infer<typeof profileUpdateValidator>;
+
+export type RegeneratePostContent = z.infer<typeof postRegenerateValidator>;

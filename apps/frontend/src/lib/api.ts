@@ -1,4 +1,8 @@
-import { PostDetail, ProfileDetails } from "@repo/common/types";
+import {
+  PostDetail,
+  ProfileDetails,
+  RegeneratePostContent,
+} from "@repo/common/types";
 
 export const getProfileData = async (accessToken: string) => {
   try {
@@ -85,7 +89,32 @@ export const linkedinPost = async (
     const data = await response.json();
     return data.insertedData[0];
   } catch (error) {
-    console.error("Failed to update profile:", error);
+    console.error("Failed to post:", error);
+    throw error;
+  }
+};
+
+export const regeneratePost = async (
+  accessToken: string,
+  details: RegeneratePostContent
+) => {
+  try {
+    const response = await fetch("/api/generate-post", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(details),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.insertedData[0];
+  } catch (error) {
+    console.error("Failed to regenerate post:", error);
     throw error;
   }
 };

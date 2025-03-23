@@ -2,7 +2,10 @@ import { Response } from "express";
 
 import { generatePostPrompt, regeneratePostPrompt } from "@/utils/constant";
 import { ZodError } from "zod";
-import { postGenerateValidator } from "@repo/common/validator";
+import {
+  postGenerateValidator,
+  postRegenerateValidator,
+} from "@repo/common/validator";
 import { createClient, getUserId, improvePrompt } from "@/utils/helper";
 import "dotenv/config";
 import createError from "http-errors";
@@ -66,17 +69,20 @@ export const regeneratePost = async (
   response: Response
 ) => {
   try {
-    const { query } = postGenerateValidator.parse(request.body);
+    const { query, previousPost } = postRegenerateValidator.parse(request.body);
 
     const chatGemini = createClient("Gemini");
     const data = await chatGemini.chat({
-      prompt: query,
+      prompt: query || previousPost,
       systemInstruction: regeneratePostPrompt,
+      ...(query && { context: previousPost }),
       outputFormat: "{`post_content`: ``}",
     });
 
     // @ts-ignore
-    response.status(200).json(JSON.parse(data.content));
+    const postContent = JSON.parse(data.content);
+
+    response.status(200).json(postContent);
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {
