@@ -353,7 +353,7 @@ export function ProfilePage() {
                     <div className="flex flex-col ">
                       <Avatar className="h-8 w-8">
                         <AvatarImage
-                          src={data.linkedin.profile_pic}
+                          src={data.linkedin?.profile_pic ?? null}
                           alt={name}
                         />
                         <AvatarFallback>{name}</AvatarFallback>
