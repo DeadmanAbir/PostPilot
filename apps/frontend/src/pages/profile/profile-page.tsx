@@ -236,7 +236,7 @@ export function ProfilePage() {
       <div className="relative h-48 bg-gradient-to-br from-blue-400 to-purple-400">
         <div className="absolute -bottom-12 left-1/2 -translate-x-1/2">
           <Avatar className="h-24 w-24 border-4 border-background">
-            <AvatarImage src={data.profile_url} alt={name} />
+            <AvatarImage src={data?.profile_url ?? null} alt={name} />
             <AvatarFallback>{name}</AvatarFallback>
           </Avatar>
         </div>
