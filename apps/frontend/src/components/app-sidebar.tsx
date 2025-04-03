@@ -1,7 +1,7 @@
-"use client"
-import { BarChart2, Calendar, Home, Moon, Sun, } from "lucide-react"
+"use client";
+import { BarChart2, Calendar, Home, Moon, Sun } from "lucide-react";
 
-import { motion } from "motion/react"
+import { motion } from "motion/react";
 import {
   Sidebar,
   SidebarContent,
@@ -12,11 +12,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
-import { NavUser } from "./nav-user"
-import { Link, useLocation } from "@tanstack/react-router"
+} from "@/components/ui/sidebar";
+import { NavUser } from "./nav-user";
+import { Link, useLocation } from "@tanstack/react-router";
 
-import { useTheme } from "@/providers/theme-provider"
+import { useTheme } from "@/providers/theme-provider";
+import { useAuth } from "@/providers/supabaseAuthProvider";
 
 // Menu items.
 const items = [
@@ -34,22 +35,37 @@ const items = [
     title: "Scheduled Posts",
     url: `/scheduled`,
     icon: <Calendar />,
-  }
-]
-
-const data = {
-  user: {
-    name: "Faisal",
-    email: "m@example.com",
-    avatar: "https://github.com/faisal004.png",
   },
-}
+];
+
+// const data = {
+//   user: {
+//     name: "Faisal",
+//     email: "m@example.com",
+//     avatar: "https://github.com/faisal004.png",
+//   },
+// };
 export function AppSidebar() {
-  const { setOpen, open } = useSidebar()
+  const { setOpen, open } = useSidebar();
   const { theme, setTheme } = useTheme();
-  const pathname = useLocation()
+  const pathname = useLocation();
+  const { user } = useAuth();
+
+  const data = {
+    user: {
+      name: user?.user?.user_metadata.displayName!,
+      email: user?.user?.email!,
+      avatar: "https://github.com/faisal004.png",
+    },
+  };
   return (
-    <Sidebar variant="floating" collapsible="icon" className="rounded-r-xl " onMouseLeave={() => setOpen(false)} onMouseEnter={() => setOpen(true)} >
+    <Sidebar
+      variant="floating"
+      collapsible="icon"
+      className="rounded-r-xl "
+      onMouseLeave={() => setOpen(false)}
+      onMouseEnter={() => setOpen(true)}
+    >
       <SidebarContent>
         <SidebarGroup>
           {open ? (
@@ -75,14 +91,11 @@ export function AppSidebar() {
           )}
 
           <SidebarGroupContent>
-
-
-
-            <SidebarMenu className="mt-3" >
+            <SidebarMenu className="mt-3">
               {items.map((item) => {
-                const isActive = pathname.href === item.url
+                const isActive = pathname.href === item.url;
                 return (
-                  <SidebarMenuItem key={item.title}  >
+                  <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild isActive={isActive}>
                       <Link to={item.url}>
                         {item.icon}
@@ -90,15 +103,17 @@ export function AppSidebar() {
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                )
+                );
               })}
-
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <SidebarMenuButton onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="w-full" >
+        <SidebarMenuButton
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          className="w-full"
+        >
           <div className="flex items-center capitalize justify-between w-full">
             {open && theme}
 
@@ -113,5 +128,5 @@ export function AppSidebar() {
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

@@ -1,5 +1,3 @@
-"use client"
-
 import {
   BadgeCheck,
   Bell,
@@ -7,13 +5,9 @@ import {
   CreditCard,
   LogOut,
   Sparkles,
-} from "lucide-react"
+} from "lucide-react";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,30 +16,43 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
-import { Link } from "@tanstack/react-router"
+} from "@/components/ui/sidebar";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { supabase } from "@/lib/supabaseClient";
 
 export function NavUser({
   user,
 }: {
   user: {
-    name: string
-    email: string
-    avatar: string
-  }
+    name: string;
+    email: string;
+    avatar: string;
+  };
 }) {
-  const { isMobile } = useSidebar()
+  const { isMobile } = useSidebar();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      console.error(error.message);
+    }
+    navigate({
+      to: "/onboard",
+    });
+  };
 
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <DropdownMenu >
+        <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
@@ -89,12 +96,11 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem asChild >
+              <DropdownMenuItem asChild>
                 <Link to="/profile">
-                <BadgeCheck />
-                Profile
+                  <BadgeCheck />
+                  Profile
                 </Link>
-               
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <CreditCard />
@@ -106,7 +112,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut />
               Log out
             </DropdownMenuItem>
@@ -114,5 +120,5 @@ export function NavUser({
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }
