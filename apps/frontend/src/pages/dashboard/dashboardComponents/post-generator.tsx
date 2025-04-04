@@ -74,11 +74,11 @@ export function PostGenerator() {
   };
   const handleGenerate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    mutate({
-      query: generatedPost,
-    });
-    // setGeneratedPost("demo post");
-    // setPostGenerated(true);
+    // mutate({
+    //   query: generatedPost,
+    // });
+    setGeneratedPost("demo post");
+    setPostGenerated(true);
   };
 
   const handleRegenerate = async (additionalContext: string) => {
@@ -115,9 +115,7 @@ export function PostGenerator() {
                 {postGenerated ? (
                   <Button
                     type="button"
-                    onClick={() =>
-
-                      setIsRegenerateModalOpen(true)}
+                    onClick={() => setIsRegenerateModalOpen(true)}
                     disabled={isPending}
                     className="relative overflow-hidden"
                   >
