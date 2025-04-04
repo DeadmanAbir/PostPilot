@@ -1,4 +1,5 @@
 import {
+  AddNodeContent,
   PostDetail,
   ProfileDetails,
   RegeneratePostContent,
@@ -137,6 +138,31 @@ export const fetchTweet = async (accessToken: string, tweetUrl: string) => {
     return data;
   } catch (error) {
     console.error("Failed to fetch tweet data:", error);
+    throw error;
+  }
+};
+
+export const addTextNode = async (
+  accessToken: string,
+  details: AddNodeContent
+) => {
+  try {
+    const response = await fetch("/api/add-text-node", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(details),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to add node content:", error);
     throw error;
   }
 };

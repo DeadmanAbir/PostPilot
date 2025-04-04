@@ -1,9 +1,11 @@
 import {
+  AddNodeContent,
   PostDetail,
   ProfileDetails,
   RegeneratePostContent,
 } from "@repo/common/types";
 import {
+  addTextNode,
   fetchTweet,
   linkedinPost,
   regeneratePost,
@@ -37,6 +39,13 @@ export const updateProfileFn = (accessToken: string, options = {}) => {
 export const fetchTweetFn = (accessToken: string, options = {}) => {
   return useMutation({
     mutationFn: (tweetUrl: string) => fetchTweet(accessToken!, tweetUrl),
+    ...options,
+  });
+};
+
+export const addNodeContentFn = (accessToken: string, options = {}) => {
+  return useMutation({
+    mutationFn: (details: AddNodeContent) => addTextNode(accessToken!, details),
     ...options,
   });
 };

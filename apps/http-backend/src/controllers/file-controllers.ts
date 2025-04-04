@@ -262,10 +262,10 @@ export async function saveTextNodeData(
 ) {
   try {
     const { name, description } = textNodeDataValidaor.parse(request.body);
-
-    const { data, error } = await supabase
+    const userId = request.userId;
+    const { error } = await supabase
       .from("text_node")
-      .insert([{ user_id: getUserId(), name: name, description }])
+      .insert([{ user_id: userId, name: name, description }])
       .select();
 
     if (error) {
@@ -275,7 +275,7 @@ export async function saveTextNodeData(
         `Failed to insert text node  data: ${error.message}`
       );
     }
-    response.status(200).json({ data });
+    response.status(200).json({ success: true });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {

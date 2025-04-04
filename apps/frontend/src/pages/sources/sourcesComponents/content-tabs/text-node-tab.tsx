@@ -1,14 +1,41 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { addNodeContentFn } from "@/lib/tanstack-query/mutation";
+import { useAuth } from "@/providers/supabaseAuthProvider";
 import { lazy, Suspense, useState } from "react";
 // Import the Editor component with SSR disabled
 const Editor = lazy(() => import("../../../../components/tiptap-editor"));
 
 export function TextNoteTab() {
+  const { user } = useAuth();
+
   const [content, setContent] = useState({
     name: "Text Editor",
     description: "",
   });
+
+  const { mutate: addNodeContent, isPending: isLoading } = addNodeContentFn(
+    user?.accessToken!,
+    {
+      onSuccess: (data: unknown) => {
+        console.log(data);
+        alert("content added successfully");
+        setContent({
+          name: "Text Editor",
+          description: "",
+        });
+      },
+      onError: (error: unknown) => {
+        console.log(error);
+        alert("error in adding content");
+      },
+    }
+  );
+
+  const handleSave = () => {
+    addNodeContent(content);
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -52,7 +79,9 @@ export function TextNoteTab() {
 
         {content && (
           <div className="mt-2 text-sm text-muted-foreground">
-            <Button>Save</Button>
+            <Button disabled={isLoading} onClick={handleSave}>
+              Save
+            </Button>
           </div>
         )}
       </CardContent>
