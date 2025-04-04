@@ -1,11 +1,12 @@
 import type React from "react";
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Trash } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 
 export function ImagesTab() {
   const [localImages, setLocalImages] = useState<File[]>([]);
@@ -32,6 +33,14 @@ export function ImagesTab() {
     }
   };
 
+  const handleRemoveLocalImage = (index: number) => {
+    setLocalImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleRemoveRemoteImage = (index: number) => {
+    setRemoteImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
   return (
     <Card id="imageLoad">
       <CardHeader>
@@ -43,7 +52,9 @@ export function ImagesTab() {
             <TabsTrigger value="local">Local Upload</TabsTrigger>
             <TabsTrigger value="remote">Remote URL</TabsTrigger>
           </TabsList>
-          <TabsContent id="imageLoad" value="local" className="max-h-[30vh] overflow-y-scroll">
+
+          {/* Local Upload Tab */}
+          <TabsContent id="imageLoad" value="local" className="max-h-[50vh] overflow-y-scroll">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="image-upload">Upload Images</Label>
               <Input
@@ -54,36 +65,44 @@ export function ImagesTab() {
                 onChange={handleLocalImageChange}
               />
             </div>
-            {(localImages.length > 0) && (
+            {localImages.length > 0 && (
               <div className="mt-4">
                 <h4 className="mb-2 font-semibold">Image Previews:</h4>
                 <div className="flex flex-wrap gap-5">
-                  {localImages.map((file, index) => (
-
-                    <div
-                      key={`local-${index}`}
-                      className="relative aspect-square"
-                    >
-                      <img
-                        src={URL.createObjectURL(file) || "/placeholder.svg"}
-                        alt={`Local image ${index + 1}`}
-                        className="object-cover rounded size-20"
-                      />
-                    </div>
-
-
-                  ))}
-                  <div className="w-full flex items-center justify-center">
-                    <Button variant="default" size="sm" className="w-1/4 mt-5">
-                      Load
-                    </Button>
-                  </div>
+                  <AnimatePresence>
+                    {localImages.map((file, index) => (
+                      <motion.div key={`local-${index}`} className="relative aspect-square group" initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 10 }}
+                        transition={{ duration: 0.2 }}>
+                        <img
+                          src={URL.createObjectURL(file) || "/placeholder.svg"}
+                          alt={`Local image ${index + 1}`}
+                          className="object-cover rounded size-20"
+                        />
+                        {/* Trash Icon for Deleting Local Images */}
+                        <button
+                          onClick={() => handleRemoveLocalImage(index)}
+                          className="absolute -top-2 -right-3 bg-white border-2 rounded-full p-1 hidden group-hover:flex cursor-pointer hover:text-red-400 hover:border-red-300"
+                        >
+                          <Trash className="size-4" />
+                        </button>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </div>
+                <div className="w-full flex items-center justify-center">
+                  <Button variant="default" size="sm" className="w-1/4 mt-5">
+                    Load
+                  </Button>
                 </div>
 
               </div>
             )}
           </TabsContent>
-          <TabsContent id="imageLoad" value="remote" className="max-h-[30vh] overflow-y-scroll">
+
+          {/* Remote URL Tab */}
+          <TabsContent id="imageLoad" value="remote" className="max-h-[50vh] overflow-y-scroll">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="image-url">Image URL</Label>
               <div className="flex space-x-2">
@@ -96,26 +115,35 @@ export function ImagesTab() {
                 <Button onClick={handleRemoteImageLoad}>Load Image</Button>
               </div>
             </div>
-            {(remoteImages.length > 0) && (
+            {remoteImages.length > 0 && (
               <div className="mt-4">
                 <h4 className="mb-2 font-semibold">Image Previews:</h4>
                 <div className="flex flex-wrap gap-5">
-
-                  {remoteImages.map((url, index) => (
-                    <>
-                      <div
+                  <AnimatePresence>
+                    {remoteImages.map((url, index) => (
+                      <motion.div
                         key={`remote-${index}`}
-                        className="relative aspect-square"
+                        className="relative aspect-square group"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 10 }}
+                        transition={{ duration: 0.2 }}
                       >
                         <img
                           src={url || "/placeholder.svg"}
                           alt={`Remote image ${index + 1}`}
-                          className="object-cover rounded"
+                          className="object-cover rounded size-20"
                         />
-                      </div>
-
-                    </>
-                  ))}
+                        {/* Trash Icon for Deleting Remote Images */}
+                        <button
+                          onClick={() => handleRemoveRemoteImage(index)}
+                          className="absolute -top-2 -right-3 bg-white border-2 rounded-full p-1 hidden group-hover:flex cursor-pointer hover:text-red-400 hover:border-red-300"
+                        >
+                          <Trash className="size-4" />
+                        </button>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
                 </div>
                 <div className="w-full flex items-center justify-center">
                   <Button variant="default" size="sm" className="w-1/4 mt-5">
@@ -127,7 +155,6 @@ export function ImagesTab() {
             )}
           </TabsContent>
         </Tabs>
-
       </CardContent>
     </Card>
   );

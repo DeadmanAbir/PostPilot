@@ -2,7 +2,10 @@ import { Response } from "express";
 
 import { generatePostPrompt, regeneratePostPrompt } from "@/utils/constant";
 import { ZodError } from "zod";
-import { postGenerateValidator } from "@repo/common/validator";
+import {
+  postGenerateValidator,
+  postRegenerateValidator,
+} from "@repo/common/validator";
 import { createClient, getUserId, improvePrompt } from "@/utils/helper";
 import "dotenv/config";
 import createError from "http-errors";
@@ -34,19 +37,19 @@ export const generatePost = async (
       .from("post")
       .insert([
         {
-          user_id: getUserId(),
+          user_id: request.userId,
           user_query: query,
           enhanced_query: parsedPromptData.enhanced_prompt,
           post_content: postData.post_content,
         },
       ])
-      .select();
+      .select("post_content");
     if (error) {
       console.log(error);
       throw createError(500, `Failed to insert post data: ${error}`);
     }
 
-    response.status(200).json(insertedData);
+    response.status(200).json({ insertedData });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {
@@ -66,17 +69,31 @@ export const regeneratePost = async (
   response: Response
 ) => {
   try {
-    const { query } = postGenerateValidator.parse(request.body);
+    const { query, previousPost } = postRegenerateValidator.parse(request.body);
 
     const chatGemini = createClient("Gemini");
     const data = await chatGemini.chat({
-      prompt: query,
+      prompt: query || previousPost,
       systemInstruction: regeneratePostPrompt,
+      ...(query && { context: previousPost }),
       outputFormat: "{`post_content`: ``}",
     });
 
     // @ts-ignore
-    response.status(200).json(JSON.parse(data.content));
+    const postContent = JSON.parse(data.content);
+
+    const { data: updatedData, error } = await supabase
+      .from("post")
+      .update({ post_content: postContent })
+      .eq("post_content", previousPost)
+      .select("post_content");
+
+    if (error) {
+      console.log(error);
+      throw createError(500, `Failed to update post data: ${error}`);
+    }
+
+    response.status(200).json({ updatedData });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {

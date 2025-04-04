@@ -4,8 +4,6 @@ export const demoValidator = z.object({
   name: z.string(),
 });
 
-// demoValidator.parse(body); will do the validation
-
 export const youtubeValidator = z.object({
   url: z.string().url(),
 });
@@ -20,6 +18,11 @@ export const websiteUrlValidator = z.object({
 
 export const postGenerateValidator = z.object({
   query: z.string(),
+});
+
+export const postRegenerateValidator = z.object({
+  query: z.string().optional(),
+  previousPost: z.string(),
 });
 
 export const profileIdValidator = z.object({
@@ -55,4 +58,9 @@ export const linkedinPostValidator = z.object({
   shareUrl: z.string().optional(),
   title: z.string().optional(),
   visibility: z.enum(["PUBLIC", "CONNECTIONS"]),
+});
+
+export const profileUpdateValidator = z.object({
+  name: z.string().optional(),
+  profile_url: z.string().optional(),
 });

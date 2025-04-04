@@ -9,7 +9,7 @@ interface LinkedInCredentials {
   access_token: string;
   refresh_token?: string;
   expires_at?: string;
-  linkedin_id: string;
+  profile_id: string;
 }
 import { PostContent } from "@repo/common/types";
 
@@ -47,7 +47,7 @@ export const createClient = (llm: "OpenAI" | "Gemini") => {
   }
   const chatGemini = new ChatGemini({
     apiKey: process.env.GEMINI_API_KEY!,
-    model: "gemini-2.0-flash",
+    model: "gemini-2.5-pro-exp-03-25",
   });
   return chatGemini;
 };
@@ -236,7 +236,7 @@ export const validateAndRefreshToken = async (
 
 export const postToLinkedIn = async (
   accessToken: string,
-  linkedinId: string,
+  profileId: string,
   content: PostContent
 ): Promise<string> => {
   try {
@@ -244,7 +244,7 @@ export const postToLinkedIn = async (
 
     // Create post payload
     const postPayload: any = {
-      author: `urn:li:person:${linkedinId}`,
+      author: `urn:li:person:${profileId}`,
       lifecycleState: "PUBLISHED",
       specificContent: {
         "com.linkedin.ugc.ShareContent": {
