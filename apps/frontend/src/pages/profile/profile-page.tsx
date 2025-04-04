@@ -48,6 +48,8 @@ import {
   connectLinkedinQuery,
   updateProfileQuery,
 } from "@/lib/tanstack-query/query";
+import { updateProfileFn } from "@/lib/tanstack-query/mutation";
+import { ProfileUpdateResponse } from "@repo/common/types";
 
 interface Course {
   id: string;
@@ -140,6 +142,29 @@ export function ProfilePage() {
     }
   );
 
+  const { mutate: updateProfile, isPending } = updateProfileFn(
+    user?.accessToken!,
+    {
+      onSuccess: async (data: ProfileUpdateResponse) => {
+        if (data.success) {
+          const { error } = await supabase.auth.updateUser({
+            data: { displayName: editName },
+          });
+          if (error) {
+            console.error(error.message);
+            alert("Error in updating profile:");
+          }
+        } else {
+          alert("Profile update failed");
+        }
+      },
+      onError: (error: unknown) => {
+        console.log(error);
+        alert("Profile update failed");
+      },
+    }
+  );
+
   const handleConnect = async () => {
     try {
       const { data: AuthData, error: newError } =
@@ -186,15 +211,18 @@ export function ProfilePage() {
       setName(editName);
     }
     alert(editName);
-    const { data: renamedData, error: udateProfileError } =
-      await updateProfileRefetch();
+    // const { data: renamedData, error: udateProfileError } =
+    //   await updateProfileRefetch();
 
-    if (udateProfileError || !renamedData?.success) {
-      console.error(udateProfileError);
-      alert("Error in updating profile:");
-      return;
-    }
-    alert("Profile updated successfully");
+    // if (udateProfileError || !renamedData?.success) {
+    //   console.error(udateProfileError);
+    //   alert("Error in updating profile:");
+    //   return;
+    // }
+
+    updateProfile({
+      name: editName,
+    });
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

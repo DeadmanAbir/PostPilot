@@ -3,23 +3,45 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { fetchTweetFn } from "@/lib/tanstack-query/mutation";
+import { useAuth } from "@/providers/supabaseAuthProvider";
 
 export function TweetsTab() {
   const [tweetUrl, setTweetUrl] = useState("");
   const [isValidUrl, setIsValidUrl] = useState(true);
 
+  const { user } = useAuth();
+
+  const { mutate: fetchTweet, isPending: isFetching } = fetchTweetFn(
+    user?.accessToken!,
+    {
+      onSuccess: () => {
+        alert("tweet fetched  successfully");
+        setTweetUrl("");
+      },
+      onError: (error: unknown) => {
+        console.log(error);
+        alert("error in fetching");
+      },
+    }
+  );
+
   const validateTweetUrl = (url: string) => {
-    // Basic validation for Twitter/X URLs
-    const regex =
-      /^https?:\/\/(www\.)?(twitter\.com|x\.com)\/[a-zA-Z0-9_]+\/status\/[0-9]+/;
-    return regex.test(url);
+    if (!url) return false;
+    try {
+      const twitterUrlRegex =
+        /^(?:https?:\/\/)?(?:www\.|mobile\.)?(?:twitter\.com|x\.com)\/[^\/]+\/(?:status|statuses)\/(\d+)(?:\/(?:photo|video|analytics|retweets|likes|quotes|[\d]+)?)?(?:\?.*)?$/i;
+
+      return twitterUrlRegex.test(url);
+    } catch (error) {
+      return false;
+    }
   };
 
   const handlePreviewTweet = () => {
     if (validateTweetUrl(tweetUrl)) {
-      setIsValidUrl(true);
-      // TODO: Implement tweet preview logic
-      console.log("Preview tweet:", tweetUrl);
+      //mutation fn
+      fetchTweet(tweetUrl);
     } else {
       setIsValidUrl(false);
     }
@@ -42,7 +64,9 @@ export function TweetsTab() {
                 onChange={(e) => setTweetUrl(e.target.value)}
                 className={!isValidUrl ? "border-red-500" : ""}
               />
-              <Button onClick={handlePreviewTweet}>Preview Tweet</Button>
+              <Button onClick={handlePreviewTweet} disabled={isFetching}>
+                Preview Tweet
+              </Button>
             </div>
             {!isValidUrl && (
               <p className="text-sm text-red-500">

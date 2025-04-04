@@ -97,13 +97,11 @@ export const fetchTweets = async (request: AuthRequest, response: Response) => {
       tweet: items[0]?.text,
     };
 
-    const userId = getUserId();
+    const userId = request.userId;
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("tweets")
-      .insert([
-        { user_id: getUserId(), url: tweetData.url, tweet: tweetData.tweet },
-      ])
+      .insert([{ user_id: userId, url: tweetData.url, tweet: tweetData.tweet }])
       .select();
 
     if (error) {
@@ -111,7 +109,7 @@ export const fetchTweets = async (request: AuthRequest, response: Response) => {
       throw createError(500, `Failed to insert tweet data: ${error}`);
     }
 
-    response.status(200).json(data);
+    response.status(200).json({ success: true });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {
@@ -145,14 +143,14 @@ export async function fetchWebsiteUrl(
     const websiteData = {
       url: url,
       screenshot: scrapeResponse.screenshot,
-      title: scrapeResponse.title,
+      title: scrapeResponse.metadata?.title,
     };
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("websites")
       .insert([
         {
-          user_id: getUserId(),
+          user_id: request.userId,
           url: url,
           screenshot: websiteData.screenshot,
           title: websiteData.title,
@@ -165,7 +163,7 @@ export async function fetchWebsiteUrl(
       throw createError(500, `Failed to insert website data`);
     }
 
-    response.status(200).json(data);
+    response.status(200).json({ success: true });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {
@@ -264,10 +262,10 @@ export async function saveTextNodeData(
 ) {
   try {
     const { name, description } = textNodeDataValidaor.parse(request.body);
-
-    const { data, error } = await supabase
+    const userId = request.userId;
+    const { error } = await supabase
       .from("text_node")
-      .insert([{ user_id: getUserId(), name: name, description }])
+      .insert([{ user_id: userId, name: name, description }])
       .select();
 
     if (error) {
@@ -277,7 +275,7 @@ export async function saveTextNodeData(
         `Failed to insert text node  data: ${error.message}`
       );
     }
-    response.status(200).json({ data });
+    response.status(200).json({ success: true });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {

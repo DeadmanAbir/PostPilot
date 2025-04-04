@@ -7,6 +7,7 @@ import {
   getUsersAdmin,
   saveLocalFileData,
   saveRemoteFileData,
+  saveTextNodeData,
 } from "@/controllers/file-controllers";
 
 const router: Router = express.Router();
@@ -21,7 +22,7 @@ router.post("/add-local-file", saveLocalFileData);
 
 router.post("/add-remote-file", saveRemoteFileData);
 
-router.post("/add-text-node", saveRemoteFileData);
+router.post("/add-text-node", saveTextNodeData);
 
 router.get("/files", getUsersAdmin);
 

@@ -1,4 +1,5 @@
 import {
+  AddNodeContent,
   PostDetail,
   ProfileDetails,
   RegeneratePostContent,
@@ -99,7 +100,7 @@ export const regeneratePost = async (
   details: RegeneratePostContent
 ) => {
   try {
-    const response = await fetch("/api/generate-post", {
+    const response = await fetch("/api/regenerate-post", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -112,9 +113,78 @@ export const regeneratePost = async (
       throw new Error(`Error: ${response.status}`);
     }
     const data = await response.json();
-    return data.insertedData[0];
+    return data.updatedData[0];
   } catch (error) {
     console.error("Failed to regenerate post:", error);
+    throw error;
+  }
+};
+
+export const fetchTweet = async (accessToken: string, tweetUrl: string) => {
+  try {
+    const response = await fetch("/api/fetch-tweet", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ tweetUrl }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch tweet data:", error);
+    throw error;
+  }
+};
+
+export const addTextNode = async (
+  accessToken: string,
+  details: AddNodeContent
+) => {
+  try {
+    const response = await fetch("/api/add-text-node", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(details),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to add node content:", error);
+    throw error;
+  }
+};
+
+export const fetchWebsite = async (accessToken: string, url: string) => {
+  try {
+    const response = await fetch("/api/fetch-url", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ url }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch url:", error);
     throw error;
   }
 };

@@ -3,38 +3,47 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/providers/supabaseAuthProvider";
+import { fetchWebsiteFn } from "@/lib/tanstack-query/mutation";
 
 export function WebsitesTab() {
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [isValidUrl, setIsValidUrl] = useState(true);
-  const [metadata, setMetadata] = useState<{
-    title?: string;
-    description?: string;
-  } | null>(null);
+  const { user } = useAuth();
+
+  const { mutate: fetchWebsite, isPending: isFetching } = fetchWebsiteFn(
+    user?.accessToken!,
+    {
+      onSuccess: () => {
+        alert("website fetched  successfully");
+        setWebsiteUrl("");
+      },
+      onError: (error: unknown) => {
+        console.log(error);
+        alert("error in fetching");
+      },
+    }
+  );
 
   const validateWebsiteUrl = (url: string) => {
-    const regex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
-    return regex.test(url);
+    if (!url) return false;
+
+    try {
+      const websiteUrlRegex =
+        /^(?:(?:https?:)?\/\/)?(?:www\.)?([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?::\d{1,5})?(?:\/[^\s]*)?$/;
+
+      return websiteUrlRegex.test(url);
+    } catch (error) {
+      return false;
+    }
   };
 
   const handlePreviewWebsite = async () => {
     if (validateWebsiteUrl(websiteUrl)) {
       setIsValidUrl(true);
-      try {
-        // TODO: Implement actual metadata fetching logic
-        // This is a mock implementation
-        const response = await fetch(
-          `/api/fetch-metadata?url=${encodeURIComponent(websiteUrl)}`
-        );
-        const data = await response.json();
-        setMetadata(data);
-      } catch (error) {
-        console.error("Error fetching metadata:", error);
-        setMetadata(null);
-      }
+      fetchWebsite(websiteUrl);
     } else {
       setIsValidUrl(false);
-      setMetadata(null);
     }
   };
 
@@ -55,7 +64,9 @@ export function WebsitesTab() {
                 onChange={(e) => setWebsiteUrl(e.target.value)}
                 className={!isValidUrl ? "border-red-500" : ""}
               />
-              <Button onClick={handlePreviewWebsite}>Preview</Button>
+              <Button disabled={isFetching} onClick={handlePreviewWebsite}>
+                Add Link
+              </Button>
             </div>
             {!isValidUrl && (
               <p className="text-sm text-red-500">
@@ -63,17 +74,6 @@ export function WebsitesTab() {
               </p>
             )}
           </div>
-          {metadata && (
-            <div className="mt-4">
-              <h4 className="mb-2 font-semibold">Website Metadata:</h4>
-              <p>
-                <strong>Title:</strong> {metadata.title}
-              </p>
-              <p>
-                <strong>Description:</strong> {metadata.description}
-              </p>
-            </div>
-          )}
         </div>
       </CardContent>
     </Card>
