@@ -88,3 +88,6 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+textarea {
+  field-sizing: content;
+}
