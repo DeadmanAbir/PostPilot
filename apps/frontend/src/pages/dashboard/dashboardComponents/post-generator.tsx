@@ -92,7 +92,6 @@ export function PostGenerator() {
 
     setIsRegenerateModalOpen(false);
   };
-
   return (
     <form onSubmit={handleGenerate}>
       <div className="space-y-4">
@@ -115,7 +114,10 @@ export function PostGenerator() {
               <div className="flex gap-2">
                 {postGenerated ? (
                   <Button
-                    onClick={() => setIsRegenerateModalOpen(true)}
+                    type="button"
+                    onClick={() =>
+
+                      setIsRegenerateModalOpen(true)}
                     disabled={isPending}
                     className="relative overflow-hidden"
                   >
