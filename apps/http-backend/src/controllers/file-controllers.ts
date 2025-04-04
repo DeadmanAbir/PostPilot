@@ -143,14 +143,14 @@ export async function fetchWebsiteUrl(
     const websiteData = {
       url: url,
       screenshot: scrapeResponse.screenshot,
-      title: scrapeResponse.title,
+      title: scrapeResponse.metadata?.title,
     };
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("websites")
       .insert([
         {
-          user_id: getUserId(),
+          user_id: request.userId,
           url: url,
           screenshot: websiteData.screenshot,
           title: websiteData.title,
@@ -163,7 +163,7 @@ export async function fetchWebsiteUrl(
       throw createError(500, `Failed to insert website data`);
     }
 
-    response.status(200).json(data);
+    response.status(200).json({ success: true });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {

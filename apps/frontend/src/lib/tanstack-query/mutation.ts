@@ -7,6 +7,7 @@ import {
 import {
   addTextNode,
   fetchTweet,
+  fetchWebsite,
   linkedinPost,
   regeneratePost,
   updateProfile,
@@ -38,14 +39,21 @@ export const updateProfileFn = (accessToken: string, options = {}) => {
 
 export const fetchTweetFn = (accessToken: string, options = {}) => {
   return useMutation({
-    mutationFn: (tweetUrl: string) => fetchTweet(accessToken!, tweetUrl),
+    mutationFn: (tweetUrl: string) => fetchTweet(accessToken, tweetUrl),
     ...options,
   });
 };
 
 export const addNodeContentFn = (accessToken: string, options = {}) => {
   return useMutation({
-    mutationFn: (details: AddNodeContent) => addTextNode(accessToken!, details),
+    mutationFn: (details: AddNodeContent) => addTextNode(accessToken, details),
+    ...options,
+  });
+};
+
+export const fetchWebsiteFn = (accessToken: string, options = {}) => {
+  return useMutation({
+    mutationFn: (url: string) => fetchWebsite(accessToken, url),
     ...options,
   });
 };

@@ -166,3 +166,25 @@ export const addTextNode = async (
     throw error;
   }
 };
+
+export const fetchWebsite = async (accessToken: string, url: string) => {
+  try {
+    const response = await fetch("/api/fetch-url", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ url }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch url:", error);
+    throw error;
+  }
+};

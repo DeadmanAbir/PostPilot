@@ -77,7 +77,7 @@ export function TextNoteTab() {
           {content.description.length}
         </div>
 
-        {content && (
+        {content.description && (
           <div className="mt-2 text-sm text-muted-foreground">
             <Button disabled={isLoading} onClick={handleSave}>
               Save
