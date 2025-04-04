@@ -93,8 +93,8 @@ export function PostGenerator() {
     });
   };
   return (
-    <form onSubmit={handleGenerate}>
-      <div className="space-y-4">
+    <form  onSubmit={handleGenerate}>
+      <div  className="space-y-4 ">
         <Card>
           <CardHeader>
             <CardTitle>Generate Post</CardTitle>
