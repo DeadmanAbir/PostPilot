@@ -63,8 +63,7 @@ export function AppSidebar() {
       variant="floating"
       collapsible="icon"
       className="rounded-r-xl "
-      onMouseLeave={() => setOpen(false)}
-      onMouseEnter={() => setOpen(true)}
+     
     >
       <SidebarContent>
         <SidebarGroup>
