@@ -99,13 +99,14 @@ export function PostGenerator() {
           <CardHeader>
             <CardTitle>Generate Post</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="h-full">
             <Textarea
               placeholder="Enter your prompt for AI generation..."
-              className="min-h-[100px]"
+              className="field-sizing-content"
               value={generatedPost}
               disabled={isPending}
               required
+              rows={2}
               onChange={(e) => setGeneratedPost(e.target.value)}
             />
           </CardContent>
