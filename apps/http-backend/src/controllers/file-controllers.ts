@@ -97,13 +97,11 @@ export const fetchTweets = async (request: AuthRequest, response: Response) => {
       tweet: items[0]?.text,
     };
 
-    const userId = getUserId();
+    const userId = request.userId;
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("tweets")
-      .insert([
-        { user_id: getUserId(), url: tweetData.url, tweet: tweetData.tweet },
-      ])
+      .insert([{ user_id: userId, url: tweetData.url, tweet: tweetData.tweet }])
       .select();
 
     if (error) {
@@ -111,7 +109,7 @@ export const fetchTweets = async (request: AuthRequest, response: Response) => {
       throw createError(500, `Failed to insert tweet data: ${error}`);
     }
 
-    response.status(200).json(data);
+    response.status(200).json({ success: true });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {

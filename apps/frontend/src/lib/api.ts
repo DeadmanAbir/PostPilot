@@ -118,3 +118,25 @@ export const regeneratePost = async (
     throw error;
   }
 };
+
+export const fetchTweet = async (accessToken: string, tweetUrl: string) => {
+  try {
+    const response = await fetch("/api/fetch-tweet", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ tweetUrl }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch tweet data:", error);
+    throw error;
+  }
+};
