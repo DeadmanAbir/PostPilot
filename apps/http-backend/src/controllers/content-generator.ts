@@ -73,9 +73,9 @@ export const regeneratePost = async (
 
     const chatGemini = createClient("Gemini");
     const data = await chatGemini.chat({
-      prompt: query || previousPost,
+      prompt: query || "Revamp the post",
       systemInstruction: regeneratePostPrompt,
-      ...(query && { context: previousPost }),
+      context: previousPost,
       outputFormat: "{`post_content`: ``}",
     });
 
@@ -84,7 +84,7 @@ export const regeneratePost = async (
 
     const { data: updatedData, error } = await supabase
       .from("post")
-      .update({ post_content: postContent })
+      .update({ post_content: postContent.post_content })
       .eq("post_content", previousPost)
       .select("post_content");
 

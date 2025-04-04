@@ -99,7 +99,7 @@ export const regeneratePost = async (
   details: RegeneratePostContent
 ) => {
   try {
-    const response = await fetch("/api/generate-post", {
+    const response = await fetch("/api/regenerate-post", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -112,7 +112,7 @@ export const regeneratePost = async (
       throw new Error(`Error: ${response.status}`);
     }
     const data = await response.json();
-    return data.insertedData[0];
+    return data.updatedData[0];
   } catch (error) {
     console.error("Failed to regenerate post:", error);
     throw error;
