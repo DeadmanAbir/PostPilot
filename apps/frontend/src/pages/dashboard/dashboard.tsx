@@ -12,7 +12,7 @@ export function Dashboard() {
             <div className="p-5 text-3xl font-bold tracking-wider ">
               Welcome {user?.user?.user_metadata.displayName} 👋
             </div>
-            <main className="flex-1 overflow-y-auto p-4">
+            <main id="imageLoad" className="flex-1 overflow-y-auto p-4">
               <PostGenerator />
             </main>
           </div>
