@@ -47,7 +47,7 @@ export const createClient = (llm: "OpenAI" | "Gemini") => {
   }
   const chatGemini = new ChatGemini({
     apiKey: process.env.GEMINI_API_KEY!,
-    model: "gemini-2.0-flash",
+    model: "gemini-2.5-pro-exp-03-25",
   });
   return chatGemini;
 };

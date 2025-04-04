@@ -82,7 +82,18 @@ export const regeneratePost = async (
     // @ts-ignore
     const postContent = JSON.parse(data.content);
 
-    response.status(200).json(postContent);
+    const { data: updatedData, error } = await supabase
+      .from("post")
+      .update({ post_content: postContent })
+      .eq("post_content", previousPost)
+      .select("post_content");
+
+    if (error) {
+      console.log(error);
+      throw createError(500, `Failed to update post data: ${error}`);
+    }
+
+    response.status(200).json({ updatedData });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {
