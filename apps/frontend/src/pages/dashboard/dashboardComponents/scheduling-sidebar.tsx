@@ -24,7 +24,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { AvatarCircles } from "@/components/avatar-circle";
-import { selectPostGenerated, setPostGenerated, useAppDispatch, useAppSelector } from "../../../../store/index";
+import { selectPostGenerated,  useAppSelector } from "../../../../store/index";
 import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "motion/react"
 import { cn } from "@/lib/utils";
