@@ -18,6 +18,7 @@ import { NavUser } from "./nav-user";
 import { Link, useLocation } from "@tanstack/react-router";
 import { useTheme } from "@/providers/theme-provider";
 import { useAuth } from "@/providers/supabaseAuthProvider";
+import { Button, buttonVariants } from "./ui/button";
 
 export function AppSidebar() {
   const { open } = useSidebar();
@@ -53,6 +54,8 @@ export function AppSidebar() {
   return (
     <Sidebar variant="floating" collapsible="icon" className="rounded-r-xl">
       <SidebarContent className="gap-0">
+
+
         <SidebarGroup>
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -64,7 +67,14 @@ export function AppSidebar() {
             {open ? "Post Pilot" : "P"}
           </motion.div>
         </SidebarGroup>
+        <div className="flex items-center justify-center px-3 py-2">
+          <Link to="/dashboard" className={buttonVariants({
+                              className: "w-full ",
 
+          })} >
+            Create Post
+          </Link>
+        </div>
         {groupedItems.map((group) => (
           <SidebarGroup key={group.label}>
             <SidebarGroupLabel className="text-base">{group.label}</SidebarGroupLabel>
@@ -109,13 +119,13 @@ export function AppSidebar() {
                   className="w-full"
                 >
                   <div className="flex items-center capitalize justify-start gap-1.5 w-full">
-                
+
                     {theme === "dark" ? (
                       <Sun className="size-4 transition-all" />
                     ) : (
                       <Moon className="size-4 transition-all" />
                     )}
-                        {open && theme}
+                    {open && theme}
                     <span className="sr-only">Toggle theme</span>
                   </div>
                 </SidebarMenuButton>
