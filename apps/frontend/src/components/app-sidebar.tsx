@@ -53,7 +53,7 @@ export function AppSidebar() {
   ];
 
   return (
-    <Sidebar variant="sidebar" collapsible="icon" className="">
+    <Sidebar variant="sidebar" collapsible="icon" className="p-2">
       <SidebarContent className="gap-0">
 
 
@@ -80,12 +80,12 @@ export function AppSidebar() {
           <SidebarGroup key={group.label}>
             <SidebarGroupLabel className="text-base">{group.label}</SidebarGroupLabel>
             <SidebarGroupContent>
-              <SidebarMenu className="">
+              <SidebarMenu className="my-2">
                 {group.items.map((item) => {
                   const isActive = pathname.href === item.url;
                   return (
                     <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild isActive={isActive}>
+                      <SidebarMenuButton asChild isActive={isActive} >
                         <Link to={item.url}>
                           {item.icon}
                           <span>{item.title}</span>
