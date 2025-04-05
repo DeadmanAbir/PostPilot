@@ -48,23 +48,23 @@ const LinkSection = () => {
         <TabsContent value="youtube" className="h-full">
           <YouTubeTab />
         </TabsContent>
-        <TabsContent value="files" >
+        <TabsContent value="files" className="h-full">
           <FilesTab />
         </TabsContent>
-        <TabsContent value="images">
+        <TabsContent value="images" className="h-full">
           <ImagesTab />
         </TabsContent>
-        <TabsContent value="tweets">
+        <TabsContent value="tweets" className="h-full">
           <TweetsTab />
         </TabsContent>
-        <TabsContent value="notes" >
+        <TabsContent value="notes" className="h-full">
           <TextNoteTab />
         </TabsContent>
-        <TabsContent value="websites"  >
+        <TabsContent value="websites"  className="h-full">
           <WebsitesTab />
         </TabsContent>
       </Tabs>
-      <div className="flex items-center justify-center col-span-2 ">
+      <div className="flex items-center justify-center col-span-2 h-[400px] ">
       <CardStack items={CARDS} />
 
       </div>
