@@ -28,13 +28,17 @@ import {
   regeneratePostFn,
 } from "@/lib/tanstack-query/mutation";
 import { LinkedinPostResponse } from "@repo/common/types";
+import { selectPostGenerated,setPostGenerated,useAppDispatch,useAppSelector } from "../../../../store/index";
 
 const options = ["Profile", "Billing", "Team", "Subscription"];
 
 export function PostGenerator() {
   const { user } = useAuth();
   const [generatedPost, setGeneratedPost] = useState("");
-  const [postGenerated, setPostGenerated] = useState(false);
+  // const [postGenerated, setPostGenerated] = useState(false);
+  const postGenerated = useAppSelector(selectPostGenerated);
+  const dispatch = useAppDispatch();
+
   const [connectionOnly, setConnectionOnly] = useState(false);
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -43,8 +47,8 @@ export function PostGenerator() {
     onSuccess: (data: LinkedinPostResponse) => {
       setGeneratedPost(data.post_content);
       alert("Post generated successfully");
-      setPostGenerated(true);
-    },
+      dispatch(setPostGenerated(true))
+        },
     onError: (error: unknown) => {
       console.log(error);
       alert("error in posting");
@@ -99,14 +103,14 @@ export function PostGenerator() {
           <CardHeader>
             <CardTitle>Generate Post</CardTitle>
           </CardHeader>
-          <CardContent className="h-full">
+          <CardContent  className="h-full">
             <Textarea
               placeholder="Enter your prompt for AI generation..."
-              className="field-sizing-content"
+              className="max-h-60 h-full"
               value={generatedPost}
               disabled={isPending || isRegenerating}
               required
-              rows={2}
+              rows={20}
               onChange={(e) => setGeneratedPost(e.target.value)}
             />
           </CardContent>

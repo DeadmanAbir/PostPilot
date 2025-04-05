@@ -24,6 +24,7 @@ import {
 } from "../../../components/ui/dialog";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { AvatarCircles } from "@/components/avatar-circle";
+import { selectPostGenerated,setPostGenerated,useAppDispatch,useAppSelector } from "../../../../store/index";
 
 interface ScheduledPost {
   id: string;
@@ -75,6 +76,7 @@ export function SchedulingSidebar() {
   const [scheduledPosts, setScheduledPosts] =
     useState<ScheduledPost[]>(mockUpcomingPosts);
   const [selectedPost, setSelectedPost] = useState<ScheduledPost | null>(null);
+  const postGenerated = useAppSelector(selectPostGenerated);
 
   const handleSchedule = () => {
     const today = new Date();
@@ -162,7 +164,9 @@ export function SchedulingSidebar() {
           </Card>
         </CollapsibleContent>
       </Collapsible>
-
+{ postGenerated &&<div>
+  asdjkhfjakszdf
+</div>}
       <Dialog open={!!selectedPost} onOpenChange={() => setSelectedPost(null)}>
         <DialogContent>
           <DialogHeader>

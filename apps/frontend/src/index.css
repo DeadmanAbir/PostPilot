@@ -90,4 +90,6 @@
 }
 textarea {
   field-sizing: content;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

@@ -6,3 +6,10 @@ export {
   toggle as toggleSidebar,
   selectSidebarCollapsed
 } from './slices/sidebarSlice';
+
+
+export {
+  setPostGenerated,
+  resetPostGenerated,
+  selectPostGenerated
+} from './slices/postGeneration';
