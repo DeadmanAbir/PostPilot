@@ -44,10 +44,7 @@ import { supabase } from "@/lib/supabaseClient";
 import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { Route } from "@/routes/_authenticated/profile";
-import {
-  connectLinkedinQuery,
-  updateProfileQuery,
-} from "@/lib/tanstack-query/query";
+import { connectLinkedinQuery } from "@/lib/tanstack-query/query";
 import { updateProfileFn } from "@/lib/tanstack-query/mutation";
 import { ProfileUpdateResponse } from "@repo/common/types";
 
@@ -127,6 +124,7 @@ export function ProfilePage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [name, setName] = useState(data.name);
+  const [open, setOpen] = useState(false);
   const [profileImage, setProfileImage] = useState(data.profile_url);
   const [editName, setEditName] = useState("");
   const isLinkedinExpired =
@@ -135,35 +133,26 @@ export function ProfilePage() {
   const { refetch: connectLinkedinRefetch } = connectLinkedinQuery(
     user?.accessToken!
   );
-  const { refetch: updateProfileRefetch } = updateProfileQuery(
-    user?.accessToken!,
-    {
-      name: editName,
-    }
-  );
 
-  const { mutate: updateProfile, isPending } = updateProfileFn(
-    user?.accessToken!,
-    {
-      onSuccess: async (data: ProfileUpdateResponse) => {
-        if (data.success) {
-          const { error } = await supabase.auth.updateUser({
-            data: { displayName: editName },
-          });
-          if (error) {
-            console.error(error.message);
-            alert("Error in updating profile:");
-          }
-        } else {
-          alert("Profile update failed");
+  const { mutate: updateProfile } = updateProfileFn(user?.accessToken!, {
+    onSuccess: async (data: ProfileUpdateResponse) => {
+      if (data.success || editName.length > 0) {
+        const { error } = await supabase.auth.updateUser({
+          data: { displayName: editName },
+        });
+        if (error) {
+          console.error(error.message);
+          alert("Error in updating profile:");
         }
-      },
-      onError: (error: unknown) => {
-        console.log(error);
+      } else {
         alert("Profile update failed");
-      },
-    }
-  );
+      }
+    },
+    onError: (error: unknown) => {
+      console.log(error);
+      alert("Profile update failed");
+    },
+  });
 
   const handleConnect = async () => {
     try {
@@ -210,15 +199,6 @@ export function ProfilePage() {
     if (editName.trim()) {
       setName(editName);
     }
-    alert(editName);
-    // const { data: renamedData, error: udateProfileError } =
-    //   await updateProfileRefetch();
-
-    // if (udateProfileError || !renamedData?.success) {
-    //   console.error(udateProfileError);
-    //   alert("Error in updating profile:");
-    //   return;
-    // }
 
     updateProfile({
       name: editName,
@@ -250,6 +230,14 @@ export function ProfilePage() {
     });
   };
 
+  const handlePictureChange = async () => {
+    console.log(profileImage);
+    updateProfile({
+      profile_url: profileImage,
+    });
+    setOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Back Button */}
@@ -264,7 +252,7 @@ export function ProfilePage() {
       <div className="relative h-48 bg-gradient-to-br from-blue-400 to-purple-400">
         <div className="absolute -bottom-12 left-1/2 -translate-x-1/2">
           <Avatar className="h-24 w-24 border-4 border-background">
-            <AvatarImage src={data?.profile_url ?? null} alt={name} />
+            <AvatarImage src={profileImage} alt={name} />
             <AvatarFallback>{name}</AvatarFallback>
           </Avatar>
         </div>
@@ -454,7 +442,7 @@ export function ProfilePage() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <Label>Profile Picture</Label>
-                    <Dialog>
+                    <Dialog open={open} onOpenChange={setOpen}>
                       <DialogTrigger asChild>
                         <Button variant="outline" size="sm">
                           <Pencil className="h-3 w-3 mr-2" />
@@ -484,7 +472,7 @@ export function ProfilePage() {
                           </div>
                         </div>
                         <DialogFooter>
-                          <Button>Save</Button>
+                          <Button onClick={handlePictureChange}>Save</Button>
                         </DialogFooter>
                       </DialogContent>
                     </Dialog>

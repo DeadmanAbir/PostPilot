@@ -70,7 +70,6 @@ export async function addNewUserData(request: AuthRequest, response: Response) {
 export async function updateUserData(request: AuthRequest, response: Response) {
   try {
     const { name, profile_url } = profileUpdateValidator.parse(request.body);
-    console.log(name, profile_url);
     const updateFields: Record<string, string> = {};
 
     if (name) updateFields.name = name;
