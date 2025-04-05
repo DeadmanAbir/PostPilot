@@ -39,7 +39,6 @@ export function PostGenerator() {
   const postGenerated = useAppSelector(selectPostGenerated);
   const dispatch = useAppDispatch();
 
-  const [connectionOnly, setConnectionOnly] = useState(false);
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
@@ -81,11 +80,11 @@ export function PostGenerator() {
   };
   const handleGenerate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    mutate({
-      query: generatedPost,
-    });
-    // setGeneratedPost("demo post");
-    // setPostGenerated(true);
+    // mutate({
+    //   query: generatedPost,
+    // });
+    setGeneratedPost("demo post");
+    dispatch(setPostGenerated(true))
   };
 
   const handleRegenerate = async (additionalContext: string) => {
@@ -195,22 +194,7 @@ export function PostGenerator() {
                 </DropdownMenu>}
 
               </div>
-              {postGenerated && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex items-center justify-center gap-1"
-                >
-                  <span>Connection Only</span>
-                  <Switch
-                    checked={connectionOnly}
-                    onCheckedChange={setConnectionOnly}
-                    disabled={isPending || isRegenerating}
-                  />
-                </motion.div>
-              )}
+         
             </div>
 
             {selectedItems.length > 0 && (

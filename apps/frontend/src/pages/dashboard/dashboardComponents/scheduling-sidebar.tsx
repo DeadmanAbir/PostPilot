@@ -10,11 +10,7 @@ import { Calendar } from "../../../components/ui/calendar";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
 
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+
 
 import {
   Dialog,
@@ -22,9 +18,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../../components/ui/dialog";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import { AvatarCircles } from "@/components/avatar-circle";
-import { selectPostGenerated,setPostGenerated,useAppDispatch,useAppSelector } from "../../../../store/index";
+import { selectPostGenerated, setPostGenerated, useAppDispatch, useAppSelector } from "../../../../store/index";
+import { Switch } from "@/components/ui/switch";
+import { motion, AnimatePresence } from "motion/react"
+import { cn } from "@/lib/utils";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns"
 
 interface ScheduledPost {
   id: string;
@@ -72,7 +77,10 @@ export function SchedulingSidebar() {
 
   const [date, setDate] = useState<Date>(new Date());
   const [time, setTime] = useState(getCurrentTime());
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
+  const [enabled, setEnabled] = useState(false)
+  const [connectionOnly, setConnectionOnly] = useState(false);
+
   const [scheduledPosts, setScheduledPosts] =
     useState<ScheduledPost[]>(mockUpcomingPosts);
   const [selectedPost, setSelectedPost] = useState<ScheduledPost | null>(null);
@@ -108,7 +116,7 @@ export function SchedulingSidebar() {
     };
 
     setScheduledPosts([...scheduledPosts, newPost]);
-    setOpen(false); // Close the collapsible after scheduling
+    // setOpen(false); // Close the collapsible after scheduling
   };
 
   return (
@@ -121,8 +129,76 @@ export function SchedulingSidebar() {
           <AvatarCircles numPeople={avatars.length} avatarUrls={avatars} />
         </CardContent>
       </Card>
+      <div className="mb-2 flex items-center gap-2 bg-white w-full justify-between p-3 rounded-sm text-black border shadow-sm">
+        <Label>Schedule Post</Label>
+        <Switch checked={enabled} onCheckedChange={setEnabled} />
+      </div>
+      <AnimatePresence>
+        {enabled && (
+          <motion.div
+            key="schedule"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Card>
 
-      <Collapsible open={open} onOpenChange={setOpen}>
+              <CardContent className="p-4">
+                <Label className="">Date</Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        " justify-start text-left font-normal w-full mt-1",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon />
+                      {date ? format(date, "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={(newDate) => newDate && setDate(newDate)}
+                      className="rounded-md border"
+                    />
+                  </PopoverContent>
+                </Popover>
+                <div className="space-y-4">
+                  {/* <div>
+                    <Label>Date</Label>
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={(newDate) => newDate && setDate(newDate)}
+                      className="rounded-md border"
+                    />
+                  </div> */}
+                  <div className="mt-2">
+                    <Label htmlFor="time">Time</Label>
+                    <Input
+                      id="time"
+                      type="time"
+                      value={time}
+                      min={date.toDateString() === new Date().toDateString() ? getCurrentTime() : undefined}
+                      onChange={(e) => setTime(e.target.value)}
+                      className="mt-1"
+                    />
+                  </div>
+                  <Button onClick={handleSchedule} className="w-full">
+                    Schedule
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* <Collapsible open={open} onOpenChange={setOpen}>
         <CollapsibleTrigger asChild>
           <Button className="w-full mb-3 flex justify-between items-center">
             <span>Schedule Post</span>
@@ -163,10 +239,29 @@ export function SchedulingSidebar() {
             </CardContent>
           </Card>
         </CollapsibleContent>
-      </Collapsible>
-{ postGenerated &&<div>
-  asdjkhfjakszdf
-</div>}
+      </Collapsible> */}
+
+      {postGenerated && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 10 }}
+          transition={{ duration: 0.2 }}
+          className="flex flex-col my-4 items-center w-full"
+        >
+          <Button className="w-full text-lg tracking-wider">
+            Post
+          </Button>
+          <div className="flex my-2 items-center gap-2">
+            <span>Connection Only</span>
+            <Switch
+              checked={connectionOnly}
+              onCheckedChange={setConnectionOnly}
+            />
+          </div>
+
+        </motion.div>
+      )}
       <Dialog open={!!selectedPost} onOpenChange={() => setSelectedPost(null)}>
         <DialogContent>
           <DialogHeader>
