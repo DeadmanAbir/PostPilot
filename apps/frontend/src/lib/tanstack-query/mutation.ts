@@ -3,8 +3,11 @@ import {
   PostDetail,
   ProfileDetails,
   RegeneratePostContent,
+  RemoteFileUploadDetail,
 } from "@repo/common/types";
 import {
+  addRemoteFile,
+  addRemoteImage,
   addTextNode,
   fetchTweet,
   fetchWebsite,
@@ -54,6 +57,22 @@ export const addNodeContentFn = (accessToken: string, options = {}) => {
 export const fetchWebsiteFn = (accessToken: string, options = {}) => {
   return useMutation({
     mutationFn: (url: string) => fetchWebsite(accessToken, url),
+    ...options,
+  });
+};
+
+export const addRemoteImagesFn = (accessToken: string, options = {}) => {
+  return useMutation({
+    mutationFn: (images: RemoteFileUploadDetail) =>
+      addRemoteImage(accessToken, images),
+    ...options,
+  });
+};
+
+export const addRemoteFilesFn = (accessToken: string, options = {}) => {
+  return useMutation({
+    mutationFn: (files: RemoteFileUploadDetail) =>
+      addRemoteFile(accessToken, files),
     ...options,
   });
 };

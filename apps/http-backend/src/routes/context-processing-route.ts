@@ -7,6 +7,7 @@ import {
   getUsersAdmin,
   saveLocalFileData,
   saveRemoteFileData,
+  saveRemoteImageData,
   saveTextNodeData,
 } from "@/controllers/file-controllers";
 
@@ -21,6 +22,8 @@ router.post("/fetch-url", fetchWebsiteUrl);
 router.post("/add-local-file", saveLocalFileData);
 
 router.post("/add-remote-file", saveRemoteFileData);
+
+router.post("/add-remote-image", saveRemoteImageData);
 
 router.post("/add-text-node", saveTextNodeData);
 

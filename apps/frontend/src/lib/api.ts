@@ -3,6 +3,7 @@ import {
   PostDetail,
   ProfileDetails,
   RegeneratePostContent,
+  RemoteFileUploadDetail,
 } from "@repo/common/types";
 
 export const getProfileData = async (accessToken: string) => {
@@ -185,6 +186,56 @@ export const fetchWebsite = async (accessToken: string, url: string) => {
     return data;
   } catch (error) {
     console.error("Failed to fetch url:", error);
+    throw error;
+  }
+};
+
+export const addRemoteImage = async (
+  accessToken: string,
+  images: RemoteFileUploadDetail
+) => {
+  try {
+    const response = await fetch("/api/add-remote-image", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(images),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch remote images:", error);
+    throw error;
+  }
+};
+
+export const addRemoteFile = async (
+  accessToken: string,
+  files: RemoteFileUploadDetail
+) => {
+  try {
+    const response = await fetch("/api/add-remote-file", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(files),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch remote files:", error);
     throw error;
   }
 };

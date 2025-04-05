@@ -7,11 +7,26 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Trash } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { addRemoteImagesFn } from "@/lib/tanstack-query/mutation";
+import { useAuth } from "@/providers/supabaseAuthProvider";
 
 export function ImagesTab() {
+  const { user } = useAuth();
   const [localImages, setLocalImages] = useState<File[]>([]);
   const [remoteImageUrl, setRemoteImageUrl] = useState("");
   const [remoteImages, setRemoteImages] = useState<string[]>([]);
+
+  const { mutate: addRemoteImages, isPending: isRemoteFetching } =
+    addRemoteImagesFn(user?.accessToken!, {
+      onSuccess: () => {
+        alert("remote images added  successfully");
+        setRemoteImages([]);
+      },
+      onError: (error: unknown) => {
+        console.log(error);
+        alert("error in adding remote images");
+      },
+    });
 
   const handleLocalImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -41,6 +56,17 @@ export function ImagesTab() {
     setRemoteImages((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handleLocalFileUpload = () => {
+    alert("uploading local files");
+  };
+
+  const handleRemoteFileUpload = () => {
+    const remoteImageData = remoteImages.map((url) => ({
+      url,
+    }));
+    addRemoteImages(remoteImageData);
+  };
+
   return (
     <Card id="imageLoad">
       <CardHeader>
@@ -54,7 +80,11 @@ export function ImagesTab() {
           </TabsList>
 
           {/* Local Upload Tab */}
-          <TabsContent id="imageLoad" value="local" className="max-h-[50vh] overflow-y-scroll">
+          <TabsContent
+            id="imageLoad"
+            value="local"
+            className="max-h-[50vh] overflow-y-scroll"
+          >
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="image-upload">Upload Images</Label>
               <Input
@@ -71,10 +101,14 @@ export function ImagesTab() {
                 <div className="flex flex-wrap gap-5">
                   <AnimatePresence>
                     {localImages.map((file, index) => (
-                      <motion.div key={`local-${index}`} className="relative aspect-square group" initial={{ opacity: 0, x: -10 }}
+                      <motion.div
+                        key={`local-${index}`}
+                        className="relative aspect-square group"
+                        initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 10 }}
-                        transition={{ duration: 0.2 }}>
+                        transition={{ duration: 0.2 }}
+                      >
                         <img
                           src={URL.createObjectURL(file) || "/placeholder.svg"}
                           alt={`Local image ${index + 1}`}
@@ -92,17 +126,25 @@ export function ImagesTab() {
                   </AnimatePresence>
                 </div>
                 <div className="w-full flex items-center justify-center">
-                  <Button variant="default" size="sm" className="w-1/4 mt-5">
-                    Load
+                  <Button
+                    onClick={handleLocalFileUpload}
+                    variant="default"
+                    size="sm"
+                    className="w-1/4 mt-5"
+                  >
+                    Upload
                   </Button>
                 </div>
-
               </div>
             )}
           </TabsContent>
 
           {/* Remote URL Tab */}
-          <TabsContent id="imageLoad" value="remote" className="max-h-[50vh] overflow-y-scroll">
+          <TabsContent
+            id="imageLoad"
+            value="remote"
+            className="max-h-[50vh] overflow-y-scroll"
+          >
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="image-url">Image URL</Label>
               <div className="flex space-x-2">
@@ -112,7 +154,12 @@ export function ImagesTab() {
                   value={remoteImageUrl}
                   onChange={(e) => setRemoteImageUrl(e.target.value)}
                 />
-                <Button onClick={handleRemoteImageLoad}>Load Image</Button>
+                <Button
+                  disabled={isRemoteFetching}
+                  onClick={handleRemoteImageLoad}
+                >
+                  Preview Image
+                </Button>
               </div>
             </div>
             {remoteImages.length > 0 && (
@@ -146,11 +193,16 @@ export function ImagesTab() {
                   </AnimatePresence>
                 </div>
                 <div className="w-full flex items-center justify-center">
-                  <Button variant="default" size="sm" className="w-1/4 mt-5">
-                    Load
+                  <Button
+                    onClick={handleRemoteFileUpload}
+                    disabled={isRemoteFetching}
+                    variant="default"
+                    size="sm"
+                    className="w-1/4 mt-5"
+                  >
+                    Upload
                   </Button>
                 </div>
-
               </div>
             )}
           </TabsContent>

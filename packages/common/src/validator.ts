@@ -38,7 +38,7 @@ export const localFileUploadDetailsValidator = z.array(
 
 export const remoteFileUploadDetailsValidator = z.array(
   z.object({
-    fileName: z.string(),
+    fileName: z.string().optional(),
     url: z.string().url(),
   })
 );

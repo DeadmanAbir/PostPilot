@@ -226,22 +226,19 @@ export async function saveRemoteFileData(
 
     const imageData = data.map((file) => {
       return {
-        user_id: getUserId(),
+        user_id: request.userId,
         url: file.url,
         name: file.fileName,
       };
     });
 
-    const { data: fileData, error } = await supabase
-      .from("files")
-      .insert(imageData)
-      .select();
+    const { error } = await supabase.from("files").insert(imageData).select();
 
     if (error) {
       console.log(error);
       throw createError(500, `Failed to insert file data: ${error.message}`);
     }
-    response.status(200).json({ fileData });
+    response.status(200).json({ success: true });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {
@@ -273,6 +270,84 @@ export async function saveTextNodeData(
       throw createError(
         500,
         `Failed to insert text node  data: ${error.message}`
+      );
+    }
+    response.status(200).json({ success: true });
+  } catch (e: unknown) {
+    console.log(e);
+    if (e instanceof ZodError) {
+      response
+        .status(422)
+        .json({ error: "Invalid request body", details: e.errors });
+    } else if (e instanceof Error) {
+      response.status(500).json({ error: e.message });
+    } else {
+      response.status(500).json({ error: "An unknown error occurred" });
+    }
+  }
+}
+
+// export async function saveLocalImageData(
+//   request: AuthRequest,
+//   response: Response
+// ) {
+//   try {
+//     const paths = localFileUploadDetailsValidator.parse(request.body);
+
+//     const data = paths.map((path) => {
+//       return {
+//         user_id: getUserId(),
+//         url: path.path,
+//         name: path.fileName,
+//       };
+//     });
+
+//     const { data: fileData, error } = await supabase
+//       .from("files")
+//       .insert(data)
+//       .select();
+
+//     if (error) {
+//       console.log(error);
+//       throw createError(500, `Failed to insert file data: ${error.message}`);
+//     }
+//     response.status(200).json({ fileData });
+//   } catch (e: unknown) {
+//     console.log(e);
+//     if (e instanceof ZodError) {
+//       response
+//         .status(422)
+//         .json({ error: "Invalid request body", details: e.errors });
+//     } else if (e instanceof Error) {
+//       response.status(500).json({ error: e.message });
+//     } else {
+//       response.status(500).json({ error: "An unknown error occurred" });
+//     }
+//   }
+// }
+
+export async function saveRemoteImageData(
+  request: AuthRequest,
+  response: Response
+) {
+  try {
+    const data = remoteFileUploadDetailsValidator.parse(request.body);
+
+    const imageData = data.map((file) => {
+      return {
+        user_id: request.userId,
+        url: file.url,
+        name: file.fileName,
+      };
+    });
+
+    const { error } = await supabase.from("images").insert(imageData);
+
+    if (error) {
+      console.log(error);
+      throw createError(
+        500,
+        `Failed to insert remote image data: ${error.message}`
       );
     }
     response.status(200).json({ success: true });

@@ -1,9 +1,8 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import "dotenv/config";
 import createError from "http-errors";
 import { ZodError } from "zod";
 
-import jwt from "jsonwebtoken";
 import { supabase } from "@/utils/supabaseClient";
 import { AuthRequest } from "@/middlewares/authMiddleware";
 import { profileUpdateValidator } from "@repo/common/validator";
@@ -109,25 +108,10 @@ export async function updateUserData(request: AuthRequest, response: Response) {
 
 export async function getUser(request: AuthRequest, response: Response) {
   try {
-    const authHeader = request.headers.authorization;
-
-    if (!authHeader) {
-      throw createError(401, "Unauthorized: No headers provided.");
-    }
-
-    const token = authHeader.split(" ")[1];
-
-    if (!token) {
-      throw createError(401, "Unauthorized: No token provided.");
-    }
-
-    const decoded = jwt.verify(token, process.env.SUPABASE_JWT_SECRET!);
-
-    if (typeof decoded !== "string" && decoded.sub) {
-      const { data: users, error } = await supabase
-        .from("users")
-        .select(
-          `
+    const { data: users, error } = await supabase
+      .from("users")
+      .select(
+        `
           *,
           youtube(*),
           images(*),
@@ -136,18 +120,15 @@ export async function getUser(request: AuthRequest, response: Response) {
           text_node(*),
           post(*)
       `
-        )
-        .eq("id", decoded.sub);
+      )
+      .eq("id", request.userId);
 
-      if (error) {
-        console.log(error);
-        throw createError(500, `Failed to get user data: ${error.message}`);
-      }
-
-      response.status(200).json({ users });
-    } else {
-      throw createError(401, "Unauthorized: Invalid token provided.");
+    if (error) {
+      console.log(error);
+      throw createError(500, `Failed to get user data: ${error.message}`);
     }
+
+    response.status(200).json({ users });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {
