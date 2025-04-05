@@ -2,7 +2,7 @@ import { Globe } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 interface WebpageCardProps {
-  title: string;
+  title?: string;
   url: string;
 }
 

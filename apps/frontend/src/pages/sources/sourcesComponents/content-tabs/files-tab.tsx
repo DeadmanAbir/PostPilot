@@ -7,10 +7,13 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/lib/supabaseClient";
-import { LocalFileUploadDetail } from "@repo/common/types";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { motion, AnimatePresence } from "motion/react";
-import { addRemoteFilesFn } from "@/lib/tanstack-query/mutation";
+import {
+  addLocalFilesFn,
+  addRemoteFilesFn,
+} from "@/lib/tanstack-query/mutation";
+import { nanoid } from "nanoid";
 
 export function FilesTab() {
   const { user } = useAuth();
@@ -30,43 +33,65 @@ export function FilesTab() {
       },
     });
 
+  const { mutate: addLocalFile, isPending: isLocalFetching } = addLocalFilesFn(
+    user?.accessToken!,
+    {
+      onSuccess: () => {
+        alert("Local file added  successfully");
+        setLocalFiles([]);
+      },
+      onError: (error: unknown) => {
+        console.log(error);
+        alert("error in adding local file");
+      },
+    }
+  );
+
+  const uploadToSupabase = async (bucket: string) => {
+    const fileUrls: { name: string; url: string; storage_name: string }[] = [];
+    try {
+      for (const file of localFiles) {
+        const fileExtension = file.name.split(".").pop();
+        const fileName = `${nanoid()}.${fileExtension}`;
+        const actualFileName = file.name;
+
+        const filePath = `${user?.user?.id}/${fileName}`;
+
+        const { error } = await supabase.storage
+          .from(bucket)
+          .upload(filePath, file);
+        if (error) {
+          console.error("Error uploading file:", error.message);
+          alert("error in uploading file");
+          throw error;
+        }
+
+        // Get the public URL for the uploaded file
+        const { data: urlData } = supabase.storage
+          .from(bucket)
+          .getPublicUrl(filePath);
+
+        // Add the public URL to our array
+        fileUrls.push({
+          name: actualFileName,
+          url: urlData.publicUrl,
+          storage_name: fileName,
+        });
+      }
+
+      return fileUrls;
+    } catch (error) {
+      console.error("Error in file upload process:", error);
+      throw error;
+    }
+  };
+
   const handleLocalFileChange = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    let files: File[] = [];
-
-    const uploadDetails: LocalFileUploadDetail = [];
-
     if (e.target.files) {
-      files = Array.from(e.target.files);
-      setLocalFiles(files);
-    } else {
-      throw new Error("No files selected");
+      setLocalFiles(Array.from(e.target.files));
     }
-    const uploads = files.map(async (file) => {
-      const encodedName = btoa(file.name);
-      const filePath = `${user?.user?.id}/${encodedName}`;
-
-      const { data, error } = await supabase.storage
-        .from("post-pilot")
-        .upload(filePath, file);
-
-      if (error) {
-        console.error("Error uploading file:", file.name, error);
-        return null; // Skip failed uploads
-      }
-      uploadDetails.push({
-        fileName: encodedName,
-        path: data.fullPath,
-      });
-      return data;
-    });
-    await Promise.all(uploads);
-
-    // const successfulUploads = results.filter((result) => result !== null);
-
-    console.log("Uploaded files:", uploadDetails);
-    // call insert-file endpoint before that fix naming issue
   };
 
   const handleRemoteFileLoad = () => {
@@ -89,6 +114,10 @@ export function FilesTab() {
       url,
     }));
     addRemoteFile(remoteFileData);
+  };
+  const handleLocalFileUpload = async () => {
+    const fileData = await uploadToSupabase("post-pilot");
+    addLocalFile(fileData);
   };
 
   return (
@@ -144,8 +173,14 @@ export function FilesTab() {
                   </AnimatePresence>
                 </ul>
                 <div className="w-full flex items-center justify-center mt-2">
-                  <Button variant="default" size="sm" className="w-1/4">
-                    Load
+                  <Button
+                    disabled={isLocalFetching || isRemoteFetching}
+                    onClick={handleLocalFileUpload}
+                    variant="default"
+                    size="sm"
+                    className="w-1/4"
+                  >
+                    Upload
                   </Button>
                 </div>
               </div>
@@ -162,7 +197,7 @@ export function FilesTab() {
                   onChange={(e) => setRemoteFileUrl(e.target.value)}
                 />
                 <Button
-                  disabled={isRemoteFetching}
+                  disabled={isRemoteFetching || isLocalFetching}
                   onClick={handleRemoteFileLoad}
                 >
                   Add File
@@ -198,7 +233,7 @@ export function FilesTab() {
                 <div className="w-full flex items-center justify-center mt-2">
                   <Button
                     onClick={handleRemoteFileUpload}
-                    disabled={isRemoteFetching}
+                    disabled={isRemoteFetching || isLocalFetching}
                     variant="default"
                     size="sm"
                     className="w-1/4"

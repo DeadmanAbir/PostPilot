@@ -7,9 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Trash } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { addRemoteImagesFn } from "@/lib/tanstack-query/mutation";
+import {
+  addLocalImagesFn,
+  addRemoteImagesFn,
+} from "@/lib/tanstack-query/mutation";
 import { useAuth } from "@/providers/supabaseAuthProvider";
-
+import { nanoid } from "nanoid";
+import { supabase } from "@/lib/supabaseClient";
 export function ImagesTab() {
   const { user } = useAuth();
   const [localImages, setLocalImages] = useState<File[]>([]);
@@ -27,6 +31,58 @@ export function ImagesTab() {
         alert("error in adding remote images");
       },
     });
+
+  const { mutate: addLocalImages, isPending: isLocalFetching } =
+    addLocalImagesFn(user?.accessToken!, {
+      onSuccess: () => {
+        alert("local images added  successfully");
+        setLocalImages([]);
+      },
+      onError: (error: unknown) => {
+        console.log(error);
+        alert("error in adding local images");
+      },
+    });
+
+  const uploadToSupabase = async (bucket: string) => {
+    const fileUrls: { name: string; url: string; storage_name: string }[] = [];
+    try {
+      for (const image of localImages) {
+        const fileExtension = image.name.split(".").pop();
+        const fileName = `${nanoid()}.${fileExtension}`;
+        const actualFileName = image.name;
+
+        const filePath = `${user?.user?.id}/${fileName}`;
+
+        const { error } = await supabase.storage
+          .from(bucket)
+          .upload(filePath, image);
+
+        if (error) {
+          console.error("Error uploading file:", error.message);
+          alert("error in uploading file");
+          throw error;
+        }
+
+        // Get the public URL for the uploaded file
+        const { data: urlData } = supabase.storage
+          .from(bucket)
+          .getPublicUrl(filePath);
+
+        // Add the public URL to our array
+        fileUrls.push({
+          name: actualFileName,
+          url: urlData.publicUrl,
+          storage_name: fileName,
+        });
+      }
+
+      return fileUrls;
+    } catch (error) {
+      console.error("Error in file upload process:", error);
+      throw error;
+    }
+  };
 
   const handleLocalImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -56,8 +112,11 @@ export function ImagesTab() {
     setRemoteImages((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleLocalFileUpload = () => {
-    alert("uploading local files");
+  const handleLocalImageUpload = async () => {
+    const bucket = "post-pilot";
+
+    const uploadedResults = await uploadToSupabase(bucket);
+    addLocalImages(uploadedResults);
   };
 
   const handleRemoteFileUpload = () => {
@@ -91,9 +150,12 @@ export function ImagesTab() {
                 id="image-upload"
                 type="file"
                 multiple
-                accept="image/*"
+                accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml"
                 onChange={handleLocalImageChange}
               />
+              <p className="text-xs text-muted-foreground mt-1">
+                Supported formats: JPG, PNG, WebP, GIF, SVG
+              </p>
             </div>
             {localImages.length > 0 && (
               <div className="mt-4">
@@ -127,7 +189,7 @@ export function ImagesTab() {
                 </div>
                 <div className="w-full flex items-center justify-center">
                   <Button
-                    onClick={handleLocalFileUpload}
+                    onClick={handleLocalImageUpload}
                     variant="default"
                     size="sm"
                     className="w-1/4 mt-5"
@@ -155,7 +217,7 @@ export function ImagesTab() {
                   onChange={(e) => setRemoteImageUrl(e.target.value)}
                 />
                 <Button
-                  disabled={isRemoteFetching}
+                  disabled={isRemoteFetching || isLocalFetching}
                   onClick={handleRemoteImageLoad}
                 >
                   Preview Image
@@ -195,7 +257,7 @@ export function ImagesTab() {
                 <div className="w-full flex items-center justify-center">
                   <Button
                     onClick={handleRemoteFileUpload}
-                    disabled={isRemoteFetching}
+                    disabled={isRemoteFetching || isLocalFetching}
                     variant="default"
                     size="sm"
                     className="w-1/4 mt-5"

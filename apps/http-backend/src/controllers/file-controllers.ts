@@ -187,22 +187,20 @@ export async function saveLocalFileData(
 
     const data = paths.map((path) => {
       return {
-        user_id: getUserId(),
-        url: path.path,
-        name: path.fileName,
+        user_id: request.userId,
+        url: path.url,
+        name: path.name,
+        storage_name: path.storage_name,
       };
     });
 
-    const { data: fileData, error } = await supabase
-      .from("files")
-      .insert(data)
-      .select();
+    const { data: fileData, error } = await supabase.from("files").insert(data);
 
     if (error) {
       console.log(error);
       throw createError(500, `Failed to insert file data: ${error.message}`);
     }
-    response.status(200).json({ fileData });
+    response.status(200).json({ success: true });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {
@@ -287,44 +285,42 @@ export async function saveTextNodeData(
   }
 }
 
-// export async function saveLocalImageData(
-//   request: AuthRequest,
-//   response: Response
-// ) {
-//   try {
-//     const paths = localFileUploadDetailsValidator.parse(request.body);
+export async function saveLocalImageData(
+  request: AuthRequest,
+  response: Response
+) {
+  try {
+    const paths = localFileUploadDetailsValidator.parse(request.body);
 
-//     const data = paths.map((path) => {
-//       return {
-//         user_id: getUserId(),
-//         url: path.path,
-//         name: path.fileName,
-//       };
-//     });
+    const data = paths.map((path) => {
+      return {
+        user_id: request.userId,
+        url: path.url,
+        name: path.name,
+        storage_name: path.storage_name,
+      };
+    });
 
-//     const { data: fileData, error } = await supabase
-//       .from("files")
-//       .insert(data)
-//       .select();
+    const { error } = await supabase.from("images").insert(data);
 
-//     if (error) {
-//       console.log(error);
-//       throw createError(500, `Failed to insert file data: ${error.message}`);
-//     }
-//     response.status(200).json({ fileData });
-//   } catch (e: unknown) {
-//     console.log(e);
-//     if (e instanceof ZodError) {
-//       response
-//         .status(422)
-//         .json({ error: "Invalid request body", details: e.errors });
-//     } else if (e instanceof Error) {
-//       response.status(500).json({ error: e.message });
-//     } else {
-//       response.status(500).json({ error: "An unknown error occurred" });
-//     }
-//   }
-// }
+    if (error) {
+      console.log(error);
+      throw createError(500, `Failed to insert image : ${error.message}`);
+    }
+    response.status(200).json({ sucess: true });
+  } catch (e: unknown) {
+    console.log(e);
+    if (e instanceof ZodError) {
+      response
+        .status(422)
+        .json({ error: "Invalid request body", details: e.errors });
+    } else if (e instanceof Error) {
+      response.status(500).json({ error: e.message });
+    } else {
+      response.status(500).json({ error: "An unknown error occurred" });
+    }
+  }
+}
 
 export async function saveRemoteImageData(
   request: AuthRequest,

@@ -31,8 +31,9 @@ export const profileIdValidator = z.object({
 
 export const localFileUploadDetailsValidator = z.array(
   z.object({
-    fileName: z.string(),
-    path: z.string(),
+    name: z.string(),
+    url: z.string(),
+    storage_name: z.string(),
   })
 );
 

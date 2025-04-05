@@ -1,5 +1,6 @@
 import {
   AddNodeContent,
+  LocalFileUploadDetail,
   PostDetail,
   ProfileDetails,
   RegeneratePostContent,
@@ -236,6 +237,77 @@ export const addRemoteFile = async (
     return data;
   } catch (error) {
     console.error("Failed to fetch remote files:", error);
+    throw error;
+  }
+};
+
+export const addLocalImage = async (
+  accessToken: string,
+  images: LocalFileUploadDetail
+) => {
+  try {
+    const response = await fetch("/api/add-local-image", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(images),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to add local image:", error);
+    throw error;
+  }
+};
+
+export const addLocalFile = async (
+  accessToken: string,
+  files: LocalFileUploadDetail
+) => {
+  try {
+    const response = await fetch("/api/add-local-file", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(files),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to add local file:", error);
+    throw error;
+  }
+};
+
+export const fetchUserSources = async (accessToken: string) => {
+  try {
+    const response = await fetch("/api/get-user", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.users[0];
+  } catch (error) {
+    console.error("Failed to get user sources:", error);
     throw error;
   }
 };

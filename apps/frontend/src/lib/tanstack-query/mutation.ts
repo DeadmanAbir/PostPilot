@@ -1,11 +1,14 @@
 import {
   AddNodeContent,
+  LocalFileUploadDetail,
   PostDetail,
   ProfileDetails,
   RegeneratePostContent,
   RemoteFileUploadDetail,
 } from "@repo/common/types";
 import {
+  addLocalFile,
+  addLocalImage,
   addRemoteFile,
   addRemoteImage,
   addTextNode,
@@ -73,6 +76,22 @@ export const addRemoteFilesFn = (accessToken: string, options = {}) => {
   return useMutation({
     mutationFn: (files: RemoteFileUploadDetail) =>
       addRemoteFile(accessToken, files),
+    ...options,
+  });
+};
+
+export const addLocalImagesFn = (accessToken: string, options = {}) => {
+  return useMutation({
+    mutationFn: (images: LocalFileUploadDetail) =>
+      addLocalImage(accessToken, images),
+    ...options,
+  });
+};
+
+export const addLocalFilesFn = (accessToken: string, options = {}) => {
+  return useMutation({
+    mutationFn: (files: LocalFileUploadDetail) =>
+      addLocalFile(accessToken, files),
     ...options,
   });
 };

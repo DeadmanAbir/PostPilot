@@ -6,6 +6,7 @@ import {
   fetchYoutubeVideoDetails,
   getUsersAdmin,
   saveLocalFileData,
+  saveLocalImageData,
   saveRemoteFileData,
   saveRemoteImageData,
   saveTextNodeData,
@@ -20,6 +21,8 @@ router.post("/fetch-tweet", fetchTweets);
 router.post("/fetch-url", fetchWebsiteUrl);
 
 router.post("/add-local-file", saveLocalFileData);
+
+router.post("/add-local-image", saveLocalImageData);
 
 router.post("/add-remote-file", saveRemoteFileData);
 
