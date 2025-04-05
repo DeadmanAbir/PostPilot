@@ -117,6 +117,7 @@ export async function getUser(request: AuthRequest, response: Response) {
           tweets(*),
           websites(*),
           text_node(*),
+          files(*),
           post(*)
       `
       )

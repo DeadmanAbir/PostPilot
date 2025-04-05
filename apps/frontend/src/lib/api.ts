@@ -290,3 +290,24 @@ export const addLocalFile = async (
     throw error;
   }
 };
+
+export const fetchUserSources = async (accessToken: string) => {
+  try {
+    const response = await fetch("/api/get-user", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.users[0];
+  } catch (error) {
+    console.error("Failed to get user sources:", error);
+    throw error;
+  }
+};

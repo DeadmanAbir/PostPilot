@@ -1,17 +1,17 @@
-
-import { Tweet } from 'react-tweet'
+import { Tweet } from "react-tweet";
 
 interface TweetCardProps {
-  id: string;
-
+  url: string;
 }
 
-export function TweetCard({
-id
-}: TweetCardProps) {
+export function TweetCard({ url }: TweetCardProps) {
+  const extractTweetId = (url: string): string | null => {
+    const match = url.match(/status\/(\d+)/);
+    return match?.[1] ?? null;
+  };
   return (
-    <div className=''>
-     <Tweet id={id} />
+    <div className="">
+      <Tweet id={extractTweetId(url)!} />
     </div>
   );
 }
