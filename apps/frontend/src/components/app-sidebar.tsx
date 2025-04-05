@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, Moon, Sun, User, FilePlus, Send } from "lucide-react";
+import { Calendar, Moon, Sun, User, FilePlus, Send, Book } from "lucide-react";
 import { motion } from "motion/react";
 import {
   Sidebar,
@@ -18,7 +18,7 @@ import { NavUser } from "./nav-user";
 import { Link, useLocation } from "@tanstack/react-router";
 import { useTheme } from "@/providers/theme-provider";
 import { useAuth } from "@/providers/supabaseAuthProvider";
-import { Button, buttonVariants } from "./ui/button";
+import {  buttonVariants } from "./ui/button";
 
 export function AppSidebar() {
   const { open } = useSidebar();
@@ -45,6 +45,7 @@ export function AppSidebar() {
       label: "Posts",
       items: [
         { title: "Scheduled", url: "/scheduled", icon: <Calendar /> },
+        { title: "Sources", url: "/sources", icon: <Book /> },
         { title: "Posted", url: "/posted", icon: <Send /> },
       ],
     },
