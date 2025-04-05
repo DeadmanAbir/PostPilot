@@ -93,8 +93,8 @@ export function PostGenerator() {
     });
   };
   return (
-    <form  onSubmit={handleGenerate}>
-      <div  className="space-y-4 ">
+    <form onSubmit={handleGenerate}>
+      <div className="space-y-4 ">
         <Card>
           <CardHeader>
             <CardTitle>Generate Post</CardTitle>
@@ -155,7 +155,7 @@ export function PostGenerator() {
                     </div>
                   </Button>
                 )}
-                <DropdownMenu>
+                {!postGenerated && <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant={"outline"}>Select Options</Button>
                   </DropdownMenuTrigger>
@@ -188,7 +188,8 @@ export function PostGenerator() {
                         </DropdownMenuItem>
                       ))}
                   </DropdownMenuContent>
-                </DropdownMenu>
+                </DropdownMenu>}
+
               </div>
               {postGenerated && (
                 <motion.div
