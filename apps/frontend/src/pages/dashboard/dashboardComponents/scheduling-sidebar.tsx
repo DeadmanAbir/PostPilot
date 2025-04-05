@@ -189,7 +189,7 @@ export function SchedulingSidebar() {
                       className="mt-1"
                     />
                   </div>
-                  <Button onClick={handleSchedule} className="w-full">
+                  <Button onClick={handleSchedule} className="w-full" disabled={!postGenerated}>
                     Schedule
                   </Button>
                 </div>
