@@ -53,7 +53,7 @@ export function AppSidebar() {
   ];
 
   return (
-    <Sidebar variant="floating" collapsible="icon" className="rounded-r-xl">
+    <Sidebar variant="sidebar" collapsible="icon" className="">
       <SidebarContent className="gap-0">
 
 
