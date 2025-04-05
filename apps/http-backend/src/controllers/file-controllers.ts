@@ -194,16 +194,13 @@ export async function saveLocalFileData(
       };
     });
 
-    const { data: fileData, error } = await supabase
-      .from("files")
-      .insert(data)
-      .select();
+    const { data: fileData, error } = await supabase.from("files").insert(data);
 
     if (error) {
       console.log(error);
       throw createError(500, `Failed to insert file data: ${error.message}`);
     }
-    response.status(200).json({ fileData });
+    response.status(200).json({ success: true });
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {

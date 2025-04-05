@@ -113,11 +113,9 @@ export function ImagesTab() {
   };
 
   const handleLocalImageUpload = async () => {
-    console.log(localImages);
     const bucket = "post-pilot";
 
     const uploadedResults = await uploadToSupabase(bucket);
-    console.log(uploadedResults);
     addLocalImages(uploadedResults);
   };
 

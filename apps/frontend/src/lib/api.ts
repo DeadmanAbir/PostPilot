@@ -261,7 +261,32 @@ export const addLocalImage = async (
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Failed to fetch remote files:", error);
+    console.error("Failed to add local image:", error);
+    throw error;
+  }
+};
+
+export const addLocalFile = async (
+  accessToken: string,
+  files: LocalFileUploadDetail
+) => {
+  try {
+    const response = await fetch("/api/add-local-file", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(files),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to add local file:", error);
     throw error;
   }
 };
