@@ -37,6 +37,8 @@ export function TextNoteTab() {
   };
 
   return (
+    <div className="w-full h-full py-20">
+
     <Card>
       <CardHeader>
         <input
@@ -86,6 +88,7 @@ export function TextNoteTab() {
         )}
       </CardContent>
     </Card>
+    </div>
   );
 }
 

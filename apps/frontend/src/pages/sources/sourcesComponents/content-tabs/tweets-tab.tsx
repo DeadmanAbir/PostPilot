@@ -48,6 +48,7 @@ export function TweetsTab() {
   };
 
   return (
+    <div className="w-full h-full py-20"> 
     <Card>
       <CardHeader>
         <CardTitle>Tweet</CardTitle>
@@ -78,5 +79,6 @@ export function TweetsTab() {
         </div>
       </CardContent>
     </Card>
+    </div>
   );
 }

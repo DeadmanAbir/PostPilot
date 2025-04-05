@@ -4,11 +4,12 @@ import { Label } from "@/components/ui/label";
 
 export function YouTubeTab() {
   return (
-    <Card>
-      <CardHeader>
+    <div className="w-full h-full py-20">
+<Card className="">
+      <CardHeader className="w-full">
         <CardTitle>YouTube Video</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="w-full">
         <div className="grid w-full items-center gap-4">
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="youtube-url">YouTube URL</Label>
@@ -20,5 +21,7 @@ export function YouTubeTab() {
         </div>
       </CardContent>
     </Card>
+    </div>
+    
   );
 }

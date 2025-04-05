@@ -121,7 +121,8 @@ export function FilesTab() {
   };
 
   return (
-    <Card>
+    <div className="w-full h-full py-20">
+ <Card>
       <CardHeader>
         <CardTitle>Upload Files</CardTitle>
       </CardHeader>
@@ -247,5 +248,7 @@ export function FilesTab() {
         </Tabs>
       </CardContent>
     </Card>
+    </div>
+   
   );
 }

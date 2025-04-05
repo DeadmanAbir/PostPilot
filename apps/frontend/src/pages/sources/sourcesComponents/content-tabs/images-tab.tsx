@@ -127,7 +127,8 @@ export function ImagesTab() {
   };
 
   return (
-    <Card id="imageLoad">
+    <div className="w-full h-full py-20">
+ <Card id="imageLoad">
       <CardHeader>
         <CardTitle>Images</CardTitle>
       </CardHeader>
@@ -271,5 +272,8 @@ export function ImagesTab() {
         </Tabs>
       </CardContent>
     </Card>
+    </div>
+
+   
   );
 }

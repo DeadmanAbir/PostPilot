@@ -17,8 +17,8 @@ import  { CardStack } from "./cards/stacking-cards";
 import { Highlight } from "@/utils/highlight";
 const LinkSection = () => {
   return (
-    <div className="h-full w-full p-5 grid grid-cols-6 gap-2 overflow-hidden">
-      <Tabs defaultValue="youtube" className="col-span-4 overflow-hidden ">
+    <div className="h-full w-full p-5 grid grid-cols-6 gap-5 ">
+      <Tabs defaultValue="youtube" className="col-span-4  ">
         <TabsList>
           <TabsTrigger value="youtube">
             <YoutubeIcon className="mr-2 h-4 w-4" />
@@ -45,10 +45,10 @@ const LinkSection = () => {
             Websites/Articles
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="youtube">
+        <TabsContent value="youtube" className="h-full">
           <YouTubeTab />
         </TabsContent>
-        <TabsContent value="files">
+        <TabsContent value="files" >
           <FilesTab />
         </TabsContent>
         <TabsContent value="images">
@@ -57,10 +57,10 @@ const LinkSection = () => {
         <TabsContent value="tweets">
           <TweetsTab />
         </TabsContent>
-        <TabsContent value="notes">
+        <TabsContent value="notes" >
           <TextNoteTab />
         </TabsContent>
-        <TabsContent value="websites">
+        <TabsContent value="websites"  >
           <WebsitesTab />
         </TabsContent>
       </Tabs>
