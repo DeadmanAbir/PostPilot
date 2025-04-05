@@ -27,27 +27,27 @@ export const CardStack = ({
   const [cards, setCards] = useState<Card[]>(items);
 
   useEffect(() => {
-    startFlipping();
+    // startFlipping();
 
     return () => clearInterval(interval);
   }, []);
-  const startFlipping = () => {
-    interval = setInterval(() => {
-      setCards((prevCards: Card[]) => {
-        const newArray = [...prevCards]; // create a copy of the array
-        newArray.unshift(newArray.pop()!); // move the last element to the front
-        return newArray;
-      });
-    }, 10000);
-  };
+  // const startFlipping = () => {
+  //   interval = setInterval(() => {
+  //     setCards((prevCards: Card[]) => {
+  //       const newArray = [...prevCards]; // create a copy of the array
+  //       newArray.unshift(newArray.pop()!); // move the last element to the front
+  //       return newArray;
+  //     });
+  //   }, 10000);
+  // };
 
   return (
-    <div className="relative  w-[276px] h-[330px]">
+    <div className="relative  w-[306px] h-[330px]">
       {cards.map((card, index) => {
         return (
           <motion.div
             key={card.id}
-            className="absolute dark:bg-black bg-white w-[276px] h-[300px] rounded-3xl p-4 shadow-xl border border-neutral-200 dark:border-white/[0.1]  shadow-black/[0.1] dark:shadow-white/[0.05] flex flex-col justify-between"
+            className="absolute dark:bg-black bg-white w-[336px] h-[300px] rounded-3xl p-4 shadow-xl border border-neutral-200 dark:border-white/[0.1]  shadow-black/[0.1] dark:shadow-white/[0.05] flex flex-col justify-between"
             style={{
               transformOrigin: "top center",
             }}
@@ -71,11 +71,11 @@ export const CardStack = ({
           </motion.div>
         );
       })}
-   <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2">
+   <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/3 flex items-center gap-2">
   <Button 
     variant="outline" 
     size="icon" 
-    className="rounded-full" 
+    className="rounded-full " 
     onClick={() => {
       setCards((prevCards) => {
         const newArray = [...prevCards];

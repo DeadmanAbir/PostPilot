@@ -17,7 +17,7 @@ import  { CardStack } from "./cards/stacking-cards";
 import { Highlight } from "@/utils/highlight";
 const LinkSection = () => {
   return (
-    <div className="h-full w-full p-5 grid grid-cols-6 gap-5 overflow-hidden">
+    <div className="h-full w-full p-5 grid grid-cols-6 gap-2 overflow-hidden">
       <Tabs defaultValue="youtube" className="col-span-4 overflow-hidden ">
         <TabsList>
           <TabsTrigger value="youtube">
