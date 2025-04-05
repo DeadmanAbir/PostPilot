@@ -1,4 +1,5 @@
 import { AuthContext } from "@/hooks/useAuth";
+import NotFoundPage from "@/pages/notfound";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 
 type RouterContext = {
@@ -11,4 +12,8 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       <Outlet />
     </>
   ),
+  notFoundComponent: () => (<>
+  <NotFoundPage/>
+  </>
+  )
 });
