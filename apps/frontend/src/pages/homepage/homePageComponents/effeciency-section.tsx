@@ -3,9 +3,9 @@ import { Clock, FileCheck, Monitor } from "lucide-react";
 
 const EfficiencySection = () => {
   return (
-    <div className="border-b-2 border-dotted w-full ">
-    <div className="w-full border-b-2 border-dotted">
-      <div className=" border-r-[2px] border-l-2 py-10 border-dotted container mx-auto flex flex-col items-center justify-center relative overflow-hidden">
+    <div className="w-full ">
+    <div className="w-full ">
+      <div className="  py-10 border-dotted container mx-auto flex flex-col items-center justify-center relative overflow-hidden">
       {/* <div className="absolute inset-0 left-1/2 translate-y-[290px] -translate-x-48  top-0 size-96 bg-orange-700 rounded-2xl blur-3xl"></div>      */}
         <h1 className="text-transparent bg-clip-text text-center  bg-gradient-to-b font-mono tracking-widest from-white to-zinc-600  md:text-9xl text-6xl   drop-shadow-[0_0_40px_rgba(251,146,60,0.8)]">
         
@@ -17,7 +17,7 @@ const EfficiencySection = () => {
       </p>
       </div>
     </div>
-    <section className="container mx-auto p-10 text-center border-r-[2px] border-l-2 border-dotted ">
+    <section className="container mx-auto p-10 text-center  ">
       
 
       <div className=" grid gap-6 md:grid-cols-3 text-white">

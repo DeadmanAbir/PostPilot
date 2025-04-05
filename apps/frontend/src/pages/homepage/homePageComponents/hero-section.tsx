@@ -8,7 +8,7 @@ const HeroSection = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: false });
   return (
-    <div className=" w-full border-b-2 border-dotted relative overflow-hidden">
+    <div className=" w-full  relative overflow-hidden">
       <motion.div
         className="absolute -right-20 size-[200px] mt-20 z-20"
         initial={{ scale: 0 }}
@@ -51,7 +51,7 @@ const HeroSection = () => {
           className="w-full h-full object-contain"
         />
       </motion.div>
-      <section className="container mx-auto py-20 text-center  min-h-[100vh] bg-black flex items-center justify-center relative overflow-hidden border-r-[2px] border-l-2 border-dotted">
+      <section className="container mx-auto py-20 text-center  min-h-[100vh] bg-black flex items-center justify-center relative overflow-hidden ">
         <motion.div
           className="absolute size-[400px] mt-20"
           initial={{ scale: 0 }}
