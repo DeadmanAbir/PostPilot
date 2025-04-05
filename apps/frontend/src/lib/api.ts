@@ -1,5 +1,6 @@
 import {
   AddNodeContent,
+  LocalFileUploadDetail,
   PostDetail,
   ProfileDetails,
   RegeneratePostContent,
@@ -227,6 +228,31 @@ export const addRemoteFile = async (
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(files),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch remote files:", error);
+    throw error;
+  }
+};
+
+export const addLocalImage = async (
+  accessToken: string,
+  images: LocalFileUploadDetail
+) => {
+  try {
+    const response = await fetch("/api/add-local-image", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(images),
     });
 
     if (!response.ok) {

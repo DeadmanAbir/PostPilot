@@ -35,38 +35,14 @@ export function FilesTab() {
   ) => {
     let files: File[] = [];
 
-    const uploadDetails: LocalFileUploadDetail = [];
-
     if (e.target.files) {
       files = Array.from(e.target.files);
       setLocalFiles(files);
     } else {
       throw new Error("No files selected");
     }
-    const uploads = files.map(async (file) => {
-      const encodedName = btoa(file.name);
-      const filePath = `${user?.user?.id}/${encodedName}`;
 
-      const { data, error } = await supabase.storage
-        .from("post-pilot")
-        .upload(filePath, file);
-
-      if (error) {
-        console.error("Error uploading file:", file.name, error);
-        return null; // Skip failed uploads
-      }
-      uploadDetails.push({
-        fileName: encodedName,
-        path: data.fullPath,
-      });
-      return data;
-    });
-    await Promise.all(uploads);
-
-    // const successfulUploads = results.filter((result) => result !== null);
-
-    console.log("Uploaded files:", uploadDetails);
-    // call insert-file endpoint before that fix naming issue
+    console.log("Uploaded files:", localFiles);
   };
 
   const handleRemoteFileLoad = () => {
@@ -145,7 +121,7 @@ export function FilesTab() {
                 </ul>
                 <div className="w-full flex items-center justify-center mt-2">
                   <Button variant="default" size="sm" className="w-1/4">
-                    Load
+                    Upload
                   </Button>
                 </div>
               </div>
