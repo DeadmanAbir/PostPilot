@@ -9,9 +9,8 @@ export function Dashboard() {
       <div className="flex flex-col flex-1 overflow-hidden">
         <div className="flex flex-1 overflow-hidden">
           <div className="w-full flex flex-col">
-            <div className="p-5 text-3xl font-bold tracking-wider ">
-              
-               {user?.user?.user_metadata.displayName} 👋
+            <div className="p-5 text-3xl font-bold tracking-wider ">              
+            Welcome {user?.user?.user_metadata.displayName} 👋
             </div>
             <main id="imageLoad" className="flex-1 overflow-y-auto p-4">
               <PostGenerator />
