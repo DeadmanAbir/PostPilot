@@ -19,7 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { Check, File, Globe2, Image, Twitter, X, Youtube } from "lucide-react";
+import { Check, File, Globe2, Image, ImageIcon, Twitter, Upload, X, Youtube } from "lucide-react";
 import { RegenerateModal } from "@/components/regenerate-modal";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import {
@@ -93,6 +93,7 @@ export function PostGenerator() {
   const [generatedPost, setGeneratedPost] = useState("");
   const postGenerated = useAppSelector(selectPostGenerated);
   const dispatch = useAppDispatch();
+  const [images, setImages] = useState([]);
 
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<{ id: string; label: string }[]>([]);
@@ -207,6 +208,22 @@ export function PostGenerator() {
     setScheduledPosts([...scheduledPosts, newPost]);
     // setOpen(false); // Close the collapsible after scheduling
   };
+  const handleFileChange = (e) => {
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files);
+      const newImages = filesArray.map(file => ({
+        file,
+        preview: URL.createObjectURL(file),
+        id: `${file.name}-${Date.now()}`
+      }));
+
+      setImages(prev => [...prev, ...newImages]);
+    }
+  };
+
+  const removeImage = (id) => {
+    setImages(images.filter(image => image.id !== id));
+  };
 
 
   console.log("optionData", optionData, selectedItems);
@@ -224,7 +241,89 @@ export function PostGenerator() {
               <CardHeader>
                 <CardTitle>Generate Post</CardTitle>
               </CardHeader>
-              <CardContent className="h-full">
+              <CardContent className="h-full space-y-3">
+                <div className="w-full border-dotted border-4 rounded-md border-blue-400 bg-blue-50 p-5 ">
+                
+
+                  <div className="w-full ">
+                    <AnimatePresence>
+                      <div className="flex gap-3">
+                      {images.map((image) => (
+                        <motion.div
+                          key={image.id}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.8, y: 20 }}
+                          transition={{ duration: 0.3 }}
+                          className="relative aspect-square  rounded-lg  group size-20 border-blue-400 border-4"
+                        >
+                          <img
+                            src={image.preview}
+                            alt="Preview"
+                            className="w-full h-full object-cover size-20"
+                          />
+                          <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => removeImage(image.id)}
+                            className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <X size={16} />
+                          </motion.button>
+                        </motion.div>
+                      ))}
+
+                      </div>
+                   
+                      {images.length === 0 && (
+                        <label className="cursor-pointer col-span-full md:col-span-1">
+                          <motion.div
+                            className=" flex flex-col items-center justify-center p-2 h-36 transition-all"
+                            whileHover="hover"
+                          >
+                            <div className="relative h-24 w-32 mb-4">
+                              <motion.div
+                                className="absolute bg-blue-100 w-16 h-16 rounded border border-blue-400"
+                                variants={{
+                                  hover: { x: -20, y: -10, rotate: -5, transition: { duration: 0.3 } }
+                                }}
+                              >
+                                <ImageIcon className="w-8 h-8 m-4 text-blue-500" />
+                              </motion.div>
+                              <motion.div
+                                className="absolute bg-green-100 w-16 h-16 rounded border border-green-500 left-4 top-2"
+                                variants={{
+                                  hover: { transition: { duration: 0.3 } }
+                                }}
+                              >
+                                <ImageIcon className="w-8 h-8 m-4 text-green-500" />
+                              </motion.div>
+                              <motion.div
+                                className="absolute bg-purple-100 w-16 h-16 rounded border border-purple-500 left-8 top-4"
+                                variants={{
+                                  hover: { x: 20, y: -10, rotate: 5, transition: { duration: 0.3 } }
+                                }}
+                              >
+                                <ImageIcon className="w-8 h-8 m-4 text-purple-500" />
+                              </motion.div>
+                            </div>
+                            <p className="text-sm text-gray-500 text-center">
+                              Drag & drop images here<br />or click to browse
+                            </p>
+                            <input
+                              type="file"
+                              multiple
+                              accept="image/*"
+                              className="hidden"
+                              onChange={handleFileChange}
+                            />
+                          </motion.div>
+                        </label>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </div>
+
                 <Textarea
                   placeholder="Enter your prompt for AI generation..."
                   className="max-h-60 h-full"
