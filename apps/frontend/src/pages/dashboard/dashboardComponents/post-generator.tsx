@@ -492,62 +492,63 @@ export function PostGenerator() {
       </Card> */}
 
 {images.length > 0 && (
-        <div className="mb-8 relative">
-          <motion.div 
-            className="relative rounded-lg overflow-hidden w-full aspect-video bg-gray-100 h-60"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
+  <div className="mb-8 relative ">
+    <motion.div 
+      className="relative rounded-2xl shadow-xl overflow-hidden w-full aspect-video bg-white h-60 border border-gray-200"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      <AnimatePresence mode="wait">
+        <motion.img 
+          key={currentSlide}
+          src={images[currentSlide]?.preview} 
+          alt="Selected preview" 
+          className="w-full h-full object-contain"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        />
+      </AnimatePresence>
+
+      {images.length > 1 && (
+        <>
+          <motion.button
+            whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,0,0,0.7)' }}
+            whileTap={{ scale: 0.9 }}
+            onClick={prevSlide}
+            className="absolute left-3 top-1/2  bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
           >
-            <AnimatePresence mode="wait">
-              <motion.img 
-                key={currentSlide}
-                src={images[currentSlide]?.preview} 
-                alt="Selected preview" 
-                className="w-full h-full object-contain "
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
+            <ChevronLeft size={24} />
+          </motion.button>
+          
+          <motion.button
+            whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,0,0,0.7)' }}
+            whileTap={{ scale: 0.9 }}
+            onClick={nextSlide}
+            className="absolute right-3 top-1/2  bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
+          >
+            <ChevronRight size={24} />
+          </motion.button>
+          
+          <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
+            {images.map((_, index) => (
+              <button 
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`h-2 rounded-full transition-all ${
+                  index === currentSlide ? 'bg-white w-4' : 'bg-white bg-opacity-50 w-2'
+                }`}
               />
-            </AnimatePresence>
-            
-            {images.length > 1 && (
-              <>
-                <motion.button
-                  whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,0,0,0.7)' }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={prevSlide}
-                  className="absolute left-2 top-1/2 transform  bg-black bg-opacity-50 text-white p-2 rounded-full"
-                >
-                  <ChevronLeft size={24} />
-                </motion.button>
-                
-                <motion.button
-                  whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,0,0,0.7)' }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={nextSlide}
-                  className="absolute right-2 top-1/2 transform  bg-black bg-opacity-50 text-white p-2 rounded-full"
-                >
-                  <ChevronRight size={24} />
-                </motion.button>
-                
-                <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1">
-                  {images.map((_, index) => (
-                    <button 
-                      key={index}
-                      onClick={() => setCurrentSlide(index)}
-                      className={`w-2 h-2 rounded-full transition-all ${
-                        index === currentSlide ? 'bg-white w-4' : 'bg-white bg-opacity-50'
-                      }`}
-                    />
-                  ))}
-                </div>
-              </>
-            )}
-          </motion.div>
-        </div>
+            ))}
+          </div>
+        </>
       )}
+    </motion.div>
+  </div>
+)}
+
         <div className="mb-2 flex items-center gap-2 bg-white w-full justify-between p-3 rounded-sm text-black border shadow-sm">
           <Label>Schedule Post</Label>
           <Switch checked={enabled} onCheckedChange={setEnabled} />
