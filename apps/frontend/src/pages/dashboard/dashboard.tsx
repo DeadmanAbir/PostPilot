@@ -7,8 +7,8 @@ export function Dashboard() {
   return (
     <div className="flex h-screen bg-background">
       <div className="flex flex-col flex-1 overflow-hidden">
-        <div className="flex flex-1 overflow-hidden">
-          <div className="w-full flex flex-col">
+        <div className="flex flex-1 overflow-hidden w-full ">
+          <div className="w-2/3 flex flex-col">
             <div className="p-5 text-3xl font-bold tracking-wider ">              
             Welcome {user?.user?.user_metadata.displayName} 👋
             </div>
@@ -20,7 +20,7 @@ export function Dashboard() {
           <SchedulingSidebar />
         </div>
         <footer className="p-4 text-center text-sm text-muted-foreground">
-          © 2024 LinkedIn Post Generator. All rights reserved.
+          © 2025 LinkedIn Post Generator. All rights reserved.
         </footer>
       </div>
     </div>

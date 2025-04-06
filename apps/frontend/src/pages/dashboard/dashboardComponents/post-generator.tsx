@@ -12,9 +12,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuPortal,
-  DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
@@ -175,7 +173,7 @@ export function PostGenerator() {
                     </div>
                   </Button>
                 )}
-                {!postGenerated && (
+                {!postGenerated && optionData && (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild disabled={isSourcesFetching}>
                       <Button variant={"outline"}>Select Options</Button>
