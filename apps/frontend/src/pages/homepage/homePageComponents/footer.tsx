@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-router";
 
 const Footer = () => {
-  return (<footer className="w-full ">
-    <div className="container mx-auto flex items-center justify-between border-r-[2px] h-20 px-5 border-l-2 border-dotted w-full">
+  return (<footer className="w-full border-t-2 border-zinc-600">
+    <div className="container mx-auto flex items-center justify-between  h-20 px-5  w-full">
       <div className="flex items-center gap-2">
         <h1 className="text-xl font-bold">PostPIlot</h1>
 
