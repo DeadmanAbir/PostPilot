@@ -21,7 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { Check,  X } from "lucide-react";
+import { Check, File, Globe2, Image, Twitter, X, Youtube } from "lucide-react";
 import { RegenerateModal } from "@/components/regenerate-modal";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import {
@@ -184,16 +184,16 @@ export function PostGenerator() {
 
 
                       {[
-                        { label: "Files", data: optionData.files },
-                        { label: "Images", data: optionData.images },
-                        { label: "Tweets", data: optionData.tweets },
-                        { label: "Websites", data: optionData.websites },
-                        { label: "YouTube", data: optionData.youtube },
-                      ].map(({ label, data }) => (
+                        { label: "Files", data: optionData.files, icon: File },
+                        { label: "Images", data: optionData.images, icon: Image },
+                        { label: "Tweets", data: optionData.tweets, icon: Twitter },
+                        { label: "Websites", data: optionData.websites, icon: Globe2 },
+                        { label: "YouTube", data: optionData.youtube, icon: Youtube },
+                      ].map(({ label, icon: Icon, data }) => (
                         data?.length > 0 && (
                           <DropdownMenuSub key={label}>
                             <DropdownMenuSubTrigger className="gap-2">
-                              <span>{label}</span>
+                              <Icon /> <span>{label}</span>
                             </DropdownMenuSubTrigger>
                             <DropdownMenuPortal>
                               <DropdownMenuSubContent className="max-h-64 overflow-y-auto">
