@@ -19,7 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { Check, File, Globe2, Image, ImageIcon, Twitter, Upload, X, Youtube } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Divide, File, Globe2, Image, ImageIcon, Twitter, Upload, X, Youtube } from "lucide-react";
 import { RegenerateModal } from "@/components/regenerate-modal";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import {
@@ -94,6 +94,7 @@ export function PostGenerator() {
   const postGenerated = useAppSelector(selectPostGenerated);
   const dispatch = useAppDispatch();
   const [images, setImages] = useState([]);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<{ id: string; label: string }[]>([]);
@@ -223,8 +224,18 @@ export function PostGenerator() {
 
   const removeImage = (id) => {
     setImages(images.filter(image => image.id !== id));
+    if (currentSlide >= images.length - 1) {
+      setCurrentSlide(Math.max(0, images.length - 2));
+    }
   };
-
+  
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % images.length);
+  };
+  
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + images.length) % images.length);
+  };
 
   console.log("optionData", optionData, selectedItems);
   return (
@@ -479,6 +490,64 @@ export function PostGenerator() {
           <AvatarCircles numPeople={avatars.length} avatarUrls={avatars} />
         </CardContent>
       </Card> */}
+
+{images.length > 0 && (
+        <div className="mb-8 relative">
+          <motion.div 
+            className="relative rounded-lg overflow-hidden w-full aspect-video bg-gray-100 h-60"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <AnimatePresence mode="wait">
+              <motion.img 
+                key={currentSlide}
+                src={images[currentSlide]?.preview} 
+                alt="Selected preview" 
+                className="w-full h-full object-contain "
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              />
+            </AnimatePresence>
+            
+            {images.length > 1 && (
+              <>
+                <motion.button
+                  whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,0,0,0.7)' }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={prevSlide}
+                  className="absolute left-2 top-1/2 transform  bg-black bg-opacity-50 text-white p-2 rounded-full"
+                >
+                  <ChevronLeft size={24} />
+                </motion.button>
+                
+                <motion.button
+                  whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,0,0,0.7)' }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={nextSlide}
+                  className="absolute right-2 top-1/2 transform  bg-black bg-opacity-50 text-white p-2 rounded-full"
+                >
+                  <ChevronRight size={24} />
+                </motion.button>
+                
+                <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1">
+                  {images.map((_, index) => (
+                    <button 
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        index === currentSlide ? 'bg-white w-4' : 'bg-white bg-opacity-50'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </motion.div>
+        </div>
+      )}
         <div className="mb-2 flex items-center gap-2 bg-white w-full justify-between p-3 rounded-sm text-black border shadow-sm">
           <Label>Schedule Post</Label>
           <Switch checked={enabled} onCheckedChange={setEnabled} />
