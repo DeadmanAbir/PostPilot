@@ -43,7 +43,7 @@ import { Link } from "@tanstack/react-router";
 import { supabase } from "@/lib/supabaseClient";
 import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/providers/supabaseAuthProvider";
-import { Route } from "@/routes/_authenticated/profile";
+import { Route } from "@/routes/_authenticated/_dashboard/profile";
 import { connectLinkedinQuery } from "@/lib/tanstack-query/query";
 import { updateProfileFn } from "@/lib/tanstack-query/mutation";
 import { ProfileUpdateResponse } from "@repo/common/types";
