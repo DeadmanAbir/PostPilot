@@ -20,34 +20,44 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Check, Search, X } from "lucide-react";
 import { RegenerateModal } from "@/components/regenerate-modal";
-import { Switch } from "@/components/ui/switch";
-import { motion } from "motion/react";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import {
   generatePostFn,
   regeneratePostFn,
 } from "@/lib/tanstack-query/mutation";
 import { LinkedinPostResponse } from "@repo/common/types";
-import { selectPostGenerated,setPostGenerated,useAppDispatch,useAppSelector } from "../../../../store/index";
+import {
+  selectPostGenerated,
+  setPostGenerated,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../store/index";
+import { fetchSourcesQuery } from "@/lib/tanstack-query/query";
 
 const options = ["Profile", "Billing", "Team", "Subscription"];
 
 export function PostGenerator() {
   const { user } = useAuth();
   const [generatedPost, setGeneratedPost] = useState("");
-  // const [postGenerated, setPostGenerated] = useState(false);
   const postGenerated = useAppSelector(selectPostGenerated);
   const dispatch = useAppDispatch();
 
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
+
+  const {
+    data: optionData,
+    refetch: connectLinkedinRefetch,
+    isPending: isSourcesFetching,
+  } = fetchSourcesQuery(user?.accessToken!);
+
   const { mutate, isPending } = generatePostFn(user?.accessToken!, {
     onSuccess: (data: LinkedinPostResponse) => {
       setGeneratedPost(data.post_content);
       alert("Post generated successfully");
-      dispatch(setPostGenerated(true))
-        },
+      dispatch(setPostGenerated(true));
+    },
     onError: (error: unknown) => {
       console.log(error);
       alert("error in posting");
@@ -80,11 +90,11 @@ export function PostGenerator() {
   };
   const handleGenerate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // mutate({
-    //   query: generatedPost,
-    // });
-    setGeneratedPost("demo post");
-    dispatch(setPostGenerated(true))
+    mutate({
+      query: generatedPost,
+    });
+    // setGeneratedPost("demo post");
+    // dispatch(setPostGenerated(true));
   };
 
   const handleRegenerate = async (additionalContext: string) => {
@@ -95,6 +105,8 @@ export function PostGenerator() {
       query: additionalContext,
     });
   };
+
+  console.log("optionData", optionData);
   return (
     <form onSubmit={handleGenerate}>
       <div className="space-y-4 ">
@@ -102,7 +114,7 @@ export function PostGenerator() {
           <CardHeader>
             <CardTitle>Generate Post</CardTitle>
           </CardHeader>
-          <CardContent  className="h-full">
+          <CardContent className="h-full">
             <Textarea
               placeholder="Enter your prompt for AI generation..."
               className="max-h-60 h-full"
@@ -158,43 +170,45 @@ export function PostGenerator() {
                     </div>
                   </Button>
                 )}
-                {!postGenerated && <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant={"outline"}>Select Options</Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" className="w-56">
-                    <DropdownMenuLabel className="relative">
-                      <Input
-                        className="focus-visible:ring-0 rounded-sm pr-8 "
-                        placeholder="Search..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                      />
-                      <Search className="absolute top-4 right-4 size-4 font-light" />
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    {options
-                      .filter((item) =>
-                        item.toLowerCase().includes(search.toLowerCase())
-                      )
-                      .map((item) => (
-                        <DropdownMenuItem
-                          key={item}
-                          onSelect={(e) => {
-                            e.preventDefault();
-                            toggleSelect(item);
-                          }}
-                          className="flex items-center justify-between cursor-pointer"
-                        >
-                          {item}
-                          {selectedItems.includes(item) && <Check size={16} />}
-                        </DropdownMenuItem>
-                      ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>}
-
+                {!postGenerated && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild disabled={isSourcesFetching}>
+                      <Button variant={"outline"}>Select Options</Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start" className="w-56">
+                      <DropdownMenuLabel className="relative">
+                        <Input
+                          className="focus-visible:ring-0 rounded-sm pr-8 "
+                          placeholder="Search..."
+                          value={search}
+                          onChange={(e) => setSearch(e.target.value)}
+                        />
+                        <Search className="absolute top-4 right-4 size-4 font-light" />
+                      </DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      {options
+                        .filter((item) =>
+                          item.toLowerCase().includes(search.toLowerCase())
+                        )
+                        .map((item) => (
+                          <DropdownMenuItem
+                            key={item}
+                            onSelect={(e) => {
+                              e.preventDefault();
+                              toggleSelect(item);
+                            }}
+                            className="flex items-center justify-between cursor-pointer"
+                          >
+                            {item}
+                            {selectedItems.includes(item) && (
+                              <Check size={16} />
+                            )}
+                          </DropdownMenuItem>
+                        ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
               </div>
-         
             </div>
 
             {selectedItems.length > 0 && (

@@ -47,6 +47,7 @@ import { Route } from "@/routes/_authenticated/profile";
 import { connectLinkedinQuery } from "@/lib/tanstack-query/query";
 import { updateProfileFn } from "@/lib/tanstack-query/mutation";
 import { ProfileUpdateResponse } from "@repo/common/types";
+import { nanoid } from "nanoid";
 
 interface Course {
   id: string;
@@ -126,6 +127,7 @@ export function ProfilePage() {
   const [name, setName] = useState(data.name);
   const [open, setOpen] = useState(false);
   const [profileImage, setProfileImage] = useState(data.profile_url);
+  const [newprofileImage, setNewProfileImage] = useState<File>();
   const [editName, setEditName] = useState("");
   const isLinkedinExpired =
     data.linkedin?.expires_at && new Date(data.expires_at) < new Date();
@@ -136,7 +138,7 @@ export function ProfilePage() {
 
   const { mutate: updateProfile } = updateProfileFn(user?.accessToken!, {
     onSuccess: async (data: ProfileUpdateResponse) => {
-      if (data.success || editName.length > 0) {
+      if (data.success && editName.length > 0) {
         const { error } = await supabase.auth.updateUser({
           data: { displayName: editName },
         });
@@ -144,6 +146,11 @@ export function ProfilePage() {
           console.error(error.message);
           alert("Error in updating profile:");
         }
+      } else if (data.success) {
+        alert("profile image updated successfully");
+        await supabase.auth.updateUser({
+          data: { profile_url: profileImage },
+        });
       } else {
         alert("Profile update failed");
       }
@@ -207,6 +214,7 @@ export function ProfilePage() {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    setNewProfileImage(file!);
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -231,11 +239,38 @@ export function ProfilePage() {
   };
 
   const handlePictureChange = async () => {
-    console.log(profileImage);
-    updateProfile({
-      profile_url: profileImage,
-    });
+    console.log(newprofileImage);
+    const profileData = await uploadToSupabase("post-pilot");
+    setProfileImage(profileData.profile_url);
+    updateProfile(profileData);
     setOpen(false);
+  };
+
+  const uploadToSupabase = async (bucket: string) => {
+    try {
+      const fileExtension = newprofileImage?.name.split(".").pop();
+      const fileName = `${nanoid()}.${fileExtension}`;
+      const filePath = `${user?.user?.id}/${fileName}`;
+
+      const { error } = await supabase.storage
+        .from(bucket)
+        .upload(filePath, newprofileImage!);
+
+      if (error) {
+        console.error("Error uploading file:", error.message);
+        alert("error in uploading file");
+        throw error;
+      }
+
+      const { data: urlData } = supabase.storage
+        .from(bucket)
+        .getPublicUrl(filePath);
+
+      return { profile_url: urlData.publicUrl };
+    } catch (error) {
+      console.error("Error in file upload process:", error);
+      throw error;
+    }
   };
 
   return (
