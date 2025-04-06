@@ -13,12 +13,15 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Check, Search, X } from "lucide-react";
+import { Check,  X } from "lucide-react";
 import { RegenerateModal } from "@/components/regenerate-modal";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import {
@@ -34,7 +37,6 @@ import {
 } from "../../../../store/index";
 import { fetchSourcesQuery } from "@/lib/tanstack-query/query";
 
-const options = ["Profile", "Billing", "Team", "Subscription"];
 
 export function PostGenerator() {
   const { user } = useAuth();
@@ -43,8 +45,7 @@ export function PostGenerator() {
   const dispatch = useAppDispatch();
 
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
-  const [search, setSearch] = useState("");
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [selectedItems, setSelectedItems] = useState<{ id: string; label: string }[]>([]);
 
   const {
     data: optionData,
@@ -80,13 +81,17 @@ export function PostGenerator() {
       },
     });
 
-  const toggleSelect = (item: string) => {
-    setSelectedItems((prev) =>
-      prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
-    );
+  const toggleSelect = (item: { id: string; label: string }) => {
+    setSelectedItems((prev) => {
+      const exists = prev.some((i) => i.id === item.id);
+      return exists
+        ? prev.filter((i) => i.id !== item.id)
+        : [...prev, item];
+    });
   };
+
   const removeItem = (item: string) => {
-    setSelectedItems(selectedItems.filter((i) => i !== item));
+    setSelectedItems(selectedItems.filter((i) => i.id !== item));
   };
   const handleGenerate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -106,7 +111,7 @@ export function PostGenerator() {
     });
   };
 
-  console.log("optionData", optionData);
+  console.log("optionData", optionData, selectedItems);
   return (
     <form onSubmit={handleGenerate}>
       <div className="space-y-4 ">
@@ -175,39 +180,54 @@ export function PostGenerator() {
                     <DropdownMenuTrigger asChild disabled={isSourcesFetching}>
                       <Button variant={"outline"}>Select Options</Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" className="w-56">
-                      <DropdownMenuLabel className="relative">
-                        <Input
-                          className="focus-visible:ring-0 rounded-sm pr-8 "
-                          placeholder="Search..."
-                          value={search}
-                          onChange={(e) => setSearch(e.target.value)}
-                        />
-                        <Search className="absolute top-4 right-4 size-4 font-light" />
-                      </DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      {options
-                        .filter((item) =>
-                          item.toLowerCase().includes(search.toLowerCase())
+                    <DropdownMenuContent align="start" className="w-64">
+
+
+                      {[
+                        { label: "Files", data: optionData.files },
+                        { label: "Images", data: optionData.images },
+                        { label: "Tweets", data: optionData.tweets },
+                        { label: "Websites", data: optionData.websites },
+                        { label: "YouTube", data: optionData.youtube },
+                      ].map(({ label, data }) => (
+                        data?.length > 0 && (
+                          <DropdownMenuSub key={label}>
+                            <DropdownMenuSubTrigger className="gap-2">
+                              <span>{label}</span>
+                            </DropdownMenuSubTrigger>
+                            <DropdownMenuPortal>
+                              <DropdownMenuSubContent className="max-h-64 overflow-y-auto">
+                                {data.map((item: { id?: string; name?: string; url?: string; tweet?: string }, index: number) => (
+                                  <DropdownMenuItem
+                                    key={item.id || index}
+                                    onSelect={(e: Event) => {
+                                      e.preventDefault();
+                                      toggleSelect({
+                                        id: item.id || index.toString(),
+                                        label: item.name || item.url || item.tweet || "Untitled",
+                                      });
+                                    }}
+                                    className="flex justify-between gap-2"
+                                  >
+                                    <span className="truncate w-48">
+                                      {item.name || item.url || item.tweet || "Untitled"}
+                                    </span>
+                                    {selectedItems.some((i) => i.id === (item.id || index.toString())) && (
+                                      <Check size={16} />
+                                    )}
+                                  </DropdownMenuItem>
+
+                                ))}
+                              </DropdownMenuSubContent>
+                            </DropdownMenuPortal>
+                          </DropdownMenuSub>
                         )
-                        .map((item) => (
-                          <DropdownMenuItem
-                            key={item}
-                            onSelect={(e) => {
-                              e.preventDefault();
-                              toggleSelect(item);
-                            }}
-                            className="flex items-center justify-between cursor-pointer"
-                          >
-                            {item}
-                            {selectedItems.includes(item) && (
-                              <Check size={16} />
-                            )}
-                          </DropdownMenuItem>
-                        ))}
+                      ))}
+
                     </DropdownMenuContent>
                   </DropdownMenu>
                 )}
+
               </div>
             </div>
 
@@ -215,20 +235,23 @@ export function PostGenerator() {
               <div className="flex flex-wrap gap-1 mt-3">
                 {selectedItems.map((item) => (
                   <Badge
-                    key={item}
+                    key={item.id}
                     variant="outline"
-                    className="flex items-center gap-1"
+                    className="flex items-center gap-1 w-40"
                   >
-                    {item}
+                    <span className="truncate overflow-hidden whitespace-nowrap flex-1">
+                      {item.label}
+                    </span>
                     <X
                       size={12}
-                      className="cursor-pointer"
-                      onClick={() => removeItem(item)}
+                      className="cursor-pointer shrink-0"
+                      onClick={() => removeItem(item.id)}
                     />
                   </Badge>
                 ))}
               </div>
             )}
+
           </CardFooter>
         </Card>
 
