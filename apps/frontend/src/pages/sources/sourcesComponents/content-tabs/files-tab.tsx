@@ -18,8 +18,11 @@ import { nanoid } from "nanoid";
 export function FilesTab() {
   const { user } = useAuth();
   const [localFiles, setLocalFiles] = useState<File[]>([]);
-  const [remoteFileUrl, setRemoteFileUrl] = useState("");
-  const [remoteFiles, setRemoteFiles] = useState<string[]>([]);
+  const [remoteFileUrl, setRemoteFileUrl] = useState({
+    name: "",
+    url: ""
+  });
+  const [remoteFiles, setRemoteFiles] = useState<{ name: string; url: string }[]>([]);
 
   const { mutate: addRemoteFile, isPending: isRemoteFetching } =
     addRemoteFilesFn(user?.accessToken!, {
@@ -95,11 +98,12 @@ export function FilesTab() {
   };
 
   const handleRemoteFileLoad = () => {
-    if (remoteFileUrl) {
+    if (remoteFileUrl.name && remoteFileUrl.url) {
       setRemoteFiles([...remoteFiles, remoteFileUrl]);
-      setRemoteFileUrl("");
+      setRemoteFileUrl({ name: "", url: "" });
     }
   };
+
 
   const removeLocalFile = (index: number) => {
     setLocalFiles(localFiles.filter((_, i) => i !== index));
@@ -110,9 +114,11 @@ export function FilesTab() {
   };
 
   const handleRemoteFileUpload = () => {
-    const remoteFileData = remoteFiles.map((url) => ({
-      url,
+    const remoteFileData = remoteFiles.map((file) => ({
+      url: file.url,
+      fileName: file.name,
     }));
+    console.log(remoteFileData, "fauisl")
     addRemoteFile(remoteFileData);
   };
   const handleLocalFileUpload = async () => {
@@ -122,133 +128,145 @@ export function FilesTab() {
 
   return (
     <div className="w-full h-full py-20">
- <Card>
-      <CardHeader>
-        <CardTitle>Upload Files</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Tabs defaultValue="local">
-          <TabsList>
-            <TabsTrigger value="local">Local Upload</TabsTrigger>
-            <TabsTrigger value="remote">Remote URL</TabsTrigger>
-          </TabsList>
-          <TabsContent
-            id="imageLoad"
-            value="local"
-            className="max-h-[30vh] overflow-y-scroll"
-          >
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="file-upload">Upload Files</Label>
-              <Input
-                id="file-upload"
-                type="file"
-                multiple
-                accept=".pdf,.doc,.docx"
-                onChange={handleLocalFileChange}
-              />
-            </div>
-            {localFiles.length > 0 && (
-              <div className="mt-4">
-                <h4 className="mb-2 font-semibold">Uploaded Files:</h4>
-                <ul className="gap-2 flex flex-wrap ">
-                  <AnimatePresence>
-                    {localFiles.map((file, index) => (
-                      <motion.li
-                        key={index}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 10 }}
-                        transition={{ duration: 0.2 }}
-                        className="flex items-center justify-between bg-muted px-3 py-1 rounded-full"
-                      >
-                        <span className="truncate w-20 ">{file.name}</span>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => removeLocalFile(index)}
-                        >
-                          <X className="h-4 w-4" />
-                        </Button>
-                      </motion.li>
-                    ))}
-                  </AnimatePresence>
-                </ul>
-                <div className="w-full flex items-center justify-center mt-2">
-                  <Button
-                    disabled={isLocalFetching || isRemoteFetching}
-                    onClick={handleLocalFileUpload}
-                    variant="default"
-                    size="sm"
-                    className="w-1/4"
-                  >
-                    Upload
-                  </Button>
-                </div>
-              </div>
-            )}
-          </TabsContent>
-          <TabsContent value="remote">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="file-url">File URL</Label>
-              <div className="flex space-x-2">
+      <Card>
+        <CardHeader>
+          <CardTitle>Upload Files</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="local">
+            <TabsList>
+              <TabsTrigger value="local">Local Upload</TabsTrigger>
+              <TabsTrigger value="remote">Remote URL</TabsTrigger>
+            </TabsList>
+            <TabsContent
+              id="imageLoad"
+              value="local"
+              className="max-h-[30vh] overflow-y-scroll"
+            >
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="file-upload">Upload Files</Label>
                 <Input
-                  id="file-url"
-                  placeholder="https://example.com/document.pdf"
-                  value={remoteFileUrl}
-                  onChange={(e) => setRemoteFileUrl(e.target.value)}
+                  id="file-upload"
+                  type="file"
+                  multiple
+                  accept=".pdf,.doc,.docx"
+                  onChange={handleLocalFileChange}
                 />
-                <Button
-                  disabled={isRemoteFetching || isLocalFetching}
-                  onClick={handleRemoteFileLoad}
-                >
-                  Add File
-                </Button>
               </div>
-            </div>
-            {remoteFiles.length > 0 && (
-              <div className="mt-4">
-                <h4 className="mb-2 font-semibold">Remote Files:</h4>
-                <ul className="gap-2 flex flex-wrap ">
-                  <AnimatePresence>
-                    {remoteFiles.map((url, index) => (
-                      <motion.li
-                        key={index}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 10 }}
-                        transition={{ duration: 0.2 }}
-                        className="flex items-center justify-between bg-muted px-3 py-1 rounded-full"
-                      >
-                        <span className="truncate w-20 ">{url}</span>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => removeRemoteFile(index)}
+              {localFiles.length > 0 && (
+                <div className="mt-4">
+                  <h4 className="mb-2 font-semibold">Uploaded Files:</h4>
+                  <ul className="gap-2 flex flex-wrap ">
+                    <AnimatePresence>
+                      {localFiles.map((file, index) => (
+                        <motion.li
+                          key={index}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: 10 }}
+                          transition={{ duration: 0.2 }}
+                          className="flex items-center justify-between bg-muted px-3 py-1 rounded-full"
                         >
-                          <X className="h-4 w-4" />
-                        </Button>
-                      </motion.li>
-                    ))}
-                  </AnimatePresence>
-                </ul>
-                <div className="w-full flex items-center justify-center mt-2">
+                          <span className="truncate w-20 ">{file.name}</span>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => removeLocalFile(index)}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </motion.li>
+                      ))}
+                    </AnimatePresence>
+                  </ul>
+                  <div className="w-full flex items-center justify-center mt-2">
+                    <Button
+                      disabled={isLocalFetching || isRemoteFetching}
+                      onClick={handleLocalFileUpload}
+                      variant="default"
+                      size="sm"
+                      className="w-1/4"
+                    >
+                      Upload
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </TabsContent>
+            <TabsContent value="remote">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="file-url">File URL</Label>
+                <div className="flex space-x-2">
+                  <Input
+                    id="file-name"
+                    placeholder="File Name"
+                    value={remoteFileUrl.name}
+                    onChange={(e) =>
+                      setRemoteFileUrl((prev) => ({ ...prev, name: e.target.value }))
+                    }
+                  />
+                  <Input
+                    id="file-url"
+                    placeholder="https://example.com/document.pdf"
+                    value={remoteFileUrl.url}
+                    onChange={(e) =>
+                      setRemoteFileUrl((prev) => ({ ...prev, url: e.target.value }))
+                    }
+                  />
+
                   <Button
-                    onClick={handleRemoteFileUpload}
                     disabled={isRemoteFetching || isLocalFetching}
-                    variant="default"
-                    size="sm"
-                    className="w-1/4"
+                    onClick={handleRemoteFileLoad}
                   >
-                    Upload
+                    Add File
                   </Button>
                 </div>
               </div>
-            )}
-          </TabsContent>
-        </Tabs>
-      </CardContent>
-    </Card>
+              {remoteFiles.length > 0 && (
+                <div className="mt-4">
+                  <h4 className="mb-2 font-semibold">Remote Files:</h4>
+                  <ul className="gap-2 flex flex-wrap ">
+                    <AnimatePresence>
+                      {remoteFiles.map((file, index) => (
+                        <motion.li
+                          key={index}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: 10 }}
+                          transition={{ duration: 0.2 }}
+                          className="flex items-center justify-between bg-muted px-3 py-1 rounded-full max-w-[12rem]"
+                        >
+                          <span className="truncate w-full">{file.name}</span>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => removeRemoteFile(index)}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </motion.li>
+                      ))}
+
+                    </AnimatePresence>
+                  </ul>
+                  <div className="w-full flex items-center justify-center mt-2">
+                    <Button
+                      onClick={handleRemoteFileUpload}
+                      disabled={isRemoteFetching || isLocalFetching}
+                      variant="default"
+                      size="sm"
+                      className="w-1/4"
+                    >
+                      Upload
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
     </div>
-   
+
   );
 }
