@@ -2,16 +2,12 @@ import { useState } from "react";
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
+
 } from "../../../components/ui/card";
 import { Button } from "../../../components/ui/button";
 import { Calendar } from "../../../components/ui/calendar";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
-
-
-
 import {
   Dialog,
   DialogContent,
@@ -23,8 +19,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { AvatarCircles } from "@/components/avatar-circle";
-import { selectPostGenerated,  useAppSelector } from "../../../../store/index";
+import { selectPostGenerated, useAppSelector } from "../../../../store/index";
 import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "motion/react"
 import { cn } from "@/lib/utils";
@@ -64,10 +59,7 @@ const mockUpcomingPosts: ScheduledPost[] = [
   },
 ];
 
-const avatars = Array(10).fill({
-  imageUrl: "https://github.com/faisal004.png",
-  profileUrl: "https://github.com/faisal004",
-});
+
 
 export function SchedulingSidebar() {
   const getCurrentTime = () => {
@@ -120,15 +112,15 @@ export function SchedulingSidebar() {
   };
 
   return (
-    <aside className="w-96 border-l bg-muted p-4 overflow-y-auto" id="imageLoad">
-      <Card className="mb-4">
+    <aside className="w-1/3 border-l bg-muted  p-4 overflow-y-auto" id="imageLoad">
+      {/* <Card className="mb-4">
         <CardHeader>
           <CardTitle>Upcoming Posts</CardTitle>
         </CardHeader>
         <CardContent>
           <AvatarCircles numPeople={avatars.length} avatarUrls={avatars} />
         </CardContent>
-      </Card>
+      </Card> */}
       <div className="mb-2 flex items-center gap-2 bg-white w-full justify-between p-3 rounded-sm text-black border shadow-sm">
         <Label>Schedule Post</Label>
         <Switch checked={enabled} onCheckedChange={setEnabled} />

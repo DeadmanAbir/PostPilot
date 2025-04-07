@@ -1,27 +1,109 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 export function YouTubeTab() {
+  const [youtubeUrl, setYoutubeUrl] = useState("");
+  const [videoId, setVideoId] = useState("");
+  const [videoTitle, setVideoTitle] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+
+  const extractYouTubeVideoId = (url: string): string | null => {
+    const regex =
+      /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?|shorts)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const match = url.match(regex);
+    return match?.[1] || null;
+  };
+
+  const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const url = e.target.value;
+    setYoutubeUrl(url);
+
+    const id = extractYouTubeVideoId(url);
+    if (id) {
+      setVideoId(id);
+    } else {
+      setVideoId("");
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!videoId || !videoTitle.trim()) {
+      alert("Please enter a valid YouTube URL and title.");
+      return;
+    }
+
+    try {
+      setIsUploading(true);
+      const res = await fetch("/api/upload-youtube", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title: videoTitle, url: youtubeUrl, videoId }),
+      });
+
+      if (!res.ok) throw new Error("Failed to upload");
+
+      alert("YouTube video uploaded successfully!");
+      setYoutubeUrl("");
+      setVideoTitle("");
+      setVideoId("");
+    } catch (error) {
+      console.error(error);
+      alert("Error uploading YouTube video.");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   return (
     <div className="w-full h-full py-20">
-<Card className="">
-      <CardHeader className="w-full">
-        <CardTitle>YouTube Video</CardTitle>
-      </CardHeader>
-      <CardContent className="w-full">
-        <div className="grid w-full items-center gap-4">
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="youtube-url">YouTube URL</Label>
-            <Input
-              id="youtube-url"
-              placeholder="https://www.youtube.com/watch?v=..."
-            />
+      <Card>
+        <CardHeader>
+          <CardTitle>YouTube Video</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid w-full items-center gap-4">
+            <div className="flex w-full items-center gap-2">
+              <div className="flex flex-col  w-full">
+                <Input
+                  id="youtube-url"
+                  placeholder="https://www.youtube.com/watch?v=..."
+                  value={youtubeUrl}
+                  onChange={handleUrlChange}
+                  required
+                />
+              </div>
+              <Button
+                onClick={handleUpload}
+                className="w-fit "
+                disabled={isUploading}
+              >
+                {isUploading ? "Uploading..." : "Upload to API"}
+              </Button>
+            </div>
+
+
+
+            {videoId && (
+              <div className="aspect-video w-full mt-4">
+                <iframe
+                  className="w-full h-full rounded-xl"
+                  src={`https://www.youtube.com/embed/${videoId}`}
+                  title="YouTube video preview"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            )}
+
+
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
     </div>
-    
   );
 }

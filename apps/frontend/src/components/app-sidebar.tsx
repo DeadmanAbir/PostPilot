@@ -18,7 +18,7 @@ import { NavUser } from "./nav-user";
 import { Link, useLocation } from "@tanstack/react-router";
 import { useTheme } from "@/providers/theme-provider";
 import { useAuth } from "@/providers/supabaseAuthProvider";
-import {  buttonVariants } from "./ui/button";
+import { buttonVariants } from "./ui/button";
 
 export function AppSidebar() {
   const { open } = useSidebar();
@@ -30,16 +30,14 @@ export function AppSidebar() {
     user: {
       name: user?.user?.user_metadata.displayName!,
       email: user?.user?.email!,
-      avatar: "https://github.com/faisal004.png",
+      avatar: user?.user?.user_metadata.profile_url!,
     },
   };
 
   const groupedItems = [
     {
       label: "Create",
-      items: [
-        { title: "New Post", url: "/dashboard", icon: <FilePlus /> },
-      ],
+      items: [{ title: "New Post", url: "/dashboard", icon: <FilePlus /> }],
     },
     {
       label: "Posts",
@@ -49,14 +47,11 @@ export function AppSidebar() {
         { title: "Posted", url: "/posted", icon: <Send /> },
       ],
     },
-
   ];
 
   return (
     <Sidebar variant="sidebar" collapsible="icon" className="p-2">
       <SidebarContent className="gap-0">
-
-
         <SidebarGroup>
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -69,23 +64,27 @@ export function AppSidebar() {
           </motion.div>
         </SidebarGroup>
         <div className="flex items-center justify-center px-3 py-2">
-          <Link to="/dashboard" className={buttonVariants({
-                              className: "w-full ",
-
-          })} >
+          <Link
+            to="/dashboard"
+            className={buttonVariants({
+              className: "w-full ",
+            })}
+          >
             Create Post
           </Link>
         </div>
         {groupedItems.map((group) => (
           <SidebarGroup key={group.label}>
-            <SidebarGroupLabel className="text-base">{group.label}</SidebarGroupLabel>
+            <SidebarGroupLabel className="text-base">
+              {group.label}
+            </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu className="my-2">
                 {group.items.map((item) => {
                   const isActive = pathname.href === item.url;
                   return (
                     <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild isActive={isActive} >
+                      <SidebarMenuButton asChild isActive={isActive}>
                         <Link to={item.url}>
                           {item.icon}
                           <span>{item.title}</span>
@@ -99,11 +98,16 @@ export function AppSidebar() {
           </SidebarGroup>
         ))}
         <SidebarGroup>
-          <SidebarGroupLabel className="text-base">Configuration</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-base">
+            Configuration
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="mt-3">
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.href === "/profile"}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname.href === "/profile"}
+                >
                   <Link to="/profile">
                     <User />
                     <span>Profile</span>
@@ -120,7 +124,6 @@ export function AppSidebar() {
                   className="w-full"
                 >
                   <div className="flex items-center capitalize justify-start gap-1.5 w-full">
-
                     {theme === "dark" ? (
                       <Sun className="size-4 transition-all" />
                     ) : (

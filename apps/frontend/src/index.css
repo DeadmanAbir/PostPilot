@@ -77,7 +77,7 @@
   scrollbar-width: none;
 }
 textarea {
-  field-sizing: content;
+  /* field-sizing: content; */
   -ms-overflow-style: none;
   scrollbar-width: none;
 }

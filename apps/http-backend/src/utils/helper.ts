@@ -1,7 +1,6 @@
 import { ChatGemini } from "./chatGemini";
 import { ChatOpenAI } from "./chatOpenAi";
 import { improveQueryPrompt } from "./constant";
-
 import "dotenv/config";
 import { supabase } from "./supabaseClient";
 
@@ -237,11 +236,12 @@ export const validateAndRefreshToken = async (
 export const postToLinkedIn = async (
   accessToken: string,
   profileId: string,
-  content: PostContent
+  content: PostContent,
+  mediaAttachments: { status: string; media: string }[],
+  mediaCategory: "NONE" | "IMAGE" | "VIDEO"
 ): Promise<string> => {
   try {
     const { text, shareUrl, title, visibility } = content;
-
     // Create post payload
     const postPayload: any = {
       author: `urn:li:person:${profileId}`,
@@ -251,7 +251,8 @@ export const postToLinkedIn = async (
           shareCommentary: {
             text: text,
           },
-          shareMediaCategory: "NONE",
+          shareMediaCategory: mediaCategory,
+          media: mediaAttachments,
         },
       },
       visibility: {
@@ -280,7 +281,6 @@ export const postToLinkedIn = async (
         };
       }
     }
-
     // Send post request to LinkedIn API
     const response = await fetch("https://api.linkedin.com/v2/ugcPosts", {
       method: "POST",
@@ -291,7 +291,6 @@ export const postToLinkedIn = async (
       },
       body: JSON.stringify(postPayload),
     });
-
     if (!response.ok) {
       throw new Error(`LinkedIn API error: ${response.status}`);
     }
@@ -302,4 +301,60 @@ export const postToLinkedIn = async (
     console.error("LinkedIn posting error:", error);
     throw error;
   }
+};
+
+export const processMedia = async (
+  accessToken: string,
+  profileId: string,
+  mediaUrl: string,
+  mediaType: string
+) => {
+  const registerResponse = await fetch(
+    "https://api.linkedin.com/v2/assets?action=registerUpload",
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+        "X-Restli-Protocol-Version": "2.0.0",
+      },
+      body: JSON.stringify({
+        registerUploadRequest: {
+          recipes: [`urn:li:digitalmediaRecipe:feedshare-${mediaType}`],
+          owner: `urn:li:person:${profileId}`,
+          serviceRelationships: [
+            {
+              relationshipType: "OWNER",
+              identifier: "urn:li:userGeneratedContent",
+            },
+          ],
+        },
+      }),
+    }
+  );
+
+  const registerData = await registerResponse.json();
+  const uploadUrl =
+    registerData.value.uploadMechanism[
+      "com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"
+    ].uploadUrl;
+  const asset = registerData.value.asset;
+
+  // Get media content
+  const mediaResponse = await fetch(mediaUrl);
+  const mediaBuffer = await mediaResponse.arrayBuffer();
+
+  // Upload media to LinkedIn's provided URL
+  await fetch(uploadUrl, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: new Uint8Array(mediaBuffer),
+  });
+
+  return {
+    status: "READY",
+    media: asset,
+  };
 };
