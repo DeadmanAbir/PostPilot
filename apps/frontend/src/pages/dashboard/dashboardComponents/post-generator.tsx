@@ -430,49 +430,103 @@ export function PostGenerator() {
                           <Button variant={"outline"}>Select Options</Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="start" className="w-64">
-
-
                           {[
                             { label: "Files", data: optionData.files, icon: File },
                             { label: "Images", data: optionData.images, icon: Image },
                             { label: "Tweets", data: optionData.tweets, icon: Twitter },
                             { label: "Websites", data: optionData.websites, icon: Globe2 },
                             { label: "YouTube", data: optionData.youtube, icon: Youtube },
-                          ].map(({ label, icon: Icon, data }) => (
-                            data?.length > 0 && (
+                          ].map(({ label, icon: Icon, data }) => {
+                            // Only render if there's data
+                            if (!data?.length) return null;
+
+                            // Create unique state for each submenu's search
+                            const searchId = `search-${label.toLowerCase()}`;
+
+                            return (
                               <DropdownMenuSub key={label}>
                                 <DropdownMenuSubTrigger className="gap-2">
                                   <Icon /> <span>{label}</span>
                                 </DropdownMenuSubTrigger>
                                 <DropdownMenuPortal>
-                                  <DropdownMenuSubContent className="max-h-64 overflow-y-auto">
-                                    {data.map((item: { id?: string; name?: string; url?: string; tweet?: string }, index: number) => (
-                                      <DropdownMenuItem
-                                        key={item.id || index}
-                                        onSelect={(e: Event) => {
-                                          e.preventDefault();
-                                          toggleSelect({
-                                            id: item.id || index.toString(),
-                                            label: item.name || item.url || item.tweet || "Untitled",
-                                          });
-                                        }}
-                                        className="flex justify-between gap-2"
-                                      >
-                                        <span className="truncate w-48">
-                                          {item.name || item.url || item.tweet || "Untitled"}
-                                        </span>
-                                        {selectedItems.some((i) => i.id === (item.id || index.toString())) && (
-                                          <Check size={16} />
-                                        )}
-                                      </DropdownMenuItem>
+                                  <DropdownMenuSubContent className="max-h-80">
+                                    {/* Search input */}
+                                    <div className="px-2 py-1.5 sticky top-0 bg-white z-10 border-b">
+                                      <input
+                                        type="text"
+                                        placeholder={`Search ${label}...`}
+                                        className="w-full px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        onChange={(e) => {
+                                          const searchContainer = e.currentTarget.closest('.max-h-80');
+                                          const searchTerm = e.target.value.toLowerCase();
 
-                                    ))}
+                                          // Store search term in a data attribute on the element
+                                          searchContainer?.setAttribute(searchId, searchTerm);
+
+                                          // Filter items
+                                          let visibleCount = 0;
+                                          searchContainer?.querySelectorAll('.dropdown-item').forEach(item => {
+                                            const text = item.textContent?.toLowerCase() || '';
+                                            if (text.includes(searchTerm)) {
+                                              (item as HTMLElement).style.display = '';
+                                              visibleCount++;
+                                            } else {
+                                              (item as HTMLElement).style.display = 'none';
+                                            }
+                                          });
+
+                                          // Handle empty state display
+                                          const emptyMessage = searchContainer?.querySelector('.empty-message');
+                                          if (emptyMessage) {
+                                            if (visibleCount === 0 && searchTerm) {
+                                              (emptyMessage as HTMLElement).style.display = 'flex';
+                                            } else {
+                                              (emptyMessage as HTMLElement).style.display = 'none';
+                                            }
+                                          }
+                                        }}
+                                        onClick={(e) => e.stopPropagation()}
+                                      />
+                                    </div>
+
+                                    {/* Items container with overflow */}
+                                    <div className="overflow-y-auto max-h-64">
+                                      {/* No results message */}
+                                      <div className="empty-message p-2 text-gray-500 justify-center items-center text-sm hidden">
+                                        No items found
+                                      </div>
+
+                                      {data.map((item: { id?: string; name?: string; url?: string; tweet?: string }, index: number) => {
+                                        const displayText = item.name || item.url || item.tweet || "Untitled";
+                                        const itemId = item.id || index.toString();
+
+                                        return (
+                                          <DropdownMenuItem
+                                            key={itemId}
+                                            onSelect={(e: Event) => {
+                                              e.preventDefault();
+                                              toggleSelect({
+                                                id: itemId,
+                                                label: displayText,
+                                              });
+                                            }}
+                                            className="flex justify-between gap-2 dropdown-item"
+                                          >
+                                            <span className="truncate w-48">
+                                              {displayText}
+                                            </span>
+                                            {selectedItems.some((i) => i.id === itemId) && (
+                                              <Check size={16} />
+                                            )}
+                                          </DropdownMenuItem>
+                                        );
+                                      })}
+                                    </div>
                                   </DropdownMenuSubContent>
                                 </DropdownMenuPortal>
                               </DropdownMenuSub>
-                            )
-                          ))}
-
+                            );
+                          })}
                         </DropdownMenuContent>
                       </DropdownMenu>
                     )}
