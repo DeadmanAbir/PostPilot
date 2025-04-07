@@ -19,7 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { Check, ChevronLeft, ChevronRight, Divide, File, Globe2, Image, ImageIcon, Twitter, Upload, X, Youtube } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, File, Globe2, Image, ImageIcon, Twitter,  X, Youtube } from "lucide-react";
 import { RegenerateModal } from "@/components/regenerate-modal";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import {
@@ -93,7 +93,14 @@ export function PostGenerator() {
   const [generatedPost, setGeneratedPost] = useState("");
   const postGenerated = useAppSelector(selectPostGenerated);
   const dispatch = useAppDispatch();
-  const [images, setImages] = useState([]);
+  interface Media {
+    file: File;
+    preview: string;
+    type: "image" | "video";
+    id: string;
+  }
+  
+  const [images, setImages] = useState<Media[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
@@ -209,26 +216,26 @@ export function PostGenerator() {
     setScheduledPosts([...scheduledPosts, newPost]);
     // setOpen(false); // Close the collapsible after scheduling
   };
-  const handleFileChange = (e) => {
-    if (e.target.files) {
-      const filesArray = Array.from(e.target.files);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files) {
+        const filesArray = Array.from(e.target.files as FileList);
+  
+        const newFiles = filesArray.map((file: File) => {
+          const isVideo = file.type.startsWith('video/');
 
-      const newFiles = filesArray.map(file => {
-        const isVideo = file.type.startsWith('video/');
+          return {
+            file,
+            preview: URL.createObjectURL(file),
+            type: isVideo ? 'video' as const : 'image' as const,
+            id: `${file.name}-${Date.now()}`
+          };
+        });
 
-        return {
-          file,
-          preview: URL.createObjectURL(file),
-          type: isVideo ? 'video' : 'image',
-          id: `${file.name}-${Date.now()}`
-        };
-      });
+        setImages(prev => [...prev, ...newFiles]);
+      }
+    };
 
-      setImages(prev => [...prev, ...newFiles]);
-    }
-  };
-
-  const removeImage = (id) => {
+  const removeImage = (id:string) => {
     setImages(images.filter(image => image.id !== id));
     if (currentSlide >= images.length - 1) {
       setCurrentSlide(Math.max(0, images.length - 2));
