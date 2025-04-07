@@ -212,13 +212,19 @@ export function PostGenerator() {
   const handleFileChange = (e) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files);
-      const newImages = filesArray.map(file => ({
-        file,
-        preview: URL.createObjectURL(file),
-        id: `${file.name}-${Date.now()}`
-      }));
 
-      setImages(prev => [...prev, ...newImages]);
+      const newFiles = filesArray.map(file => {
+        const isVideo = file.type.startsWith('video/');
+
+        return {
+          file,
+          preview: URL.createObjectURL(file),
+          type: isVideo ? 'video' : 'image',
+          id: `${file.name}-${Date.now()}`
+        };
+      });
+
+      setImages(prev => [...prev, ...newFiles]);
     }
   };
 
@@ -228,11 +234,11 @@ export function PostGenerator() {
       setCurrentSlide(Math.max(0, images.length - 2));
     }
   };
-  
+
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % images.length);
   };
-  
+
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + images.length) % images.length);
   };
@@ -254,38 +260,66 @@ export function PostGenerator() {
               </CardHeader>
               <CardContent className="h-full space-y-3">
                 <div className="w-full border-dotted border-4 rounded-md border-blue-400 bg-blue-50 p-5 ">
-                
+
 
                   <div className="w-full ">
                     <AnimatePresence>
                       <div className="flex gap-3">
-                      {images.map((image) => (
-                        <motion.div
-                          key={image.id}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.8, y: 20 }}
-                          transition={{ duration: 0.3 }}
-                          className="relative aspect-square  rounded-lg  group size-20 border-blue-400 border-4"
-                        >
-                          <img
-                            src={image.preview}
-                            alt="Preview"
-                            className="w-full h-full object-cover size-20"
-                          />
-                          <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                            onClick={() => removeImage(image.id)}
-                            className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                        {images.map((media) => (
+                          <motion.div
+                            key={media.id}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+                            transition={{ duration: 0.3 }}
+                            className="relative aspect-square rounded-lg group size-20 "
                           >
-                            <X size={16} />
-                          </motion.button>
-                        </motion.div>
-                      ))}
+                            {media.type !== "video" ? (
+                              <img
+                                src={media.preview}
+                                alt="Preview"
+                                className="w-full h-full object-cover size-20 border-blue-400 border-4"
+                              />
+                            ) : (
+                              <video
+                                src={media.preview}
+                                className="w-full h-full object-cover size-20 border-green-400 border-4"
+                              />
+                            )}
+
+                            <motion.button
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                              onClick={() => removeImage(media.id)}
+                              className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <X size={16} />
+                            </motion.button>
+                          </motion.div>
+                        ))}
+
+                        {images.length > 0 && (
+                          <div>
+                            <label
+                              htmlFor="media-upload"
+                              className="flex flex-col items-center justify-center size-20 cursor-pointer border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-blue-500 hover:text-blue-500 transition"
+                            >
+                              <span className="text-4xl">＋</span>
+                              <span className="text-xs mt-1 text-center">Add more</span>
+                            </label>
+                            <input
+                              id="media-upload"
+                              type="file"
+                              multiple
+                              accept="image/*,video/*"
+                              className="hidden"
+                              onChange={handleFileChange}
+                            />
+                          </div>
+                        )}
 
                       </div>
-                   
+
                       {images.length === 0 && (
                         <label className="cursor-pointer col-span-full md:col-span-1">
                           <motion.div
@@ -324,7 +358,7 @@ export function PostGenerator() {
                             <input
                               type="file"
                               multiple
-                              accept="image/*"
+                              accept="image/*,video/*"
                               className="hidden"
                               onChange={handleFileChange}
                             />
@@ -491,63 +525,76 @@ export function PostGenerator() {
         </CardContent>
       </Card> */}
 
-{images.length > 0 && (
-  <div className="mb-8 relative ">
-    <motion.div 
-      className="relative rounded-2xl shadow-xl overflow-hidden w-full aspect-video bg-white h-60 border border-gray-200"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-    >
-      <AnimatePresence mode="wait">
-        <motion.img 
-          key={currentSlide}
-          src={images[currentSlide]?.preview} 
-          alt="Selected preview" 
-          className="w-full h-full object-contain"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-        />
-      </AnimatePresence>
+        {images.length > 0 && (
+          <div className="mb-8 relative ">
+            <motion.div
+              className="relative rounded-2xl shadow-xl overflow-hidden w-full aspect-video bg-white h-60 border border-gray-200"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              <AnimatePresence mode="wait">
+                {images[currentSlide]?.type === 'video' ? (
+                  <motion.video
+                    key={currentSlide}
+                    src={images[currentSlide]?.preview}
+                    controls
+                    className="w-full h-full object-contain"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                ) : (
+                  <motion.img
+                    key={currentSlide}
+                    src={images[currentSlide]?.preview}
+                    alt="Selected preview"
+                    className="w-full h-full object-contain"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                )}
 
-      {images.length > 1 && (
-        <>
-          <motion.button
-            whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,0,0,0.7)' }}
-            whileTap={{ scale: 0.9 }}
-            onClick={prevSlide}
-            className="absolute left-3 top-1/2  bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
-          >
-            <ChevronLeft size={24} />
-          </motion.button>
-          
-          <motion.button
-            whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,0,0,0.7)' }}
-            whileTap={{ scale: 0.9 }}
-            onClick={nextSlide}
-            className="absolute right-3 top-1/2  bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
-          >
-            <ChevronRight size={24} />
-          </motion.button>
-          
-          <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
-            {images.map((_, index) => (
-              <button 
-                key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={`h-2 rounded-full transition-all ${
-                  index === currentSlide ? 'bg-white w-4' : 'bg-white bg-opacity-50 w-2'
-                }`}
-              />
-            ))}
+              </AnimatePresence>
+
+              {images.length > 1 && (
+                <>
+                  <motion.button
+                    whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,0,0,0.7)' }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={prevSlide}
+                    className="absolute left-3 top-1/2  bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
+                  >
+                    <ChevronLeft size={24} />
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,0,0,0.7)' }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={nextSlide}
+                    className="absolute right-3 top-1/2  bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
+                  >
+                    <ChevronRight size={24} />
+                  </motion.button>
+
+                  <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
+                    {images.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentSlide(index)}
+                        className={`h-2 rounded-full transition-all ${index === currentSlide ? 'bg-white w-4' : 'bg-white bg-opacity-50 w-2'
+                          }`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </motion.div>
           </div>
-        </>
-      )}
-    </motion.div>
-  </div>
-)}
+        )}
 
         <div className="mb-2 flex items-center gap-2 bg-white w-full justify-between p-3 rounded-sm text-black border shadow-sm">
           <Label>Schedule Post</Label>
