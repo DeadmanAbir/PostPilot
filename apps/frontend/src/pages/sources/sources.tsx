@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
-import LinkSection from "./sourcesComponents/links-sections";
 import PreviewSection from "./sourcesComponents/preview-section";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import LinkSection2 from "./sourcesComponents/links-sections-2";
 const Sources = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -70,7 +70,7 @@ const Sources = () => {
   return (
     <div ref={containerRef} className=" p-5">
       <div className="min-h-screen flex flex-col items-center justify-between  relative  ">
-        <LinkSection />
+        <LinkSection2 />
         <div className="flex flex-col items-center absolute bottom-5">
           <span> Your Sources</span>
           <Button
