@@ -188,7 +188,13 @@ export function ProfilePage() {
         },
         body: JSON.stringify({
           text: "Hello from post pilot",
-          visibility: "PUBLIC",
+          visibility: "CONNECTIONS",
+          // images: [
+          //   "https://xnytvuicmbqanwcyopdi.supabase.co/storage/v1/object/public/post-pilot/e6ca3ed6-54f5-4806-99d0-8eb49a4e8e6b/hMm3yTl_CVI1EH0jTLTpm.jpg",
+          //   "https://xnytvuicmbqanwcyopdi.supabase.co/storage/v1/object/public/post-pilot/e6ca3ed6-54f5-4806-99d0-8eb49a4e8e6b/JooOPAFMm3Vl8F2FeWnvT.jpg",
+          // ],
+          video:
+            "https://xnytvuicmbqanwcyopdi.supabase.co/storage/v1/object/public/post-pilot/e6ca3ed6-54f5-4806-99d0-8eb49a4e8e6b/Alai%20-%20Google%20Chrome%202025-04-06%2015-55-29.mp4",
         }),
       });
 

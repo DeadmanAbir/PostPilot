@@ -59,6 +59,8 @@ export const linkedinPostValidator = z.object({
   shareUrl: z.string().optional(),
   title: z.string().optional(),
   visibility: z.enum(["PUBLIC", "CONNECTIONS"]),
+  images: z.array(z.string()).optional(),
+  video: z.string().optional(),
 });
 
 export const profileUpdateValidator = z.object({

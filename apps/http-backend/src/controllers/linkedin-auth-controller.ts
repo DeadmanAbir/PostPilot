@@ -8,6 +8,7 @@ import {
   getLinkedInAuthUrl,
   getLinkedInProfile,
   postToLinkedIn,
+  processMedia,
   storeCredentialsInDB,
   validateAndRefreshToken,
 } from "@/utils/helper";
@@ -139,9 +140,8 @@ export async function getLinkedinStatus(
 
 export async function postToLinkedin(request: AuthRequest, response: Response) {
   try {
-    const { text, shareUrl, title, visibility } = linkedinPostValidator.parse(
-      request.body
-    );
+    const { text, shareUrl, title, visibility, images, video } =
+      linkedinPostValidator.parse(request.body);
 
     const userId = request.userId;
 
@@ -156,6 +156,34 @@ export async function postToLinkedin(request: AuthRequest, response: Response) {
     if (!validAccessToken) {
       throw createError(401, "LinkedIn authentication expired");
     }
+
+    // Process media attachments
+    let mediaType: "NONE" | "IMAGE" | "VIDEO" = "NONE";
+    let mediaAttachments = [];
+    if (images) {
+      for (const image of images) {
+        mediaAttachments.push(
+          await processMedia(
+            validAccessToken,
+            credentials.profile_id,
+            image,
+            "image"
+          )
+        );
+      }
+      mediaType = "IMAGE";
+    } else if (video) {
+      mediaAttachments.push(
+        await processMedia(
+          validAccessToken,
+          credentials.profile_id,
+          video,
+          "video"
+        )
+      );
+      mediaType = "VIDEO";
+    }
+
     const postId = await postToLinkedIn(
       validAccessToken,
       credentials.profile_id,
@@ -164,7 +192,9 @@ export async function postToLinkedin(request: AuthRequest, response: Response) {
         shareUrl,
         title,
         visibility,
-      }
+      },
+      mediaAttachments,
+      mediaType
     );
 
     response.status(201).json({
