@@ -371,7 +371,7 @@ export function PostGenerator() {
 
                 <Textarea
                   placeholder="Enter your prompt for AI generation..."
-                  className="max-h-60 h-full"
+                  className="max-h-[30vh] min-h-[20vh]  h-full "
                   value={generatedPost}
                   disabled={isPending || isRegenerating}
                   required

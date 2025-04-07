@@ -15,9 +15,9 @@ export function Dashboard() {
 
           {/* <SchedulingSidebar /> */}
         </div>
-        <footer className="p-4 text-center text-sm text-muted-foreground">
+        {/* <footer className="p-4 text-center text-sm text-muted-foreground">
           © 2025 LinkedIn Post Generator. All rights reserved.
-        </footer>
+        </footer> */}
       </div>
     </div>
   );
