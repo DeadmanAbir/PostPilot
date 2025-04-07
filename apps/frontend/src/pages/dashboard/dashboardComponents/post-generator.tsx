@@ -526,9 +526,12 @@ export function PostGenerator() {
       </Card> */}
 
         {images.length > 0 && (
-          <div className="mb-8 relative ">
+          <div className="mb-8 relative bg-white rounded-xl shadow-xl border-2 p-3  ">
+            <div className="p-2 text-xl font-bold">
+              Media  Preview
+            </div>
             <motion.div
-              className="relative rounded-2xl shadow-xl overflow-hidden w-full aspect-video bg-white h-60 border border-gray-200"
+              className="relative overflow-hidden w-full aspect-video bg-white h-60 rounded-xl border "
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
@@ -560,39 +563,42 @@ export function PostGenerator() {
 
               </AnimatePresence>
 
+
+            </motion.div>
+            <div>
               {images.length > 1 && (
-                <>
+                <div className="flex items-center justify-between w-full pt-2">
                   <motion.button
                     whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,0,0,0.7)' }}
                     whileTap={{ scale: 0.9 }}
                     onClick={prevSlide}
-                    className="absolute left-3 top-1/2  bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
+                    className="  bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
                   >
-                    <ChevronLeft size={24} />
+                    <ChevronLeft size={16} />
                   </motion.button>
-
-                  <motion.button
-                    whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,0,0,0.7)' }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={nextSlide}
-                    className="absolute right-3 top-1/2  bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
-                  >
-                    <ChevronRight size={24} />
-                  </motion.button>
-
-                  <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
+                  <div className=" flex justify-center gap-2">
                     {images.map((_, index) => (
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
-                        className={`h-2 rounded-full transition-all ${index === currentSlide ? 'bg-white w-4' : 'bg-white bg-opacity-50 w-2'
+                        className={`h-2 rounded-full transition-all ${index === currentSlide ? 'dark:bg-white bg-black w-4' : 'dark:bg-white bg-black bg-opacity-50 w-2'
                           }`}
                       />
                     ))}
                   </div>
-                </>
+                  <motion.button
+                    whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,0,0,0.7)' }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={nextSlide}
+                    className=" bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
+                  >
+                    <ChevronRight size={16} />
+                  </motion.button>
+
+
+                </div>
               )}
-            </motion.div>
+            </div>
           </div>
         )}
 
