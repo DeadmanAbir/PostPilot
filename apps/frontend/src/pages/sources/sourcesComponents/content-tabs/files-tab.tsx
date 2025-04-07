@@ -196,10 +196,17 @@ export function FilesTab() {
             <TabsContent value="remote">
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="file-url">File URL</Label>
-                <div className="flex space-x-2">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleRemoteFileLoad();
+                  }}
+                  className="flex space-x-2"
+                >
                   <Input
                     id="file-name"
                     placeholder="File Name"
+                    required
                     value={remoteFileUrl.name}
                     onChange={(e) =>
                       setRemoteFileUrl((prev) => ({ ...prev, name: e.target.value }))
@@ -207,20 +214,18 @@ export function FilesTab() {
                   />
                   <Input
                     id="file-url"
+                    required
                     placeholder="https://example.com/document.pdf"
                     value={remoteFileUrl.url}
                     onChange={(e) =>
                       setRemoteFileUrl((prev) => ({ ...prev, url: e.target.value }))
                     }
                   />
-
-                  <Button
-                    disabled={isRemoteFetching || isLocalFetching}
-                    onClick={handleRemoteFileLoad}
-                  >
+                  <Button type="submit" disabled={isRemoteFetching || isLocalFetching}>
                     Add File
                   </Button>
-                </div>
+                </form>
+
               </div>
               {remoteFiles.length > 0 && (
                 <div className="mt-4">

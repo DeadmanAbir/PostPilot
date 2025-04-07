@@ -214,11 +214,18 @@ export function ImagesTab() {
             >
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="image-url">Image URL</Label>
-                <div className="flex space-x-2">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleRemoteImageLoad();
+                  }}
+                  className="flex space-x-2"
+                >
                   <Input
                     id="image-name"
                     placeholder="Image Name"
                     value={remoteImageUrl.name}
+                    required
                     onChange={(e) =>
                       setRemoteImageUrl((prev) => ({ ...prev, name: e.target.value }))
                     }
@@ -227,19 +234,17 @@ export function ImagesTab() {
                     id="image-url"
                     placeholder="Image Url"
                     value={remoteImageUrl.url}
+                    required
                     onChange={(e) =>
                       setRemoteImageUrl((prev) => ({ ...prev, url: e.target.value }))
                     }
                   />
 
-
-                  <Button
-                    disabled={isRemoteFetching || isLocalFetching}
-                    onClick={handleRemoteImageLoad}
-                  >
+                  <Button type="submit" disabled={isRemoteFetching || isLocalFetching}>
                     Preview Image
                   </Button>
-                </div>
+                </form>
+
               </div>
               {remoteImages.length > 0 && (
                 <div className="mt-4">
