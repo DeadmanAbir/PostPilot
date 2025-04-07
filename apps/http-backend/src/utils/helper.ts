@@ -296,6 +296,7 @@ export const postToLinkedIn = async (
     }
 
     const data = await response.json();
+    console.log("Post response data: ", data);
     return data.id;
   } catch (error) {
     console.error("LinkedIn posting error:", error);

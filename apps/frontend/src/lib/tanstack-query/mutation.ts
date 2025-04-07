@@ -1,6 +1,7 @@
 import {
   AddNodeContent,
   LocalFileUploadDetail,
+  PostContent,
   PostDetail,
   ProfileDetails,
   RegeneratePostContent,
@@ -15,6 +16,7 @@ import {
   fetchTweet,
   fetchWebsite,
   linkedinPost,
+  postToLinkedin,
   regeneratePost,
   updateProfile,
 } from "../api";
@@ -92,6 +94,13 @@ export const addLocalFilesFn = (accessToken: string, options = {}) => {
   return useMutation({
     mutationFn: (files: LocalFileUploadDetail) =>
       addLocalFile(accessToken, files),
+    ...options,
+  });
+};
+
+export const postToLinkedinFn = (accessToken: string, options = {}) => {
+  return useMutation({
+    mutationFn: (content: PostContent) => postToLinkedin(accessToken, content),
     ...options,
   });
 };

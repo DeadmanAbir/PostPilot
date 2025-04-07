@@ -197,10 +197,29 @@ export async function postToLinkedin(request: AuthRequest, response: Response) {
       mediaType
     );
 
+    // const postUrl = extractLinkedInId(postId);
+
+    const { data, error } = await supabase
+      .from("post")
+      .insert([
+        {
+          user_id: userId,
+          post_content: text,
+          post_url: `https://www.linkedin.com/feed/update/${postId}`,
+          media: images || [video],
+        },
+      ])
+      .select("post_url");
+
+    if (error) {
+      console.log(error);
+      throw createError(500, "Failed to save linkedin post");
+    }
+
     response.status(201).json({
       success: true,
       message: "Content posted to LinkedIn successfully",
-      postId,
+      post: data[0]?.post_url,
     });
   } catch (e: unknown) {
     console.log(e);

@@ -1,6 +1,7 @@
 import {
   AddNodeContent,
   LocalFileUploadDetail,
+  PostContent,
   PostDetail,
   ProfileDetails,
   RegeneratePostContent,
@@ -308,6 +309,31 @@ export const fetchUserSources = async (accessToken: string) => {
     return data.users[0];
   } catch (error) {
     console.error("Failed to get user sources:", error);
+    throw error;
+  }
+};
+
+export const postToLinkedin = async (
+  accessToken: string,
+  content: PostContent
+) => {
+  try {
+    const response = await fetch("/api/linkedin/post", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(content),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to post:", error);
     throw error;
   }
 };

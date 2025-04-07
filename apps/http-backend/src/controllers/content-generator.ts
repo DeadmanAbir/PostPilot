@@ -33,21 +33,11 @@ export const generatePost = async (
     });
     // @ts-ignore
     const postData = JSON.parse(data.content);
-    const { data: insertedData, error } = await supabase
-      .from("post")
-      .insert([
-        {
-          user_id: request.userId,
-          user_query: query,
-          enhanced_query: parsedPromptData.enhanced_prompt,
-          post_content: postData.post_content,
-        },
-      ])
-      .select("post_content");
-    if (error) {
-      console.log(error);
-      throw createError(500, `Failed to insert post data: ${error}`);
-    }
+    const insertedData = [
+      {
+        post_content: postData.post_content,
+      },
+    ];
 
     response.status(200).json({ insertedData });
   } catch (e: unknown) {
@@ -82,16 +72,7 @@ export const regeneratePost = async (
     // @ts-ignore
     const postContent = JSON.parse(data.content);
 
-    const { data: updatedData, error } = await supabase
-      .from("post")
-      .update({ post_content: postContent.post_content })
-      .eq("post_content", previousPost)
-      .select("post_content");
-
-    if (error) {
-      console.log(error);
-      throw createError(500, `Failed to update post data: ${error}`);
-    }
+    const updatedData = [{ post_content: postContent.post_content }];
 
     response.status(200).json({ updatedData });
   } catch (e: unknown) {

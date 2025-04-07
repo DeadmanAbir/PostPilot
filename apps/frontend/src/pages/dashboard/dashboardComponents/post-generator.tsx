@@ -19,20 +19,28 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { Check, ChevronLeft, ChevronRight, File, Globe2, Image, ImageIcon, Twitter,  X, Youtube } from "lucide-react";
+import {
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  File,
+  Globe2,
+  Image,
+  ImageIcon,
+  Twitter,
+  X,
+  Youtube,
+} from "lucide-react";
 import { RegenerateModal } from "@/components/regenerate-modal";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import {
   generatePostFn,
+  postToLinkedinFn,
   regeneratePostFn,
 } from "@/lib/tanstack-query/mutation";
 import { LinkedinPostResponse } from "@repo/common/types";
-import {
-  setPostGenerated,
-  useAppDispatch,
-} from "../../../../store/index";
+import { setPostGenerated, useAppDispatch } from "../../../../store/index";
 import { fetchSourcesQuery } from "@/lib/tanstack-query/query";
-
 
 import { Calendar } from "../../../components/ui/calendar";
 import { Input } from "../../../components/ui/input";
@@ -47,13 +55,15 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 import { selectPostGenerated, useAppSelector } from "../../../../store/index";
 import { Switch } from "@/components/ui/switch";
-import { motion, AnimatePresence } from "motion/react"
+import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns"
+import { format } from "date-fns";
+import { nanoid } from "nanoid";
+import { supabase } from "@/lib/supabaseClient";
 interface ScheduledPost {
   id: string;
   date: Date;
@@ -87,7 +97,6 @@ const mockUpcomingPosts: ScheduledPost[] = [
   },
 ];
 
-
 export function PostGenerator() {
   const { user } = useAuth();
   const [generatedPost, setGeneratedPost] = useState("");
@@ -99,12 +108,49 @@ export function PostGenerator() {
     type: "image" | "video";
     id: string;
   }
-  
+
   const [images, setImages] = useState<Media[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<{ id: string; label: string }[]>([]);
+  const [selectedItems, setSelectedItems] = useState<
+    { id: string; label: string }[]
+  >([]);
+
+  const uploadToSupabase = async (bucket: string) => {
+    const fileUrl: string[] = [];
+    try {
+      for (const image of images) {
+        const fileExtension = image.file.name.split(".").pop();
+        const fileName = `${nanoid()}.${fileExtension}`;
+
+        const filePath = `${user?.user?.id}/${fileName}`;
+
+        const { error } = await supabase.storage
+          .from(bucket)
+          .upload(filePath, image.file);
+
+        if (error) {
+          console.error("Error uploading file:", error.message);
+          alert("error in uploading file");
+          throw error;
+        }
+
+        // Get the public URL for the uploaded file
+        const { data: urlData } = supabase.storage
+          .from(bucket)
+          .getPublicUrl(filePath);
+
+        // Add the public URL to our array
+        fileUrl.push(urlData.publicUrl);
+      }
+
+      return fileUrl;
+    } catch (error) {
+      console.error("Error in file upload process:", error);
+      throw error;
+    }
+  };
 
   const {
     data: optionData,
@@ -112,22 +158,40 @@ export function PostGenerator() {
     isPending: isSourcesFetching,
   } = fetchSourcesQuery(user?.accessToken!);
 
-  const { mutate, isPending } = generatePostFn(user?.accessToken!, {
-    onSuccess: (data: LinkedinPostResponse) => {
-      setGeneratedPost(data.post_content);
-      alert("Post generated successfully");
-      dispatch(setPostGenerated(true));
-    },
-    onError: (error: unknown) => {
-      console.log(error);
-      alert("error in posting");
-    },
-  });
+  const { mutate: generatePost, isPending } = generatePostFn(
+    user?.accessToken!,
+    {
+      onSuccess: (data: LinkedinPostResponse) => {
+        setGeneratedPost(data.post_content);
+        alert("Post generated successfully");
+        dispatch(setPostGenerated(true));
+      },
+      onError: (error: unknown) => {
+        console.log(error);
+        alert("error in posting");
+      },
+    }
+  );
+
+  const { mutate: post, isPending: isPosting } = postToLinkedinFn(
+    user?.accessToken!,
+    {
+      onSuccess: (data: unknown) => {
+        console.log(data);
+        setImages([]);
+        setGeneratedPost("");
+        alert("Posted to Linkedin successfully");
+      },
+      onError: (error: unknown) => {
+        console.log(error);
+        alert("error in posting");
+      },
+    }
+  );
 
   const { mutate: regeneratePost, isPending: isRegenerating } =
     regeneratePostFn(user?.accessToken!, {
       onSuccess: (data: LinkedinPostResponse) => {
-        console.log(data);
         setGeneratedPost(data.post_content);
         alert("Post re-generated successfully");
       },
@@ -143,9 +207,7 @@ export function PostGenerator() {
   const toggleSelect = (item: { id: string; label: string }) => {
     setSelectedItems((prev) => {
       const exists = prev.some((i) => i.id === item.id);
-      return exists
-        ? prev.filter((i) => i.id !== item.id)
-        : [...prev, item];
+      return exists ? prev.filter((i) => i.id !== item.id) : [...prev, item];
     });
   };
 
@@ -154,7 +216,8 @@ export function PostGenerator() {
   };
   const handleGenerate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    mutate({
+
+    generatePost({
       query: generatedPost,
     });
     // setGeneratedPost("demo post");
@@ -177,7 +240,7 @@ export function PostGenerator() {
   const [date, setDate] = useState<Date>(new Date());
   const [time, setTime] = useState(getCurrentTime());
   // const [open, setOpen] = useState(false);
-  const [enabled, setEnabled] = useState(false)
+  const [enabled, setEnabled] = useState(false);
   const [connectionOnly, setConnectionOnly] = useState(false);
 
   const [scheduledPosts, setScheduledPosts] =
@@ -197,10 +260,7 @@ export function PostGenerator() {
     }
 
     // Prevent scheduling past times for today
-    if (
-      selectedDate.getTime() === today.getTime() &&
-      time < getCurrentTime()
-    ) {
+    if (selectedDate.getTime() === today.getTime() && time < getCurrentTime()) {
       alert("Cannot schedule a post in the past time.");
       return;
     }
@@ -217,26 +277,26 @@ export function PostGenerator() {
     // setOpen(false); // Close the collapsible after scheduling
   };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files) {
-        const filesArray = Array.from(e.target.files as FileList);
-  
-        const newFiles = filesArray.map((file: File) => {
-          const isVideo = file.type.startsWith('video/');
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files as FileList);
 
-          return {
-            file,
-            preview: URL.createObjectURL(file),
-            type: isVideo ? 'video' as const : 'image' as const,
-            id: `${file.name}-${Date.now()}`
-          };
-        });
+      const newFiles = filesArray.map((file: File) => {
+        const isVideo = file.type.startsWith("video/");
 
-        setImages(prev => [...prev, ...newFiles]);
-      }
-    };
+        return {
+          file,
+          preview: URL.createObjectURL(file),
+          type: isVideo ? ("video" as const) : ("image" as const),
+          id: `${file.name}-${Date.now()}`,
+        };
+      });
 
-  const removeImage = (id:string) => {
-    setImages(images.filter(image => image.id !== id));
+      setImages((prev) => [...prev, ...newFiles]);
+    }
+  };
+
+  const removeImage = (id: string) => {
+    setImages(images.filter((image) => image.id !== id));
     if (currentSlide >= images.length - 1) {
       setCurrentSlide(Math.max(0, images.length - 2));
     }
@@ -250,16 +310,23 @@ export function PostGenerator() {
     setCurrentSlide((prev) => (prev - 1 + images.length) % images.length);
   };
 
-  console.log("optionData", optionData, selectedItems);
+  const handlePost = async () => {
+    console.log(images, connectionOnly);
+    const media = await uploadToSupabase("post-pilot");
+    post({
+      text: generatedPost,
+      visibility: connectionOnly ? "CONNECTIONS" : "PUBLIC",
+      images: images[0]?.type == "image" ? media : undefined,
+      video: images[0]?.type == "video" ? media[0] : undefined,
+    });
+  };
   return (
     <div className="flex w-full gap-5 h-full">
       <div className="w-2/3 flex flex-col items-center h-full  ">
         <div className="p-5 text-3xl font-bold tracking-wider text-left w-full">
           Welcome {user?.user?.user_metadata.displayName} 👋
         </div>
-        <form onSubmit={handleGenerate}
-          className="w-full"
-        >
+        <form onSubmit={handleGenerate} className="w-full">
           <div className="space-y-4 ">
             <Card>
               <CardHeader>
@@ -267,8 +334,6 @@ export function PostGenerator() {
               </CardHeader>
               <CardContent className="h-full space-y-3">
                 <div className="w-full border-dotted border-4 rounded-md border-blue-400 bg-blue-50 p-5 ">
-
-
                   <div className="w-full ">
                     <AnimatePresence>
                       <div className="flex gap-3">
@@ -312,7 +377,9 @@ export function PostGenerator() {
                               className="flex flex-col items-center justify-center size-20 cursor-pointer border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-blue-500 hover:text-blue-500 transition"
                             >
                               <span className="text-4xl">＋</span>
-                              <span className="text-xs mt-1 text-center">Add more</span>
+                              <span className="text-xs mt-1 text-center">
+                                Add more
+                              </span>
                             </label>
                             <input
                               id="media-upload"
@@ -324,7 +391,6 @@ export function PostGenerator() {
                             />
                           </div>
                         )}
-
                       </div>
 
                       {images.length === 0 && (
@@ -337,7 +403,12 @@ export function PostGenerator() {
                               <motion.div
                                 className="absolute bg-blue-100 w-16 h-16 rounded border border-blue-400"
                                 variants={{
-                                  hover: { x: -20, y: -10, rotate: -5, transition: { duration: 0.3 } }
+                                  hover: {
+                                    x: -20,
+                                    y: -10,
+                                    rotate: -5,
+                                    transition: { duration: 0.3 },
+                                  },
                                 }}
                               >
                                 <ImageIcon className="w-8 h-8 m-4 text-blue-500" />
@@ -345,7 +416,7 @@ export function PostGenerator() {
                               <motion.div
                                 className="absolute bg-green-100 w-16 h-16 rounded border border-green-500 left-4 top-2"
                                 variants={{
-                                  hover: { transition: { duration: 0.3 } }
+                                  hover: { transition: { duration: 0.3 } },
                                 }}
                               >
                                 <ImageIcon className="w-8 h-8 m-4 text-green-500" />
@@ -353,14 +424,21 @@ export function PostGenerator() {
                               <motion.div
                                 className="absolute bg-purple-100 w-16 h-16 rounded border border-purple-500 left-8 top-4"
                                 variants={{
-                                  hover: { x: 20, y: -10, rotate: 5, transition: { duration: 0.3 } }
+                                  hover: {
+                                    x: 20,
+                                    y: -10,
+                                    rotate: 5,
+                                    transition: { duration: 0.3 },
+                                  },
                                 }}
                               >
                                 <ImageIcon className="w-8 h-8 m-4 text-purple-500" />
                               </motion.div>
                             </div>
                             <p className="text-sm text-gray-500 text-center">
-                              Drag & drop images here<br />or click to browse
+                              Drag & drop images here
+                              <br />
+                              or click to browse
                             </p>
                             <input
                               type="file"
@@ -433,16 +511,39 @@ export function PostGenerator() {
                     )}
                     {!postGenerated && optionData && (
                       <DropdownMenu>
-                        <DropdownMenuTrigger asChild disabled={isSourcesFetching}>
+                        <DropdownMenuTrigger
+                          asChild
+                          disabled={isSourcesFetching}
+                        >
                           <Button variant={"outline"}>Select Options</Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="start" className="w-64">
                           {[
-                            { label: "Files", data: optionData.files, icon: File },
-                            { label: "Images", data: optionData.images, icon: Image },
-                            { label: "Tweets", data: optionData.tweets, icon: Twitter },
-                            { label: "Websites", data: optionData.websites, icon: Globe2 },
-                            { label: "YouTube", data: optionData.youtube, icon: Youtube },
+                            {
+                              label: "Files",
+                              data: optionData.files,
+                              icon: File,
+                            },
+                            {
+                              label: "Images",
+                              data: optionData.images,
+                              icon: Image,
+                            },
+                            {
+                              label: "Tweets",
+                              data: optionData.tweets,
+                              icon: Twitter,
+                            },
+                            {
+                              label: "Websites",
+                              data: optionData.websites,
+                              icon: Globe2,
+                            },
+                            {
+                              label: "YouTube",
+                              data: optionData.youtube,
+                              icon: Youtube,
+                            },
                           ].map(({ label, icon: Icon, data }) => {
                             // Only render if there's data
                             if (!data?.length) return null;
@@ -464,31 +565,56 @@ export function PostGenerator() {
                                         placeholder={`Search ${label}...`}
                                         className="w-full px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         onChange={(e) => {
-                                          const searchContainer = e.currentTarget.closest('.max-h-80');
-                                          const searchTerm = e.target.value.toLowerCase();
+                                          const searchContainer =
+                                            e.currentTarget.closest(
+                                              ".max-h-80"
+                                            );
+                                          const searchTerm =
+                                            e.target.value.toLowerCase();
 
                                           // Store search term in a data attribute on the element
-                                          searchContainer?.setAttribute(searchId, searchTerm);
+                                          searchContainer?.setAttribute(
+                                            searchId,
+                                            searchTerm
+                                          );
 
                                           // Filter items
                                           let visibleCount = 0;
-                                          searchContainer?.querySelectorAll('.dropdown-item').forEach(item => {
-                                            const text = item.textContent?.toLowerCase() || '';
-                                            if (text.includes(searchTerm)) {
-                                              (item as HTMLElement).style.display = '';
-                                              visibleCount++;
-                                            } else {
-                                              (item as HTMLElement).style.display = 'none';
-                                            }
-                                          });
+                                          searchContainer
+                                            ?.querySelectorAll(".dropdown-item")
+                                            .forEach((item) => {
+                                              const text =
+                                                item.textContent?.toLowerCase() ||
+                                                "";
+                                              if (text.includes(searchTerm)) {
+                                                (
+                                                  item as HTMLElement
+                                                ).style.display = "";
+                                                visibleCount++;
+                                              } else {
+                                                (
+                                                  item as HTMLElement
+                                                ).style.display = "none";
+                                              }
+                                            });
 
                                           // Handle empty state display
-                                          const emptyMessage = searchContainer?.querySelector('.empty-message');
+                                          const emptyMessage =
+                                            searchContainer?.querySelector(
+                                              ".empty-message"
+                                            );
                                           if (emptyMessage) {
-                                            if (visibleCount === 0 && searchTerm) {
-                                              (emptyMessage as HTMLElement).style.display = 'flex';
+                                            if (
+                                              visibleCount === 0 &&
+                                              searchTerm
+                                            ) {
+                                              (
+                                                emptyMessage as HTMLElement
+                                              ).style.display = "flex";
                                             } else {
-                                              (emptyMessage as HTMLElement).style.display = 'none';
+                                              (
+                                                emptyMessage as HTMLElement
+                                              ).style.display = "none";
                                             }
                                           }
                                         }}
@@ -503,31 +629,46 @@ export function PostGenerator() {
                                         No items found
                                       </div>
 
-                                      {data.map((item: { id?: string; name?: string; url?: string; tweet?: string }, index: number) => {
-                                        const displayText = item.name || item.url || item.tweet || "Untitled";
-                                        const itemId = item.id || index.toString();
+                                      {data.map(
+                                        (
+                                          item: {
+                                            id?: string;
+                                            name?: string;
+                                            url?: string;
+                                            tweet?: string;
+                                          },
+                                          index: number
+                                        ) => {
+                                          const displayText =
+                                            item.name ||
+                                            item.url ||
+                                            item.tweet ||
+                                            "Untitled";
+                                          const itemId =
+                                            item.id || index.toString();
 
-                                        return (
-                                          <DropdownMenuItem
-                                            key={itemId}
-                                            onSelect={(e: Event) => {
-                                              e.preventDefault();
-                                              toggleSelect({
-                                                id: itemId,
-                                                label: displayText,
-                                              });
-                                            }}
-                                            className="flex justify-between gap-2 dropdown-item"
-                                          >
-                                            <span className="truncate w-48">
-                                              {displayText}
-                                            </span>
-                                            {selectedItems.some((i) => i.id === itemId) && (
-                                              <Check size={16} />
-                                            )}
-                                          </DropdownMenuItem>
-                                        );
-                                      })}
+                                          return (
+                                            <DropdownMenuItem
+                                              key={itemId}
+                                              onSelect={(e: Event) => {
+                                                e.preventDefault();
+                                                toggleSelect({
+                                                  id: itemId,
+                                                  label: displayText,
+                                                });
+                                              }}
+                                              className="flex justify-between gap-2 dropdown-item"
+                                            >
+                                              <span className="truncate w-48">
+                                                {displayText}
+                                              </span>
+                                              {selectedItems.some(
+                                                (i) => i.id === itemId
+                                              ) && <Check size={16} />}
+                                            </DropdownMenuItem>
+                                          );
+                                        }
+                                      )}
                                     </div>
                                   </DropdownMenuSubContent>
                                 </DropdownMenuPortal>
@@ -537,7 +678,6 @@ export function PostGenerator() {
                         </DropdownMenuContent>
                       </DropdownMenu>
                     )}
-
                   </div>
                 </div>
 
@@ -561,7 +701,6 @@ export function PostGenerator() {
                     ))}
                   </div>
                 )}
-
               </CardFooter>
             </Card>
 
@@ -574,9 +713,11 @@ export function PostGenerator() {
             />
           </div>
         </form>
-
       </div>
-      <aside className="w-1/3 border-l bg-muted  h-full p-4 overflow-y-auto" id="imageLoad">
+      <aside
+        className="w-1/3 border-l bg-muted  h-full p-4 overflow-y-auto"
+        id="imageLoad"
+      >
         {/* <Card className="mb-4">
         <CardHeader>
           <CardTitle>Upcoming Posts</CardTitle>
@@ -588,9 +729,7 @@ export function PostGenerator() {
 
         {images.length > 0 && (
           <div className="mb-8 relative bg-white rounded-xl shadow-xl border-2 p-3  ">
-            <div className="p-2 text-xl font-bold">
-              Media  Preview
-            </div>
+            <div className="p-2 text-xl font-bold">Media Preview</div>
             <motion.div
               className="relative overflow-hidden w-full aspect-video bg-white h-60 rounded-xl border "
               initial={{ opacity: 0, y: 20 }}
@@ -598,7 +737,7 @@ export function PostGenerator() {
               transition={{ duration: 0.4 }}
             >
               <AnimatePresence mode="wait">
-                {images[currentSlide]?.type === 'video' ? (
+                {images[currentSlide]?.type === "video" ? (
                   <motion.video
                     key={currentSlide}
                     src={images[currentSlide]?.preview}
@@ -621,16 +760,16 @@ export function PostGenerator() {
                     transition={{ duration: 0.3 }}
                   />
                 )}
-
               </AnimatePresence>
-
-
             </motion.div>
             <div>
               {images.length > 1 && (
                 <div className="flex items-center justify-between w-full pt-2">
                   <motion.button
-                    whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,0,0,0.7)' }}
+                    whileHover={{
+                      scale: 1.1,
+                      backgroundColor: "rgba(0,0,0,0.7)",
+                    }}
                     whileTap={{ scale: 0.9 }}
                     onClick={prevSlide}
                     className="  bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
@@ -642,21 +781,25 @@ export function PostGenerator() {
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
-                        className={`h-2 rounded-full transition-all ${index === currentSlide ? 'dark:bg-white bg-black w-4' : 'dark:bg-white bg-black bg-opacity-50 w-2'
-                          }`}
+                        className={`h-2 rounded-full transition-all ${
+                          index === currentSlide
+                            ? "dark:bg-white bg-black w-4"
+                            : "dark:bg-white bg-black bg-opacity-50 w-2"
+                        }`}
                       />
                     ))}
                   </div>
                   <motion.button
-                    whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,0,0,0.7)' }}
+                    whileHover={{
+                      scale: 1.1,
+                      backgroundColor: "rgba(0,0,0,0.7)",
+                    }}
                     whileTap={{ scale: 0.9 }}
                     onClick={nextSlide}
                     className=" bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
                   >
                     <ChevronRight size={16} />
                   </motion.button>
-
-
                 </div>
               )}
             </div>
@@ -677,7 +820,6 @@ export function PostGenerator() {
               transition={{ duration: 0.3 }}
             >
               <Card>
-
                 <CardContent className="p-4">
                   <Label className="">Date</Label>
                   <Popover>
@@ -718,12 +860,20 @@ export function PostGenerator() {
                         id="time"
                         type="time"
                         value={time}
-                        min={date.toDateString() === new Date().toDateString() ? getCurrentTime() : undefined}
+                        min={
+                          date.toDateString() === new Date().toDateString()
+                            ? getCurrentTime()
+                            : undefined
+                        }
                         onChange={(e) => setTime(e.target.value)}
                         className="mt-1"
                       />
                     </div>
-                    <Button onClick={handleSchedule} className="w-full" disabled={!postGenerated}>
+                    <Button
+                      onClick={handleSchedule}
+                      className="w-full"
+                      disabled={!postGenerated}
+                    >
                       Schedule
                     </Button>
                   </div>
@@ -783,7 +933,10 @@ export function PostGenerator() {
             transition={{ duration: 0.2 }}
             className="flex flex-col my-4 items-center w-full"
           >
-            <Button className="w-full text-lg tracking-wider">
+            <Button
+              className="w-full text-lg tracking-wider"
+              onClick={handlePost}
+            >
               Post
             </Button>
             <div className="flex my-2 items-center gap-2">
@@ -793,10 +946,12 @@ export function PostGenerator() {
                 onCheckedChange={setConnectionOnly}
               />
             </div>
-
           </motion.div>
         )}
-        <Dialog open={!!selectedPost} onOpenChange={() => setSelectedPost(null)}>
+        <Dialog
+          open={!!selectedPost}
+          onOpenChange={() => setSelectedPost(null)}
+        >
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Scheduled Post Preview</DialogTitle>
@@ -822,8 +977,6 @@ export function PostGenerator() {
           </DialogContent>
         </Dialog>
       </aside>
-
     </div>
-
   );
 }
