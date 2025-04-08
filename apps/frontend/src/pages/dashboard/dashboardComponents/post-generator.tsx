@@ -64,6 +64,7 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { nanoid } from "nanoid";
 import { supabase } from "@/lib/supabaseClient";
+import { groupItemsByType } from "@/utils/functions/groupItem";
 interface ScheduledPost {
   id: string;
   date: Date;
@@ -114,8 +115,9 @@ export function PostGenerator() {
 
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<
-    { id: string; label: string }[]
+    { id: string; label: string ; type:string }[]
   >([]);
+  
 
   const uploadToSupabase = async (bucket: string) => {
     const fileUrl: string[] = [];
@@ -204,7 +206,7 @@ export function PostGenerator() {
       },
     });
 
-  const toggleSelect = (item: { id: string; label: string }) => {
+  const toggleSelect = (item: { id: string; label: string ; type:string }) => {
     setSelectedItems((prev) => {
       const exists = prev.some((i) => i.id === item.id);
       return exists ? prev.filter((i) => i.id !== item.id) : [...prev, item];
@@ -216,7 +218,7 @@ export function PostGenerator() {
   };
   const handleGenerate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(selectedItems);
+    console.log(groupItemsByType({ selectedItems }));
     // generatePost({
     //   query: generatedPost,
     // });
@@ -655,6 +657,7 @@ export function PostGenerator() {
                                                 toggleSelect({
                                                   id: itemId,
                                                   label: displayText,
+                                                  type: label
                                                 });
                                               }}
                                               className="flex justify-between gap-2 dropdown-item"
