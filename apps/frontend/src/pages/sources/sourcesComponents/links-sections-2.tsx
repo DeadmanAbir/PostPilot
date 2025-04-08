@@ -23,48 +23,48 @@ const LinkSection2 = () => {
     {
       id: "youtube",
       title: "YouTube Videos",
-      icon: <YoutubeIcon className="h-6 w-6" />,
-      color: "bg-red-100 hover:bg-red-200",
+      icon: <YoutubeIcon className="size-14" />,
+      color: "bg-red-50 hover:bg-red-100 border-dotted border-red-700 border-2",
       iconColor: "text-red-500",
       component: <YouTubeTab />,
     },
     {
       id: "files",
       title: "Files",
-      icon: <FileIcon className="h-6 w-6" />,
-      color: "bg-blue-100 hover:bg-blue-200",
+      icon: <FileIcon className="size-14" />,
+      color: "bg-blue-50 hover:bg-blue-100 border-dotted border-blue-700 border-2",
       iconColor: "text-blue-500",
       component: <FilesTab />,
     },
     {
       id: "images",
       title: "Images",
-      icon: <ImageIcon className="h-6 w-6" />,
-      color: "bg-green-100 hover:bg-green-200",
+      icon: <ImageIcon className="size-14" />,
+      color: "bg-green-50 hover:bg-green-100 border-dotted border-green-700 border-2",
       iconColor: "text-green-500",
       component: <ImagesTab />,
     },
     {
       id: "tweets",
       title: "Tweets",
-      icon: <TwitterIcon className="h-6 w-6" />,
-      color: "bg-sky-100 hover:bg-sky-200",
+      icon: <TwitterIcon className="size-14" />,
+      color: "bg-sky-50 hover:bg-sky-100 border-dotted border-sky-700 border-2",
       iconColor: "text-sky-500",
       component: <TweetsTab />,
     },
     {
       id: "notes",
       title: "Text Notes",
-      icon: <FileTextIcon className="h-6 w-6" />,
-      color: "bg-amber-100 hover:bg-amber-200",
+      icon: <FileTextIcon className="size-14" />,
+      color: "bg-amber-50 hover:bg-amber-100 border-dotted border-amber-700 border-2",
       iconColor: "text-amber-500",
       component: <TextNoteTab />,
     },
     {
       id: "websites",
       title: "Websites & Articles",
-      icon: <LinkIcon className="h-6 w-6" />,
-      color: "bg-purple-100 hover:bg-purple-200",
+      icon: <LinkIcon className="size-14" />,
+      color: "bg-purple-50 hover:bg-purple-100 border-dotted border-purple-700 border-2",
       iconColor: "text-purple-500",
       component: <WebsitesTab />,
     },
@@ -88,24 +88,23 @@ const LinkSection2 = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="grid grid-cols-2 md:grid-cols-3 gap-4"
+            className="grid grid-cols-2 md:grid-cols-3 gap-4 h-[80vh]"
           >
             {sections.map((section) => (
               <motion.div
                 key={section.id}
-                className={`cursor-pointer rounded-lg p-6 ${section.color} shadow-md flex flex-col items-center justify-center text-center`}
-                whileHover={{ scale: 1.03 }}
+                className={`cursor-pointer rounded-xl p-6 ${section.color} shadow-inner h-full flex flex-col items-center justify-center text-center`}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => handleCardClick(section.id)}
               >
                 <motion.div 
-                  className={`mb-3 ${section.iconColor}`}
+                  className={`mb-3 ${section.iconColor} `}
                   layoutId={`icon-${section.id}`}
                 >
                   {section.icon}
                 </motion.div>
                 <motion.h3 
-                  className="font-medium" 
+                  className="font-medium text-2xl" 
                   layoutId={`title-${section.id}`}
                 >
                   {section.title}
@@ -126,9 +125,8 @@ const LinkSection2 = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="mb-4 flex items-center gap-2 rounded-lg px-3 py-2 bg-gray-100 hover:bg-gray-200"
+              className="mb-4 flex items-center gap-2 rounded-lg px-3 py-2 "
               onClick={handleBack}
-              whileHover={{ x: -5 }}
               whileTap={{ scale: 0.95 }}
             >
               <ArrowLeftIcon className="h-4 w-4" />
@@ -144,7 +142,7 @@ const LinkSection2 = () => {
               </motion.div>
               <motion.h2 
                 layoutId={`title-${activeSection}`}
-                className="text-xl font-semibold"
+                className="text-3xl font-semibold"
               >
                 {sections.find(s => s.id === activeSection)?.title}
               </motion.h2>
