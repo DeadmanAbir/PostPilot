@@ -322,6 +322,7 @@ export function PostGenerator() {
       video: images[0]?.type == "video" ? media[0] : undefined,
     });
   };
+  console.log(images)
   return (
     <div className="flex w-full gap-5 h-full">
       <div className="w-2/3 flex flex-col items-center h-full  ">
@@ -372,7 +373,7 @@ export function PostGenerator() {
                           </motion.div>
                         ))}
 
-                        {images.length > 0 && (
+                        {images.length > 0 && images[0].type === "image" && (
                           <div>
                             <label
                               htmlFor="media-upload"
