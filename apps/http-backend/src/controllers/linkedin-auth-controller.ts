@@ -19,7 +19,6 @@ import {
 } from "@repo/common/validator";
 import { supabase } from "@/utils/supabaseClient";
 import { AuthRequest } from "@/middlewares/authMiddleware";
-import { get } from "http";
 
 export async function getLinkedinCredentials(
   request: AuthRequest,

@@ -116,7 +116,6 @@ export const exchangeCodeForToken = async (
       throw new Error(`LinkedIn API error: ${response.status}`);
     }
     const data = await response.json();
-    console.log("data: ", data);
     return data;
   } catch (error) {
     console.error("LinkedIn token exchange error:", error);
@@ -139,7 +138,6 @@ export const getLinkedInProfile = async (
     }
 
     const data = await response.json();
-    console.log(" profile data: ", data);
     return {
       id: data.sub,
       email: data.email,
@@ -296,7 +294,6 @@ export const postToLinkedIn = async (
     }
 
     const data = await response.json();
-    console.log("Post response data: ", data);
     return data.id;
   } catch (error) {
     console.error("LinkedIn posting error:", error);
@@ -358,4 +355,37 @@ export const processMedia = async (
     status: "READY",
     media: asset,
   };
+};
+
+export const fetchMediaData = async (media: {
+  files?: string[];
+  images?: string[];
+  websites?: string[];
+}) => {
+  const results: { link: string; mimetype: string }[] = [];
+
+  for (const [key, ids] of Object.entries(media)) {
+    if (
+      Array.isArray(ids) &&
+      (key === "files" || key === "images" || key === "websites")
+    ) {
+      const { data, error } = await supabase
+        .from(key)
+        .select(key === "websites" ? "screenshot" : "url")
+        .in("id", ids);
+
+      if (error) {
+        console.error(`Error fetching data from ${key}:`, error);
+        continue;
+      }
+      data?.forEach((item: { url?: string; screenshot?: string }) => {
+        results.push({
+          link: item.url || item.screenshot || "",
+          mimetype: key === "files" ? "application/pdf" : "image/jpeg",
+        });
+      });
+    }
+  }
+
+  return results;
 };
