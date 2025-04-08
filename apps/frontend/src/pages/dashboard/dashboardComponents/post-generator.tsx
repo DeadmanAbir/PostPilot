@@ -397,7 +397,7 @@ export function PostGenerator() {
                               id="media-upload"
                               type="file"
                               multiple
-                              accept="image/*,video/*"
+                              accept="image/*"
                               className="hidden"
                               onChange={handleFileChange}
                             />
