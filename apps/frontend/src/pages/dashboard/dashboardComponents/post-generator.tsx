@@ -216,10 +216,10 @@ export function PostGenerator() {
   };
   const handleGenerate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    generatePost({
-      query: generatedPost,
-    });
+    console.log(selectedItems);
+    // generatePost({
+    //   query: generatedPost,
+    // });
     // setGeneratedPost("demo post");
     // dispatch(setPostGenerated(true));
   };
