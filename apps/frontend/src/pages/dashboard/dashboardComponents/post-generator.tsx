@@ -281,21 +281,30 @@ export function PostGenerator() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files as FileList);
-
-      const newFiles = filesArray.map((file: File) => {
+  
+      // Check if a video already exists in the current images
+      const hasVideo = images.some((item) => item.type === "video");
+  
+      const newFiles = filesArray.reduce<typeof images>((acc, file) => {
         const isVideo = file.type.startsWith("video/");
-
-        return {
-          file,
-          preview: URL.createObjectURL(file),
-          type: isVideo ? ("video" as const) : ("image" as const),
-          id: `${file.name}-${Date.now()}`,
-        };
-      });
-
+        const isImage = file.type.startsWith("image/");
+  
+        if (isImage || (isVideo && !hasVideo && !acc.some(f => f.type === "video"))) {
+          acc.push({
+            file,
+            preview: URL.createObjectURL(file),
+            type: isVideo ? "video" : "image",
+            id: `${file.name}-${Date.now()}`,
+          });
+        }
+  
+        return acc;
+      }, []);
+  
       setImages((prev) => [...prev, ...newFiles]);
     }
   };
+  
 
   const removeImage = (id: string) => {
     setImages(images.filter((image) => image.id !== id));
