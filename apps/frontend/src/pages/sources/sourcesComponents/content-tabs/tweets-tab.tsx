@@ -46,7 +46,7 @@ export function TweetsTab() {
   };
   const handlePreviewTweet = () => {
     if (validateTweetUrl(tweetUrl)) {
-      fetchTweet({ url: tweetUrl, name: tweetName }); // Assuming your mutation accepts an object
+      fetchTweet({ tweetUrl, title: tweetName });
     } else {
       setIsValidUrl(false);
     }
@@ -60,8 +60,6 @@ export function TweetsTab() {
         </CardHeader>
         <CardContent>
           <div className="grid w-full items-center gap-4">
-
-
             <div className="flex flex-col space-y-1.5">
               <form
                 onSubmit={(e) => {
@@ -89,7 +87,7 @@ export function TweetsTab() {
                   required
                 />
                 <Button type="submit" disabled={isFetching}>
-                  Preview Tweet
+                  Add Tweet
                 </Button>
               </form>
 
@@ -99,10 +97,11 @@ export function TweetsTab() {
                 </p>
               )}
             </div>
-            {isValidUrl && tweetUrl && <div>
-              <Tweet id={extractTweetId(tweetUrl)!} />
-
-            </div>}
+            {isValidUrl && tweetUrl && (
+              <div>
+                <Tweet id={extractTweetId(tweetUrl)!} />
+              </div>
+            )}
             {/* TODO: Add tweet preview component here */}
           </div>
         </CardContent>

@@ -8,6 +8,7 @@ import {
   profileUpdateValidator,
   remoteFileUploadDetailsValidator,
   textNodeDataValidaor,
+  twitterValidator,
 } from "./validator";
 
 export type DemoType = z.infer<typeof demoValidator>;
@@ -41,3 +42,5 @@ export type ProfileDetails = z.infer<typeof profileUpdateValidator>;
 export type RegeneratePostContent = z.infer<typeof postRegenerateValidator>;
 
 export type AddNodeContent = z.infer<typeof textNodeDataValidaor>;
+
+export type TweetContent = z.infer<typeof twitterValidator>;

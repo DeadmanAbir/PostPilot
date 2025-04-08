@@ -5,6 +5,7 @@ import {
   ProfileDetails,
   RegeneratePostContent,
   RemoteFileUploadDetail,
+  TweetContent,
 } from "@repo/common/types";
 import {
   addLocalFile,
@@ -45,7 +46,7 @@ export const updateProfileFn = (accessToken: string, options = {}) => {
 
 export const fetchTweetFn = (accessToken: string, options = {}) => {
   return useMutation({
-    mutationFn: (tweetUrl: string) => fetchTweet(accessToken, tweetUrl),
+    mutationFn: (content: TweetContent) => fetchTweet(accessToken, content),
     ...options,
   });
 };
