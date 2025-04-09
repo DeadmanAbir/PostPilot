@@ -394,7 +394,7 @@ const LinkSection2 = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="h-[calc(100%-6rem)] w-full  flex items-center justify-between "
+              className="h-[calc(100%-6rem)] w-full  flex "
             >
               <div className="w-2/3 ">
               {sections.find((section) => section.id === activeSection)?.component}
