@@ -125,7 +125,10 @@ export function ProfilePage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [name, setName] = useState(data.name);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState({
+    nameModal: false,
+    profileModal: false,
+  });
   const [profileImage, setProfileImage] = useState(data.profile_url);
   const [newprofileImage, setNewProfileImage] = useState<File>();
   const [editName, setEditName] = useState("");
@@ -146,6 +149,7 @@ export function ProfilePage() {
           console.error(error.message);
           alert("Error in updating profile:");
         }
+        alert("profile name updated successfully");
       } else if (data.success) {
         alert("profile image updated successfully");
         await supabase.auth.updateUser({
@@ -178,36 +182,6 @@ export function ProfilePage() {
     }
   };
 
-  const handlePost = async () => {
-    try {
-      const response = await fetch("/api/linkedin/post", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user?.accessToken}`,
-        },
-        body: JSON.stringify({
-          text: "Hello from post pilot",
-          visibility: "CONNECTIONS",
-          // images: [
-          //   "https://xnytvuicmbqanwcyopdi.supabase.co/storage/v1/object/public/post-pilot/e6ca3ed6-54f5-4806-99d0-8eb49a4e8e6b/hMm3yTl_CVI1EH0jTLTpm.jpg",
-          //   "https://xnytvuicmbqanwcyopdi.supabase.co/storage/v1/object/public/post-pilot/e6ca3ed6-54f5-4806-99d0-8eb49a4e8e6b/JooOPAFMm3Vl8F2FeWnvT.jpg",
-          // ],
-          video:
-            "https://xnytvuicmbqanwcyopdi.supabase.co/storage/v1/object/public/post-pilot/e6ca3ed6-54f5-4806-99d0-8eb49a4e8e6b/Alai%20-%20Google%20Chrome%202025-04-06%2015-55-29.mp4",
-        }),
-      });
-
-      const data = await response.json();
-      console.log(data);
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to post to LinkedIn");
-      }
-    } catch (error) {
-      console.error("LinkedIn post error:", error);
-    }
-  };
-
   const handleNameChange = async () => {
     if (editName.trim()) {
       setName(editName);
@@ -216,6 +190,7 @@ export function ProfilePage() {
     updateProfile({
       name: editName,
     });
+    setOpen((prev) => ({ ...prev, nameModal: false }));
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -249,7 +224,7 @@ export function ProfilePage() {
     const profileData = await uploadToSupabase("post-pilot");
     setProfileImage(profileData.profile_url);
     updateProfile(profileData);
-    setOpen(false);
+    setOpen((prev) => ({ ...prev, profileModal: false }));
   };
 
   const uploadToSupabase = async (bucket: string) => {
@@ -441,7 +416,12 @@ export function ProfilePage() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="name">Name</Label>
-                    <Dialog>
+                    <Dialog
+                      open={open.nameModal}
+                      onOpenChange={(isOpen) =>
+                        setOpen((prev) => ({ ...prev, nameModal: isOpen }))
+                      }
+                    >
                       <DialogTrigger asChild>
                         <Button variant="outline" size="sm">
                           <Pencil className="h-3 w-3 mr-2" />
@@ -483,7 +463,12 @@ export function ProfilePage() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <Label>Profile Picture</Label>
-                    <Dialog open={open} onOpenChange={setOpen}>
+                    <Dialog
+                      open={open.profileModal}
+                      onOpenChange={(isOpen) =>
+                        setOpen((prev) => ({ ...prev, profileModal: isOpen }))
+                      }
+                    >
                       <DialogTrigger asChild>
                         <Button variant="outline" size="sm">
                           <Pencil className="h-3 w-3 mr-2" />
@@ -564,9 +549,6 @@ export function ProfilePage() {
                 </AlertDialog>
               </CardContent>
             </Card>
-            <Button onClick={handlePost} variant="default">
-              Post
-            </Button>
           </div>
         </div>
       </div>
