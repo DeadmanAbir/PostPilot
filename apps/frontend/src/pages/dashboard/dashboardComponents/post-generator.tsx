@@ -27,6 +27,7 @@ import {
   Globe2,
   Image,
   ImageIcon,
+  PencilRuler,
   Twitter,
   X,
   Youtube,
@@ -65,6 +66,7 @@ import { format } from "date-fns";
 import { nanoid } from "nanoid";
 import { supabase } from "@/lib/supabaseClient";
 import { groupItemsByType } from "@/utils/functions/groupItem";
+import removeMd from "remove-markdown";
 interface ScheduledPost {
   id: string;
   date: Date;
@@ -163,7 +165,8 @@ export function PostGenerator() {
     user?.accessToken!,
     {
       onSuccess: (data: LinkedinPostResponse) => {
-        setGeneratedPost(data.post_content);
+        const cleanData = removeMd(data.post_content);
+        setGeneratedPost(cleanData);
         alert("Post generated successfully");
         dispatch(setPostGenerated(true));
       },
@@ -193,15 +196,13 @@ export function PostGenerator() {
   const { mutate: regeneratePost, isPending: isRegenerating } =
     regeneratePostFn(user?.accessToken!, {
       onSuccess: (data: LinkedinPostResponse) => {
-        setGeneratedPost(data.post_content);
+        const cleanData = removeMd(data.post_content);
+        setGeneratedPost(cleanData);
         alert("Post re-generated successfully");
       },
       onError: (error: unknown) => {
         console.log(error);
         alert("error in posting");
-      },
-      onSettled: () => {
-        setIsRegenerateModalOpen(false);
       },
     });
 
@@ -217,6 +218,7 @@ export function PostGenerator() {
   };
   const handleGenerate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     generatePost({
       query: generatedPost,
       media: groupItemsByType({ selectedItems }),
@@ -231,7 +233,9 @@ export function PostGenerator() {
     regeneratePost({
       previousPost: generatedPost,
       query: additionalContext,
+      media: groupItemsByType({ selectedItems }),
     });
+    setIsRegenerateModalOpen(false);
   };
   const getCurrentTime = () => {
     const now = new Date();
@@ -544,6 +548,11 @@ export function PostGenerator() {
                               label: "Tweets",
                               data: optionData.tweets,
                               icon: Twitter,
+                            },
+                            {
+                              label: "Text",
+                              data: optionData.text_node,
+                              icon: PencilRuler,
                             },
                             {
                               label: "Websites",

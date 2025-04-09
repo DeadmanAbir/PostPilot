@@ -31,6 +31,14 @@ export const postGenerateValidator = z.object({
 export const postRegenerateValidator = z.object({
   query: z.string().optional(),
   previousPost: z.string(),
+  media: z.object({
+    files: z.array(z.string()).optional(),
+    images: z.array(z.string()).optional(),
+    text_node: z.array(z.string()).optional(),
+    tweets: z.array(z.string()).optional(),
+    youtube: z.array(z.string()).optional(),
+    websites: z.array(z.string()).optional(),
+  }),
 });
 
 export const profileIdValidator = z.object({

@@ -46,7 +46,7 @@ export const createClient = (llm: "OpenAI" | "Gemini") => {
   }
   const chatGemini = new ChatGemini({
     apiKey: process.env.GEMINI_API_KEY!,
-    model: "gemini-2.5-pro-exp-03-25",
+    model: "gemini-2.0-flash",
   });
   return chatGemini;
 };
@@ -388,4 +388,36 @@ export const fetchMediaData = async (media: {
   }
 
   return results;
+};
+
+export const fetchTextualData = async (data: {
+  tweets?: string[];
+  text_node?: string[];
+}) => {
+  let result = "";
+  let sourceCount = 1;
+
+  for (const [key, ids] of Object.entries(data)) {
+    if (Array.isArray(ids) && (key === "tweets" || key === "text_node")) {
+      const { data: fetchedData, error } = await supabase
+        .from(key)
+        .select(key === "tweets" ? "tweet" : "description")
+        .in("id", ids);
+
+      if (error) {
+        console.error(`Error fetching data from ${key}:`, error);
+        continue;
+      }
+
+      fetchedData?.forEach((item: { tweet?: string; description?: string }) => {
+        const content = key === "tweets" ? item.tweet : item.description;
+        if (content) {
+          result += `source ${sourceCount}: "${content}"\n\n`;
+          sourceCount++;
+        }
+      });
+    }
+  }
+
+  return result.trim();
 };

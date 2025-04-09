@@ -6,7 +6,12 @@ import {
   postGenerateValidator,
   postRegenerateValidator,
 } from "@repo/common/validator";
-import { createClient, fetchMediaData, improvePrompt } from "@/utils/helper";
+import {
+  createClient,
+  fetchMediaData,
+  fetchTextualData,
+  improvePrompt,
+} from "@/utils/helper";
 import "dotenv/config";
 import { AuthRequest } from "@/middlewares/authMiddleware";
 
@@ -22,6 +27,10 @@ export const generatePost = async (
       images: media.images,
       websites: media.websites,
     });
+    const textData = await fetchTextualData({
+      text_node: media.text_node,
+      tweets: media.tweets,
+    });
 
     const enhancedPrompt = await improvePrompt(query);
 
@@ -32,12 +41,14 @@ export const generatePost = async (
       "\n",
       "Note : If any context is available (in any form), **use it heavily** on your response."
     );
+    console.log(textData, "textData");
     const chatGemini = createClient("Gemini");
     const data = await chatGemini.chat({
       prompt,
       systemInstruction: generatePostPrompt,
       outputFormat: "{`post_content`: ``}",
       file: mockdata,
+      context: textData,
     });
     // @ts-ignore
     const postData = JSON.parse(data.content);
@@ -67,14 +78,27 @@ export const regeneratePost = async (
   response: Response
 ) => {
   try {
-    const { query, previousPost } = postRegenerateValidator.parse(request.body);
+    const { query, previousPost, media } = postRegenerateValidator.parse(
+      request.body
+    );
+
+    const mockdata = await fetchMediaData({
+      files: media.files,
+      images: media.images,
+      websites: media.websites,
+    });
+    const textData = await fetchTextualData({
+      text_node: media.text_node,
+      tweets: media.tweets,
+    });
 
     const chatGemini = createClient("Gemini");
     const data = await chatGemini.chat({
       prompt: query || "Revamp the post",
       systemInstruction: regeneratePostPrompt,
-      context: previousPost,
+      context: previousPost.concat("\n", textData),
       outputFormat: "{`post_content`: ``}",
+      file: mockdata,
     });
 
     // @ts-ignore
