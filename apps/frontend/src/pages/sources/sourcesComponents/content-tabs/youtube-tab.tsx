@@ -59,9 +59,9 @@ export function YouTubeTab() {
   };
 
   return (
-    <div className="w-full h-full py-20">
+    <div className="w-full h-full ">
       <Card>
-        <CardHeader>
+        <CardHeader className="">
           <CardTitle>YouTube Video</CardTitle>
         </CardHeader>
         <CardContent>

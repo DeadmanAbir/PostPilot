@@ -81,3 +81,11 @@ textarea {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+@font-face {
+  font-family: euclid;
+  src: url(../public/euclid-regular.ttf);
+}
+.euclid{
+  font-family: euclid;
+}

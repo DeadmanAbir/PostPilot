@@ -64,7 +64,10 @@ module.exports = {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))',
 				  },
-    		}
+    		},
+			fontFamily: {
+				euclid: ['euclid', 'sans-serif'], /* Replace with your font name and a fallback */
+			  },
     	}
     }
 };

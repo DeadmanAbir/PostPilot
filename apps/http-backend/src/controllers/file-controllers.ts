@@ -76,7 +76,7 @@ export async function fetchYoutubeVideoDetails(
 
 export const fetchTweets = async (request: AuthRequest, response: Response) => {
   try {
-    const { tweetUrl } = twitterValidator.parse(request.body);
+    const { tweetUrl, title } = twitterValidator.parse(request.body);
     const tweetId = extractTweetId(tweetUrl);
     if (!tweetId) {
       throw createError(500, `No Tweet ID found for : ${tweetUrl}`);
@@ -101,7 +101,9 @@ export const fetchTweets = async (request: AuthRequest, response: Response) => {
 
     const { error } = await supabase
       .from("tweets")
-      .insert([{ user_id: userId, url: tweetData.url, tweet: tweetData.tweet }])
+      .insert([
+        { user_id: userId, url: tweetData.url, tweet: tweetData.tweet, title },
+      ])
       .select();
 
     if (error) {

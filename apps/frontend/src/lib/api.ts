@@ -6,6 +6,7 @@ import {
   ProfileDetails,
   RegeneratePostContent,
   RemoteFileUploadDetail,
+  TweetContent,
 } from "@repo/common/types";
 
 export const getProfileData = async (accessToken: string) => {
@@ -123,7 +124,10 @@ export const regeneratePost = async (
   }
 };
 
-export const fetchTweet = async (accessToken: string, tweetUrl: string) => {
+export const fetchTweet = async (
+  accessToken: string,
+  content: TweetContent
+) => {
   try {
     const response = await fetch("/api/fetch-tweet", {
       method: "POST",
@@ -131,7 +135,7 @@ export const fetchTweet = async (accessToken: string, tweetUrl: string) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({ tweetUrl }),
+      body: JSON.stringify(content),
     });
 
     if (!response.ok) {

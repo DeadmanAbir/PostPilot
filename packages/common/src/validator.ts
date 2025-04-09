@@ -10,6 +10,7 @@ export const youtubeValidator = z.object({
 
 export const twitterValidator = z.object({
   tweetUrl: z.string().url(),
+  title: z.string(),
 });
 
 export const websiteUrlValidator = z.object({
