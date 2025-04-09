@@ -27,6 +27,7 @@ import {
   Globe2,
   Image,
   ImageIcon,
+  PencilRuler,
   Twitter,
   X,
   Youtube,
@@ -65,6 +66,7 @@ import { format } from "date-fns";
 import { nanoid } from "nanoid";
 import { supabase } from "@/lib/supabaseClient";
 import { groupItemsByType } from "@/utils/functions/groupItem";
+import removeMd from "remove-markdown";
 interface ScheduledPost {
   id: string;
   date: Date;
@@ -115,9 +117,8 @@ export function PostGenerator() {
 
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<
-    { id: string; label: string ; type:string }[]
+    { id: string; label: string; type: string }[]
   >([]);
-  
 
   const uploadToSupabase = async (bucket: string) => {
     const fileUrl: string[] = [];
@@ -164,7 +165,8 @@ export function PostGenerator() {
     user?.accessToken!,
     {
       onSuccess: (data: LinkedinPostResponse) => {
-        setGeneratedPost(data.post_content);
+        const cleanData = removeMd(data.post_content);
+        setGeneratedPost(cleanData);
         alert("Post generated successfully");
         dispatch(setPostGenerated(true));
       },
@@ -194,19 +196,17 @@ export function PostGenerator() {
   const { mutate: regeneratePost, isPending: isRegenerating } =
     regeneratePostFn(user?.accessToken!, {
       onSuccess: (data: LinkedinPostResponse) => {
-        setGeneratedPost(data.post_content);
+        const cleanData = removeMd(data.post_content);
+        setGeneratedPost(cleanData);
         alert("Post re-generated successfully");
       },
       onError: (error: unknown) => {
         console.log(error);
         alert("error in posting");
       },
-      onSettled: () => {
-        setIsRegenerateModalOpen(false);
-      },
     });
 
-  const toggleSelect = (item: { id: string; label: string ; type:string }) => {
+  const toggleSelect = (item: { id: string; label: string; type: string }) => {
     setSelectedItems((prev) => {
       const exists = prev.some((i) => i.id === item.id);
       return exists ? prev.filter((i) => i.id !== item.id) : [...prev, item];
@@ -218,10 +218,11 @@ export function PostGenerator() {
   };
   const handleGenerate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(groupItemsByType({ selectedItems }));
-    // generatePost({
-    //   query: generatedPost,
-    // });
+
+    generatePost({
+      query: generatedPost,
+      media: groupItemsByType({ selectedItems }),
+    });
     // setGeneratedPost("demo post");
     // dispatch(setPostGenerated(true));
   };
@@ -232,7 +233,9 @@ export function PostGenerator() {
     regeneratePost({
       previousPost: generatedPost,
       query: additionalContext,
+      media: groupItemsByType({ selectedItems }),
     });
+    setIsRegenerateModalOpen(false);
   };
   const getCurrentTime = () => {
     const now = new Date();
@@ -281,15 +284,18 @@ export function PostGenerator() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files as FileList);
-  
+
       // Check if a video already exists in the current images
       const hasVideo = images.some((item) => item.type === "video");
-  
+
       const newFiles = filesArray.reduce<typeof images>((acc, file) => {
         const isVideo = file.type.startsWith("video/");
         const isImage = file.type.startsWith("image/");
-  
-        if (isImage || (isVideo && !hasVideo && !acc.some(f => f.type === "video"))) {
+
+        if (
+          isImage ||
+          (isVideo && !hasVideo && !acc.some((f) => f.type === "video"))
+        ) {
           acc.push({
             file,
             preview: URL.createObjectURL(file),
@@ -297,14 +303,13 @@ export function PostGenerator() {
             id: `${file.name}-${Date.now()}`,
           });
         }
-  
+
         return acc;
       }, []);
-  
+
       setImages((prev) => [...prev, ...newFiles]);
     }
   };
-  
 
   const removeImage = (id: string) => {
     setImages(images.filter((image) => image.id !== id));
@@ -322,7 +327,6 @@ export function PostGenerator() {
   };
 
   const handlePost = async () => {
-    console.log(images, connectionOnly);
     const media = await uploadToSupabase("post-pilot");
     post({
       text: generatedPost,
@@ -331,7 +335,6 @@ export function PostGenerator() {
       video: images[0]?.type == "video" ? media[0] : undefined,
     });
   };
-  console.log(images)
   return (
     <div className="flex w-full gap-5 h-full">
       <div className="w-2/3 flex flex-col items-center h-full  ">
@@ -525,7 +528,7 @@ export function PostGenerator() {
                       <DropdownMenu>
                         <DropdownMenuTrigger
                           asChild
-                          disabled={isSourcesFetching}
+                          disabled={isSourcesFetching || isPending}
                         >
                           <Button variant={"outline"}>Select Options</Button>
                         </DropdownMenuTrigger>
@@ -545,6 +548,11 @@ export function PostGenerator() {
                               label: "Tweets",
                               data: optionData.tweets,
                               icon: Twitter,
+                            },
+                            {
+                              label: "Text",
+                              data: optionData.text_node,
+                              icon: PencilRuler,
                             },
                             {
                               label: "Websites",
@@ -667,7 +675,7 @@ export function PostGenerator() {
                                                 toggleSelect({
                                                   id: itemId,
                                                   label: displayText,
-                                                  type: label
+                                                  type: label,
                                                 });
                                               }}
                                               className="flex justify-between gap-2 dropdown-item"

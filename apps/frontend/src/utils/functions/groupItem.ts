@@ -7,7 +7,7 @@ interface Item {
 const allowedTypes = new Set([
   "files",
   "images",
-  "text_node",
+  "text",
   "tweets",
   "websites",
   "youtube",
@@ -25,11 +25,11 @@ export const groupItemsByType = ({
 
     if (!allowedTypes.has(type)) return;
 
-    if (!groupedItemIds[type]) {
-      groupedItemIds[type] = [];
+    const typeName = type === "text" ? "text_node" : type;
+    if (!groupedItemIds[typeName]) {
+      groupedItemIds[typeName] = [];
     }
-
-    groupedItemIds[type].push(item.id);
+    groupedItemIds[typeName].push(item.id);
   });
 
   return groupedItemIds;

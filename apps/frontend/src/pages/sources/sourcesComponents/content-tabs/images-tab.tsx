@@ -19,9 +19,11 @@ export function ImagesTab() {
   const [localImages, setLocalImages] = useState<File[]>([]);
   const [remoteImageUrl, setRemoteImageUrl] = useState({
     name: "",
-    url: ""
+    url: "",
   });
-  const [remoteImages, setRemoteImages] = useState<{ name: string; url: string }[]>([]);
+  const [remoteImages, setRemoteImages] = useState<
+    { name: string; url: string }[]
+  >([]);
 
   const { mutate: addRemoteImages, isPending: isRemoteFetching } =
     addRemoteImagesFn(user?.accessToken!, {
@@ -96,7 +98,6 @@ export function ImagesTab() {
   const handleRemoteImageLoad = async () => {
     if (remoteImageUrl) {
       const response = await fetch(remoteImageUrl.url);
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
         return;
@@ -127,6 +128,7 @@ export function ImagesTab() {
       url: file.url,
       fileName: file.name,
     }));
+    console.log("remoteImageData", remoteImageData);
     addRemoteImages(remoteImageData);
   };
 
@@ -177,7 +179,9 @@ export function ImagesTab() {
                           transition={{ duration: 0.2 }}
                         >
                           <img
-                            src={URL.createObjectURL(file) || "/placeholder.svg"}
+                            src={
+                              URL.createObjectURL(file) || "/placeholder.svg"
+                            }
                             alt={`Local image ${index + 1}`}
                             className="object-cover rounded size-20"
                           />
@@ -227,7 +231,10 @@ export function ImagesTab() {
                     value={remoteImageUrl.name}
                     required
                     onChange={(e) =>
-                      setRemoteImageUrl((prev) => ({ ...prev, name: e.target.value }))
+                      setRemoteImageUrl((prev) => ({
+                        ...prev,
+                        name: e.target.value,
+                      }))
                     }
                   />
                   <Input
@@ -236,15 +243,20 @@ export function ImagesTab() {
                     value={remoteImageUrl.url}
                     required
                     onChange={(e) =>
-                      setRemoteImageUrl((prev) => ({ ...prev, url: e.target.value }))
+                      setRemoteImageUrl((prev) => ({
+                        ...prev,
+                        url: e.target.value,
+                      }))
                     }
                   />
 
-                  <Button type="submit" disabled={isRemoteFetching || isLocalFetching}>
+                  <Button
+                    type="submit"
+                    disabled={isRemoteFetching || isLocalFetching}
+                  >
                     Preview Image
                   </Button>
                 </form>
-
               </div>
               {remoteImages.length > 0 && (
                 <div className="mt-4">
@@ -294,7 +306,5 @@ export function ImagesTab() {
         </CardContent>
       </Card>
     </div>
-
-
   );
 }

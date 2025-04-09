@@ -19,7 +19,6 @@ const PreviewSection = () => {
   if (isPending) {
     return <h1>fetching.....</h1>;
   }
-  console.log(data);
   return (
     <div className="w-full h-full p-4">
       <Tabs defaultValue="all" className="w-full ">
