@@ -358,3 +358,24 @@ export const getLinkedinData = async (accessToken: string) => {
     throw error;
   }
 };
+
+export const deleteLinkedinAccount = async (accessToken: string) => {
+  try {
+    const response = await fetch(`/api/delete-account`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Failed to delete linkedin account:", error);
+    throw error;
+  }
+};

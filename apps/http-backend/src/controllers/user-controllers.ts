@@ -172,3 +172,36 @@ export async function getLinkedinData(
     }
   }
 }
+
+export async function deleteLinkedinAccount(
+  request: AuthRequest,
+  response: Response
+) {
+  try {
+    const { error } = await supabase
+      .from("linkedin")
+      .delete()
+      .eq("user_id", request.userId);
+
+    if (error) {
+      console.error(error);
+      throw createError(
+        500,
+        `Failed to delete linkedin account: ${error.message}`
+      );
+    }
+
+    response.status(200).json({ success: true });
+  } catch (e: unknown) {
+    console.error(e);
+    if (e instanceof ZodError) {
+      response
+        .status(422)
+        .json({ error: "Invalid request body", details: e.errors });
+    } else if (e instanceof Error) {
+      response.status(500).json({ error: e.message });
+    } else {
+      response.status(500).json({ error: "An unknown error occurred" });
+    }
+  }
+}

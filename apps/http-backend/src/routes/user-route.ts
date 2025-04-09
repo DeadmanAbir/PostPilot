@@ -1,5 +1,6 @@
 import {
   addNewUserData,
+  deleteLinkedinAccount,
   getLinkedinData,
   getProfileData,
   getUser,
@@ -11,6 +12,7 @@ const router: Router = express.Router();
 
 router.post("/onboard-user", addNewUserData);
 router.patch("/update-user", updateUserData);
+router.delete("/delete-account", deleteLinkedinAccount);
 
 router.get("/get-user", getUser);
 router.get("/get-linekdin-credentials", getLinkedinData);

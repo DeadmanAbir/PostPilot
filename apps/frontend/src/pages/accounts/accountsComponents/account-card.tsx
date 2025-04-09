@@ -23,6 +23,7 @@ import { useAuth } from "@/providers/supabaseAuthProvider";
 import { connectLinkedinQuery } from "@/lib/tanstack-query/query";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Link } from "@tanstack/react-router";
+import { deleteLinkedinAccountFn } from "@/lib/tanstack-query/mutation";
 
 interface AccountCardProps {
   profile_url?: string;
@@ -40,6 +41,18 @@ export function AccountCard({
     user?.accessToken!
   );
 
+  const { mutate: deleteAccount } = deleteLinkedinAccountFn(
+    user?.accessToken!,
+    {
+      onSuccess: () => {
+        alert("account disconnected  successfully");
+      },
+      onError: (error: unknown) => {
+        console.log(error);
+        alert("error in disconnecting account");
+      },
+    }
+  );
   const handleClick = async () => {
     try {
       const { data: AuthData, error: newError } =
@@ -55,6 +68,10 @@ export function AccountCard({
     } catch (error) {
       console.error("LinkedIn connection error:", error);
     }
+  };
+
+  const handleDelete = () => {
+    deleteAccount();
   };
   return (
     <Card className="overflow-hidden border border-slate-100 hover:shadow-md transition-all duration-200">
@@ -110,38 +127,38 @@ export function AccountCard({
                 <ExternalLink className="mr-2 h-4 w-4" />
                 <Link to="/profile">View Profile</Link>
               </DropdownMenuItem>
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <DropdownMenuItem
-                    className="cursor-pointer text-red-600 focus:text-red-600"
-                    onSelect={(e) => e.preventDefault()}
-                  >
-                    <Trash2 className="mr-2 h-4 w-4" />
-                    <span>Disconnect</span>
-                  </DropdownMenuItem>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Disconnect Account</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      Are you sure you want to disconnect your LinkedIn account?
-                      This will stop any scheduled posts and require
-                      reconnection to post to LinkedIn in the future.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={() => {
-                        alert("disconnecting account...");
-                      }}
-                      className="bg-red-600 hover:bg-red-700"
+              {!isExpired && (
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <DropdownMenuItem
+                      className="cursor-pointer text-red-600 focus:text-red-600"
+                      onSelect={(e) => e.preventDefault()}
                     >
-                      Disconnect
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      <span>Disconnect</span>
+                    </DropdownMenuItem>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Disconnect Account</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Are you sure you want to disconnect your LinkedIn
+                        account? This will stop any scheduled posts and require
+                        reconnection to post to LinkedIn in the future.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={handleDelete}
+                        className="bg-red-600 hover:bg-red-700"
+                      >
+                        Disconnect
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

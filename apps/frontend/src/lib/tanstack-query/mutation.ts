@@ -13,6 +13,7 @@ import {
   addRemoteFile,
   addRemoteImage,
   addTextNode,
+  deleteLinkedinAccount,
   fetchTweet,
   fetchWebsite,
   linkedinPost,
@@ -101,6 +102,13 @@ export const addLocalFilesFn = (accessToken: string, options = {}) => {
 export const postToLinkedinFn = (accessToken: string, options = {}) => {
   return useMutation({
     mutationFn: (content: PostContent) => postToLinkedin(accessToken, content),
+    ...options,
+  });
+};
+
+export const deleteLinkedinAccountFn = (accessToken: string, options = {}) => {
+  return useMutation({
+    mutationFn: () => deleteLinkedinAccount(accessToken),
     ...options,
   });
 };
