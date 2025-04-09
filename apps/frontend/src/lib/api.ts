@@ -337,3 +337,24 @@ export const postToLinkedin = async (
     throw error;
   }
 };
+
+export const getLinkedinData = async (accessToken: string) => {
+  try {
+    const response = await fetch("/api/get-linekdin-credentials", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.users[0];
+  } catch (error) {
+    console.error("Failed to fetch profile data:", error);
+    throw error;
+  }
+};

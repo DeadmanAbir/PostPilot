@@ -1,12 +1,13 @@
 import type React from "react";
 import { useState } from "react";
 import {
-  ArrowLeft,
   ChevronRight,
   Clock,
   Pencil,
   LogOut,
   Linkedin,
+  MoreHorizontal,
+  Settings,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -44,10 +45,15 @@ import { supabase } from "@/lib/supabaseClient";
 import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { Route } from "@/routes/_authenticated/_dashboard/profile";
-import { connectLinkedinQuery } from "@/lib/tanstack-query/query";
 import { updateProfileFn } from "@/lib/tanstack-query/mutation";
 import { ProfileUpdateResponse } from "@repo/common/types";
 import { nanoid } from "nanoid";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface Course {
   id: string;
@@ -132,12 +138,11 @@ export function ProfilePage() {
   const [profileImage, setProfileImage] = useState(data.profile_url);
   const [newprofileImage, setNewProfileImage] = useState<File>();
   const [editName, setEditName] = useState("");
-  const isLinkedinExpired =
-    data.linkedin?.expires_at && new Date(data.expires_at) < new Date();
 
-  const { refetch: connectLinkedinRefetch } = connectLinkedinQuery(
-    user?.accessToken!
-  );
+  const isExpired = data?.linkedin
+    ? data.linkedin.expires_at &&
+      new Date(data.linkedin.expires_at) < new Date()
+    : true;
 
   const { mutate: updateProfile } = updateProfileFn(user?.accessToken!, {
     onSuccess: async (data: ProfileUpdateResponse) => {
@@ -164,23 +169,6 @@ export function ProfilePage() {
       alert("Profile update failed");
     },
   });
-
-  const handleConnect = async () => {
-    try {
-      const { data: AuthData, error: newError } =
-        await connectLinkedinRefetch();
-
-      if (newError) {
-        console.error("LinkedIn connection error:", newError);
-        alert("LinkedIn connection error:");
-        return;
-      }
-
-      window.location.href = AuthData?.authUrl!;
-    } catch (error) {
-      console.error("LinkedIn connection error:", error);
-    }
-  };
 
   const handleNameChange = async () => {
     if (editName.trim()) {
@@ -256,14 +244,6 @@ export function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Back Button */}
-      <Button variant="ghost" className="m-4" asChild>
-        <Link to="/dashboard">
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back
-        </Link>
-      </Button>
-
       {/* Header Image */}
       <div className="relative h-48 bg-gradient-to-br from-blue-400 to-purple-400">
         <div className="absolute -bottom-12 left-1/2 -translate-x-1/2">
@@ -365,23 +345,25 @@ export function ProfilePage() {
           {/* Sidebar */}
           <div className="md:w-80 space-y-4">
             {/* LinkedIn Account Card */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Connected Accounts</CardTitle>
-                <CardDescription>
-                  Manage your connected social accounts
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center space-x-4 rounded-md border p-4">
-                  <Linkedin className="h-8 w-8 text-blue-600" />
-                  <div className="flex-1 space-y-1">
-                    <p className="text-sm font-medium leading-none">LinkedIn</p>
-                    <p className="text-sm text-muted-foreground">
-                      {!isLinkedinExpired ? "Connected As" : "Not connected"}
-                    </p>
-                  </div>
-                  {!isLinkedinExpired ? (
+            {!isExpired && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Connected Accounts</CardTitle>
+                  <CardDescription>
+                    Manage your connected social accounts
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center space-x-4 rounded-md border p-4">
+                    <Linkedin className="h-8 w-8 text-blue-600" />
+                    <div className="flex-1 space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        LinkedIn
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Connected As
+                      </p>
+                    </div>
                     <div className="flex flex-col ">
                       <Avatar className="h-8 w-8">
                         <AvatarImage
@@ -390,18 +372,30 @@ export function ProfilePage() {
                         />
                         <AvatarFallback>{name}</AvatarFallback>
                       </Avatar>
-                      <Button variant="outline" size="sm">
-                        DisConnect
-                      </Button>
+
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-9 w-9"
+                          >
+                            <MoreHorizontal className="h-5 w-5" />
+                            <span className="sr-only">More options</span>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-48">
+                          <DropdownMenuItem className="cursor-pointer">
+                            <Settings className="mr-2 h-4 w-4" />
+                            <Link to="/integration">Settings</Link>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </div>
-                  ) : (
-                    <Button onClick={handleConnect} variant="outline" size="sm">
-                      Connect
-                    </Button>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
             {/* Profile Settings Card */}
             <Card>

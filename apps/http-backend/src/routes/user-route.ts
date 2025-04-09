@@ -1,5 +1,6 @@
 import {
   addNewUserData,
+  getLinkedinData,
   getProfileData,
   getUser,
   updateUserData,
@@ -12,6 +13,7 @@ router.post("/onboard-user", addNewUserData);
 router.patch("/update-user", updateUserData);
 
 router.get("/get-user", getUser);
+router.get("/get-linekdin-credentials", getLinkedinData);
 router.get("/get-profile", getProfileData);
 
 export default router;

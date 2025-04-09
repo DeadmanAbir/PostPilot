@@ -142,3 +142,33 @@ export async function getUser(request: AuthRequest, response: Response) {
     }
   }
 }
+
+export async function getLinkedinData(
+  request: AuthRequest,
+  response: Response
+) {
+  try {
+    const { data: users, error } = await supabase
+      .from("users")
+      .select("linkedin(expires_at, profile_pic)")
+      .eq("id", request.userId);
+
+    if (error) {
+      console.log(error);
+      throw createError(500, `Failed to fetch user linkedin data: ${error}`);
+    }
+
+    response.status(200).json({ users });
+  } catch (e: unknown) {
+    console.log(e);
+    if (e instanceof ZodError) {
+      response
+        .status(422)
+        .json({ error: "Invalid request body", details: e.errors });
+    } else if (e instanceof Error) {
+      response.status(500).json({ error: e.message });
+    } else {
+      response.status(500).json({ error: "An unknown error occurred" });
+    }
+  }
+}

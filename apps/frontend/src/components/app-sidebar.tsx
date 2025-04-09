@@ -1,6 +1,15 @@
 "use client";
 
-import { Calendar, Moon, Sun, User, FilePlus, Send, Book } from "lucide-react";
+import {
+  Calendar,
+  Moon,
+  Sun,
+  User,
+  FilePlus,
+  Send,
+  Book,
+  SquareDashedMousePointer,
+} from "lucide-react";
 import { motion } from "motion/react";
 import {
   Sidebar,
@@ -111,6 +120,20 @@ export function AppSidebar() {
                   <Link to="/profile">
                     <User />
                     <span>Profile</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+
+            <SidebarMenu className="mt-1">
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname.href === "/integration"}
+                >
+                  <Link to="/integration">
+                    <SquareDashedMousePointer />
+                    <span>Integrations</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
