@@ -4,7 +4,12 @@ import {
   ProfileUpdateResponse,
 } from "@repo/common/types";
 import { useQuery } from "@tanstack/react-query";
-import { connectToLinkedin, fetchUserSources, updateProfile } from "@/lib/api";
+import {
+  connectToLinkedin,
+  fetchUserSources,
+  getLinkedinData,
+  updateProfile,
+} from "@/lib/api";
 
 export const connectLinkedinQuery = (accessToken: string, options = {}) => {
   return useQuery<ConnectToLinkedinResponse>({
@@ -33,6 +38,14 @@ export const fetchSourcesQuery = (accessToken: string, options = {}) => {
     queryKey: ["sources"],
     queryFn: () => fetchUserSources(accessToken!),
     // enabled: false,
+    ...options,
+  });
+};
+
+export const fetchLinkedinQuery = (accessToken: string, options = {}) => {
+  return useQuery({
+    queryKey: ["sources"],
+    queryFn: () => getLinkedinData(accessToken!),
     ...options,
   });
 };
