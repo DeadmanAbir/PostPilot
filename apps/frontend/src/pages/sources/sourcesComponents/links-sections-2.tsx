@@ -15,6 +15,8 @@ import {
   TwitterIcon,
   YoutubeIcon,
 } from "lucide-react";
+import { CardStack } from "./cards/stacking-cards";
+import { Highlight } from "@/utils/highlight";
 
 const LinkSection2 = () => {
   const [activeSection, setActiveSection] = useState(null);
@@ -27,6 +29,46 @@ const LinkSection2 = () => {
       color: "bg-red-50 hover:bg-red-100 border-dotted border-red-700 border-2",
       iconColor: "text-red-500",
       component: <YouTubeTab />,
+      cards : [
+        {
+          id: 0,
+          name: "Manu Arora",
+          designation: "Senior Software Engineer",
+          content: (
+            <p>
+              These cards are amazing, <Highlight>I want to use them</Highlight> in my
+              project. Framer motion is a godsend ngl tbh fam 🙏
+            </p>
+          ),
+        },
+        {
+          id: 1,
+          name: "Elon Musk",
+          designation: "Senior Shitposter",
+          content: (
+            <p>
+              I dont like this Twitter thing,{" "}
+              <Highlight>deleting it right away</Highlight> because yolo. Instead, I
+              would like to call it <Highlight>X.com</Highlight> so that it can easily
+              be confused with adult sites.
+            </p>
+          ),
+        },
+        {
+          id: 2,
+          name: "Tyler Durden",
+          designation: "Manager Project Mayhem",
+          content: (
+            <p>
+              The first rule of
+              <Highlight>Fight Club</Highlight> is that you do not talk about fight
+              club. The second rule of
+              <Highlight>Fight club</Highlight> is that you DO NOT TALK about fight
+              club.
+            </p>
+          ),
+        },
+      ]
     },
     {
       id: "files",
@@ -35,6 +77,46 @@ const LinkSection2 = () => {
       color: "bg-blue-50 hover:bg-blue-100 border-dotted border-blue-700 border-2",
       iconColor: "text-blue-500",
       component: <FilesTab />,
+      cards : [
+        {
+          id: 0,
+          name: "Manu Arora",
+          designation: "Senior Software Engineer",
+          content: (
+            <p>
+              These cards are amazing, <Highlight>I want to use them</Highlight> in my
+              project. Framer motion is a godsend ngl tbh fam 🙏
+            </p>
+          ),
+        },
+        {
+          id: 1,
+          name: "Elon Musk",
+          designation: "Senior Shitposter",
+          content: (
+            <p>
+              I dont like this Twitter thing,{" "}
+              <Highlight>deleting it right away</Highlight> because yolo. Instead, I
+              would like to call it <Highlight>X.com</Highlight> so that it can easily
+              be confused with adult sites.
+            </p>
+          ),
+        },
+        {
+          id: 2,
+          name: "Tyler Durden",
+          designation: "Manager Project Mayhem",
+          content: (
+            <p>
+              The first rule of
+              <Highlight>Fight Club</Highlight> is that you do not talk about fight
+              club. The second rule of
+              <Highlight>Fight club</Highlight> is that you DO NOT TALK about fight
+              club.
+            </p>
+          ),
+        },
+      ]
     },
     {
       id: "images",
@@ -43,6 +125,46 @@ const LinkSection2 = () => {
       color: "bg-green-50 hover:bg-green-100 border-dotted border-green-700 border-2",
       iconColor: "text-green-500",
       component: <ImagesTab />,
+      cards : [
+        {
+          id: 0,
+          name: "Manu Arora",
+          designation: "Senior Software Engineer",
+          content: (
+            <p>
+              These cards are amazing, <Highlight>I want to use them</Highlight> in my
+              project. Framer motion is a godsend ngl tbh fam 🙏
+            </p>
+          ),
+        },
+        {
+          id: 1,
+          name: "Elon Musk",
+          designation: "Senior Shitposter",
+          content: (
+            <p>
+              I dont like this Twitter thing,{" "}
+              <Highlight>deleting it right away</Highlight> because yolo. Instead, I
+              would like to call it <Highlight>X.com</Highlight> so that it can easily
+              be confused with adult sites.
+            </p>
+          ),
+        },
+        {
+          id: 2,
+          name: "Tyler Durden",
+          designation: "Manager Project Mayhem",
+          content: (
+            <p>
+              The first rule of
+              <Highlight>Fight Club</Highlight> is that you do not talk about fight
+              club. The second rule of
+              <Highlight>Fight club</Highlight> is that you DO NOT TALK about fight
+              club.
+            </p>
+          ),
+        },
+      ]
     },
     {
       id: "tweets",
@@ -51,6 +173,46 @@ const LinkSection2 = () => {
       color: "bg-sky-50 hover:bg-sky-100 border-dotted border-sky-700 border-2",
       iconColor: "text-sky-500",
       component: <TweetsTab />,
+      cards : [
+        {
+          id: 0,
+          name: "Manu Arora",
+          designation: "Senior Software Engineer",
+          content: (
+            <p>
+              These cards are amazing, <Highlight>I want to use them</Highlight> in my
+              project. Framer motion is a godsend ngl tbh fam 🙏
+            </p>
+          ),
+        },
+        {
+          id: 1,
+          name: "Elon Musk",
+          designation: "Senior Shitposter",
+          content: (
+            <p>
+              I dont like this Twitter thing,{" "}
+              <Highlight>deleting it right away</Highlight> because yolo. Instead, I
+              would like to call it <Highlight>X.com</Highlight> so that it can easily
+              be confused with adult sites.
+            </p>
+          ),
+        },
+        {
+          id: 2,
+          name: "Tyler Durden",
+          designation: "Manager Project Mayhem",
+          content: (
+            <p>
+              The first rule of
+              <Highlight>Fight Club</Highlight> is that you do not talk about fight
+              club. The second rule of
+              <Highlight>Fight club</Highlight> is that you DO NOT TALK about fight
+              club.
+            </p>
+          ),
+        },
+      ]
     },
     {
       id: "notes",
@@ -59,6 +221,46 @@ const LinkSection2 = () => {
       color: "bg-amber-50 hover:bg-amber-100 border-dotted border-amber-700 border-2",
       iconColor: "text-amber-500",
       component: <TextNoteTab />,
+      cards : [
+        {
+          id: 0,
+          name: "Manu Arora",
+          designation: "Senior Software Engineer",
+          content: (
+            <p>
+              These cards are amazing, <Highlight>I want to use them</Highlight> in my
+              project. Framer motion is a godsend ngl tbh fam 🙏
+            </p>
+          ),
+        },
+        {
+          id: 1,
+          name: "Elon Musk",
+          designation: "Senior Shitposter",
+          content: (
+            <p>
+              I dont like this Twitter thing,{" "}
+              <Highlight>deleting it right away</Highlight> because yolo. Instead, I
+              would like to call it <Highlight>X.com</Highlight> so that it can easily
+              be confused with adult sites.
+            </p>
+          ),
+        },
+        {
+          id: 2,
+          name: "Tyler Durden",
+          designation: "Manager Project Mayhem",
+          content: (
+            <p>
+              The first rule of
+              <Highlight>Fight Club</Highlight> is that you do not talk about fight
+              club. The second rule of
+              <Highlight>Fight club</Highlight> is that you DO NOT TALK about fight
+              club.
+            </p>
+          ),
+        },
+      ]
     },
     {
       id: "websites",
@@ -67,6 +269,46 @@ const LinkSection2 = () => {
       color: "bg-purple-50 hover:bg-purple-100 border-dotted border-purple-700 border-2",
       iconColor: "text-purple-500",
       component: <WebsitesTab />,
+      cards : [
+        {
+          id: 0,
+          name: "Manu Arora",
+          designation: "Senior Software Engineer",
+          content: (
+            <p>
+              These cards are amazing, <Highlight>I want to use them</Highlight> in my
+              project. Framer motion is a godsend ngl tbh fam 🙏
+            </p>
+          ),
+        },
+        {
+          id: 1,
+          name: "Elon Musk",
+          designation: "Senior Shitposter",
+          content: (
+            <p>
+              I dont like this Twitter thing,{" "}
+              <Highlight>deleting it right away</Highlight> because yolo. Instead, I
+              would like to call it <Highlight>X.com</Highlight> so that it can easily
+              be confused with adult sites.
+            </p>
+          ),
+        },
+        {
+          id: 2,
+          name: "Tyler Durden",
+          designation: "Manager Project Mayhem",
+          content: (
+            <p>
+              The first rule of
+              <Highlight>Fight Club</Highlight> is that you do not talk about fight
+              club. The second rule of
+              <Highlight>Fight club</Highlight> is that you DO NOT TALK about fight
+              club.
+            </p>
+          ),
+        },
+      ]
     },
   ];
 
@@ -152,9 +394,17 @@ const LinkSection2 = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="h-[calc(100%-6rem)]"
+              className="h-[calc(100%-6rem)] w-full  flex items-center justify-between "
             >
+              <div className="w-2/3 ">
               {sections.find((section) => section.id === activeSection)?.component}
+
+              </div>
+              <div className="w-1/2 flex items-center justify-center">
+              <CardStack items={sections.find((section) => section.id === activeSection)?.cards} />
+
+              </div>
+              
             </motion.div>
           </motion.div>
         )}
@@ -164,3 +414,4 @@ const LinkSection2 = () => {
 };
 
 export default LinkSection2;
+
