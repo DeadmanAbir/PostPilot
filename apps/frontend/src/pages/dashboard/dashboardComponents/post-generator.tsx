@@ -184,6 +184,8 @@ export function PostGenerator() {
         console.log(data);
         setImages([]);
         setGeneratedPost("");
+        setGeneratedPost("");
+        setSelectedItems([]);
         alert("Posted to Linkedin successfully");
       },
       onError: (error: unknown) => {

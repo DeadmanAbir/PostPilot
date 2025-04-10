@@ -117,8 +117,8 @@ export async function getUser(request: AuthRequest, response: Response) {
           tweets(*),
           websites(*),
           text_node(*),
-          files(*),
-          post(*)
+          files(*)
+         
       `
       )
       .eq("id", request.userId);
@@ -194,6 +194,32 @@ export async function deleteLinkedinAccount(
     response.status(200).json({ success: true });
   } catch (e: unknown) {
     console.error(e);
+    if (e instanceof ZodError) {
+      response
+        .status(422)
+        .json({ error: "Invalid request body", details: e.errors });
+    } else if (e instanceof Error) {
+      response.status(500).json({ error: e.message });
+    } else {
+      response.status(500).json({ error: "An unknown error occurred" });
+    }
+  }
+}
+
+export async function getPostData(request: AuthRequest, response: Response) {
+  try {
+    const { data: posts, error } = await supabase
+      .from("post")
+      .select("post_url, media, post_content, created_at")
+      .eq("user_id", request.userId);
+    if (error) {
+      console.log(error);
+      throw createError(500, `Failed to get post data: ${error.message}`);
+    }
+
+    response.status(200).json({ posts });
+  } catch (e: unknown) {
+    console.log(e);
     if (e instanceof ZodError) {
       response
         .status(422)

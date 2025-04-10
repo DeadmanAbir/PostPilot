@@ -383,3 +383,24 @@ export const deleteLinkedinAccount = async (accessToken: string) => {
     throw error;
   }
 };
+
+export const getPostData = async (accessToken: string) => {
+  try {
+    const response = await fetch("/api/get-posts", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.posts;
+  } catch (error) {
+    console.error("Failed to fetch post data:", error);
+    throw error;
+  }
+};

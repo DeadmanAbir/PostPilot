@@ -8,6 +8,7 @@ import {
   connectToLinkedin,
   fetchUserSources,
   getLinkedinData,
+  getPostData,
   updateProfile,
 } from "@/lib/api";
 
@@ -44,8 +45,16 @@ export const fetchSourcesQuery = (accessToken: string, options = {}) => {
 
 export const fetchLinkedinQuery = (accessToken: string, options = {}) => {
   return useQuery({
-    queryKey: ["sources"],
+    queryKey: ["linkedin"],
     queryFn: () => getLinkedinData(accessToken!),
+    ...options,
+  });
+};
+
+export const getPostQuery = (accessToken: string, options = {}) => {
+  return useQuery({
+    queryKey: ["posts"],
+    queryFn: () => getPostData(accessToken!),
     ...options,
   });
 };
