@@ -155,12 +155,14 @@ export function PostGenerator() {
     }
   };
 
-  const {
-    data: optionData,
-    refetch: connectLinkedinRefetch,
-    isPending: isSourcesFetching,
-  } = fetchSourcesQuery(user?.accessToken!);
+  const { data: optionData, isPending: isSourcesFetching } = fetchSourcesQuery(
+    user?.accessToken!
+  );
 
+  const isExpired = optionData?.linkedin?.expires_at
+    ? optionData.linkedin.expires_at &&
+      new Date(optionData.linkedin.expires_at) < new Date()
+    : true;
   const { mutate: generatePost, isPending } = generatePostFn(
     user?.accessToken!,
     {
@@ -831,7 +833,11 @@ export function PostGenerator() {
 
         <div className="mb-2 flex items-center gap-2 bg-white w-full justify-between p-3 rounded-sm text-black border shadow-sm">
           <Label>Schedule Post</Label>
-          <Switch checked={enabled} onCheckedChange={setEnabled} />
+          <Switch
+            disabled={isExpired}
+            checked={enabled}
+            onCheckedChange={setEnabled}
+          />
         </div>
         <AnimatePresence>
           {enabled && (
@@ -959,6 +965,7 @@ export function PostGenerator() {
             <Button
               className="w-full text-lg tracking-wider"
               onClick={handlePost}
+              disabled={isExpired}
             >
               Post
             </Button>
@@ -967,6 +974,7 @@ export function PostGenerator() {
               <Switch
                 checked={connectionOnly}
                 onCheckedChange={setConnectionOnly}
+                disabled={isExpired}
               />
             </div>
           </motion.div>

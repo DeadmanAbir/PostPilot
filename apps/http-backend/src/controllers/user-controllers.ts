@@ -11,7 +11,9 @@ export async function getProfileData(request: AuthRequest, response: Response) {
   try {
     const { data: users, error } = await supabase
       .from("users")
-      .select("name , email, profile_url, linkedin(expires_at, profile_pic)")
+      .select(
+        "name , email, profile_url, linkedin(expires_at, profile_pic), post(post_content, created_at, media)"
+      )
       .eq("id", request.userId);
 
     if (error) {
@@ -117,7 +119,8 @@ export async function getUser(request: AuthRequest, response: Response) {
           tweets(*),
           websites(*),
           text_node(*),
-          files(*)
+          files(*),
+          linkedin(expires_at)
          
       `
       )

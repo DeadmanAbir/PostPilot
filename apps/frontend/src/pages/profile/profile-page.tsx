@@ -2,7 +2,6 @@ import type React from "react";
 import { useState } from "react";
 import {
   ChevronRight,
-  Clock,
   Pencil,
   LogOut,
   Linkedin,
@@ -55,79 +54,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-interface Course {
-  id: string;
-  title: string;
-  lessons: number;
-  duration: string;
-}
-
-interface Task {
-  id: string;
-  title: string;
-  dueDate: string;
-  lessons: number;
-  duration: string;
-}
-
-const courses: Course[] = [
-  {
-    id: "1",
-    title: "Welcome Orientation",
-    lessons: 2,
-    duration: "6min",
-  },
-  {
-    id: "2",
-    title: "Basic Financials - Overview and Startup Plan",
-    lessons: 8,
-    duration: "53min",
-  },
-  {
-    id: "3",
-    title: "Basic Financials - Forecast Sales & Expenses",
-    lessons: 3,
-    duration: "8min",
-  },
-  {
-    id: "4",
-    title: "Cash and Taxes",
-    lessons: 2,
-    duration: "6min",
-  },
-  {
-    id: "5",
-    title: "Next Steps",
-    lessons: 2,
-    duration: "6min",
-  },
-  {
-    id: "6",
-    title: "Optional Downloads",
-    lessons: 2,
-    duration: "6min",
-  },
-];
-
-const tasks: Task[] = [
-  {
-    id: "1",
-    title: "Welcome Orientation",
-    dueDate: "Aug 28, 2023",
-    lessons: 2,
-    duration: "08min",
-  },
-  {
-    id: "2",
-    title: "Basic Financials - Overview and Startup Plan",
-    dueDate: "Aug 28, 2023",
-    lessons: 8,
-    duration: "53min",
-  },
-];
-
 export function ProfilePage() {
   const data = Route.useLoaderData();
+  console.log(data);
   const navigate = useNavigate();
   const { user } = useAuth();
   const [name, setName] = useState(data.name);
@@ -242,6 +171,16 @@ export function ProfilePage() {
     }
   };
 
+  const formatDate = (date: string) => {
+    const dateObject: Date = new Date(date);
+
+    const day = String(dateObject.getDate()).padStart(2, "0");
+    const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
+    const year = String(dateObject.getFullYear()).slice(-2);
+
+    const formattedDate = `${day}/${month}/${year}`;
+    return formattedDate;
+  };
   return (
     <div className="min-h-screen bg-background">
       {/* Header Image */}
@@ -260,32 +199,6 @@ export function ProfilePage() {
         <p className="text-muted-foreground">{data.email}</p>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-3 gap-4 max-w-3xl mx-auto mt-8 px-4">
-        <Card>
-          <CardContent className="p-6 text-center">
-            <div className="text-2xl font-bold">120</div>
-            <div className="text-sm text-muted-foreground">
-              Courses enrolled
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-6 text-center">
-            <div className="text-2xl font-bold">2.8k</div>
-            <div className="text-sm text-muted-foreground">
-              Hours spent learning
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-6 text-center">
-            <div className="text-2xl font-bold">26</div>
-            <div className="text-sm text-muted-foreground">Tasks completed</div>
-          </CardContent>
-        </Card>
-      </div>
-
       {/* Main Content with Sidebar */}
       <div className="max-w-6xl mx-auto mt-8 px-4 pb-8">
         <div className="flex flex-col md:flex-row gap-8">
@@ -293,51 +206,58 @@ export function ProfilePage() {
           <div className="flex-1 space-y-8">
             {/* Courses Enrolled */}
             <div>
-              <h2 className="text-xl font-semibold mb-4">Courses enrolled</h2>
+              <h2 className="text-xl font-semibold mb-4">Total Posts</h2>
               <div className="space-y-2">
-                {courses.map((course) => (
-                  <Card key={course.id}>
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-4">
-                          <div>
-                            <h3 className="font-medium">{course.title}</h3>
-                            <p className="text-sm text-muted-foreground">
-                              {course.lessons} lessons • {course.duration}
-                            </p>
+                {data?.post?.map(
+                  (
+                    post: {
+                      created_at: string;
+                      media: string[];
+                      post_content: string;
+                    },
+                    index: number
+                  ) => (
+                    <Card key={index}>
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-4">
+                            <div>
+                              <h3 className="font-normal line-clamp-1 leading-loose ">
+                                {post.post_content}
+                              </h3>
+                              <p className="text-sm text-muted-foreground">
+                                {index} lessons •{" "}
+                                {formatDate(post.created_at)}{" "}
+                              </p>
+                            </div>
                           </div>
+                          <ChevronRight
+                            onClick={() => {
+                              navigate({
+                                to: "/posted",
+                              });
+                            }}
+                            className="h-5 w-5 text-muted-foreground"
+                          />
                         </div>
-                        <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  )
+                )}
+
+                {!data?.post || data.post.length === 0 ? (
+                  <h1>no posts</h1>
+                ) : null}
               </div>
             </div>
 
             {/* Tasks Assigned */}
             <div>
-              <h2 className="text-xl font-semibold mb-4">Tasks assigned</h2>
+              <h2 className="text-xl font-semibold mb-4">Scheduled Posts</h2>
               <div className="space-y-2">
-                {tasks.map((task) => (
-                  <Card key={task.id}>
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-4">
-                          <div>
-                            <h3 className="font-medium">{task.title}</h3>
-                            <div className="flex items-center text-sm text-muted-foreground">
-                              <Clock className="mr-1 h-4 w-4" />
-                              Due {task.dueDate} • {task.lessons} lessons •{" "}
-                              {task.duration}
-                            </div>
-                          </div>
-                        </div>
-                        <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                <CardContent className="p-4">
+                  <h1>Coming soon</h1>
+                </CardContent>
               </div>
             </div>
           </div>
