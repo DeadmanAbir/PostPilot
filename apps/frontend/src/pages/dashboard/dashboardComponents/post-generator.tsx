@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "../../../components/ui/button";
 import { Textarea } from "../../../components/ui/textarea";
 import {
@@ -67,6 +67,9 @@ import { nanoid } from "nanoid";
 import { supabase } from "@/lib/supabaseClient";
 import { groupItemsByType } from "@/utils/functions/groupItem";
 import removeMd from "remove-markdown";
+import LinkedInEditor from "./tiptap";
+import Tiptap from "./tiptap";
+import UnicodeConverter from "./unicoder";
 interface ScheduledPost {
   id: string;
   date: Date;
@@ -105,6 +108,8 @@ export function PostGenerator() {
   const [generatedPost, setGeneratedPost] = useState("");
   const postGenerated = useAppSelector(selectPostGenerated);
   const dispatch = useAppDispatch();
+  const textareaRef = useRef(null);
+
   interface Media {
     file: File;
     preview: string;
@@ -327,13 +332,58 @@ export function PostGenerator() {
   };
 
   const handlePost = async () => {
-    const media = await uploadToSupabase("post-pilot");
-    post({
-      text: generatedPost,
-      visibility: connectionOnly ? "CONNECTIONS" : "PUBLIC",
-      images: images[0]?.type == "image" ? media : undefined,
-      video: images[0]?.type == "video" ? media[0] : undefined,
-    });
+    // const media = await uploadToSupabase("post-pilot");
+    console.log(generatedPost,"faisal")
+    // post({
+    //   text: generatedPost,
+    //   visibility: connectionOnly ? "CONNECTIONS" : "PUBLIC",
+    //   images: images[0]?.type == "image" ? media : undefined,
+    //   video: images[0]?.type == "video" ? media[0] : undefined,
+    // });
+  };
+
+  const applyFormatting = (formattingType) => {
+    const textarea = textareaRef.current;
+    const selectionStart = textarea?.selectionStart;
+    const selectionEnd = textarea?.selectionEnd;
+
+    if (selectionStart === selectionEnd) {
+      alert('Please select some text to format');
+      return;
+    }
+
+    const selectedText = generatedPost.substring(selectionStart, selectionEnd);
+    let formattedText = '';
+
+    switch (formattingType) {
+      case 'bold':
+        formattedText = UnicodeConverter.bold(selectedText);
+        break;
+      case 'italic':
+        formattedText = UnicodeConverter.italic(selectedText);
+        break;
+      case 'boldItalic':
+        formattedText = UnicodeConverter.boldItalic(selectedText);
+        break;
+      default:
+        formattedText = selectedText;
+    }
+
+    const newContent =
+      generatedPost.substring(0, selectionStart) +
+      formattedText +
+      generatedPost.substring(selectionEnd);
+
+    setGeneratedPost(newContent);
+
+    // Reset focus to the textarea and set cursor position after the formatted text
+    setTimeout(() => {
+      textarea?.focus();
+      textarea?.setSelectionRange(
+        selectionStart + formattedText.length,
+        selectionStart + formattedText.length
+      );
+    }, 0);
   };
   return (
     <div className="flex w-full gap-5 h-full">
@@ -468,8 +518,14 @@ export function PostGenerator() {
                     </AnimatePresence>
                   </div>
                 </div>
-
+                <div className="formatting-toolbar">
+                  <button onClick={() => applyFormatting('bold')} type="button">Bold</button>
+                  <button onClick={() => applyFormatting('italic')} type="button">Italic</button>
+                  <button onClick={() => applyFormatting('boldItalic')} type="button">Bold-Italic</button>
+                </div>
                 <Textarea
+                  ref={textareaRef}
+
                   placeholder="Enter your prompt for AI generation..."
                   className="max-h-[30vh] min-h-[20vh]  h-full "
                   value={generatedPost}
@@ -802,11 +858,10 @@ export function PostGenerator() {
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
-                        className={`h-2 rounded-full transition-all ${
-                          index === currentSlide
-                            ? "dark:bg-white bg-black w-4"
-                            : "dark:bg-white bg-black bg-opacity-50 w-2"
-                        }`}
+                        className={`h-2 rounded-full transition-all ${index === currentSlide
+                          ? "dark:bg-white bg-black w-4"
+                          : "dark:bg-white bg-black bg-opacity-50 w-2"
+                          }`}
                       />
                     ))}
                   </div>
