@@ -67,8 +67,7 @@ import { nanoid } from "nanoid";
 import { supabase } from "@/lib/supabaseClient";
 import { groupItemsByType } from "@/utils/functions/groupItem";
 import removeMd from "remove-markdown";
-import LinkedInEditor from "./tiptap";
-import Tiptap from "./tiptap";
+
 import UnicodeConverter from "./unicoder";
 interface ScheduledPost {
   id: string;
@@ -342,8 +341,12 @@ export function PostGenerator() {
     // });
   };
 
-  const applyFormatting = (formattingType) => {
-    const textarea = textareaRef.current;
+  interface FormattingType {
+    type: 'bold' | 'italic' | 'boldItalic';
+  }
+
+  const applyFormatting = (formattingType: FormattingType['type']): void => {
+    const textarea = textareaRef.current as HTMLTextAreaElement | null;
     const selectionStart = textarea?.selectionStart;
     const selectionEnd = textarea?.selectionEnd;
 
@@ -352,7 +355,7 @@ export function PostGenerator() {
       return;
     }
 
-    const selectedText = generatedPost.substring(selectionStart, selectionEnd);
+    const selectedText = generatedPost.substring(selectionStart!, selectionEnd!);
     let formattedText = '';
 
     switch (formattingType) {
@@ -370,9 +373,9 @@ export function PostGenerator() {
     }
 
     const newContent =
-      generatedPost.substring(0, selectionStart) +
+      generatedPost.substring(0, selectionStart!) +
       formattedText +
-      generatedPost.substring(selectionEnd);
+      generatedPost.substring(selectionEnd!);
 
     setGeneratedPost(newContent);
 
@@ -380,8 +383,8 @@ export function PostGenerator() {
     setTimeout(() => {
       textarea?.focus();
       textarea?.setSelectionRange(
-        selectionStart + formattedText.length,
-        selectionStart + formattedText.length
+        selectionStart! + formattedText.length,
+        selectionStart! + formattedText.length
       );
     }, 0);
   };
