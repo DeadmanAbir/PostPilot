@@ -333,7 +333,7 @@ export function PostGenerator() {
 
   const handlePost = async () => {
     // const media = await uploadToSupabase("post-pilot");
-    console.log(generatedPost,"faisal")
+    console.log(generatedPost, "faisal")
     // post({
     //   text: generatedPost,
     //   visibility: connectionOnly ? "CONNECTIONS" : "PUBLIC",
@@ -518,22 +518,51 @@ export function PostGenerator() {
                     </AnimatePresence>
                   </div>
                 </div>
-                <div className="formatting-toolbar">
-                  <button onClick={() => applyFormatting('bold')} type="button">Bold</button>
-                  <button onClick={() => applyFormatting('italic')} type="button">Italic</button>
-                  <button onClick={() => applyFormatting('boldItalic')} type="button">Bold-Italic</button>
-                </div>
-                <Textarea
-                  ref={textareaRef}
+                <div className="relative">
+                  <div className="absolute top-0 flex items-center space-x-2 p-2 border-b w-full">
+                    <Button
+                      variant="ghost"
+                      onClick={() => applyFormatting('bold')}
+                      type="button"
+                      size="icon"
+                      className="font-bold "
+                    >
+                      B
+                    </Button>
+                    <Button
+                      onClick={() => applyFormatting('italic')}
+                      type="button"
+                      size="icon"
+                      className=" italic"
+                      variant="ghost"
 
-                  placeholder="Enter your prompt for AI generation..."
-                  className="max-h-[30vh] min-h-[20vh]  h-full "
-                  value={generatedPost}
-                  disabled={isPending || isRegenerating}
-                  required
-                  rows={20}
-                  onChange={(e) => setGeneratedPost(e.target.value)}
-                />
+                    >
+                      I
+                    </Button>
+                    <Button
+                      onClick={() => applyFormatting('boldItalic')}
+                      type="button"
+                      size="icon"
+                      className="font-bold italic "
+                      variant="ghost"
+                    >
+                      A
+                    </Button>
+                  </div>
+
+                  <Textarea
+                    ref={textareaRef}
+
+                    placeholder="Enter your prompt for AI generation..."
+                    className="max-h-[30vh] min-h-[20vh]  h-full pt-14"
+                    value={generatedPost}
+                    disabled={isPending || isRegenerating}
+                    required
+                    rows={20}
+                    onChange={(e) => setGeneratedPost(e.target.value)}
+                  />
+                </div>
+
               </CardContent>
               <CardFooter className="flex  flex-col items-start justify-start gap-2">
                 <div className="flex items-center justify-between w-full">
