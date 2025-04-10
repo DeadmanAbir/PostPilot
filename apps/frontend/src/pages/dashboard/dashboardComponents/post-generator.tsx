@@ -68,13 +68,20 @@ import { supabase } from "@/lib/supabaseClient";
 import { groupItemsByType } from "@/utils/functions/groupItem";
 import removeMd from "remove-markdown";
 
-import UnicodeConverter from "./unicoder";
+import Editor, { processHTMLContent } from "./tiptap";
+import { getTextFromHTML } from "@/utils/functions/getText";
 interface ScheduledPost {
   id: string;
   date: Date;
   time: string;
   content: string;
   image: string;
+}
+interface Media {
+  file: File;
+  preview: string;
+  type: "image" | "video";
+  id: string;
 }
 
 // Mock data for upcoming posts
@@ -107,15 +114,6 @@ export function PostGenerator() {
   const [generatedPost, setGeneratedPost] = useState("");
   const postGenerated = useAppSelector(selectPostGenerated);
   const dispatch = useAppDispatch();
-  const textareaRef = useRef(null);
-
-  interface Media {
-    file: File;
-    preview: string;
-    type: "image" | "video";
-    id: string;
-  }
-
   const [images, setImages] = useState<Media[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -222,9 +220,10 @@ export function PostGenerator() {
   };
   const handleGenerate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    const newText=getTextFromHTML(generatedPost)
+    console.log(typeof(newText),newText)
     generatePost({
-      query: generatedPost,
+      query: newText,
       media: groupItemsByType({ selectedItems }),
     });
     // setGeneratedPost("demo post");
@@ -332,7 +331,10 @@ export function PostGenerator() {
 
   const handlePost = async () => {
     // const media = await uploadToSupabase("post-pilot");
-    console.log(generatedPost, "faisal")
+    const processed = processHTMLContent(generatedPost);
+    console.log(processed, "faisal")
+
+
     // post({
     //   text: generatedPost,
     //   visibility: connectionOnly ? "CONNECTIONS" : "PUBLIC",
@@ -341,53 +343,9 @@ export function PostGenerator() {
     // });
   };
 
-  interface FormattingType {
-    type: 'bold' | 'italic' | 'boldItalic';
-  }
 
-  const applyFormatting = (formattingType: FormattingType['type']): void => {
-    const textarea = textareaRef.current as HTMLTextAreaElement | null;
-    const selectionStart = textarea?.selectionStart;
-    const selectionEnd = textarea?.selectionEnd;
-
-    if (selectionStart === selectionEnd) {
-      alert('Please select some text to format');
-      return;
-    }
-
-    const selectedText = generatedPost.substring(selectionStart!, selectionEnd!);
-    let formattedText = '';
-
-    switch (formattingType) {
-      case 'bold':
-        formattedText = UnicodeConverter.bold(selectedText);
-        break;
-      case 'italic':
-        formattedText = UnicodeConverter.italic(selectedText);
-        break;
-      case 'boldItalic':
-        formattedText = UnicodeConverter.boldItalic(selectedText);
-        break;
-      default:
-        formattedText = selectedText;
-    }
-
-    const newContent =
-      generatedPost.substring(0, selectionStart!) +
-      formattedText +
-      generatedPost.substring(selectionEnd!);
-
-    setGeneratedPost(newContent);
-
-    // Reset focus to the textarea and set cursor position after the formatted text
-    setTimeout(() => {
-      textarea?.focus();
-      textarea?.setSelectionRange(
-        selectionStart! + formattedText.length,
-        selectionStart! + formattedText.length
-      );
-    }, 0);
-  };
+ 
+console.log(generatedPost)
   return (
     <div className="flex w-full gap-5 h-full">
       <div className="w-2/3 flex flex-col items-center h-full  ">
@@ -521,7 +479,16 @@ export function PostGenerator() {
                     </AnimatePresence>
                   </div>
                 </div>
-                <div className="relative">
+                <div className="border">
+                <Editor 
+             value={generatedPost}
+             onChange={(val) => setGeneratedPost(val)}
+                
+                />
+
+                </div>
+
+                {/* <div className="relative">
                   <div className="absolute top-0 flex items-center space-x-2 p-2 border-b w-full">
                     <Button
                       variant="ghost"
@@ -552,7 +519,6 @@ export function PostGenerator() {
                       A
                     </Button>
                   </div>
-
                   <Textarea
                     ref={textareaRef}
 
@@ -564,7 +530,7 @@ export function PostGenerator() {
                     rows={20}
                     onChange={(e) => setGeneratedPost(e.target.value)}
                   />
-                </div>
+                </div> */}
 
               </CardContent>
               <CardFooter className="flex  flex-col items-start justify-start gap-2">

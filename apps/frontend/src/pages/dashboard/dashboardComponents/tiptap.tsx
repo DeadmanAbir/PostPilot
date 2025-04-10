@@ -1,10 +1,13 @@
-import StarterKit from '@tiptap/starter-kit'
-import { useEditor, EditorContent } from '@tiptap/react';
-import { useCallback, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Button } from "@/components/ui/button";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Placeholder from '@tiptap/extension-placeholder';
+import { Bold, Italic, Code } from "lucide-react";
 
-// Text conversion utility for LinkedIn formatting
-const textFormat = {
-  bold: function(text: string) {
+// Unicode Converter from your code
+const UnicodeConverter = {
+  bold: function(text) {
     return text.replace(/[0-9A-Za-z]/g, (char) => {
       const code = char.charCodeAt(0);
       
@@ -19,7 +22,7 @@ const textFormat = {
     });
   },
   
-  italic: function(text: string) {
+  italic: function(text) {
     return text.replace(/[A-Za-z]/g, (char) => {
       const code = char.charCodeAt(0);
       
@@ -32,7 +35,7 @@ const textFormat = {
     });
   },
   
-  boldItalic: function(text: string) {
+  boldItalic: function(text) {
     return text.replace(/[A-Za-z]/g, (char) => {
       const code = char.charCodeAt(0);
       
@@ -46,160 +49,151 @@ const textFormat = {
   }
 };
 
-// Convert HTML with formatting tags to Unicode formatted text
-const convertHtmlToLinkedInFormat = (html: string): string => {
-  // Create a temporary DOM element to parse the HTML
+// Function to process HTML content and apply Unicode formatting
+export const processHTMLContent = (html) => {
+  // Create a temporary div to parse the HTML
   const tempDiv = document.createElement('div');
   tempDiv.innerHTML = html;
   
-  // Process the DOM tree recursively to maintain paragraph structure
-  const processNode = (node: Node): string => {
-    if (node.nodeType === Node.TEXT_NODE) {
-      return node.textContent || '';
-    }
-    
-    if (node.nodeType === Node.ELEMENT_NODE) {
-      const element = node as HTMLElement;
-      let result = '';
-      
-      // Get inner content first
-      let content = '';
-      element.childNodes.forEach(child => {
-        content += processNode(child);
-      });
-      
-      // Apply formatting based on element type
-      const tagName = element.tagName.toLowerCase();
-      if (tagName === 'strong' && element.classList.contains('em')) {
-        result = textFormat.boldItalic(content);
-      } else if (tagName === 'strong') {
-        result = textFormat.bold(content);
-      } else if (tagName === 'em') {
-        result = textFormat.italic(content);
-      } else {
-        result = content;
-      }
-      
-      // Add line breaks for paragraph elements
-      if (tagName === 'p') {
-        result += '\n\n';
-      }
-      
-      return result;
-    }
-    
-    return '';
-  };
-  
-  // Process the entire content
-  const result = processNode(tempDiv);
-  
-  // Trim extra line breaks
-  return result.trim();
+  // Process the DOM tree recursively
+  return processNode(tempDiv);
 };
-
-// Handles the case when both bold and italic are applied to the same text
-const handleNestedFormatting = (html: string): string => {
-  // Replace nested <strong><em>text</em></strong> or <em><strong>text</strong></em> patterns
-  // with <strong class="em">text</strong> for easier processing
-  const processedHtml = html
-    .replace(/<strong><em>(.*?)<\/em><\/strong>/g, '<strong class="em">$1</strong>')
-    .replace(/<em><strong>(.*?)<\/strong><\/em>/g, '<strong class="em">$1</strong>');
-    
-  return processedHtml;
-};
-
-interface TiptapEditorProps {
-  initialValue?: string;
-  placeholder?: string;
-  disabled?: boolean;
-  onChange?: (value: string) => void;
-  className?: string;
-  rows?: number;
-}
-
-const TiptapEditor = ({
-  initialValue = "",
-  placeholder = "Enter your prompt for AI generation...",
-  disabled = false,
-  onChange,
-  className = "max-h-[30vh] min-h-[20vh] h-full",
-  rows = 20
-}: TiptapEditorProps) => {
-  const [linkedInContent, setLinkedInContent] = useState("");
-
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-    ],
-    content: initialValue || `<p>${placeholder}</p>`,
-    editable: !disabled,
-    onUpdate: ({ editor }) => {
-      const html = editor.getHTML();
-      // Update parent component if onChange is provided
-      if (onChange) {
-        onChange(html);
+ const processNode = (node) => {
+  let result = '';
+  
+  // Process each child node
+  node.childNodes.forEach((child) => {
+    if (child.nodeType === Node.TEXT_NODE) {
+      // For text nodes, just add the text content
+      result += child.textContent;
+    } else if (child.nodeType === Node.ELEMENT_NODE) {
+      const element = child;
+      let text = processNode(element); // Process nested content first
+      
+      // Apply formatting based on the element type
+      if (element.tagName === 'STRONG' || element.tagName === 'B') {
+        if (element.querySelector('em') || element.querySelector('i') || 
+            element.parentElement?.tagName === 'EM' || element.parentElement?.tagName === 'I') {
+          text = UnicodeConverter.boldItalic(text);
+        } else {
+          text = UnicodeConverter.bold(text);
+        }
+      } else if (element.tagName === 'EM' || element.tagName === 'I') {
+        if (element.querySelector('strong') || element.querySelector('b') || 
+            element.parentElement?.tagName === 'STRONG' || element.parentElement?.tagName === 'B') {
+          text = UnicodeConverter.boldItalic(text);
+        } else {
+          text = UnicodeConverter.italic(text);
+        }
+      } else if (element.tagName === 'P' || element.tagName === 'DIV') {
+        // Add paragraph breaks for p tags, but not at the end of the content
+        if (result && !result.endsWith('\n\n')) {
+          text = text + '\n\n';
+        }
+      } else if (element.tagName === 'BR') {
+        text = '\n';
       }
       
-      // Calculate the LinkedIn formatted version
-      const processedHtml = handleNestedFormatting(html);
-      const formatted = convertHtmlToLinkedInFormat(processedHtml);
-      setLinkedInContent(formatted);
+      result += text;
     }
   });
   
-  // Toggle bold formatting on the current selection
-  const toggleBold = useCallback(() => {
-    if (!editor) return;
-    editor.chain().focus().toggleBold().run();
-  }, [editor]);
-  
-  // Toggle italic formatting on the current selection
-  const toggleItalic = useCallback(() => {
-    if (!editor) return;
-    editor.chain().focus().toggleItalic().run();
-  }, [editor]);
-  
-  // This function would be called when posting to LinkedIn
-  const postToLinkedIn = useCallback(() => {
-    console.log('Content ready for LinkedIn:', linkedInContent);
-    // apiClient.postToLinkedIn(linkedInContent);
-  }, [linkedInContent]);
-  
-  // Calculate appropriate height based on rows
-  const editorHeight = `${Math.max(20, Math.min(30, rows * 1.5))}vh`;
+  return result.trim();
+};
+
+interface EditorProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+const MenuBar = ({ editor}) => {
+  if (!editor) {
+    return null;
+  }
   
   return (
-    <div className="tiptap-editor-container">
-      <div className="editor-toolbar mb-2">
-        <button 
-          onClick={toggleBold} 
-          className={`mr-2 px-3 py-1 rounded ${editor?.isActive('bold') ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-          disabled={disabled}
-          type='button'
-        >
-          Bold
-        </button>
-        <button 
-          onClick={toggleItalic} 
-          className={`px-3 py-1 rounded ${editor?.isActive('italic') ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-          disabled={disabled}
-          type='button'
-        >
-          Italic
-        </button>
-      </div>
-      
-      <div 
-        className={`tiptap-editor-content border rounded p-3 ${className}`} 
-        style={{ height: editorHeight }}
+    <div className="border-b p-2 flex flex-wrap gap-2">
+      <Button
+        variant="ghost"
+        type="button"
+        size="icon"
+        onClick={(e) => {
+          e.preventDefault();
+          editor.chain().focus().toggleBold().run();
+        }} 
+        disabled={!editor.can().chain().focus().toggleBold().run()}
+        className={editor.isActive("bold") ? "bg-muted" : ""}
       >
-        <EditorContent editor={editor} />
-      </div>
-      
-   
+        <Bold className="h-4 w-4" />
+      </Button>
+      <Button
+        variant="ghost"
+        size="icon"
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          editor.chain().focus().toggleItalic().run();
+        }}
+        disabled={!editor.can().chain().focus().toggleItalic().run()}
+        className={editor.isActive("italic") ? "bg-muted" : ""}
+      >
+        <Italic className="h-4 w-4" />
+      </Button>
+
     </div>
   );
 };
 
-export default TiptapEditor;
+export default function Editor({ value, onChange }: EditorProps) {
+  
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Placeholder.configure({
+        placeholder: 'Write something …',
+      }),
+    ],
+    content: value,
+    editorProps: {
+      attributes: {
+        class: "prose prose-sm max-w-none focus:outline-none p-4",
+      },
+    },
+    onUpdate: ({ editor }) => {
+      onChange(editor.getHTML());
+    },
+  });
+
+  // Update editor content when value prop changes (e.g., from API)
+  useEffect(() => {
+    if (editor && value !== editor.getHTML()) {
+      editor.commands.setContent(value);
+    }
+  }, [value, editor]);
+
+//   const handleProcess = () => {
+//     if (editor) {
+//       const html = editor.getHTML();
+//       const processed = processHTMLContent(html);
+//       setProcessedText(processed);
+      
+//       if (onProcessedTextChange) {
+//         onProcessedTextChange(processed);
+//       }
+//     }
+//   };
+
+  return (
+    <div className="w-full">
+      <MenuBar editor={editor}  />
+      <EditorContent editor={editor} />
+      
+      {/* {processedText && (
+        <div className="mt-4 p-4 border rounded">
+          <h3 className="font-medium mb-2">Processed Text with Unicode:</h3>
+          <div className="whitespace-pre-wrap">{processedText}</div>
+        </div>
+      )} */}
+    </div>
+  );
+}
