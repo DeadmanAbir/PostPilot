@@ -4,7 +4,7 @@ const CallToAction = () => {
   return (
     <div className="w-full py-20">
       <section className="container mx-auto overflow-hidden ">
-        <div className=" relative items-center justify-center z-40 md:p-20 p-5 bg-gradient-to-br from-zinc-700 to-zinc-900   w-full ">
+        <div className=" relative items-center justify-center z-40 md:p-20 p-5 bg-gradient-to-br from-blue-900 to-black   w-full ">
           <div className="absolute rounded-md inset-0 w-full h-full opacity-10   [mask-image:radial-gradient(#fff,transparent,75%)]  bg-[url('/noise.webp')]  bg-contain z-0"></div>
 
           <div className="z-40 flex flex-col items-center justify-center gap-3  ">

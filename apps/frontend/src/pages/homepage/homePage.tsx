@@ -23,11 +23,11 @@ const HomePage = () => {
 
       <FeatureGrid />
 
-      {/* <EfficiencySection /> */}
+      <EfficiencySection />
 
 
-      {/* <CallToAction /> */}
-      {/* <Footer /> */}
+      <CallToAction />
+      <Footer />
     </div>
   );
 };
