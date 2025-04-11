@@ -51,11 +51,11 @@ const FeatureGrid = () => {
           </div>
 
           {/* second bento grid element */}
-          <div className="relative max-lg:row-start-1  border-2 border-blue-950 group overflow-hidden">
+          <div className="relative max-lg:row-start-1  bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950 group overflow-hidden">
             <div className="absolute inset-px rounded-lg  max-lg:rounded-t-[2rem] " />
             <div className="absolute -bottom-80 left-5 rounded-full size-96 blur-3xl 
     bg-blue-500 opacity-0 group-hover:opacity-100 
-    transition-all duration-500 ease-in-out will-change-transform " />
+    transition-all duration-500 ease-in-out will-change-transform z-[-1]" />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
               <div className="px-8 pt-6 sm:px-10 ">
                 <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
@@ -65,9 +65,9 @@ const FeatureGrid = () => {
                   From new user signups to successful payments,
                 </p>
               </div>
-              <div className="h-40 ">
+              <div className="h-40  ">
                 <OrbitAnimation />
-
+          
               </div>
             </div>
 
