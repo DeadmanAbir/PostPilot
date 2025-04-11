@@ -20,7 +20,7 @@ const Navbar = () => {
             Home
           </div>
         </div> */}
-        <Button className="bg-purple-600 hover:bg-purple-700 rounded-full">Get in touch</Button>
+        <Button className="bg-blue-600 hover:bg-blue-700 rounded-full">Get in touch</Button>
       </div>
 
     </header>
