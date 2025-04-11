@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "../../../components/ui/button";
 import { Textarea } from "../../../components/ui/textarea";
 import {
@@ -67,12 +67,21 @@ import { nanoid } from "nanoid";
 import { supabase } from "@/lib/supabaseClient";
 import { groupItemsByType } from "@/utils/functions/groupItem";
 import removeMd from "remove-markdown";
+
+import Editor, { processHTMLContent } from "./tiptap";
+import { getTextFromHTML } from "@/utils/functions/getText";
 interface ScheduledPost {
   id: string;
   date: Date;
   time: string;
   content: string;
   image: string;
+}
+interface Media {
+  file: File;
+  preview: string;
+  type: "image" | "video";
+  id: string;
 }
 
 // Mock data for upcoming posts
@@ -105,13 +114,6 @@ export function PostGenerator() {
   const [generatedPost, setGeneratedPost] = useState("");
   const postGenerated = useAppSelector(selectPostGenerated);
   const dispatch = useAppDispatch();
-  interface Media {
-    file: File;
-    preview: string;
-    type: "image" | "video";
-    id: string;
-  }
-
   const [images, setImages] = useState<Media[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -222,9 +224,9 @@ export function PostGenerator() {
   };
   const handleGenerate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    const newText=getTextFromHTML(generatedPost)
     generatePost({
-      query: generatedPost,
+      query: newText,
       media: groupItemsByType({ selectedItems }),
     });
     // setGeneratedPost("demo post");
@@ -331,14 +333,21 @@ export function PostGenerator() {
   };
 
   const handlePost = async () => {
-    const media = await uploadToSupabase("post-pilot");
+     const media = await uploadToSupabase("post-pilot");
+    const processed = processHTMLContent(generatedPost);
+    console.log(processed, "faisal")
+
+
     post({
-      text: generatedPost,
+      text: processed,
       visibility: connectionOnly ? "CONNECTIONS" : "PUBLIC",
       images: images[0]?.type == "image" ? media : undefined,
       video: images[0]?.type == "video" ? media[0] : undefined,
     });
   };
+
+
+ 
   return (
     <div className="flex w-full gap-5 h-full">
       <div className="w-2/3 flex flex-col items-center h-full  ">
@@ -472,16 +481,59 @@ export function PostGenerator() {
                     </AnimatePresence>
                   </div>
                 </div>
+                <div className="border">
+                <Editor 
+             value={generatedPost}
+             onChange={(val) => setGeneratedPost(val)}
+             disabled={isPending || isRegenerating}
+             />
 
-                <Textarea
-                  placeholder="Enter your prompt for AI generation..."
-                  className="max-h-[30vh] min-h-[20vh]  h-full "
-                  value={generatedPost}
-                  disabled={isPending || isRegenerating}
-                  required
-                  rows={20}
-                  onChange={(e) => setGeneratedPost(e.target.value)}
-                />
+                </div>
+
+                {/* <div className="relative">
+                  <div className="absolute top-0 flex items-center space-x-2 p-2 border-b w-full">
+                    <Button
+                      variant="ghost"
+                      onClick={() => applyFormatting('bold')}
+                      type="button"
+                      size="icon"
+                      className="font-bold "
+                    >
+                      B
+                    </Button>
+                    <Button
+                      onClick={() => applyFormatting('italic')}
+                      type="button"
+                      size="icon"
+                      className=" italic"
+                      variant="ghost"
+
+                    >
+                      I
+                    </Button>
+                    <Button
+                      onClick={() => applyFormatting('boldItalic')}
+                      type="button"
+                      size="icon"
+                      className="font-bold italic "
+                      variant="ghost"
+                    >
+                      A
+                    </Button>
+                  </div>
+                  <Textarea
+                    ref={textareaRef}
+
+                    placeholder="Enter your prompt for AI generation..."
+                    className="max-h-[30vh] min-h-[20vh]  h-full pt-14"
+                    value={generatedPost}
+                    disabled={isPending || isRegenerating}
+                    required
+                    rows={20}
+                    onChange={(e) => setGeneratedPost(e.target.value)}
+                  />
+                </div> */}
+
               </CardContent>
               <CardFooter className="flex  flex-col items-start justify-start gap-2">
                 <div className="flex items-center justify-between w-full">
@@ -734,7 +786,7 @@ export function PostGenerator() {
               isOpen={isRegenerateModalOpen}
               onClose={() => setIsRegenerateModalOpen(false)}
               onRegenerate={handleRegenerate}
-              currentPost={generatedPost}
+              currentPost={getTextFromHTML(generatedPost)}
             />
           </div>
         </form>
@@ -806,11 +858,10 @@ export function PostGenerator() {
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
-                        className={`h-2 rounded-full transition-all ${
-                          index === currentSlide
-                            ? "dark:bg-white bg-black w-4"
-                            : "dark:bg-white bg-black bg-opacity-50 w-2"
-                        }`}
+                        className={`h-2 rounded-full transition-all ${index === currentSlide
+                          ? "dark:bg-white bg-black w-4"
+                          : "dark:bg-white bg-black bg-opacity-50 w-2"
+                          }`}
                       />
                     ))}
                   </div>
