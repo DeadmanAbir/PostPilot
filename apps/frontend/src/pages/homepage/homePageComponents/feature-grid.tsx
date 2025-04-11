@@ -7,7 +7,7 @@ import Rotate from "./feature-grid/rotater-animation";
 
 const FeatureGrid = () => {
   return (
-    <div className=" w-full h-full flex flex-col space-y-10   ">
+    <div className=" w-full h-full flex flex-col space-y-10 pb-10  ">
       <div className="w-full ">
 
         <div className="md:text-9xl text-6xl flex items-center justify-center pt-10">
