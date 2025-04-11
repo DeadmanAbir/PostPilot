@@ -21,7 +21,7 @@ const HomePage = () => {
 
       <HeroSection />
 
-      {/* <FeatureGrid /> */}
+      <FeatureGrid />
 
       {/* <EfficiencySection /> */}
 
