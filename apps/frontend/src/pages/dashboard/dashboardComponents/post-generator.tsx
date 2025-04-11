@@ -221,7 +221,6 @@ export function PostGenerator() {
   const handleGenerate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newText=getTextFromHTML(generatedPost)
-    console.log(typeof(newText),newText)
     generatePost({
       query: newText,
       media: groupItemsByType({ selectedItems }),
@@ -345,7 +344,6 @@ export function PostGenerator() {
 
 
  
-console.log(generatedPost)
   return (
     <div className="flex w-full gap-5 h-full">
       <div className="w-2/3 flex flex-col items-center h-full  ">
@@ -784,7 +782,7 @@ console.log(generatedPost)
               isOpen={isRegenerateModalOpen}
               onClose={() => setIsRegenerateModalOpen(false)}
               onRegenerate={handleRegenerate}
-              currentPost={generatedPost}
+              currentPost={getTextFromHTML(generatedPost)}
             />
           </div>
         </form>
