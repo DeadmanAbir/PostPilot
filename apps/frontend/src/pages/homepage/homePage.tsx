@@ -6,24 +6,22 @@ import CallToAction from "./homePageComponents/call-to-action";
 import Footer from "./homePageComponents/footer";
 const HomePage = () => {
   return (
-    <div className="min-h-screen bg-black text-white  flex flex-col items-center justify-center">
-      {/* Header */}
+    <div className="min-h-screen bg-black relative  text-white  flex flex-col items-center justify-center">
+      <div className="bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/5 to-blue-900/15 absolute inset-0">
+
+      </div>
       <Navbar />
 
-      {/* Hero Section */}
+      <HeroSection />
       <HeroSection />
 
-      {/* Features Grid */}
-      <FeatureGrid />
+      {/* <FeatureGrid /> */}
 
-      {/* Maximize Efficiency Section */}
-      <EfficiencySection />
+      {/* <EfficiencySection /> */}
 
-      {/* CTA Section */}
 
-      <CallToAction />
-      {/* Footer */}
-      <Footer />
+      {/* <CallToAction /> */}
+      {/* <Footer /> */}
     </div>
   );
 };

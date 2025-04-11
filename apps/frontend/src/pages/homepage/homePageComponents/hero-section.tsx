@@ -9,9 +9,9 @@ const HeroSection = () => {
   const inView = useInView(ref, { once: false });
   return (
     <div className=" w-full  relative overflow-hidden">
-        <div className="absolute inset-0">
+        {/* <div className="absolute inset-0">
             <Dots />
-          </div>
+          </div> */}
       <motion.div
         className="absolute -right-20 size-[200px] mt-20 z-20"
         initial={{ scale: 0 }}
