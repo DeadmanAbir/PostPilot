@@ -193,7 +193,9 @@ export default function Editor({ value, onChange,disabled }: EditorProps) {
   return (
     <div className="w-full">
       <MenuBar editor={editor}  />
+      <div className="max-h-[200px] overflow-auto" id="imageLoad">
       <EditorContent editor={editor} />
+    </div>
       
       {/* {processedText && (
         <div className="mt-4 p-4 border rounded">
