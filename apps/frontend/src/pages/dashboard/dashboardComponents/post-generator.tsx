@@ -335,7 +335,7 @@ export function PostGenerator() {
 
 
     // post({
-    //   text: generatedPost,
+    //   text: processed,
     //   visibility: connectionOnly ? "CONNECTIONS" : "PUBLIC",
     //   images: images[0]?.type == "image" ? media : undefined,
     //   video: images[0]?.type == "video" ? media[0] : undefined,
@@ -481,8 +481,8 @@ export function PostGenerator() {
                 <Editor 
              value={generatedPost}
              onChange={(val) => setGeneratedPost(val)}
-                
-                />
+             disabled={isPending || isRegenerating}
+             />
 
                 </div>
 

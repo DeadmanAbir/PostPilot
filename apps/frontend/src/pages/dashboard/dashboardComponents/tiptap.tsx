@@ -104,6 +104,7 @@ export const processHTMLContent = (html) => {
 interface EditorProps {
   value: string;
   onChange: (value: string) => void;
+  disabled:boolean
 }
 
 const MenuBar = ({ editor}) => {
@@ -144,7 +145,7 @@ const MenuBar = ({ editor}) => {
   );
 };
 
-export default function Editor({ value, onChange }: EditorProps) {
+export default function Editor({ value, onChange,disabled }: EditorProps) {
   
   const editor = useEditor({
     extensions: [
@@ -154,6 +155,8 @@ export default function Editor({ value, onChange }: EditorProps) {
       }),
     ],
     content: value,
+    editable: !disabled,
+
     editorProps: {
       attributes: {
         class: "prose prose-sm max-w-none focus:outline-none p-4",
@@ -166,10 +169,14 @@ export default function Editor({ value, onChange }: EditorProps) {
 
   // Update editor content when value prop changes (e.g., from API)
   useEffect(() => {
-    if (editor && value !== editor.getHTML()) {
-      editor.commands.setContent(value);
+    if (editor) {
+      if (value !== editor.getHTML()) {
+        editor.commands.setContent(value);
+      }
+      editor.setEditable(!disabled);
     }
-  }, [value, editor]);
+  }, [value, disabled, editor]);
+
 
 //   const handleProcess = () => {
 //     if (editor) {
