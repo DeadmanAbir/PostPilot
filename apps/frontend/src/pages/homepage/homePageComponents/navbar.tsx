@@ -6,7 +6,7 @@ const Navbar = () => {
   const scrolled  = useScrollTop()
   return (
     <header className=" mx-auto h-16   fixed top-2 w-full    overflow-hidden z-50">
-      <div className={`flex items-center justify-between  h-full container mx-auto transition-all duration-300 rounded-full  px-8  backdrop-blur-md ${scrolled ? "bg-accent/20" :""} `}>
+      <div className={`flex items-center justify-between  h-full container mx-auto transition-all duration-300 rounded-full  px-8  backdrop-blur-md ${scrolled ? "bg-blue-400/20" :""} `}>
         <div className="flex items-center gap-2 text-3xl font-bold tracking-wider">
           PostPilot
         </div>

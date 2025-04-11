@@ -19,9 +19,11 @@ const FeatureGrid = () => {
       <section className="container mx-auto  p-5 md:p-0   flex flex-col items-center justify-center  ">
         <div className="grid gap-4 lg:grid-cols-3 lg:grid-rows-2 ">
           {/* first bento grid element */}
-          <div className="relative lg:row-span-2">
-            <div className="absolute inset-px rounded-lg bg-zinc-900 lg:rounded-tl-[2rem]" />
-
+          <div className="relative lg:row-span-2 group overflow-hidden">
+            <div className="absolute inset-px rounded-lg  bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950 lg:rounded-tl-[2rem] " />
+            <div className="absolute -bottom-40 left-5 rounded-full size-96 blur-3xl 
+    bg-blue-500 opacity-0 group-hover:opacity-100 
+    transition-all duration-500 ease-in-out will-change-transform saturate-100" />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8  pt-6 sm:px-10 sm:pb-0 ">
                 <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
@@ -49,8 +51,11 @@ const FeatureGrid = () => {
           </div>
 
           {/* second bento grid element */}
-          <div className="relative max-lg:row-start-1">
-            <div className="absolute inset-px rounded-lg bg-zinc-900 max-lg:rounded-t-[2rem]" />
+          <div className="relative max-lg:row-start-1  border-2 border-blue-950 group overflow-hidden">
+            <div className="absolute inset-px rounded-lg  max-lg:rounded-t-[2rem] " />
+            <div className="absolute -bottom-80 left-5 rounded-full size-96 blur-3xl 
+    bg-blue-500 opacity-0 group-hover:opacity-100 
+    transition-all duration-500 ease-in-out will-change-transform " />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
               <div className="px-8 pt-6 sm:px-10 ">
                 <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
@@ -60,7 +65,7 @@ const FeatureGrid = () => {
                   From new user signups to successful payments,
                 </p>
               </div>
-              <div className="h-40">
+              <div className="h-40 ">
                 <OrbitAnimation />
 
               </div>

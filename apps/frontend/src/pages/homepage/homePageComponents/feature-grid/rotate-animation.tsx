@@ -92,7 +92,7 @@ const CubeFace = ({ bgColor, transform, children, icon: Icon, label }) => (
     ];
   
     return (
-      <div className="w-full flex items-center justify-center h-[280px] overflow-hidden bg-zinc-900" style={{ perspective: "2000px" }}>
+      <div className="w-full flex items-center justify-center h-[280px] overflow-hidden " style={{ perspective: "2000px" }}>
         <div
           className="relative w-48 h-48"
           style={{
