@@ -329,17 +329,17 @@ export function PostGenerator() {
   };
 
   const handlePost = async () => {
-    // const media = await uploadToSupabase("post-pilot");
+     const media = await uploadToSupabase("post-pilot");
     const processed = processHTMLContent(generatedPost);
     console.log(processed, "faisal")
 
 
-    // post({
-    //   text: processed,
-    //   visibility: connectionOnly ? "CONNECTIONS" : "PUBLIC",
-    //   images: images[0]?.type == "image" ? media : undefined,
-    //   video: images[0]?.type == "video" ? media[0] : undefined,
-    // });
+    post({
+      text: processed,
+      visibility: connectionOnly ? "CONNECTIONS" : "PUBLIC",
+      images: images[0]?.type == "image" ? media : undefined,
+      video: images[0]?.type == "video" ? media[0] : undefined,
+    });
   };
 
 
