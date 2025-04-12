@@ -11,7 +11,7 @@ const EfficiencySection = () => {
   Effeciency
 </div>
 </div>
-    <section className="container mx-auto p-10 text-center  ">
+    <section className="max-w-7xl mx-auto p-10 text-center  ">
       
 
       <div className=" grid gap-6 md:grid-cols-3 text-white">
