@@ -16,7 +16,7 @@ const FeatureGrid = () => {
         </div>
       </div>
 
-      <section className="container mx-auto  p-5 md:p-0   flex flex-col items-center justify-center  ">
+      <section className="max-w-7xl mx-auto  p-5 md:px-14   flex flex-col items-center justify-center  ">
         <div className="grid gap-4 lg:grid-cols-3 lg:grid-rows-2 ">
           {/* first bento grid element */}
           <div className="relative lg:row-span-2 group overflow-hidden">
