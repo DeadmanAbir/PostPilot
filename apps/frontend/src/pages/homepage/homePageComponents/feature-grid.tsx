@@ -100,11 +100,11 @@ const FeatureGrid = () => {
           </div>
 
           {/* fourth bento grid element */}
-          <div className="relative lg:row-span-2 bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950 group overflow-hidden">
-            <div className="absolute inset-px rounded-lg  max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]" />
+          <div className="relative lg:row-span-2  group overflow-hidden">
+            <div className="absolute inset-px rounded-lg bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950 max-lg:rounded-b-[2rem] lg:rounded-tr-[2rem]" />
             <div className="absolute -bottom-80 left-5 rounded-full size-96 blur-3xl 
     bg-blue-500 opacity-0 group-hover:opacity-100 
-    transition-all duration-500 ease-in-out will-change-transform z-[-1]" />
+    transition-all duration-500 ease-in-out will-change-transform " />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]">
               <div className="px-8 pb-3 pt-6 sm:px-10 sm:pb-0 ">
                 <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
@@ -126,11 +126,11 @@ const FeatureGrid = () => {
 
         </div>
         <div className="grid md:grid-cols-2 grid-cols-1 gap-4 mt-[16px] w-full">
-          <div className="relative bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950 group overflow-hidden">
-            <div className="absolute inset-px rounded-lg  lg:rounded-bl-[2rem]" />
+          <div className="relative  group overflow-hidden">
+            <div className="absolute inset-px rounded-lg bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950 lg:rounded-bl-[2rem]" />
             <div className="absolute -bottom-80 left-24 rounded-full size-96 blur-3xl 
     bg-blue-500 opacity-0 group-hover:opacity-100 
-    transition-all duration-500 ease-in-out will-change-transform z-[-1]" />
+    transition-all duration-500 ease-in-out will-change-transform " />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8 pb-3 pt-6 sm:px-10 sm:pb-0 ">
                 <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
@@ -148,11 +148,11 @@ const FeatureGrid = () => {
             </div>
 
           </div>
-          <div className="relative bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950 group overflow-hidden">
-            <div className="absolute inset-px rounded-lg  lg:rounded-br-[2rem]" />
+          <div className="relative  group overflow-hidden">
+            <div className="absolute inset-px rounded-lg  lg:rounded-br-[2rem] bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950" />
             <div className="absolute -bottom-80 left-24 rounded-full size-96 blur-3xl 
     bg-blue-500 opacity-0 group-hover:opacity-100 
-    transition-all duration-500 ease-in-out will-change-transform z-[-1]" />
+    transition-all duration-500 ease-in-out will-change-transform " />
             <div className="relative flex items-center justify-center  h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
 
 
