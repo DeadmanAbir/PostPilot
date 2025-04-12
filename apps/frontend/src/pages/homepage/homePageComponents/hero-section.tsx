@@ -5,7 +5,7 @@ import { motion } from 'motion/react';
 const HeroSection = () => {
   return (
     <div className="w-full h-screen flex items-center justify-center overflow-hidden">
-      <section className="flex flex-col items-center text-center mt-10 z-20 relative">
+      <section className="flex flex-col items-center text-center mt-32 z-20 relative">
         {/* Version Badge */}
         <motion.div
           initial={{ opacity: 0, y: -20 ,filter: "blur(20px)" }}

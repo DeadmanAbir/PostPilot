@@ -36,10 +36,11 @@ const faqData = [
 
 const Faq = () => {
   return (
-    <div className="z-50 max-w-2xl w-full flex flex-col gap-6 my-20">
+    <div className="z-50 max-w-2xl w-full flex flex-col gap-6 my-20 ">
       <div className="text-center text-4xl tracking-wider">
         Frequently Asked Questions
       </div>
+      <div className="px-4 md:px-0">
       <Accordion type="single" collapsible>
         {faqData.map(({ id, question, answer }) => (
           <AccordionItem
@@ -52,6 +53,8 @@ const Faq = () => {
           </AccordionItem>
         ))}
       </Accordion>
+      </div>
+   
     </div>
   );
 };

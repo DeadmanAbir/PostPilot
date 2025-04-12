@@ -23,7 +23,7 @@ const Footer = () => {
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = 'rotate(0deg) scale(1)';
           }}
-          className={`text-[150px] font-bold tracking-widest transition-all duration-300 cursor-pointer text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-blue-950/20 hover:from-blue-400 hover:to-blue-700  `}
+          className={`md:text-[150px] text-6xl font-bold tracking-widest transition-all duration-300 cursor-pointer text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-blue-950/20 hover:from-blue-400 hover:to-blue-700  `}
 
         >
           {char}
