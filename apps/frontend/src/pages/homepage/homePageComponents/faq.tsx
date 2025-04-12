@@ -46,7 +46,7 @@ const Faq = () => {
           <AccordionItem
             key={id}
             value={id}
-            className="border-none bg-blue-300/20 backdrop-blur-2xl px-5"
+            className="border-none bg-blue-300/20 backdrop-blur-2xl px-5 my-2"
           >
             <AccordionTrigger>{question}</AccordionTrigger>
             <AccordionContent>{answer}</AccordionContent>
