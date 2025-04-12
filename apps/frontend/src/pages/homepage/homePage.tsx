@@ -4,6 +4,7 @@ import FeatureGrid from "./homePageComponents/feature-grid";
 import EfficiencySection from "./homePageComponents/effeciency-section";
 import CallToAction from "./homePageComponents/call-to-action";
 import Footer from "./homePageComponents/footer";
+import Faq from "./homePageComponents/faq";
 const HomePage = () => {
   return (
     <div className="min-h-screen bg-black relative  text-white  flex flex-col items-center justify-center  euclid overflow-hidden">
@@ -25,7 +26,7 @@ const HomePage = () => {
 
       <EfficiencySection />
 
-
+<Faq/>
       <CallToAction />
       <Footer />
     </div>
