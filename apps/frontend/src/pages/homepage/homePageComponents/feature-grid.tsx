@@ -14,11 +14,11 @@ const FeatureGrid = () => {
         </div>
       </div>
 
-      <section className="max-w-7xl mx-auto  p-5 md:px-14   flex flex-col items-center justify-center  ">
-        <div className="grid  lg:grid-cols-3 lg:grid-rows-2 ">
+      <section className="max-w-7xl mx-auto  p-5 md:px-14   flex flex-col items-center justify-center divide-y divide-blue-900/50 ">
+        <div className="grid  lg:grid-cols-3 lg:grid-rows-2 divide-x  divide-blue-900/50 ">
           {/* first bento grid element */}
           <div className="relative lg:row-span-2 group overflow-hidden">
-            <div className="absolute inset-px rounded-lg  bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950 lg:rounded-tl-[2rem] " />
+            <div className="absolute inset-px rounded-lg   lg:rounded-tl-[2rem] " />
             <div
               className="absolute -bottom-40 left-5 rounded-full size-96 blur-3xl 
     bg-blue-500 opacity-0 group-hover:opacity-100 
@@ -51,12 +51,12 @@ const FeatureGrid = () => {
           </div>
 
           {/* second bento grid element */}
-          <div className="relative max-lg:row-start-1  bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950 group overflow-hidden">
+          <div className="relative max-lg:row-start-1   group overflow-hidden">
             <div className="absolute inset-px rounded-lg  max-lg:rounded-t-[2rem] " />
             <div
               className="absolute -bottom-80 left-5 rounded-full size-96 blur-3xl 
     bg-blue-500 opacity-0 group-hover:opacity-100 
-    transition-all duration-500 ease-in-out will-change-transform z-[-1]"
+    transition-all duration-500 ease-in-out will-change-transform "
             />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
               <div className="px-8 pt-6 sm:px-10 ">
@@ -77,12 +77,12 @@ const FeatureGrid = () => {
           </div>
 
           {/* third bento grid element */}
-          <div className="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2 bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950 group overflow-hidden">
+          <div className="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2  group overflow-hidden border-t">
             <div className="absolute inset-px rounded-lg " />
             <div
               className="absolute -bottom-80 left-5 rounded-full size-96 blur-3xl 
     bg-blue-500 opacity-0 group-hover:opacity-100 
-    transition-all duration-500 ease-in-out will-change-transform z-[-1]"
+    transition-all duration-500 ease-in-out will-change-transform "
             />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)]">
               <div className="px-8 pt-6 sm:px-10 ">
@@ -105,7 +105,7 @@ const FeatureGrid = () => {
 
           {/* fourth bento grid element */}
           <div className="relative lg:row-span-2  group overflow-hidden">
-            <div className="absolute inset-px rounded-lg bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950 max-lg:rounded-b-[2rem] lg:rounded-tr-[2rem]" />
+            <div className="absolute inset-px rounded-lg  max-lg:rounded-b-[2rem] lg:rounded-tr-[2rem]" />
             <div
               className="absolute -bottom-80 left-5 rounded-full size-96 blur-3xl 
     bg-blue-500 opacity-0 group-hover:opacity-100 
@@ -130,7 +130,7 @@ const FeatureGrid = () => {
             <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]" />
           </div>
         </div>
-        <div className="grid md:grid-cols-2 grid-cols-1 divide-x divide-blue-900/50 w-full">
+        <div className="grid md:grid-cols-2 grid-cols-1 divide-x divide-blue-900/50 w-full ">
           <div className="relative  group overflow-hidden">
             <div className="absolute inset-px   lg:rounded-bl-[2rem]" />
             <div

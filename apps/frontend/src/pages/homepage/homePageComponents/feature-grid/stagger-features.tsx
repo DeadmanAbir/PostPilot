@@ -33,7 +33,7 @@ const FeatureCard = ({ icon: Icon, title, description, color, index }) => {
         stiffness: 100,
       }}
       whileHover={{ scale: 1.05 }}
-      className="relative bg-black rounded-xl p-3 backdrop-blur-sm border-2 "
+      className="relative  rounded-xl p-3 bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950 "
     >
       <motion.div
         transition={{ duration: 0.6, ease: "easeInOut" }}
