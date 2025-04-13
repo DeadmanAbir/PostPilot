@@ -4,9 +4,9 @@ import { Clock, FileCheck, Monitor } from "lucide-react";
 const EfficiencySection = () => {
   return (
     <div className="w-full ">
-      <div className="w-full ">
-        <div className="md:text-9xl text-6xl flex items-center justify-center pt-10">
-          Efficiency That Scales With You
+      <div className="w-full flex items-center justify-center ">
+        <div className="md:text-7xl text-5xl flex  text-center pt-10">
+          Efficiency That Scales 
         </div>
       </div>
       <section className="max-w-7xl mx-auto p-10 text-center  ">
