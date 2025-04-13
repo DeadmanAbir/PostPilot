@@ -9,7 +9,7 @@ const FeatureGrid = () => {
   return (
     <div className=" w-full h-full flex flex-col space-y-10 pb-10  ">
       <div className="w-full ">
-        <div className="md:text-9xl text-6xl flex items-center justify-center pt-10">
+        <div className="md:text-7xl text-5xl tracking-widest flex items-center justify-center pt-10">
           Features
         </div>
       </div>
