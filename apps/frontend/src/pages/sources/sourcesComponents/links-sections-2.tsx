@@ -26,7 +26,6 @@ const LinkSection2 = () => {
       id: "youtube",
       title: "YouTube Videos",
       icon: <YoutubeIcon className="size-14" />,
-      color: "bg-red-50 hover:bg-red-100 border-dotted border-red-700 border-2",
       iconColor: "text-red-500",
       component: <YouTubeTab />,
       cards : [
@@ -74,7 +73,6 @@ const LinkSection2 = () => {
       id: "files",
       title: "Files",
       icon: <FileIcon className="size-14" />,
-      color: "bg-blue-50 hover:bg-blue-100 border-dotted border-blue-700 border-2",
       iconColor: "text-blue-500",
       component: <FilesTab />,
       cards : [
@@ -122,7 +120,6 @@ const LinkSection2 = () => {
       id: "images",
       title: "Images",
       icon: <ImageIcon className="size-14" />,
-      color: "bg-green-50 hover:bg-green-100 border-dotted border-green-700 border-2",
       iconColor: "text-green-500",
       component: <ImagesTab />,
       cards : [
@@ -170,7 +167,6 @@ const LinkSection2 = () => {
       id: "tweets",
       title: "Tweets",
       icon: <TwitterIcon className="size-14" />,
-      color: "bg-sky-50 hover:bg-sky-100 border-dotted border-sky-700 border-2",
       iconColor: "text-sky-500",
       component: <TweetsTab />,
       cards : [
@@ -218,7 +214,6 @@ const LinkSection2 = () => {
       id: "notes",
       title: "Text Notes",
       icon: <FileTextIcon className="size-14" />,
-      color: "bg-amber-50 hover:bg-amber-100 border-dotted border-amber-700 border-2",
       iconColor: "text-amber-500",
       component: <TextNoteTab />,
       cards : [
@@ -266,7 +261,6 @@ const LinkSection2 = () => {
       id: "websites",
       title: "Websites & Articles",
       icon: <LinkIcon className="size-14" />,
-      color: "bg-purple-50 hover:bg-purple-100 border-dotted border-purple-700 border-2",
       iconColor: "text-purple-500",
       component: <WebsitesTab />,
       cards : [
@@ -335,12 +329,12 @@ const LinkSection2 = () => {
             {sections.map((section) => (
               <motion.div
                 key={section.id}
-                className={`cursor-pointer rounded-xl p-6 ${section.color} shadow-inner h-full flex flex-col items-center justify-center text-center`}
+                className={`cursor-pointer rounded-xl p-6 border shadow-[0_3px_10px_rgb(0,0,0,0.1)] hover:shadow-[0_6px_10px_rgb(0,0,0,0.2)] bg-gradient-to-br from-white to-blue-100   h-full flex flex-col items-center justify-center text-center`}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => handleCardClick(section.id)}
               >
                 <motion.div 
-                  className={`mb-3 ${section.iconColor} `}
+                  className={`mb-3 p-5 text-black rounded-full bg-gradient-to-t from-white to-blue-200`}
                   layoutId={`icon-${section.id}`}
                 >
                   {section.icon}
