@@ -315,7 +315,10 @@ const LinkSection2 = () => {
   };
 
   return (
-    <motion.div layout className="h-full w-full p-5">
+
+    <>
+ 
+      <motion.div layout className="h-full w-full p-5 ">
       <AnimatePresence mode="wait">
         {activeSection === null ? (
           <motion.div
@@ -324,7 +327,7 @@ const LinkSection2 = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="grid grid-cols-2 md:grid-cols-3 gap-4 h-[80vh]"
+            className="grid grid-cols-2 md:grid-cols-3 gap-4 h-[70vh]"
           >
             {sections.map((section) => (
               <motion.div
@@ -372,8 +375,8 @@ const LinkSection2 = () => {
             <div className="flex items-center mb-6 gap-3">
               <motion.div 
                 layoutId={`icon-${activeSection}`} 
-                className={sections.find(s => s.id === activeSection)?.iconColor}
-              >
+                className={`mb-3 p-5 text-black rounded-full bg-gradient-to-b from-white to-blue-200`}
+                >
                 {sections.find(s => s.id === activeSection)?.icon}
               </motion.div>
               <motion.h2 
@@ -404,6 +407,9 @@ const LinkSection2 = () => {
         )}
       </AnimatePresence>
     </motion.div>
+    
+    </>
+  
   );
 };
 
