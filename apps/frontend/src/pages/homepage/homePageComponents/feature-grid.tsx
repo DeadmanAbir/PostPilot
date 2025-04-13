@@ -15,7 +15,7 @@ const FeatureGrid = () => {
       </div>
 
       <section className="max-w-7xl mx-auto  p-5 md:px-14   flex flex-col items-center justify-center divide-y divide-blue-900/50 ">
-        <div className="grid  lg:grid-cols-3 lg:grid-rows-2 divide-x  divide-blue-900/50 ">
+        <div className="grid  lg:grid-cols-3 lg:grid-rows-2 md:divide-x  divide-blue-900/50 ">
           {/* first bento grid element */}
           <div className="relative lg:row-span-2 group overflow-hidden">
             <div className="absolute inset-px rounded-lg   lg:rounded-tl-[2rem] " />
