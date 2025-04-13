@@ -17,7 +17,7 @@ const FeatureGrid = () => {
       <section className="max-w-7xl mx-auto  p-5 md:px-14   flex flex-col items-center justify-center divide-y divide-blue-900/50 ">
         <div className="grid  lg:grid-cols-3 lg:grid-rows-2 md:divide-x  divide-blue-900/50 ">
           {/* first bento grid element */}
-          <div className="relative lg:row-span-2 group overflow-hidden">
+          <div className="relative lg:row-span-2 group overflow-hidden border-t md:border-t-0 border-blue-900/50">
             <div className="absolute inset-px rounded-lg   lg:rounded-tl-[2rem] " />
             <div
               className="absolute -bottom-40 left-5 rounded-full size-96 blur-3xl 
@@ -104,7 +104,7 @@ const FeatureGrid = () => {
           </div>
 
           {/* fourth bento grid element */}
-          <div className="relative lg:row-span-2  group overflow-hidden">
+          <div className="relative lg:row-span-2  group overflow-hidden border-t md:border-t-0 border-blue-900/50">
             <div className="absolute inset-px rounded-lg  max-lg:rounded-b-[2rem] lg:rounded-tr-[2rem]" />
             <div
               className="absolute -bottom-80 left-5 rounded-full size-96 blur-3xl 
@@ -130,7 +130,7 @@ const FeatureGrid = () => {
             <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]" />
           </div>
         </div>
-        <div className="grid md:grid-cols-2 grid-cols-1 divide-x divide-blue-900/50 w-full ">
+        <div className="grid md:grid-cols-2 grid-cols-1 md:divide-x divide-blue-900/50 w-full ">
           <div className="relative  group overflow-hidden">
             <div className="absolute inset-px   lg:rounded-bl-[2rem]" />
             <div
@@ -155,7 +155,7 @@ const FeatureGrid = () => {
               </div>
             </div>
           </div>
-          <div className="relative  group overflow-hidden">
+          <div className="relative  group overflow-hidden border-t md:border-t-0 border-blue-900/50">
             <div className="absolute inset-px rounded-lg  lg:rounded-br-[2rem] " />
             <div
               className="absolute -bottom-80 left-24 rounded-full size-96 blur-3xl 
