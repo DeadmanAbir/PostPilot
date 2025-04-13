@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Check } from "lucide-react";
 
-const contentTypes = ["YouTube", "Documentation", "Tweet", "Website"];
+const contentTypes = ["YouTube", "Files", "Tweet", "Website"];
 
 const SelectAnimation = () => {
   const [selected, setSelected] = useState<string[]>([]);
@@ -10,14 +10,14 @@ const SelectAnimation = () => {
   useEffect(() => {
     let currentIndex = 0;
     const interval = setInterval(() => {
-      setSelected(prev => {
+      setSelected((prev) => {
         const current = contentTypes[currentIndex];
-        
+
         // If current type is already selected, remove it
         if (prev.includes(current)) {
-          return prev.filter(type => type !== current);
+          return prev.filter((type) => type !== current);
         }
-        
+
         // Add current type
         return [...prev, current];
       });
@@ -46,7 +46,6 @@ const SelectAnimation = () => {
           return (
             <motion.button
               key={content}
-          
               layout
               initial={false}
               animate={{

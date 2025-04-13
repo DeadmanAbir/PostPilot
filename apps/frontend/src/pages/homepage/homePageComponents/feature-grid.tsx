@@ -9,9 +9,7 @@ const FeatureGrid = () => {
   return (
     <div className=" w-full h-full flex flex-col space-y-10 pb-10  ">
       <div className="w-full ">
-
         <div className="md:text-9xl text-6xl flex items-center justify-center pt-10">
-
           Features
         </div>
       </div>
@@ -21,17 +19,19 @@ const FeatureGrid = () => {
           {/* first bento grid element */}
           <div className="relative lg:row-span-2 group overflow-hidden">
             <div className="absolute inset-px rounded-lg  bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950 lg:rounded-tl-[2rem] " />
-            <div className="absolute -bottom-40 left-5 rounded-full size-96 blur-3xl 
+            <div
+              className="absolute -bottom-40 left-5 rounded-full size-96 blur-3xl 
     bg-blue-500 opacity-0 group-hover:opacity-100 
-    transition-all duration-500 ease-in-out will-change-transform saturate-100" />
+    transition-all duration-500 ease-in-out will-change-transform saturate-100"
+            />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8  pt-6 sm:px-10 sm:pb-0 ">
                 <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
-                  Real-time notifications
+                  AI-Powered Content Creation
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-400 max-lg:text-center">
-                  Get notified about critical events the moment they happen, no
-                  matter if you&apos;re at home or on the go.
+                  Seamlessly create entirely new posts or enhance existing
+                  content using state-of-the-art AI technology.
                 </p>
               </div>
 
@@ -53,21 +53,23 @@ const FeatureGrid = () => {
           {/* second bento grid element */}
           <div className="relative max-lg:row-start-1  bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950 group overflow-hidden">
             <div className="absolute inset-px rounded-lg  max-lg:rounded-t-[2rem] " />
-            <div className="absolute -bottom-80 left-5 rounded-full size-96 blur-3xl 
+            <div
+              className="absolute -bottom-80 left-5 rounded-full size-96 blur-3xl 
     bg-blue-500 opacity-0 group-hover:opacity-100 
-    transition-all duration-500 ease-in-out will-change-transform z-[-1]" />
+    transition-all duration-500 ease-in-out will-change-transform z-[-1]"
+            />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
               <div className="px-8 pt-6 sm:px-10 ">
                 <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
-                  Track Any Event
+                  Media Attachments
                 </p>
                 <p className="my-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  From new user signups to successful payments,
+                  Easily attach images and videos to your posts, making your
+                  content stand out on LinkedIn.{" "}
                 </p>
               </div>
               <div className="h-40  ">
                 <OrbitAnimation />
-          
               </div>
             </div>
 
@@ -77,17 +79,19 @@ const FeatureGrid = () => {
           {/* third bento grid element */}
           <div className="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2 bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950 group overflow-hidden">
             <div className="absolute inset-px rounded-lg " />
-            <div className="absolute -bottom-80 left-5 rounded-full size-96 blur-3xl 
+            <div
+              className="absolute -bottom-80 left-5 rounded-full size-96 blur-3xl 
     bg-blue-500 opacity-0 group-hover:opacity-100 
-    transition-all duration-500 ease-in-out will-change-transform z-[-1]" />
+    transition-all duration-500 ease-in-out will-change-transform z-[-1]"
+            />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)]">
               <div className="px-8 pt-6 sm:px-10 ">
                 <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
-                  Track Any Properties
+                  Multi-Source Integration
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  Add any custom data you like to an event, such as a user
-                  email, a purchase amount or an exceeded quota.
+                  Upload YouTube videos, files, images, website links, and tweet
+                  URLs to provide robust context for AI-generated posts.
                 </p>
               </div>
 
@@ -102,17 +106,19 @@ const FeatureGrid = () => {
           {/* fourth bento grid element */}
           <div className="relative lg:row-span-2  group overflow-hidden">
             <div className="absolute inset-px rounded-lg bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950 max-lg:rounded-b-[2rem] lg:rounded-tr-[2rem]" />
-            <div className="absolute -bottom-80 left-5 rounded-full size-96 blur-3xl 
+            <div
+              className="absolute -bottom-80 left-5 rounded-full size-96 blur-3xl 
     bg-blue-500 opacity-0 group-hover:opacity-100 
-    transition-all duration-500 ease-in-out will-change-transform " />
+    transition-all duration-500 ease-in-out will-change-transform "
+            />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]">
               <div className="px-8 pb-3 pt-6 sm:px-10 sm:pb-0 ">
                 <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
-                  Easy Integration
+                  Seamless Dashboard Experience
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  Connect PingBot with your existing workflows in minutes and
-                  call our intuitive logging API from any language.
+                  Manage, create, and schedule your LinkedIn posts from our
+                  user-friendly dashboard.
                 </p>
               </div>
 
@@ -123,22 +129,24 @@ const FeatureGrid = () => {
 
             <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]" />
           </div>
-
         </div>
         <div className="grid md:grid-cols-2 grid-cols-1 gap-4 mt-[16px] w-full">
           <div className="relative  group overflow-hidden">
             <div className="absolute inset-px rounded-lg bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950 lg:rounded-bl-[2rem]" />
-            <div className="absolute -bottom-80 left-24 rounded-full size-96 blur-3xl 
+            <div
+              className="absolute -bottom-80 left-24 rounded-full size-96 blur-3xl 
     bg-blue-500 opacity-0 group-hover:opacity-100 
-    transition-all duration-500 ease-in-out will-change-transform " />
+    transition-all duration-500 ease-in-out will-change-transform "
+            />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8 pb-3 pt-6 sm:px-10 sm:pb-0 ">
                 <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
-                  Real-time notifications
+                  Stay in the Loop, Instantly
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-400 max-lg:text-center">
-                  Get notified about critical events the moment they happen, no
-                  matter if you&apos;re at home or on the go.
+                  Never miss a beat with PostPilot. Whether you're publishing a
+                  fresh post, uploading new source content, or refining your
+                  message with AI — get notified the moment it happens.
                 </p>
               </div>
 
@@ -146,21 +154,19 @@ const FeatureGrid = () => {
                 <StepsAnimation />
               </div>
             </div>
-
           </div>
           <div className="relative  group overflow-hidden">
             <div className="absolute inset-px rounded-lg  lg:rounded-br-[2rem] bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950" />
-            <div className="absolute -bottom-80 left-24 rounded-full size-96 blur-3xl 
+            <div
+              className="absolute -bottom-80 left-24 rounded-full size-96 blur-3xl 
     bg-blue-500 opacity-0 group-hover:opacity-100 
-    transition-all duration-500 ease-in-out will-change-transform " />
+    transition-all duration-500 ease-in-out will-change-transform "
+            />
             <div className="relative flex items-center justify-center  h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
-
-
               <div>
                 <Rotate />
               </div>
             </div>
-
           </div>
         </div>
       </section>

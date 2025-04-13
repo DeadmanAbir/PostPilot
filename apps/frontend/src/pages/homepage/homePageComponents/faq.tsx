@@ -9,28 +9,21 @@ const faqData = [
   {
     id: "item-1",
     question: "Is it accessible?",
-    answer: "Yes. It adheres to the WAI-ARIA design pattern.",
+    answer:
+      "Yes! PostPilot works across all devices with an intuitive interface designed for professionals at all technical levels.",
   },
   {
     id: "item-2",
     question: "How do I get started?",
-    answer: "Just sign up and follow the onboarding process to get started.",
-  },
-  {
-    id: "item-3",
-    question: "Is there a free trial available?",
-    answer: "Yes, we offer a 14-day free trial for all new users.",
-  },
-  {
-    id: "item-4",
-    question: "Can I cancel anytime?",
     answer:
-      "Absolutely! You can cancel your subscription at any time with no additional charges.",
+      "Simply create an account, connect your LinkedIn profile, and start creating or enhancing posts immediately with our AI-powered tools.",
   },
+
   {
     id: "item-5",
     question: "Do you offer customer support?",
-    answer: "Yes, our support team is available 24/7 via email and live chat.",
+    answer:
+      "Yes, I am available via chat and email to assist with any questions or technical issues you might encounter.",
   },
 ];
 
@@ -41,20 +34,19 @@ const Faq = () => {
         Frequently Asked Questions
       </div>
       <div className="px-4 md:px-0">
-      <Accordion type="single" collapsible>
-        {faqData.map(({ id, question, answer }) => (
-          <AccordionItem
-            key={id}
-            value={id}
-            className="border-none bg-blue-500/20 backdrop-blur-2xl px-5 my-2 rounded-xl"
-          >
-            <AccordionTrigger>{question}</AccordionTrigger>
-            <AccordionContent>{answer}</AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
+        <Accordion type="single" collapsible>
+          {faqData.map(({ id, question, answer }) => (
+            <AccordionItem
+              key={id}
+              value={id}
+              className="border-none bg-blue-500/20 backdrop-blur-2xl px-5 my-2 rounded-xl"
+            >
+              <AccordionTrigger>{question}</AccordionTrigger>
+              <AccordionContent>{answer}</AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
-   
     </div>
   );
 };

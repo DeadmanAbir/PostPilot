@@ -4,23 +4,22 @@ import { Brain, Sparkles, Workflow, Code } from "lucide-react";
 const features = [
   {
     icon: Brain,
-    title: "AI-Powered Analysis",
-    description: "Smart content analysis and recommendations",
+    title: "One-Stop Posting",
+    description: "Manage, create and schedule your post",
     color: "text-blue-500",
   },
   {
     icon: Sparkles,
-    title: "Auto Enhancement",
-    description: "Intelligent content optimization",
+    title: "Upcoming Integrations",
+    description: "Twitter support and scheduled posts, coming soon",
     color: "text-purple-500",
   },
   {
     icon: Workflow,
-    title: "Custom Workflows",
-    description: "Tailored to your content strategy",
+    title: "Contextual Relevance",
+    description: "Upload sources to provide context for AI-generated posts",
     color: "text-green-500",
   },
-
 ];
 
 const FeatureCard = ({ icon: Icon, title, description, color, index }) => {
