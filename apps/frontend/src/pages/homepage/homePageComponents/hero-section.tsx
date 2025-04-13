@@ -26,12 +26,12 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 0, filter: "blur(20px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ delay: 0.4 }}
-          className="md:text-7xl text-4xl font-bold md:leading-[1.4] max-w-7xl mx-auto tracking-tight"
+          className="md:text-7xl text-5xl font-bold md:leading-[1.4] max-w-7xl mx-auto tracking-tight text-balance"
         >
           AI-Driven Content Automation
           <br /> Welcome to{" "}
           <span className="inline-flex items-center px-4 py-1 bg-blue-700/20 rounded-lg text-blue-500 mx-2">
-            <span>🖇️</span> PostPilot
+            PostPilot
           </span>
         </motion.h1>
 
@@ -40,7 +40,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="mt-8 max-w-2xl mx-auto text-lg text-white/70 leading-relaxed"
+          className="mt-8 max-w-2xl mx-auto text-lg text-white/70 leading-relaxed px-5 text-balance"
         >
           Transform the way you engage on LinkedIn. Whether you’re looking to
           amplify your brand’s voice or save time on daily post creation,
