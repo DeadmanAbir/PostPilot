@@ -51,7 +51,7 @@ export function PostsPage() {
         </div>
         <Button
           asChild
-          className="bg-white text-blue-600 hover:bg-blue-50 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800 shadow-md transition-all duration-200 px-6 py-6 h-auto font-medium text-base"
+          className="bg-white text-blue-600 hover:bg-blue-50 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800 shadow-md transition-all duration-200 px-6 py-3 h-auto font-medium text-base"
         >
           <Link to="/dashboard">
             <PlusCircle className="mr-2 h-5 w-5" />
