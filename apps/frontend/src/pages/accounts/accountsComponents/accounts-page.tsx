@@ -28,7 +28,7 @@ export function AccountsPage() {
           </div>
           <Button
             asChild
-            className="bg-white text-blue-600 hover:bg-blue-50 shadow-md transition-all duration-200 px-6 py-6 h-auto font-medium text-base"
+            className="bg-white text-blue-600 hover:bg-blue-50 shadow-md transition-all duration-200 px-6 py-2 h-auto font-medium text-base"
           >
             <Link to="/dashboard">Create Post</Link>
           </Button>
