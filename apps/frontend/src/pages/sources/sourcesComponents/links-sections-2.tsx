@@ -18,6 +18,8 @@ import {
 import { CardStack } from "./cards/stacking-cards";
 import { Highlight } from "@/utils/highlight";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Lightbulb } from "lucide-react";
 
 const LinkSection2 = () => {
   const [activeSection, setActiveSection] = useState(null);
@@ -29,6 +31,7 @@ const LinkSection2 = () => {
       icon: <YoutubeIcon className="size-10" />,
       iconColor: "text-red-500",
       component: <YouTubeTab />,
+      protip: "LOrem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       cards: [
         {
           id: 0,
@@ -76,6 +79,8 @@ const LinkSection2 = () => {
       icon: <FileIcon className="size-10" />,
       iconColor: "text-blue-500",
       component: <FilesTab />,
+      protip: "LOrem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+
       cards: [
         {
           id: 0,
@@ -123,6 +128,8 @@ const LinkSection2 = () => {
       icon: <ImageIcon className="size-10" />,
       iconColor: "text-green-500",
       component: <ImagesTab />,
+      protip: "LOrem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+
       cards: [
         {
           id: 0,
@@ -170,6 +177,8 @@ const LinkSection2 = () => {
       icon: <TwitterIcon className="size-10" />,
       iconColor: "text-sky-500",
       component: <TweetsTab />,
+      protip: "LOrem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+
       cards: [
         {
           id: 0,
@@ -217,6 +226,8 @@ const LinkSection2 = () => {
       icon: <FileTextIcon className="size-10" />,
       iconColor: "text-amber-500",
       component: <TextNoteTab />,
+      protip: "LOrem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+
       cards: [
         {
           id: 0,
@@ -264,6 +275,8 @@ const LinkSection2 = () => {
       icon: <LinkIcon className="size-10" />,
       iconColor: "text-purple-500",
       component: <WebsitesTab />,
+      protip: "LOrem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+
       cards: [
         {
           id: 0,
@@ -323,12 +336,12 @@ const LinkSection2 = () => {
         <AnimatePresence mode="wait">
           {activeSection === null ? (
             <div className="h-full w-full flex flex-col  space-y-5">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-              className="h-[15vh] bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-3 flex flex-col text-white items-center justify-center">
+                className="h-[15vh] bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-3 flex flex-col text-white items-center justify-center">
                 <div className="text-4xl font-bold">
                   Welcome to Post Pilot
                 </div>
@@ -409,17 +422,21 @@ const LinkSection2 = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="h-[calc(100%-6rem)] w-full  flex "
+                className="h-[calc(100%-6rem)] w-full  flex md:flex-row flex-col   space-x-6 "
               >
                 <div className="w-2/3 ">
                   {sections.find((section) => section.id === activeSection)?.component}
 
                 </div>
-                <div className="w-1/2 flex items-center justify-center">
-                  <CardStack items={sections.find((section) => section.id === activeSection)?.cards} />
-
-                </div>
-
+                <Card className="w-1/2 flex h-full items-center justify-center cursor-pointer rounded-xl p-1 border dark:border-gray-700 shadow-[0_3px_10px_rgb(0,0,0,0.1)] hover:shadow-[0_6px_10px_rgb(0,0,0,0.2)] dark:shadow-[0_3px_10px_rgb(255,255,255,0.05)] dark:hover:shadow-[0_6px_10px_rgb(255,255,255,0.1)] bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-900  flex-col  text-center dark:text-white">
+                  <CardHeader className="flex flex-row items-center justify-start  w-full     space-x-2 ">
+                    <Lightbulb className="w-5 h-5 text-yellow-500" />
+                    <CardTitle className="text-lg">Pro Tip</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0 text-left">
+                    {sections.find((section) => section.id === activeSection)?.protip}
+                  </CardContent>
+                </Card>
               </motion.div>
             </motion.div>
           )}
