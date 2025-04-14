@@ -74,22 +74,22 @@ export function AccountCard({
     deleteAccount();
   };
   return (
-    <Card className="overflow-hidden border border-slate-100 hover:shadow-md transition-all duration-200">
+    <Card className="overflow-hidden border border-slate-100 dark:border-gray-700 hover:shadow-md transition-all duration-200 dark:bg-blue-900/20">
       <CardContent className="p-6 flex items-center gap-4">
         <div
           className="flex items-center justify-center w-16 h-16 rounded-lg"
-          style={{ backgroundColor: "blue" }}
+          style={{ backgroundColor: "#0A66C2" }}
         >
           <Linkedin className="h-8 w-8 text-white" />
         </div>
 
         <div className="flex-1">
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-1">
-            <h3 className="text-lg font-semibold text-slate-800">
+            <h3 className="text-lg font-semibold text-slate-800 dark:text-white">
               {"Linkedin"}
             </h3>
             {!isLoading && !isExpired && (
-              <Badge variant="default" className="w-fit bg-green-400">
+              <Badge variant="default" className="w-fit bg-green-500 dark:bg-green-600 text-white">
                 Connected
               </Badge>
             )}
@@ -98,17 +98,17 @@ export function AccountCard({
 
         <div className="flex items-center gap-2">
           {isLoading ? (
-            <p>loading....</p>
+            <p className="text-slate-600 dark:text-gray-400">loading....</p>
           ) : isExpired === false ? (
-            <Avatar className="h-24 w-24 border-4 border-background">
+            <Avatar className="h-24 w-24 border-4 border-background dark:border-gray-700">
               <AvatarImage src={profile_url} alt={"pp"} />
-              <AvatarFallback>{"Abir"}</AvatarFallback>
+              <AvatarFallback className="dark:bg-gray-700 dark:text-gray-200">{"Abir"}</AvatarFallback>
             </Avatar>
           ) : (
             <Button
               variant="outline"
               size="sm"
-              className="hidden sm:flex text-blue-600 border-blue-200 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 font-medium shadow-sm transition-all duration-200"
+              className="hidden sm:flex text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-700 dark:hover:text-blue-300 hover:border-blue-300 dark:hover:border-blue-800 font-medium shadow-sm transition-all duration-200"
               onClick={handleClick}
             >
               Add Account
@@ -117,13 +117,13 @@ export function AccountCard({
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild disabled={isLoading}>
-              <Button variant="ghost" size="icon" className="h-9 w-9">
+              <Button variant="ghost" size="icon" className="h-9 w-9 dark:hover:bg-gray-700">
                 <MoreHorizontal className="h-5 w-5" />
                 <span className="sr-only">More options</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem className="cursor-pointer">
+              <DropdownMenuItem className="cursor-pointer dark:focus:bg-gray-700">
                 <ExternalLink className="mr-2 h-4 w-4" />
                 <Link to="/profile">View Profile</Link>
               </DropdownMenuItem>
@@ -131,27 +131,27 @@ export function AccountCard({
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <DropdownMenuItem
-                      className="cursor-pointer text-red-600 focus:text-red-600"
+                      className="cursor-pointer text-red-600 dark:text-red-400 focus:text-red-600 dark:focus:text-red-400 dark:focus:bg-gray-700"
                       onSelect={(e) => e.preventDefault()}
                     >
                       <Trash2 className="mr-2 h-4 w-4" />
                       <span>Disconnect</span>
                     </DropdownMenuItem>
                   </AlertDialogTrigger>
-                  <AlertDialogContent>
+                  <AlertDialogContent className="dark:bg-gray-800 dark:border-gray-700">
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Disconnect Account</AlertDialogTitle>
-                      <AlertDialogDescription>
+                      <AlertDialogTitle className="dark:text-white">Disconnect Account</AlertDialogTitle>
+                      <AlertDialogDescription className="dark:text-gray-400">
                         Are you sure you want to disconnect your LinkedIn
                         account? This will stop any scheduled posts and require
                         reconnection to post to LinkedIn in the future.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogCancel className="dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white">Cancel</AlertDialogCancel>
                       <AlertDialogAction
                         onClick={handleDelete}
-                        className="bg-red-600 hover:bg-red-700"
+                        className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800"
                       >
                         Disconnect
                       </AlertDialogAction>
