@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react"; 
+import { motion, AnimatePresence } from "motion/react";
 import { FilesTab } from "@/pages/sources/sourcesComponents/content-tabs/files-tab";
 import { ImagesTab } from "@/pages/sources/sourcesComponents/content-tabs/images-tab";
 import { TextNoteTab } from "@/pages/sources/sourcesComponents/content-tabs/text-node-tab";
@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { CardStack } from "./cards/stacking-cards";
 import { Highlight } from "@/utils/highlight";
+import { Button } from "@/components/ui/button";
 
 const LinkSection2 = () => {
   const [activeSection, setActiveSection] = useState(null);
@@ -28,7 +29,7 @@ const LinkSection2 = () => {
       icon: <YoutubeIcon className="size-10" />,
       iconColor: "text-red-500",
       component: <YouTubeTab />,
-      cards : [
+      cards: [
         {
           id: 0,
           name: "Manu Arora",
@@ -75,7 +76,7 @@ const LinkSection2 = () => {
       icon: <FileIcon className="size-10" />,
       iconColor: "text-blue-500",
       component: <FilesTab />,
-      cards : [
+      cards: [
         {
           id: 0,
           name: "Manu Arora",
@@ -122,7 +123,7 @@ const LinkSection2 = () => {
       icon: <ImageIcon className="size-10" />,
       iconColor: "text-green-500",
       component: <ImagesTab />,
-      cards : [
+      cards: [
         {
           id: 0,
           name: "Manu Arora",
@@ -169,7 +170,7 @@ const LinkSection2 = () => {
       icon: <TwitterIcon className="size-10" />,
       iconColor: "text-sky-500",
       component: <TweetsTab />,
-      cards : [
+      cards: [
         {
           id: 0,
           name: "Manu Arora",
@@ -216,7 +217,7 @@ const LinkSection2 = () => {
       icon: <FileTextIcon className="size-10" />,
       iconColor: "text-amber-500",
       component: <TextNoteTab />,
-      cards : [
+      cards: [
         {
           id: 0,
           name: "Manu Arora",
@@ -263,7 +264,7 @@ const LinkSection2 = () => {
       icon: <LinkIcon className="size-10" />,
       iconColor: "text-purple-500",
       component: <WebsitesTab />,
-      cards : [
+      cards: [
         {
           id: 0,
           name: "Manu Arora",
@@ -317,99 +318,116 @@ const LinkSection2 = () => {
   return (
 
     <>
- 
+
       <motion.div layout className="h-full w-full p-5 ">
-      <AnimatePresence mode="wait">
-        {activeSection === null ? (
-          <motion.div
-            key="grid"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="grid grid-cols-2 md:grid-cols-3 gap-4 h-[70vh]"
-          >
-            {sections.map((section) => (
-              <motion.div
-                key={section.id}
-                className={`cursor-pointer rounded-xl p-6 border dark:border-gray-700 shadow-[0_3px_10px_rgb(0,0,0,0.1)] hover:shadow-[0_6px_10px_rgb(0,0,0,0.2)] dark:shadow-[0_3px_10px_rgb(255,255,255,0.05)] dark:hover:shadow-[0_6px_10px_rgb(255,255,255,0.1)] bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-900 h-full flex flex-col items-center justify-center text-center dark:text-white`}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => handleCardClick(section.id)}
-              >
-                <motion.div 
-                  className={`mb-3 p-2 text-black dark:text-white rounded-full bg-gradient-to-t from-white to-blue-200 dark:from-gray-700 dark:to-gray-800`}
-                  layoutId={`icon-${section.id}`}
-                >
-                  {section.icon}
-                </motion.div>
-                <motion.h3 
-                  className="font-medium text-2xl dark:text-white" 
-                  layoutId={`title-${section.id}`}
-                >
-                  {section.title}
-                </motion.h3>
+        <AnimatePresence mode="wait">
+          {activeSection === null ? (
+            <div className="h-full w-full flex flex-col  space-y-5">
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              className="h-[15vh] bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-3 flex flex-col text-white items-center justify-center">
+                <div className="text-4xl font-bold">
+                  Welcome to Post Pilot
+                </div>
+                <p>
+                  Select your content source to get started
+                </p>
+
               </motion.div>
-            ))}
-          </motion.div>
-        ) : (
-          <motion.div
-            key="content"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="h-full"
-          >
-            <motion.button
+              <motion.div
+                key="grid"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="grid grid-cols-2 md:grid-cols-3 gap-4 h-[55vh]"
+              >
+                {sections.map((section) => (
+                  <motion.div
+                    key={section.id}
+                    className={`cursor-pointer rounded-xl p-6 border dark:border-gray-700 shadow-[0_3px_10px_rgb(0,0,0,0.1)] hover:shadow-[0_6px_10px_rgb(0,0,0,0.2)] dark:shadow-[0_3px_10px_rgb(255,255,255,0.05)] dark:hover:shadow-[0_6px_10px_rgb(255,255,255,0.1)] bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-900 h-full flex flex-col items-center justify-center text-center dark:text-white`}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => handleCardClick(section.id)}
+                  >
+                    <motion.div
+                      className={`mb-3 p-2 text-black dark:text-white rounded-full bg-gradient-to-t from-white to-blue-200 dark:from-gray-700 dark:to-gray-800`}
+                      layoutId={`icon-${section.id}`}
+                    >
+                      {section.icon}
+                    </motion.div>
+                    <motion.h3
+                      className="font-medium text-2xl dark:text-white"
+                      layoutId={`title-${section.id}`}
+                    >
+                      {section.title}
+                    </motion.h3>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+
+          ) : (
+            <motion.div
+              key="content"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="mb-4 flex items-center gap-2 rounded-lg px-3 py-2 "
-              onClick={handleBack}
-              whileTap={{ scale: 0.95 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              className="h-full"
             >
-              <ArrowLeftIcon className="h-4 w-4" />
-              Back to all sources
-            </motion.button>
-            
-            <div className="flex items-center mb-6 gap-3">
-              <motion.div 
-                layoutId={`icon-${activeSection}`} 
-                className={`mb-3 p-3 text-black dark:text-white rounded-full bg-gradient-to-b from-white to-blue-200 dark:from-gray-700 dark:to-gray-800`}
-                >
-                {sections.find(s => s.id === activeSection)?.icon}
-              </motion.div>
-              <motion.h2 
-                layoutId={`title-${activeSection}`}
-                className="text-3xl font-semibold"
+              <motion.button
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="mb-4 flex items-center gap-2 rounded-lg px-3 py-2 "
+                onClick={handleBack}
+                whileTap={{ scale: 0.95 }}
               >
-                {sections.find(s => s.id === activeSection)?.title}
-              </motion.h2>
-            </div>
-            
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="h-[calc(100%-6rem)] w-full  flex "
-            >
-              <div className="w-2/3 ">
-              {sections.find((section) => section.id === activeSection)?.component}
+                <ArrowLeftIcon className="h-4 w-4" />
+                Back to all sources
+              </motion.button>
 
+              <div className="flex items-center mb-6 gap-3">
+                <motion.div
+                  layoutId={`icon-${activeSection}`}
+                  className={`mb-3 p-3 text-black dark:text-white rounded-full bg-gradient-to-b from-white to-blue-200 dark:from-gray-700 dark:to-gray-800`}
+                >
+                  {sections.find(s => s.id === activeSection)?.icon}
+                </motion.div>
+                <motion.h2
+                  layoutId={`title-${activeSection}`}
+                  className="text-3xl font-semibold"
+                >
+                  {sections.find(s => s.id === activeSection)?.title}
+                </motion.h2>
               </div>
-              <div className="w-1/2 flex items-center justify-center">
-              <CardStack items={sections.find((section) => section.id === activeSection)?.cards} />
 
-              </div>
-              
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="h-[calc(100%-6rem)] w-full  flex "
+              >
+                <div className="w-2/3 ">
+                  {sections.find((section) => section.id === activeSection)?.component}
+
+                </div>
+                <div className="w-1/2 flex items-center justify-center">
+                  <CardStack items={sections.find((section) => section.id === activeSection)?.cards} />
+
+                </div>
+
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-    
+          )}
+        </AnimatePresence>
+      </motion.div>
+
     </>
-  
+
   );
 };
 
