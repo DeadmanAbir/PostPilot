@@ -25,7 +25,7 @@ const LinkSection2 = () => {
     {
       id: "youtube",
       title: "YouTube Videos",
-      icon: <YoutubeIcon className="size-14" />,
+      icon: <YoutubeIcon className="size-10" />,
       iconColor: "text-red-500",
       component: <YouTubeTab />,
       cards : [
@@ -72,7 +72,7 @@ const LinkSection2 = () => {
     {
       id: "files",
       title: "Files",
-      icon: <FileIcon className="size-14" />,
+      icon: <FileIcon className="size-10" />,
       iconColor: "text-blue-500",
       component: <FilesTab />,
       cards : [
@@ -119,7 +119,7 @@ const LinkSection2 = () => {
     {
       id: "images",
       title: "Images",
-      icon: <ImageIcon className="size-14" />,
+      icon: <ImageIcon className="size-10" />,
       iconColor: "text-green-500",
       component: <ImagesTab />,
       cards : [
@@ -166,7 +166,7 @@ const LinkSection2 = () => {
     {
       id: "tweets",
       title: "Tweets",
-      icon: <TwitterIcon className="size-14" />,
+      icon: <TwitterIcon className="size-10" />,
       iconColor: "text-sky-500",
       component: <TweetsTab />,
       cards : [
@@ -213,7 +213,7 @@ const LinkSection2 = () => {
     {
       id: "notes",
       title: "Text Notes",
-      icon: <FileTextIcon className="size-14" />,
+      icon: <FileTextIcon className="size-10" />,
       iconColor: "text-amber-500",
       component: <TextNoteTab />,
       cards : [
@@ -260,7 +260,7 @@ const LinkSection2 = () => {
     {
       id: "websites",
       title: "Websites & Articles",
-      icon: <LinkIcon className="size-14" />,
+      icon: <LinkIcon className="size-10" />,
       iconColor: "text-purple-500",
       component: <WebsitesTab />,
       cards : [
@@ -332,18 +332,18 @@ const LinkSection2 = () => {
             {sections.map((section) => (
               <motion.div
                 key={section.id}
-                className={`cursor-pointer rounded-xl p-6 border shadow-[0_3px_10px_rgb(0,0,0,0.1)] hover:shadow-[0_6px_10px_rgb(0,0,0,0.2)] bg-gradient-to-br from-white to-blue-50   h-full flex flex-col items-center justify-center text-center`}
+                className={`cursor-pointer rounded-xl p-6 border dark:border-gray-700 shadow-[0_3px_10px_rgb(0,0,0,0.1)] hover:shadow-[0_6px_10px_rgb(0,0,0,0.2)] dark:shadow-[0_3px_10px_rgb(255,255,255,0.05)] dark:hover:shadow-[0_6px_10px_rgb(255,255,255,0.1)] bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-900 h-full flex flex-col items-center justify-center text-center dark:text-white`}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => handleCardClick(section.id)}
               >
                 <motion.div 
-                  className={`mb-3 p-5 text-black rounded-full bg-gradient-to-t from-white to-blue-200`}
+                  className={`mb-3 p-2 text-black dark:text-white rounded-full bg-gradient-to-t from-white to-blue-200 dark:from-gray-700 dark:to-gray-800`}
                   layoutId={`icon-${section.id}`}
                 >
                   {section.icon}
                 </motion.div>
                 <motion.h3 
-                  className="font-medium text-2xl" 
+                  className="font-medium text-2xl dark:text-white" 
                   layoutId={`title-${section.id}`}
                 >
                   {section.title}
@@ -375,7 +375,7 @@ const LinkSection2 = () => {
             <div className="flex items-center mb-6 gap-3">
               <motion.div 
                 layoutId={`icon-${activeSection}`} 
-                className={`mb-3 p-5 text-black rounded-full bg-gradient-to-b from-white to-blue-200`}
+                className={`mb-3 p-3 text-black dark:text-white rounded-full bg-gradient-to-b from-white to-blue-200 dark:from-gray-700 dark:to-gray-800`}
                 >
                 {sections.find(s => s.id === activeSection)?.icon}
               </motion.div>
@@ -414,4 +414,3 @@ const LinkSection2 = () => {
 };
 
 export default LinkSection2;
-
