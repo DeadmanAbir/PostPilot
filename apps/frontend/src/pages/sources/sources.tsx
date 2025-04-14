@@ -68,7 +68,7 @@ const Sources = () => {
   };
 
   return (
-    <div ref={containerRef} className=" p-5">
+    <div ref={containerRef} className="container mx-auto  p-5">
       <div className="min-h-screen flex flex-col items-center justify-between  relative  ">
         <LinkSection2 />
         <div className="flex flex-col items-center absolute bottom-5">
