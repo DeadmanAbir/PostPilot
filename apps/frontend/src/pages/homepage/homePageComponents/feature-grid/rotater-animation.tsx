@@ -66,14 +66,14 @@ const Rotate = () => {
                         />
                     </motion.div>
                 </div>
-                <div className='absolute inset-0 flex items-center justify-center text-xl font-semibold' >
+                <div className='absolute inset-0 flex items-center justify-center text-lg font-semibold' >
                     Post Pilot
                 </div>
 
                 {/* YouTube Icon */}
                 <motion.div 
-                    className='absolute top-28 -left-4 bg-black/80 backdrop-blur-sm py-2 rounded-xl border border-zinc-500/50 px-2 hover:bg-black/90 hover:scale-110 transition-all duration-300 cursor-pointer'
-                    initial={{ scale: 0 }}
+                    className='absolute top-[25%] left-[12%] bg-black/80 backdrop-blur-sm py-2 rounded-xl border border-zinc-500/50 px-2 hover:bg-black/90 hover:scale-110 transition-all duration-300 cursor-pointer'
+                    initial={{ scale: 0, rotate: -15 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.2, type: "spring" }}
                 >
@@ -82,8 +82,8 @@ const Rotate = () => {
 
                 {/* File Icon */}
                 <motion.div 
-                    className='absolute bottom-28 left-0 bg-black/80 backdrop-blur-sm py-2 rounded-xl border border-zinc-500/50 px-2 hover:bg-black/90 hover:scale-110 transition-all duration-300 cursor-pointer'
-                    initial={{ scale: 0 }}
+                    className='absolute bottom-[25%] left-[14%] bg-black/80 backdrop-blur-sm py-2 rounded-xl border border-zinc-500/50 px-2 hover:bg-black/90 hover:scale-110 transition-all duration-300 cursor-pointer'
+                    initial={{ scale: 0, rotate: 15 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.4, type: "spring" }}
                 >
@@ -92,8 +92,8 @@ const Rotate = () => {
 
                 {/* Image Icon */}
                 <motion.div 
-                    className='absolute top-10 right-8 bg-black/80 backdrop-blur-sm py-2 rounded-xl border border-zinc-500/50 px-2 hover:bg-black/90 hover:scale-110 transition-all duration-300 cursor-pointer'
-                    initial={{ scale: 0 }}
+                    className='absolute top-[10%] right-[35%] bg-black/80 backdrop-blur-sm py-2 rounded-xl border border-zinc-500/50 px-2 hover:bg-black/90 hover:scale-110 transition-all duration-300 cursor-pointer'
+                    initial={{ scale: 0, rotate: -30 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.6, type: "spring" }}
                 >
@@ -102,8 +102,8 @@ const Rotate = () => {
 
                 {/* Website Icon */}
                 <motion.div 
-                    className='absolute top-28 right-0 bg-black/80 backdrop-blur-sm py-2 rounded-xl border border-zinc-500/50 px-2 hover:bg-black/90 hover:scale-110 transition-all duration-300 cursor-pointer'
-                    initial={{ scale: 0 }}
+                    className='absolute top-[25%] right-[5%] bg-black/80 backdrop-blur-sm py-2 rounded-xl border border-zinc-500/50 px-2 hover:bg-black/90 hover:scale-110 transition-all duration-300 cursor-pointer'
+                    initial={{ scale: 0, rotate: 30 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.8, type: "spring" }}
                 >
@@ -112,8 +112,8 @@ const Rotate = () => {
 
                 {/* Text Note Icon */}
                 <motion.div 
-                    className='absolute bottom-28 right-0 bg-black/80 backdrop-blur-sm py-2 rounded-xl border border-zinc-500/50 px-2 hover:bg-black/90 hover:scale-110 transition-all duration-300 cursor-pointer'
-                    initial={{ scale: 0 }}
+                    className='absolute bottom-[25%] right-[5%] bg-black/80 backdrop-blur-sm py-2 rounded-xl border border-zinc-500/50 px-2 hover:bg-black/90 hover:scale-110 transition-all duration-300 cursor-pointer'
+                    initial={{ scale: 0, rotate: -15 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 1, type: "spring" }}
                 >
