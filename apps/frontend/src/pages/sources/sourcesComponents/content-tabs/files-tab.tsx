@@ -127,31 +127,45 @@ export function FilesTab() {
   };
 
   return (
-    <div className="w-full h-full py-20">
+    <div className="w-full h-full ">
       <Card>
         <CardHeader>
           <CardTitle>Upload Files</CardTitle>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="local">
-            <TabsList>
-              <TabsTrigger value="local">Local Upload</TabsTrigger>
-              <TabsTrigger value="remote">Remote URL</TabsTrigger>
+          <Tabs defaultValue="local" className="w-full">
+            <TabsList className="w-full">
+              <TabsTrigger value="local" className="w-full">Local Upload</TabsTrigger>
+              <TabsTrigger value="remote" className="w-full">Remote URL</TabsTrigger>
             </TabsList>
             <TabsContent
               id="imageLoad"
               value="local"
-              className="max-h-[30vh] overflow-y-scroll"
+              className="max-h-[40vh] "
             >
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="file-upload">Upload Files</Label>
-                <Input
-                  id="file-upload"
-                  type="file"
-                  multiple
-                  accept=".pdf,.doc,.docx"
-                  onChange={handleLocalFileChange}
-                />
+              <div className="flex flex-col space-y-4 mt-5">
+                {/* <Label htmlFor="file-upload" className="text-base font-medium dark:text-gray-200">Upload Files</Label> */}
+                <div className="flex flex-col items-center justify-center w-full ">
+                  <label htmlFor="file-upload" className="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer  hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200">
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      <svg className="w-10 h-10 mb-3 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                      </svg>
+                      <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                        <span className="font-semibold">Click to upload</span> or drag and drop
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">PDF, DOC, DOCX (MAX. 10MB)</p>
+                    </div>
+                    <Input
+                      id="file-upload"
+                      type="file"
+                      multiple
+                      accept=".pdf,.doc,.docx"
+                      onChange={handleLocalFileChange}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
               </div>
               {localFiles.length > 0 && (
                 <div className="mt-4">
@@ -194,7 +208,7 @@ export function FilesTab() {
               )}
             </TabsContent>
             <TabsContent value="remote">
-              <div className="flex flex-col space-y-1.5">
+              <div className="flex flex-col space-y-1.5 mt-5">
                 <Label htmlFor="file-url">File URL</Label>
                 <form
                   onSubmit={(e) => {
