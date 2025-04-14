@@ -52,7 +52,7 @@ export function AccountsPage() {
           />
 
           {/* Add Account Card */}
-          <Card className="cursor-not-allowed overflow-hidden border border-dashed border-slate-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-200 dark:bg-gray-800">
+          <Card className="cursor-not-allowed bg-red-500 overflow-hidden border border-dashed border-slate-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-200 dark:bg-gray-800">
             <CardContent className="p-6 flex items-center gap-4">
               <div className="flex items-center justify-center w-16 h-16 bg-slate-100 dark:bg-gray-700 rounded-lg">
                 <PlusIcon className="h-8 w-8 text-slate-400 dark:text-gray-500" />

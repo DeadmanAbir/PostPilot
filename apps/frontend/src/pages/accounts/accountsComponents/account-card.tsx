@@ -74,10 +74,10 @@ export function AccountCard({
     deleteAccount();
   };
   return (
-    <Card className="overflow-hidden border border-slate-100 dark:border-gray-700 hover:shadow-md transition-all duration-200 dark:bg-blue-900/20">
-      <CardContent className="p-6 flex items-center gap-4">
+    <Card className="overflow-hidden border border-slate-100 dark:border-blue-700 hover:shadow-md transition-all duration-200 dark:bg-blue-900/20 p-2">
+      <CardContent className="px-6 py-4 flex items-center gap-4">
         <div
-          className="flex items-center justify-center w-16 h-16 rounded-lg"
+          className="flex items-center justify-center w-16 h-16 rounded-2xl"
           style={{ backgroundColor: "#0A66C2" }}
         >
           <Linkedin className="h-8 w-8 text-white" />
@@ -100,7 +100,7 @@ export function AccountCard({
           {isLoading ? (
             <p className="text-slate-600 dark:text-gray-400">loading....</p>
           ) : isExpired === false ? (
-            <Avatar className="h-24 w-24 border-4 border-background dark:border-gray-700">
+            <Avatar className="size-16 border-4 border-background dark:border-gray-700">
               <AvatarImage src={profile_url} alt={"pp"} />
               <AvatarFallback className="dark:bg-gray-700 dark:text-gray-200">{"Abir"}</AvatarFallback>
             </Avatar>
