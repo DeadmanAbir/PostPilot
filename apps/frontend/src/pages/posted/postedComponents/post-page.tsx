@@ -37,7 +37,7 @@ export function PostsPage() {
     return formattedDate;
   };
   return (
-    <div className="container mx-auto py-8 px-8 space-y-8 min-h-screen dark:bg-gray-900">
+    <div className="container mx-auto py-8 px-8 space-y-8 min-h-screen ">
       {/* Create New Post Banner */}
       <div className="bg-gradient-to-r from-blue-600 to-blue-500 dark:from-blue-700 dark:to-blue-600 rounded-xl p-8 flex flex-col md:flex-row justify-between items-center gap-6 shadow-lg">
         <div className="space-y-3">

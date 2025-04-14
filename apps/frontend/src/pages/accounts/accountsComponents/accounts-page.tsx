@@ -15,7 +15,7 @@ export function AccountsPage() {
     : true;
 
   return (
-    <div className="container mx-auto py-8 space-y-8 bg-slate-50/50 min-h-screen">
+    <div className="container mx-auto py-8 px-10 space-y-8  min-h-screen">
       <Card className="overflow-hidden border-0 shadow-lg">
         <div className="bg-gradient-to-r from-blue-600 to-blue-500 p-8 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="space-y-2">
