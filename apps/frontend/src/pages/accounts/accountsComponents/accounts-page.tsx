@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { PlusIcon } from "lucide-react";
+import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
+import { PlusCircle, PlusIcon } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { AccountCard } from "./account-card";
 import { useAuth } from "@/providers/supabaseAuthProvider";
@@ -52,22 +52,27 @@ export function AccountsPage() {
           />
 
           {/* Add Account Card */}
-          <Card className="cursor-not-allowed bg-red-500 overflow-hidden border border-dashed border-slate-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-200 dark:bg-gray-800">
-            <CardContent className="p-6 flex items-center gap-4">
-              <div className="flex items-center justify-center w-16 h-16 bg-slate-100 dark:bg-gray-700 rounded-lg">
-                <PlusIcon className="h-8 w-8 text-slate-400 dark:text-gray-500" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-slate-800 dark:text-white">
-                  Add another account
-                </h3>
-                <p className="text-slate-500 dark:text-gray-400">
-                  Connect more social media platforms
-                </p>
-                <p className="text-slate-500 dark:text-gray-400">coming soon...</p>
-              </div>
-            </CardContent>
-          </Card>
+          <Card className={`w-full  mx-auto p-5 cursor-not-allowed  `}>
+        <CardContent className="flex flex-col items-center justify-center  px-4">
+          <div className={`rounded-full p-4 mb-4`}>
+            <PlusCircle className={`h-12 w-12`} />
+          </div>
+          
+          <CardTitle className={`text-xl font-semibold mb-2`}>
+            Add another account
+          </CardTitle>
+          
+          <CardDescription className={`text-center mb-6`}>
+            Connect more social media platforms
+          </CardDescription>
+          
+          <Button 
+        
+          >
+            Add Account
+          </Button>
+        </CardContent>
+      </Card>
         </div>
       </div>
     </div>
