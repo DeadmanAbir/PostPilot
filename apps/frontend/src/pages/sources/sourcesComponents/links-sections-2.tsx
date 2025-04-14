@@ -332,7 +332,7 @@ const LinkSection2 = () => {
             {sections.map((section) => (
               <motion.div
                 key={section.id}
-                className={`cursor-pointer rounded-xl p-6 border shadow-[0_3px_10px_rgb(0,0,0,0.1)] hover:shadow-[0_6px_10px_rgb(0,0,0,0.2)] bg-gradient-to-br from-white to-blue-100   h-full flex flex-col items-center justify-center text-center`}
+                className={`cursor-pointer rounded-xl p-6 border shadow-[0_3px_10px_rgb(0,0,0,0.1)] hover:shadow-[0_6px_10px_rgb(0,0,0,0.2)] bg-gradient-to-br from-white to-blue-50   h-full flex flex-col items-center justify-center text-center`}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => handleCardClick(section.id)}
               >
