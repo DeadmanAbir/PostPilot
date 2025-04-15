@@ -341,7 +341,7 @@ const LinkSection2 = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="h-[15vh] bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-3 flex flex-col text-white items-center justify-center">
+                className="h-[15vh] bg-gradient-to-r text-center from-blue-500 to-blue-600 rounded-xl p-3 flex flex-col text-white items-center justify-center">
                 <div className="text-4xl font-bold">
                   Welcome to Post Pilot
                 </div>
@@ -372,7 +372,7 @@ const LinkSection2 = () => {
                       {section.icon}
                     </motion.div>
                     <motion.h3
-                      className="font-medium text-2xl dark:text-white"
+                      className="font-medium md:text-2xl text-lg dark:text-white"
                       layoutId={`title-${section.id}`}
                     >
                       {section.title}
