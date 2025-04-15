@@ -7,30 +7,31 @@ import Rotate from "./feature-grid/rotater-animation";
 
 const FeatureGrid = () => {
   return (
-    <div className=" w-full h-full ">
+    <div className=" w-full h-full flex flex-col space-y-10 pb-10  ">
       <div className="w-full ">
-
-        <div className="text-transparent bg-clip-text text-center py-10 bg-gradient-to-b font-mono tracking-widest from-white to-zinc-600  md:text-9xl text-6xl  container mx-auto relative overflow-hidden drop-shadow-[0_0_20px_rgba(34,197,94,0.7)]">
-          {/* <div className="absolute inset-0 left-1/2 translate-y-[260px] -translate-x-48  top-0 size-96 bg-green-700 rounded-2xl blur-3xl"></div>        */}
-
+        <div className="md:text-7xl text-5xl tracking-widest flex items-center justify-center pt-10">
           Features
         </div>
       </div>
 
-      <section className="container mx-auto md:p-14 p-5  border-dotted flex flex-col items-center justify-center  ">
-        <div className="grid gap-4 lg:grid-cols-3 lg:grid-rows-2 ">
+      <section className="max-w-7xl mx-auto  p-5 md:px-14   flex flex-col items-center justify-center divide-y divide-blue-900/50 ">
+        <div className="grid  lg:grid-cols-3 lg:grid-rows-2 md:divide-x  divide-blue-900/50 ">
           {/* first bento grid element */}
-          <div className="relative lg:row-span-2">
-            <div className="absolute inset-px rounded-lg bg-zinc-900 lg:rounded-tl-[2rem]" />
-
+          <div className="relative lg:row-span-2 group overflow-hidden border-t md:border-t-0 border-blue-900/50">
+            <div className="absolute inset-px rounded-lg   lg:rounded-tl-[2rem] " />
+            <div
+              className="absolute -bottom-40 left-5 rounded-full size-96 blur-3xl 
+    bg-blue-500 opacity-0 group-hover:opacity-100 
+    transition-all duration-500 ease-in-out will-change-transform saturate-100"
+            />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8  pt-6 sm:px-10 sm:pb-0 ">
                 <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
-                  Real-time notifications
+                  AI-Powered Content Creation
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-400 max-lg:text-center">
-                  Get notified about critical events the moment they happen, no
-                  matter if you&apos;re at home or on the go.
+                  Seamlessly create entirely new posts or enhance existing
+                  content using state-of-the-art AI technology.
                 </p>
               </div>
 
@@ -50,20 +51,25 @@ const FeatureGrid = () => {
           </div>
 
           {/* second bento grid element */}
-          <div className="relative max-lg:row-start-1">
-            <div className="absolute inset-px rounded-lg bg-zinc-900 max-lg:rounded-t-[2rem]" />
+          <div className="relative max-lg:row-start-1   group overflow-hidden">
+            <div className="absolute inset-px rounded-lg  max-lg:rounded-t-[2rem] " />
+            <div
+              className="absolute -bottom-80 left-5 rounded-full size-96 blur-3xl 
+    bg-blue-500 opacity-0 group-hover:opacity-100 
+    transition-all duration-500 ease-in-out will-change-transform "
+            />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
               <div className="px-8 pt-6 sm:px-10 ">
                 <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
-                  Track Any Event
+                  Media Attachments
                 </p>
                 <p className="my-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  From new user signups to successful payments,
+                  Easily attach images and videos to your posts, making your
+                  content stand out on LinkedIn.{" "}
                 </p>
               </div>
-              <div className="h-40">
+              <div className="h-40  ">
                 <OrbitAnimation />
-
               </div>
             </div>
 
@@ -71,16 +77,21 @@ const FeatureGrid = () => {
           </div>
 
           {/* third bento grid element */}
-          <div className="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2">
-            <div className="absolute inset-px rounded-lg bg-zinc-900" />
+          <div className="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2  group overflow-hidden border-t">
+            <div className="absolute inset-px rounded-lg " />
+            <div
+              className="absolute -bottom-80 left-5 rounded-full size-96 blur-3xl 
+    bg-blue-500 opacity-0 group-hover:opacity-100 
+    transition-all duration-500 ease-in-out will-change-transform "
+            />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)]">
               <div className="px-8 pt-6 sm:px-10 ">
                 <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
-                  Track Any Properties
+                  Multi-Source Integration
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  Add any custom data you like to an event, such as a user
-                  email, a purchase amount or an exceeded quota.
+                  Upload YouTube videos, files, images, website links, and tweet
+                  URLs to provide robust context for AI-generated posts.
                 </p>
               </div>
 
@@ -93,17 +104,21 @@ const FeatureGrid = () => {
           </div>
 
           {/* fourth bento grid element */}
-          <div className="relative lg:row-span-2">
-            <div className="absolute inset-px rounded-lg bg-zinc-900 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]" />
-
+          <div className="relative lg:row-span-2  group overflow-hidden border-t md:border-t-0 border-blue-900/50">
+            <div className="absolute inset-px rounded-lg  max-lg:rounded-b-[2rem] lg:rounded-tr-[2rem]" />
+            <div
+              className="absolute -bottom-80 left-5 rounded-full size-96 blur-3xl 
+    bg-blue-500 opacity-0 group-hover:opacity-100 
+    transition-all duration-500 ease-in-out will-change-transform "
+            />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]">
               <div className="px-8 pb-3 pt-6 sm:px-10 sm:pb-0 ">
                 <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
-                  Easy Integration
+                  Seamless Dashboard Experience
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  Connect PingBot with your existing workflows in minutes and
-                  call our intuitive logging API from any language.
+                  Manage, create, and schedule your LinkedIn posts from our
+                  user-friendly dashboard.
                 </p>
               </div>
 
@@ -114,20 +129,24 @@ const FeatureGrid = () => {
 
             <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]" />
           </div>
-
         </div>
-        <div className="grid md:grid-cols-2 grid-cols-1 gap-4 mt-[16px] w-full">
-          <div className="relative ">
-            <div className="absolute inset-px rounded-lg bg-zinc-900 lg:rounded-bl-[2rem]" />
-
+        <div className="grid md:grid-cols-2 grid-cols-1 md:divide-x divide-blue-900/50 w-full ">
+          <div className="relative  group overflow-hidden">
+            <div className="absolute inset-px   lg:rounded-bl-[2rem]" />
+            <div
+              className="absolute -bottom-80 left-24 rounded-full size-96 blur-3xl 
+    bg-blue-500 opacity-0 group-hover:opacity-100 
+    transition-all duration-500 ease-in-out will-change-transform "
+            />
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8 pb-3 pt-6 sm:px-10 sm:pb-0 ">
                 <p className="mt-2 md:text-3xl text-lg font-medium tracking-tight text-white max-lg:text-center">
-                  Real-time notifications
+                  Stay in the Loop, Instantly
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-400 max-lg:text-center">
-                  Get notified about critical events the moment they happen, no
-                  matter if you&apos;re at home or on the go.
+                  Never miss a beat with PostPilot. Whether you're publishing a
+                  fresh post, uploading new source content, or refining your
+                  message with AI — get notified the moment it happens.
                 </p>
               </div>
 
@@ -135,19 +154,19 @@ const FeatureGrid = () => {
                 <StepsAnimation />
               </div>
             </div>
-
           </div>
-          <div className="relative ">
-            <div className="absolute inset-px rounded-lg bg-zinc-900 lg:rounded-br-[2rem]" />
-
+          <div className="relative  group overflow-hidden border-t md:border-t-0 border-blue-900/50">
+            <div className="absolute inset-px rounded-lg  lg:rounded-br-[2rem] " />
+            <div
+              className="absolute -bottom-80 left-24 rounded-full size-96 blur-3xl 
+    bg-blue-500 opacity-0 group-hover:opacity-100 
+    transition-all duration-500 ease-in-out will-change-transform "
+            />
             <div className="relative flex items-center justify-center  h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
-
-
               <div>
                 <Rotate />
               </div>
             </div>
-
           </div>
         </div>
       </section>

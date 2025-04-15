@@ -9,15 +9,14 @@ const ResponseEffect = () => {
   const [triggerAns, setTriggerAns] = useState(false);
   const [hasCompleted, setHasCompleted] = useState(false);
   const [callCount, setCallCount] = useState(0);
-  const [showGenerate, setShowGenerate] = useState(false)
+  const [showGenerate, setShowGenerate] = useState(false);
 
   const runAnimation = async () => {
     await animate(".enter-button", { scale: 0.9 }, { duration: 0.1 });
     await animate(".enter-button", { scale: 1 }, { duration: 0.1 });
-    setTimeout(()=>{
-      setShowGenerate(true)
-
-    },1000)
+    setTimeout(() => {
+      setShowGenerate(true);
+    }, 1000);
   };
 
   const handleQuestionComplete = () => {
@@ -38,7 +37,7 @@ const ResponseEffect = () => {
         setCallCount(0);
         setHasCompleted(false);
         setTrigger(true);
-        setShowGenerate(false)
+        setShowGenerate(false);
       }
       if (prev === 0) {
         setTriggerAns(false);
@@ -96,7 +95,7 @@ const ResponseEffect = () => {
               trigger={trigger}
               onAnimationComplete={handleQuestionComplete}
             >
-              Animate your ideas with motion-primitives
+              Create a linkedin post for me.
             </TextEffect>
           </div>
 
@@ -109,13 +108,12 @@ const ResponseEffect = () => {
           >
             {showGenerate ? (
               <TextShimmer className="font-mono text-sm" duration={1}>
-                Generating code...
+                Generating Post...
               </TextShimmer>
             ) : (
               <span>Enter ↵</span>
             )}
           </motion.div>
-
         </div>
         <div className="   bg-neutral-800 rounded h-full p-3 w-full min-h-60 ">
           <TextEffect
@@ -124,10 +122,12 @@ const ResponseEffect = () => {
             trigger={triggerAns}
             onAnimationComplete={handleComplete}
           >
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.taque dolore recusandae, velit reprehenderit non asperiores hic minus? Debitis.
+            Thrilled to announce that I've joined 100xdevs as a mentor! I'm
+            eager to contribute my skills in MERN and learn from the talented
+            team here. Looking forward to this new chapter! #NewBeginnings
+            #CareerGoals
           </TextEffect>
         </div>
-
       </div>
     </div>
   );
