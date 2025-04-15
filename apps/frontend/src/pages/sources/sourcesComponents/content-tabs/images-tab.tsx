@@ -14,6 +14,7 @@ import {
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { nanoid } from "nanoid";
 import { supabase } from "@/lib/supabaseClient";
+
 export function ImagesTab() {
   const { user } = useAuth();
   const [localImages, setLocalImages] = useState<File[]>([]);
@@ -133,25 +134,24 @@ export function ImagesTab() {
   };
 
   return (
-    <div className="w-full h-full py-20">
-      <Card id="imageLoad">
+    <div className="w-full h-full">
+      <Card>
         <CardHeader>
           <CardTitle>Images</CardTitle>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="local">
-            <TabsList>
-              <TabsTrigger value="local">Local Upload</TabsTrigger>
-              <TabsTrigger value="remote">Remote URL</TabsTrigger>
+          <Tabs defaultValue="local" className="w-full">
+            <TabsList className="w-full justify-start">
+              <TabsTrigger value="local" className="flex-1">Local Upload</TabsTrigger>
+              <TabsTrigger value="remote" className="flex-1">Remote URL</TabsTrigger>
             </TabsList>
 
             {/* Local Upload Tab */}
             <TabsContent
-              id="imageLoad"
               value="local"
-              className="max-h-[50vh] overflow-y-scroll"
+              className="mt-5"
             >
-              <div className="flex flex-col space-y-1.5">
+              {/* <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="image-upload">Upload Images</Label>
                 <Input
                   id="image-upload"
@@ -163,34 +163,56 @@ export function ImagesTab() {
                 <p className="text-xs text-muted-foreground mt-1">
                   Supported formats: JPG, PNG, WebP, GIF, SVG
                 </p>
+              </div> */}
+              <div className="flex flex-col space-y-4 mt-5">
+                {/* <Label htmlFor="file-upload" className="text-base font-medium dark:text-gray-200">Upload Files</Label> */}
+                <div className="flex flex-col items-center justify-center w-full ">
+                  <label htmlFor="file-upload" className="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer  hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200">
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      <svg className="w-10 h-10 mb-3 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                      </svg>
+                      <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                        <span className="font-semibold">Click to upload</span> or drag and drop
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">                  Supported formats: JPG, PNG, WebP, GIF, SVG
+                      </p>
+                    </div>
+                    <Input
+                      id="file-upload"
+                      type="file"
+                      multiple
+                      accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml"
+                      onChange={handleLocalImageChange}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
               </div>
               {localImages.length > 0 && (
                 <div className="mt-4">
                   <h4 className="mb-2 font-semibold">Image Previews:</h4>
-                  <div className="flex flex-wrap gap-5">
+                  <div className="flex flex-wrap gap-2">
                     <AnimatePresence>
                       {localImages.map((file, index) => (
                         <motion.div
                           key={`local-${index}`}
-                          className="relative aspect-square group"
+                          className="relative group bg-muted rounded-lg p-2"
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: 10 }}
                           transition={{ duration: 0.2 }}
                         >
                           <img
-                            src={
-                              URL.createObjectURL(file) || "/placeholder.svg"
-                            }
+                            src={URL.createObjectURL(file) || "/placeholder.svg"}
                             alt={`Local image ${index + 1}`}
-                            className="object-cover rounded size-20"
+                            className="object-cover rounded size-16"
                           />
-                          {/* Trash Icon for Deleting Local Images */}
                           <button
                             onClick={() => handleRemoveLocalImage(index)}
-                            className="absolute -top-2 -right-3 bg-white border-2 rounded-full p-1 hidden group-hover:flex cursor-pointer hover:text-red-400 hover:border-red-300"
+                            className="absolute -top-2 -right-2 bg-background border rounded-full p-1 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
                           >
-                            <Trash className="size-4" />
+                            <Trash className="size-3" />
                           </button>
                         </motion.div>
                       ))}
@@ -202,6 +224,7 @@ export function ImagesTab() {
                       variant="default"
                       size="sm"
                       className="w-1/4 mt-5"
+                      disabled={isLocalFetching || isRemoteFetching}
                     >
                       Upload
                     </Button>
@@ -212,9 +235,8 @@ export function ImagesTab() {
 
             {/* Remote URL Tab */}
             <TabsContent
-              id="imageLoad"
               value="remote"
-              className="max-h-[50vh] overflow-y-scroll"
+              className="mt-5"
             >
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="image-url">Image URL</Label>
@@ -239,7 +261,7 @@ export function ImagesTab() {
                   />
                   <Input
                     id="image-url"
-                    placeholder="Image Url"
+                    placeholder="https://example.com/image.jpg"
                     value={remoteImageUrl.url}
                     required
                     onChange={(e) =>
@@ -249,7 +271,6 @@ export function ImagesTab() {
                       }))
                     }
                   />
-
                   <Button
                     type="submit"
                     disabled={isRemoteFetching || isLocalFetching}
@@ -261,12 +282,12 @@ export function ImagesTab() {
               {remoteImages.length > 0 && (
                 <div className="mt-4">
                   <h4 className="mb-2 font-semibold">Image Previews:</h4>
-                  <div className="flex flex-wrap gap-5">
+                  <div className="flex flex-wrap gap-2">
                     <AnimatePresence>
                       {remoteImages.map((url, index) => (
                         <motion.div
                           key={`remote-${index}`}
-                          className="relative aspect-square group"
+                          className="relative group bg-muted rounded-lg p-2"
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: 10 }}
@@ -275,14 +296,13 @@ export function ImagesTab() {
                           <img
                             src={url.url || "/placeholder.svg"}
                             alt={`Remote image ${index + 1}`}
-                            className="object-cover rounded size-20"
+                            className="object-cover rounded size-16"
                           />
-                          {/* Trash Icon for Deleting Remote Images */}
                           <button
                             onClick={() => handleRemoveRemoteImage(index)}
-                            className="absolute -top-2 -right-3 bg-white border-2 rounded-full p-1 hidden group-hover:flex cursor-pointer hover:text-red-400 hover:border-red-300"
+                            className="absolute -top-2 -right-2 bg-background border rounded-full p-1 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
                           >
-                            <Trash className="size-4" />
+                            <Trash className="size-3" />
                           </button>
                         </motion.div>
                       ))}
