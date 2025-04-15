@@ -35,9 +35,9 @@ const AppDrawer = () => {
 
   const data = {
     user: {
-      name: user?.user?.user_metadata.displayName!,
-      email: user?.user?.email!,
-      avatar: user?.user?.user_metadata.profile_url!,
+      name: user?.user?.user_metadata.displayName ?? "Guest",
+      email: user?.user?.email ?? "No email provided",
+      avatar: user?.user?.user_metadata.profile_url ?? "/default-avatar.png",
     },
   };
 
