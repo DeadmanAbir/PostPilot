@@ -5,11 +5,19 @@ import { Button } from "@/components/ui/button";
 import { fetchTweetFn } from "@/lib/tanstack-query/mutation";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { Tweet } from "react-tweet";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export function TweetsTab() {
   const [tweetUrl, setTweetUrl] = useState("");
   const [tweetName, setTweetName] = useState("");
   const [isValidUrl, setIsValidUrl] = useState(true);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   const { user } = useAuth();
 
@@ -53,7 +61,7 @@ export function TweetsTab() {
   };
 
   return (
-    <div className="w-full h-full py-20">
+    <div className="w-full h-full ">
       <Card>
         <CardHeader>
           <CardTitle>Tweet</CardTitle>
@@ -98,11 +106,20 @@ export function TweetsTab() {
               )}
             </div>
             {isValidUrl && tweetUrl && (
-              <div>
-                <Tweet id={extractTweetId(tweetUrl)!} />
-              </div>
+              <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="outline">Preview Tweet</Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-[550px]">
+                  <DialogHeader>
+                    <DialogTitle>Tweet Preview</DialogTitle>
+                  </DialogHeader>
+                  <div className="mt-4">
+                    <Tweet id={extractTweetId(tweetUrl)!} />
+                  </div>
+                </DialogContent>
+              </Dialog>
             )}
-            {/* TODO: Add tweet preview component here */}
           </div>
         </CardContent>
       </Card>
