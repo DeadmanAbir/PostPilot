@@ -71,7 +71,7 @@ const AppDrawer = () => {
               </Link>
             </div>
             
-            <div className="px-4 space-y-6">
+            <div className="px-4 flex flex-col space-y-6">
               {groupedItems.map((section) => (
                 <div key={section.label}>
                   <h3 className="text-sm font-semibold text-muted-foreground mb-2">
@@ -86,11 +86,11 @@ const AppDrawer = () => {
                           to={item.url}
                           className={buttonVariants({
                             variant: isActive ? "secondary" : "ghost",
-                            className: "w-full  flex items-center justify-start gap-2 bg",
+                            className: "w-full  flex items-center justify-start gap-2  text-left",
                           })}
                           onClick={() => setOpen(false)}
                         >
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2  w-full">
                             {item.icon}
                             {item.title}
                           </div>
@@ -102,15 +102,17 @@ const AppDrawer = () => {
                         onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                         className={buttonVariants({
                           variant: "ghost",
-                          className: "w-full justify-start gap-2",
+                          className: "w-full justify-start gap-2 text-left flex ",
                         })}
                       >
-                        {theme === "dark" ? (
-                          <Sun className="size-4 transition-all" />
-                        ) : (
-                          <Moon className="size-4 transition-all" />
-                        )}
+                        <div className="flex items-center gap-2  w-full">
+                          {theme === "dark" ? (
+                            <Sun className="size-4 transition-all" />
+                          ) : (
+                            <Moon className="size-4 transition-all" />
+                          )}
                         {theme}
+                        </div>
                       </button>
                     )}
                   </div>
