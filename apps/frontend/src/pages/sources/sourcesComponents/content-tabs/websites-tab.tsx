@@ -48,7 +48,7 @@ export function WebsitesTab() {
   };
 
   return (
-    <div className="w-full h-full py-20">
+    <div className="w-full h-full ">
     <Card>
       <CardHeader>
         <CardTitle>Website/Article</CardTitle>
