@@ -85,7 +85,7 @@ const AppDrawer = () => {
                           key={item.title}
                           to={item.url}
                           className={buttonVariants({
-                            variant: isActive ? "secondary" : "ghost",
+                            variant: isActive ? "drawer" : "ghost",
                             className: "w-full  flex items-center justify-start gap-2  text-left",
                           })}
                           onClick={() => setOpen(false)}
