@@ -28,7 +28,29 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { useTheme } from "@/providers/theme-provider";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { buttonVariants } from "./ui/button";
-
+export const groupedItems = [
+  {
+    label: "Create",
+    items: [{ title: "New Post", url: "/dashboard", icon: <FilePlus /> }],
+  },
+  {
+    label: "Posts",
+    items: [
+      { title: "Scheduled", url: "/scheduled", icon: <Calendar /> },
+      { title: "Sources", url: "/sources", icon: <Book /> },
+      { title: "Posted", url: "/posted", icon: <Send /> },
+    ],
+  },
+  {
+    label: "Configuration",
+    items: [
+      { title: "Profile", url: "/profile", icon: <User /> },
+      {
+        title: "Integration", url: "/integration", icon: <SquareDashedMousePointer />
+      },
+    ],
+  },
+];
 export function AppSidebar() {
   const { open } = useSidebar();
   const { theme, setTheme } = useTheme();
@@ -43,29 +65,7 @@ export function AppSidebar() {
     },
   };
 
-  const groupedItems = [
-    {
-      label: "Create",
-      items: [{ title: "New Post", url: "/dashboard", icon: <FilePlus /> }],
-    },
-    {
-      label: "Posts",
-      items: [
-        { title: "Scheduled", url: "/scheduled", icon: <Calendar /> },
-        { title: "Sources", url: "/sources", icon: <Book /> },
-        { title: "Posted", url: "/posted", icon: <Send /> },
-      ],
-    },
-    {
-      label: "Configuration",
-      items: [
-        { title: "Profile", url: "/profile", icon: <User /> },
-        {
-          title: "Integration", url: "/integration", icon: <SquareDashedMousePointer />
-        },
-      ],
-    },
-  ];
+
 
   return (
     <Sidebar variant="sidebar" collapsible="icon" className="p-2">
