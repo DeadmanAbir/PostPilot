@@ -89,7 +89,7 @@ export function AccountCard({
               {"Linkedin"}
             </h3>
             {!isLoading && !isExpired && (
-              <Badge variant="default" className="w-fit bg-green-500 dark:bg-green-600 text-white">
+              <Badge variant="default" className="w-fit bg-green-500 dark:bg-green-600 text-white rounded-full">
                 Connected
               </Badge>
             )}
@@ -100,7 +100,7 @@ export function AccountCard({
           {isLoading ? (
             <p className="text-slate-600 dark:text-gray-400">loading....</p>
           ) : isExpired === false ? (
-            <Avatar className="size-16 border-4 border-background dark:border-gray-700">
+            <Avatar className="size-14 border-4 border-background dark:border-gray-700">
               <AvatarImage src={profile_url} alt={"pp"} />
               <AvatarFallback className="dark:bg-gray-700 dark:text-gray-200">{"Abir"}</AvatarFallback>
             </Avatar>

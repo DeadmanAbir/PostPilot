@@ -36,7 +36,7 @@ export function AccountsPage() {
       </Card>
 
       {/* Connected Accounts Section */}
-      <div className="space-y-6">
+      <Card className="space-y-6 p-5">
         <div>
           <h1 className="text-2xl font-bold text-slate-800 dark:text-white">
             Connected Accounts
@@ -67,14 +67,14 @@ export function AccountsPage() {
           </CardDescription>
           
           <Button 
-        
+        disabled
           >
             Add Account
           </Button>
         </CardContent>
       </Card>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }
