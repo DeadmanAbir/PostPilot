@@ -25,7 +25,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
   }
 
   return (
-    <div className="border-b p-2 flex flex-wrap gap-2">
+    <div className="border-b py-2 px-6 -mx-6 flex flex-wrap gap-2 dark:bg-blue-900/20 bg-blue-100">
       <Button
         variant="ghost"
         size="icon"
