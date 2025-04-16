@@ -356,7 +356,7 @@ const LinkSection2 = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="grid grid-cols-2 md:grid-cols-3 gap-4 h-[55vh]"
+                className="grid grid-cols-2 md:grid-cols-3 gap-6 h-[55vh]"
               >
                 {sections.map((section) => (
                   <motion.div
@@ -366,7 +366,7 @@ const LinkSection2 = () => {
                     onClick={() => handleCardClick(section.id)}
                   >
                     <motion.div
-                      className={`mb-3 p-2 text-black dark:text-white rounded-full bg-gradient-to-t from-white to-blue-200 dark:from-gray-700 dark:to-gray-800`}
+                      className={`mb-3 p-4 text-black dark:text-white rounded-full bg-gradient-to-t from-white to-blue-200 dark:from-gray-700 dark:to-blue-800`}
                       layoutId={`icon-${section.id}`}
                     >
                       {section.icon}
@@ -406,7 +406,7 @@ const LinkSection2 = () => {
               <div className="flex items-center mb-6 gap-3">
                 <motion.div
                   layoutId={`icon-${activeSection}`}
-                  className={`mb-3 p-3 text-black dark:text-white rounded-full bg-gradient-to-b from-white to-blue-200 dark:from-gray-700 dark:to-gray-800`}
+                  className={`mb-3 p-3 text-black dark:text-white rounded-full bg-gradient-to-b from-white to-blue-200 dark:from-gray-700 dark:to-blue-800`}
                 >
                   {sections.find(s => s.id === activeSection)?.icon}
                 </motion.div>
