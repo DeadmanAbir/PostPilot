@@ -335,7 +335,7 @@ const LinkSection2 = () => {
       <motion.div layout className="h-full w-full p-5 ">
         <AnimatePresence mode="wait">
           {activeSection === null ? (
-            <div className="h-full w-full flex flex-col  space-y-5">
+            <div className="h-full w-full flex flex-col  space-y-10">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -356,7 +356,7 @@ const LinkSection2 = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="grid grid-cols-2 md:grid-cols-3 gap-6 h-[55vh]"
+                className="grid grid-cols-2 md:grid-cols-3 gap-6 h-[55vh]  "
               >
                 {sections.map((section) => (
                   <motion.div
@@ -366,13 +366,13 @@ const LinkSection2 = () => {
                     onClick={() => handleCardClick(section.id)}
                   >
                     <motion.div
-                      className={`mb-3 p-4 text-black dark:text-white rounded-full bg-gradient-to-t from-white to-blue-200 dark:from-gray-700 dark:to-blue-800`}
+                      className={`mb-3 p-4 text-black dark:text-white rounded-full bg-gradient-to-t from-blue-50 to-blue-200 dark:from-gray-700 dark:to-blue-800`}
                       layoutId={`icon-${section.id}`}
                     >
                       {section.icon}
                     </motion.div>
                     <motion.h3
-                      className="font-medium md:text-2xl text-lg dark:text-white"
+                      className="font-medium md:text-2xl text-lg  text-transparent bg-clip-text bg-gradient-to-r from-blue-500 dark:from-blue-200 to-blue-600 dark:to-blue-400"
                       layoutId={`title-${section.id}`}
                     >
                       {section.title}
