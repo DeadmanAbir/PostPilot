@@ -127,7 +127,8 @@ export default function Editor({ value, onChange, placeholder }: EditorProps) {
     content: value,
     editorProps: {
       attributes: {
-        class: "prose prose-sm max-w-none focus:outline-none p-4",
+        class:
+          "prose prose-sm max-w-none focus:outline-none p-4 rounded-md border border-border min-h-[200px] focus-visible:ring-2 focus-visible:ring-ring dark:bg-blue-900/20 bg-white",
       },
     },
     onUpdate: ({ editor }) => {
@@ -136,7 +137,7 @@ export default function Editor({ value, onChange, placeholder }: EditorProps) {
   });
 
   return (
-    <div className="w-full">
+    <div className="w-full space-y-5">
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
     </div>
