@@ -141,9 +141,9 @@ export function ImagesTab() {
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="local" className="w-full">
-            <TabsList className="w-full justify-start">
-              <TabsTrigger value="local" className="flex-1">Local Upload</TabsTrigger>
-              <TabsTrigger value="remote" className="flex-1">Remote URL</TabsTrigger>
+            <TabsList className="w-full justify-start h-10">
+              <TabsTrigger value="local" className="flex-1 h-full">Local Upload</TabsTrigger>
+              <TabsTrigger value="remote" className="flex-1 h-full">Remote URL</TabsTrigger>
             </TabsList>
 
             {/* Local Upload Tab */}
@@ -238,7 +238,7 @@ export function ImagesTab() {
               value="remote"
               className="mt-5"
             >
-              <div className="flex flex-col space-y-1.5">
+              <div className="flex flex-col space-y-3">
                 <Label htmlFor="image-url">Image URL</Label>
                 <form
                   onSubmit={(e) => {
@@ -252,6 +252,7 @@ export function ImagesTab() {
                     placeholder="Image Name"
                     value={remoteImageUrl.name}
                     required
+                                 className="h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900"
                     onChange={(e) =>
                       setRemoteImageUrl((prev) => ({
                         ...prev,
@@ -264,6 +265,7 @@ export function ImagesTab() {
                     placeholder="https://example.com/image.jpg"
                     value={remoteImageUrl.url}
                     required
+                                 className="h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900"
                     onChange={(e) =>
                       setRemoteImageUrl((prev) => ({
                         ...prev,
@@ -273,6 +275,7 @@ export function ImagesTab() {
                   />
                   <Button
                     type="submit"
+                    className="h-10"
                     disabled={isRemoteFetching || isLocalFetching}
                   >
                     Preview Image

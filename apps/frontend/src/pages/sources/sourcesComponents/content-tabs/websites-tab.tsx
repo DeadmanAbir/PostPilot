@@ -55,17 +55,19 @@ export function WebsitesTab() {
       </CardHeader>
       <CardContent>
         <div className="grid w-full items-center gap-4">
-          <div className="flex flex-col space-y-1.5">
+          <div className="flex flex-col space-y-3">
             <Label htmlFor="website-url">Website URL</Label>
             <div className="flex space-x-2">
               <Input
                 id="website-url"
                 placeholder="https://example.com"
                 value={websiteUrl}
+                
                 onChange={(e) => setWebsiteUrl(e.target.value)}
-                className={!isValidUrl ? "border-red-500" : ""}
+                className={`h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900 ${!isValidUrl ? "border-red-500" : ""}`}
+
               />
-              <Button disabled={isFetching} onClick={handlePreviewWebsite}>
+              <Button disabled={isFetching} onClick={handlePreviewWebsite} className="h-10">
                 Add Link
               </Button>
             </div>

@@ -134,9 +134,9 @@ export function FilesTab() {
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="local" className="w-full">
-            <TabsList className="w-full">
-              <TabsTrigger value="local" className="w-full">Local Upload</TabsTrigger>
-              <TabsTrigger value="remote" className="w-full">Remote URL</TabsTrigger>
+            <TabsList className="w-full h-10">
+              <TabsTrigger value="local" className="w-full h-full">Local Upload</TabsTrigger>
+              <TabsTrigger value="remote" className="w-full h-full">Remote URL</TabsTrigger>
             </TabsList>
             <TabsContent
               id="imageLoad"
@@ -208,20 +208,21 @@ export function FilesTab() {
               )}
             </TabsContent>
             <TabsContent value="remote">
-              <div className="flex flex-col space-y-1.5 mt-5">
+              <div className="flex flex-col space-y-3 mt-5">
                 <Label htmlFor="file-url">File URL</Label>
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
                     handleRemoteFileLoad();
                   }}
-                  className="flex space-x-2"
+                  className="flex space-x-2 "
                 >
                   <Input
                     id="file-name"
                     placeholder="File Name"
                     required
                     value={remoteFileUrl.name}
+                        className="h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900"
                     onChange={(e) =>
                       setRemoteFileUrl((prev) => ({ ...prev, name: e.target.value }))
                     }
@@ -231,11 +232,12 @@ export function FilesTab() {
                     required
                     placeholder="https://example.com/document.pdf"
                     value={remoteFileUrl.url}
+                    className="h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900"
                     onChange={(e) =>
                       setRemoteFileUrl((prev) => ({ ...prev, url: e.target.value }))
                     }
                   />
-                  <Button type="submit" disabled={isRemoteFetching || isLocalFetching}>
+                  <Button type="submit" disabled={isRemoteFetching || isLocalFetching} className="h-10">
                     Add File
                   </Button>
                 </form>

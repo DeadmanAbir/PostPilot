@@ -82,6 +82,7 @@ export function TweetsTab() {
                   value={tweetName}
                   onChange={(e) => setTweetName(e.target.value)}
                   required
+                       className="h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900"
                 />
                 <Input
                   id="tweet-url"
@@ -91,10 +92,9 @@ export function TweetsTab() {
                     setTweetUrl(e.target.value);
                     setIsValidUrl(true);
                   }}
-                  className={!isValidUrl ? "border-red-500" : ""}
-                  required
+                  className={`h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900 ${!isValidUrl ? "border-red-500" : ""}`}                  required
                 />
-                <Button type="submit" disabled={isFetching}>
+                <Button type="submit" disabled={isFetching} className="h-10">
                   Add Tweet
                 </Button>
               </form>
