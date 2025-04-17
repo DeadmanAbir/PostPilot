@@ -24,6 +24,7 @@ import { connectLinkedinQuery } from "@/lib/tanstack-query/query";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Link } from "@tanstack/react-router";
 import { deleteLinkedinAccountFn } from "@/lib/tanstack-query/mutation";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface AccountCardProps {
   profile_url?: string;
@@ -37,6 +38,7 @@ export function AccountCard({
   isExpired,
 }: AccountCardProps) {
   const { user } = useAuth();
+  const queryClient = useQueryClient();
   const { refetch: connectLinkedinRefetch } = connectLinkedinQuery(
     user?.accessToken!
   );
@@ -46,6 +48,7 @@ export function AccountCard({
     {
       onSuccess: () => {
         alert("account disconnected  successfully");
+        queryClient.invalidateQueries({ queryKey: ["linkedin"] });
       },
       onError: (error: unknown) => {
         console.log(error);
@@ -89,7 +92,10 @@ export function AccountCard({
               {"Linkedin"}
             </h3>
             {!isLoading && !isExpired && (
-              <Badge variant="default" className="w-fit bg-green-500 dark:bg-green-600 text-white rounded-full">
+              <Badge
+                variant="default"
+                className="w-fit bg-green-500 dark:bg-green-600 text-white rounded-full"
+              >
                 Connected
               </Badge>
             )}
@@ -102,7 +108,9 @@ export function AccountCard({
           ) : isExpired === false ? (
             <Avatar className="size-14 border-4 border-background dark:border-gray-700">
               <AvatarImage src={profile_url} alt={"pp"} />
-              <AvatarFallback className="dark:bg-gray-700 dark:text-gray-200">{"Abir"}</AvatarFallback>
+              <AvatarFallback className="dark:bg-gray-700 dark:text-gray-200">
+                {"Abir"}
+              </AvatarFallback>
             </Avatar>
           ) : (
             <Button
@@ -117,7 +125,11 @@ export function AccountCard({
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild disabled={isLoading}>
-              <Button variant="ghost" size="icon" className="h-9 w-9 dark:hover:bg-gray-700">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9 dark:hover:bg-gray-700"
+              >
                 <MoreHorizontal className="h-5 w-5" />
                 <span className="sr-only">More options</span>
               </Button>
@@ -140,7 +152,9 @@ export function AccountCard({
                   </AlertDialogTrigger>
                   <AlertDialogContent className="dark:bg-gray-800 dark:border-gray-700">
                     <AlertDialogHeader>
-                      <AlertDialogTitle className="dark:text-white">Disconnect Account</AlertDialogTitle>
+                      <AlertDialogTitle className="dark:text-white">
+                        Disconnect Account
+                      </AlertDialogTitle>
                       <AlertDialogDescription className="dark:text-gray-400">
                         Are you sure you want to disconnect your LinkedIn
                         account? This will stop any scheduled posts and require
@@ -148,7 +162,9 @@ export function AccountCard({
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel className="dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white">Cancel</AlertDialogCancel>
+                      <AlertDialogCancel className="dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white">
+                        Cancel
+                      </AlertDialogCancel>
                       <AlertDialogAction
                         onClick={handleDelete}
                         className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800"

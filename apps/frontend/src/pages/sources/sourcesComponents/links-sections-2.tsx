@@ -15,7 +15,6 @@ import {
   TwitterIcon,
   YoutubeIcon,
 } from "lucide-react";
-import { Highlight } from "@/utils/highlight";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Lightbulb } from "lucide-react";
 

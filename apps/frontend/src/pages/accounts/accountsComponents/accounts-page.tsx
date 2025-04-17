@@ -77,7 +77,9 @@ export function AccountsPage() {
                   Connect more social media platforms
                 </CardDescription>
 
-                <Button disabled>Add Account</Button>
+                <Button className=" font-semibold text-white" disabled>
+                  Coming Soon
+                </Button>
               </CardContent>
             </Card>
           </div>
