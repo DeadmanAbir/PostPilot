@@ -25,82 +25,99 @@ const MenuBar = ({ editor }: { editor: any }) => {
   }
 
   return (
-    <div className="border-b py-2 px-6 -mx-6 flex flex-wrap gap-2 dark:bg-blue-900/20 bg-blue-100/40">
+    <div className="border-b py-2 px-2 flex flex-wrap items-center gap-2 dark:bg-blue-900/20 bg-gray-100/20 border">
+      {/* Group 1 */}
       <Button
         variant="ghost"
         size="icon"
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={!editor.can().chain().focus().toggleBold().run()}
-        className={editor.isActive("bold") ? "bg-muted" : ""}
+        className={`w-12 h-12 ${editor.isActive("bold") ? "bg-muted" : ""}`}
       >
-        <Bold className="h-4 w-4" />
+        <Bold className="size-6" />
       </Button>
       <Button
         variant="ghost"
         size="icon"
         onClick={() => editor.chain().focus().toggleItalic().run()}
         disabled={!editor.can().chain().focus().toggleItalic().run()}
-        className={editor.isActive("italic") ? "bg-muted" : ""}
+        className={`w-12 h-12 ${editor.isActive("italic") ? "bg-muted" : ""}`}
       >
-        <Italic className="h-4 w-4" />
+        <Italic className="size-6" />
       </Button>
+      <div className="w-px h-10 bg-border mx-1" />
+
+      {/* Group 2 */}
       <Button
         variant="ghost"
         size="icon"
         onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={editor.isActive("bulletList") ? "bg-muted" : ""}
+        className={`w-12 h-12 ${editor.isActive("bulletList") ? "bg-muted" : ""}`}
       >
-        <List className="h-4 w-4" />
+        <List className="size-6" />
       </Button>
       <Button
         variant="ghost"
         size="icon"
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={editor.isActive("orderedList") ? "bg-muted" : ""}
+        className={`w-12 h-12 ${editor.isActive("orderedList") ? "bg-muted" : ""}`}
       >
-        <ListOrdered className="h-4 w-4" />
+        <ListOrdered className="size-6" />
       </Button>
+
+      {/* Group 3 */}
       <Button
         variant="ghost"
         size="icon"
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        className={editor.isActive("blockquote") ? "bg-muted" : ""}
+        className={`w-12 h-12 ${editor.isActive("blockquote") ? "bg-muted" : ""}`}
       >
-        <Quote className="h-4 w-4" />
+        <Quote className="size-6" />
       </Button>
+      <div className="w-px h-10 bg-border mx-1" />
+
       <Button
         variant="ghost"
         size="icon"
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        className={editor.isActive("heading", { level: 1 }) ? "bg-muted" : ""}
+        className={`w-12 h-12 ${editor.isActive("heading", { level: 1 }) ? "bg-muted" : ""}`}
       >
-        <Heading1 className="h-4 w-4" />
+        <Heading1 className="size-6" />
       </Button>
+
+      {/* Group 4 */}
       <Button
         variant="ghost"
         size="icon"
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={editor.isActive("heading", { level: 2 }) ? "bg-muted" : ""}
+        className={`w-12 h-12 ${editor.isActive("heading", { level: 2 }) ? "bg-muted" : ""}`}
       >
-        <Heading2 className="h-4 w-4" />
+        <Heading2 className="size-6" />
       </Button>
+      <div className="w-px h-10 bg-border mx-1" />
+
       <Button
         variant="ghost"
         size="icon"
         onClick={() => editor.chain().focus().undo().run()}
         disabled={!editor.can().chain().focus().undo().run()}
+        className="w-12 h-12"
       >
-        <Undo className="h-4 w-4" />
+        <Undo className="size-6" />
       </Button>
+
+      {/* Group 5 */}
       <Button
         variant="ghost"
         size="icon"
         onClick={() => editor.chain().focus().redo().run()}
         disabled={!editor.can().chain().focus().redo().run()}
+        className="w-12 h-12"
       >
-        <Redo className="h-4 w-4" />
+        <Redo className="size-6" />
       </Button>
     </div>
+
   );
 };
 
