@@ -73,12 +73,13 @@ export function YouTubeTab() {
                   placeholder="https://www.youtube.com/watch?v=..."
                   value={youtubeUrl}
                   onChange={handleUrlChange}
+                               className="h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900"
                   required
                 />
               </div>
               <Button
                 onClick={handleUpload}
-                className="w-fit "
+                className="w-fit h-10"
                 disabled={isUploading}
               >
                 {isUploading ? "Uploading..." : "Upload to API"}

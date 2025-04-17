@@ -37,9 +37,9 @@ export function PostsPage() {
     return formattedDate;
   };
   return (
-    <div className="container mx-auto py-8 space-y-8 bg-slate-50/50 min-h-screen">
+    <div className="container mx-auto py-8 px-8 space-y-8 min-h-screen ">
       {/* Create New Post Banner */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-xl p-8 flex flex-col md:flex-row justify-between items-center gap-6 shadow-lg">
+      <div className="bg-gradient-to-r from-blue-600 to-blue-500 dark:from-blue-700 dark:to-blue-600 rounded-xl p-8 flex flex-col md:flex-row justify-between items-center gap-6 shadow-lg">
         <div className="space-y-3">
           <h2 className="text-2xl font-bold text-white">
             Ready to share your next great idea?
@@ -51,7 +51,7 @@ export function PostsPage() {
         </div>
         <Button
           asChild
-          className="bg-white text-blue-600 hover:bg-blue-50 shadow-md transition-all duration-200 px-6 py-6 h-auto font-medium text-base"
+          className="bg-white text-blue-600 hover:bg-blue-50 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800 shadow-md transition-all duration-200 px-6 py-3 h-auto font-medium text-base"
         >
           <Link to="/dashboard">
             <PlusCircle className="mr-2 h-5 w-5" />
@@ -61,16 +61,16 @@ export function PostsPage() {
       </div>
 
       {/* Header with filters */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-        <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-gray-700">
+        <h1 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
           Successfully Posted
         </h1>
 
         <div className="flex flex-wrap gap-3 w-full sm:w-auto">
-          <div className="flex items-center bg-slate-50 rounded-lg px-3 py-2 border border-slate-100 shadow-sm">
-            <Filter className="h-4 w-4 text-blue-500 mr-2" />
+          <div className="flex items-center bg-slate-50 dark:bg-gray-700 rounded-lg px-3 py-2 border border-slate-100 dark:border-gray-600 shadow-sm">
+            <Filter className="h-4 w-4 text-blue-500 dark:text-blue-400 mr-2" />
             <Select value={sortOrder} onValueChange={setSortOrder}>
-              <SelectTrigger className="border-0 bg-transparent shadow-none h-8 w-[130px] focus:ring-0 text-slate-700 font-medium">
+              <SelectTrigger className="border-0 bg-transparent shadow-none h-8 w-[130px] focus:ring-0 text-slate-700 dark:text-gray-200 font-medium">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent>
@@ -80,9 +80,9 @@ export function PostsPage() {
             </Select>
           </div>
 
-          <div className="flex items-center bg-slate-50 rounded-lg px-3 py-2 border border-slate-100 shadow-sm">
+          <div className="flex items-center bg-slate-50 dark:bg-gray-700 rounded-lg px-3 py-2 border border-slate-100 dark:border-gray-600 shadow-sm">
             <Select value={platformFilter} onValueChange={setPlatformFilter}>
-              <SelectTrigger className="border-0 bg-transparent shadow-none h-8 w-[130px] focus:ring-0 text-slate-700 font-medium">
+              <SelectTrigger className="border-0 bg-transparent shadow-none h-8 w-[130px] focus:ring-0 text-slate-700 dark:text-gray-200 font-medium">
                 <SelectValue placeholder="Platform" />
               </SelectTrigger>
               <SelectContent>
@@ -94,9 +94,9 @@ export function PostsPage() {
             </Select>
           </div>
 
-          <div className="flex items-center bg-slate-50 rounded-lg px-3 py-2 border border-slate-100 shadow-sm">
+          <div className="flex items-center bg-slate-50 dark:bg-gray-700 rounded-lg px-3 py-2 border border-slate-100 dark:border-gray-600 shadow-sm">
             <Select value={timeFilter} onValueChange={setTimeFilter}>
-              <SelectTrigger className="border-0 bg-transparent shadow-none h-8 w-[130px] focus:ring-0 text-slate-700 font-medium">
+              <SelectTrigger className="border-0 bg-transparent shadow-none h-8 w-[130px] focus:ring-0 text-slate-700 dark:text-gray-200 font-medium">
                 <SelectValue placeholder="Time" />
               </SelectTrigger>
               <SelectContent>
@@ -112,7 +112,7 @@ export function PostsPage() {
 
       {/* Posts Grid */}
       {isPending ? (
-        <h1>Loading...</h1>
+        <h1 className="text-slate-800 dark:text-white">Loading...</h1>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {data?.map(
@@ -128,17 +128,17 @@ export function PostsPage() {
               return (
                 <Card
                   key={index}
-                  className="overflow-hidden hover:shadow-lg transition-all duration-300 border border-slate-100 rounded-xl bg-white"
+                  className="overflow-hidden hover:shadow-lg transition-all duration-300 border border-slate-100 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800"
                 >
                   <CardContent className="p-6">
                     <div className="flex justify-between items-start mb-4">
-                      <div className="text-sm font-medium text-slate-600">
+                      <div className="text-sm font-medium text-slate-600 dark:text-gray-400">
                         {formatDate(post.created_at)}
-                        <span className="text-slate-300 mx-1">•</span>{" "}
+                        <span className="text-slate-300 dark:text-gray-600 mx-1">•</span>{" "}
                       </div>
                       <div className="flex items-center">
                         {post.media[0] && (
-                          <div className="flex items-center text-blue-600 text-xs font-semibold bg-blue-50 px-2 py-1 rounded-full">
+                          <div className="flex items-center text-blue-600 dark:text-blue-400 text-xs font-semibold bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded-full">
                             <FileText className="h-3 w-3 mr-1" />
                             <span>media</span>
                           </div>
@@ -147,15 +147,15 @@ export function PostsPage() {
                     </div>
 
                     <div className="min-h-[80px] mb-4">
-                      <p className="text-slate-800 line-clamp-3 leading-relaxed text-base">
+                      <p className="text-slate-800 dark:text-gray-200 line-clamp-3 leading-relaxed text-base">
                         {post.post_content}
                       </p>
                     </div>
                   </CardContent>
 
-                  <CardFooter className="p-6 pt-0 flex justify-between items-center border-t border-slate-100">
+                  <CardFooter className="p-6 pt-0 flex justify-between items-center border-t border-slate-100 dark:border-gray-700">
                     <div className="flex items-center gap-3">
-                      <Badge className="bg-emerald-500 hover:bg-emerald-600 shadow-sm px-3 py-1 font-medium">
+                      <Badge className="bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700 shadow-sm px-3 py-1 font-medium">
                         posted
                       </Badge>
                     </div>
@@ -163,7 +163,7 @@ export function PostsPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="text-blue-600 border-blue-200 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 font-medium px-4 shadow-sm transition-all duration-200"
+                      className="text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-700 dark:hover:text-blue-300 hover:border-blue-300 dark:hover:border-blue-800 font-medium px-4 shadow-sm transition-all duration-200"
                       onClick={() => window.open(post.post_url, "_blank")}
                     >
                       View Post
@@ -176,7 +176,7 @@ export function PostsPage() {
         </div>
       )}
 
-      {!isPending && data?.length === 0 && <h1>no posts yet</h1>}
+      {!isPending && data?.length === 0 && <h1 className="text-slate-800 dark:text-white h-[30vh] flex items-center justify-center">No posts yet</h1>}
     </div>
   );
 }

@@ -28,7 +28,29 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { useTheme } from "@/providers/theme-provider";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { buttonVariants } from "./ui/button";
-
+export const groupedItems = [
+  {
+    label: "Create",
+    items: [{ title: "New Post", url: "/dashboard", icon: <FilePlus /> }],
+  },
+  {
+    label: "Posts",
+    items: [
+      { title: "Scheduled", url: "/scheduled", icon: <Calendar /> },
+      { title: "Sources", url: "/sources", icon: <Book /> },
+      { title: "Posted", url: "/posted", icon: <Send /> },
+    ],
+  },
+  {
+    label: "Configuration",
+    items: [
+      { title: "Profile", url: "/profile", icon: <User /> },
+      {
+        title: "Integration", url: "/integration", icon: <SquareDashedMousePointer />
+      },
+    ],
+  },
+];
 export function AppSidebar() {
   const { open } = useSidebar();
   const { theme, setTheme } = useTheme();
@@ -43,20 +65,7 @@ export function AppSidebar() {
     },
   };
 
-  const groupedItems = [
-    {
-      label: "Create",
-      items: [{ title: "New Post", url: "/dashboard", icon: <FilePlus /> }],
-    },
-    {
-      label: "Posts",
-      items: [
-        { title: "Scheduled", url: "/scheduled", icon: <Calendar /> },
-        { title: "Sources", url: "/sources", icon: <Book /> },
-        { title: "Posted", url: "/posted", icon: <Send /> },
-      ],
-    },
-  ];
+
 
   return (
     <Sidebar variant="sidebar" collapsible="icon" className="p-2">
@@ -103,61 +112,37 @@ export function AppSidebar() {
                   );
                 })}
               </SidebarMenu>
+              {group.label === "Configuration" && <SidebarMenu className="mt-1">
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                    className="w-full"
+                  >
+                    <div className="flex items-center capitalize justify-start gap-1.5 w-full">
+                      {theme === "dark" ? (
+                        <Sun className="size-4 transition-all" />
+                      ) : (
+                        <Moon className="size-4 transition-all" />
+                      )}
+                      {open && theme}
+                      <span className="sr-only">Toggle theme</span>
+                    </div>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>}
+
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
         <SidebarGroup>
-          <SidebarGroupLabel className="text-base">
-            Configuration
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu className="mt-3">
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname.href === "/profile"}
-                >
-                  <Link to="/profile">
-                    <User />
-                    <span>Profile</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
 
-            <SidebarMenu className="mt-1">
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname.href === "/integration"}
-                >
-                  <Link to="/integration">
-                    <SquareDashedMousePointer />
-                    <span>Integrations</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
+          <SidebarGroupContent>
+
+
+
 
             {/* Theme Toggle Button */}
-            <SidebarMenu className="mt-1">
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="w-full"
-                >
-                  <div className="flex items-center capitalize justify-start gap-1.5 w-full">
-                    {theme === "dark" ? (
-                      <Sun className="size-4 transition-all" />
-                    ) : (
-                      <Moon className="size-4 transition-all" />
-                    )}
-                    {open && theme}
-                    <span className="sr-only">Toggle theme</span>
-                  </div>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
+
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

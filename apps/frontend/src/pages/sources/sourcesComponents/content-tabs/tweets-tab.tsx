@@ -5,11 +5,19 @@ import { Button } from "@/components/ui/button";
 import { fetchTweetFn } from "@/lib/tanstack-query/mutation";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { Tweet } from "react-tweet";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export function TweetsTab() {
   const [tweetUrl, setTweetUrl] = useState("");
   const [tweetName, setTweetName] = useState("");
   const [isValidUrl, setIsValidUrl] = useState(true);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   const { user } = useAuth();
 
@@ -53,7 +61,7 @@ export function TweetsTab() {
   };
 
   return (
-    <div className="w-full h-full py-20">
+    <div className="w-full h-full ">
       <Card>
         <CardHeader>
           <CardTitle>Tweet</CardTitle>
@@ -74,6 +82,7 @@ export function TweetsTab() {
                   value={tweetName}
                   onChange={(e) => setTweetName(e.target.value)}
                   required
+                       className="h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900"
                 />
                 <Input
                   id="tweet-url"
@@ -83,10 +92,9 @@ export function TweetsTab() {
                     setTweetUrl(e.target.value);
                     setIsValidUrl(true);
                   }}
-                  className={!isValidUrl ? "border-red-500" : ""}
-                  required
+                  className={`h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900 ${!isValidUrl ? "border-red-500" : ""}`}                  required
                 />
-                <Button type="submit" disabled={isFetching}>
+                <Button type="submit" disabled={isFetching} className="h-10">
                   Add Tweet
                 </Button>
               </form>
@@ -98,11 +106,20 @@ export function TweetsTab() {
               )}
             </div>
             {isValidUrl && tweetUrl && (
-              <div>
-                <Tweet id={extractTweetId(tweetUrl)!} />
-              </div>
+              <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="outline">Preview Tweet</Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-[550px]">
+                  <DialogHeader>
+                    <DialogTitle>Tweet Preview</DialogTitle>
+                  </DialogHeader>
+                  <div className="mt-4">
+                    <Tweet id={extractTweetId(tweetUrl)!} />
+                  </div>
+                </DialogContent>
+              </Dialog>
             )}
-            {/* TODO: Add tweet preview component here */}
           </div>
         </CardContent>
       </Card>
