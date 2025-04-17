@@ -15,14 +15,11 @@ import {
   TwitterIcon,
   YoutubeIcon,
 } from "lucide-react";
-import { CardStack } from "./cards/stacking-cards";
-import { Highlight } from "@/utils/highlight";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Lightbulb } from "lucide-react";
 
 const LinkSection2 = () => {
-  const [activeSection, setActiveSection] = useState(null);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
 
   const sections = [
     {
@@ -31,47 +28,8 @@ const LinkSection2 = () => {
       icon: <YoutubeIcon className="size-10" />,
       iconColor: "text-red-500",
       component: <YouTubeTab />,
-      protip: "LOrem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      cards: [
-        {
-          id: 0,
-          name: "Manu Arora",
-          designation: "Senior Software Engineer",
-          content: (
-            <p>
-              These cards are amazing, <Highlight>I want to use them</Highlight> in my
-              project. Framer motion is a godsend ngl tbh fam 🙏
-            </p>
-          ),
-        },
-        {
-          id: 1,
-          name: "Elon Musk",
-          designation: "Senior Shitposter",
-          content: (
-            <p>
-              I dont like this Twitter thing,{" "}
-              <Highlight>deleting it right away</Highlight> because yolo. Instead, I
-              would like to call it <Highlight>X.com</Highlight> so that it can easily
-              be confused with adult sites.
-            </p>
-          ),
-        },
-        {
-          id: 2,
-          name: "Tyler Durden",
-          designation: "Manager Project Mayhem",
-          content: (
-            <p>
-              The first rule of
-              <Highlight>Fight Club</Highlight> is that you do not talk about fight
-              club. The second rule of
-              <Highlight>Fight club</Highlight> is that you DO NOT TALK about fight
-              club.
-            </p>
-          ),
-        },
-      ]
+      protip:
+        "LOrem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     {
       id: "files",
@@ -79,48 +37,8 @@ const LinkSection2 = () => {
       icon: <FileIcon className="size-10" />,
       iconColor: "text-blue-500",
       component: <FilesTab />,
-      protip: "LOrem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-
-      cards: [
-        {
-          id: 0,
-          name: "Manu Arora",
-          designation: "Senior Software Engineer",
-          content: (
-            <p>
-              These cards are amazing, <Highlight>I want to use them</Highlight> in my
-              project. Framer motion is a godsend ngl tbh fam 🙏
-            </p>
-          ),
-        },
-        {
-          id: 1,
-          name: "Elon Musk",
-          designation: "Senior Shitposter",
-          content: (
-            <p>
-              I dont like this Twitter thing,{" "}
-              <Highlight>deleting it right away</Highlight> because yolo. Instead, I
-              would like to call it <Highlight>X.com</Highlight> so that it can easily
-              be confused with adult sites.
-            </p>
-          ),
-        },
-        {
-          id: 2,
-          name: "Tyler Durden",
-          designation: "Manager Project Mayhem",
-          content: (
-            <p>
-              The first rule of
-              <Highlight>Fight Club</Highlight> is that you do not talk about fight
-              club. The second rule of
-              <Highlight>Fight club</Highlight> is that you DO NOT TALK about fight
-              club.
-            </p>
-          ),
-        },
-      ]
+      protip:
+        "Easily add your files from either your local system or remote URLs. When uploading from a remote source, be sure to provide a filename—this helps us organize and track your files more effectively.",
     },
     {
       id: "images",
@@ -128,48 +46,8 @@ const LinkSection2 = () => {
       icon: <ImageIcon className="size-10" />,
       iconColor: "text-green-500",
       component: <ImagesTab />,
-      protip: "LOrem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-
-      cards: [
-        {
-          id: 0,
-          name: "Manu Arora",
-          designation: "Senior Software Engineer",
-          content: (
-            <p>
-              These cards are amazing, <Highlight>I want to use them</Highlight> in my
-              project. Framer motion is a godsend ngl tbh fam 🙏
-            </p>
-          ),
-        },
-        {
-          id: 1,
-          name: "Elon Musk",
-          designation: "Senior Shitposter",
-          content: (
-            <p>
-              I dont like this Twitter thing,{" "}
-              <Highlight>deleting it right away</Highlight> because yolo. Instead, I
-              would like to call it <Highlight>X.com</Highlight> so that it can easily
-              be confused with adult sites.
-            </p>
-          ),
-        },
-        {
-          id: 2,
-          name: "Tyler Durden",
-          designation: "Manager Project Mayhem",
-          content: (
-            <p>
-              The first rule of
-              <Highlight>Fight Club</Highlight> is that you do not talk about fight
-              club. The second rule of
-              <Highlight>Fight club</Highlight> is that you DO NOT TALK about fight
-              club.
-            </p>
-          ),
-        },
-      ]
+      protip:
+        "Easily add your images from either your local system or remote URLs. When uploading from a remote source, be sure to provide a imagename—this helps us organize and track your images more effectively.",
     },
     {
       id: "tweets",
@@ -177,48 +55,8 @@ const LinkSection2 = () => {
       icon: <TwitterIcon className="size-10" />,
       iconColor: "text-sky-500",
       component: <TweetsTab />,
-      protip: "LOrem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-
-      cards: [
-        {
-          id: 0,
-          name: "Manu Arora",
-          designation: "Senior Software Engineer",
-          content: (
-            <p>
-              These cards are amazing, <Highlight>I want to use them</Highlight> in my
-              project. Framer motion is a godsend ngl tbh fam 🙏
-            </p>
-          ),
-        },
-        {
-          id: 1,
-          name: "Elon Musk",
-          designation: "Senior Shitposter",
-          content: (
-            <p>
-              I dont like this Twitter thing,{" "}
-              <Highlight>deleting it right away</Highlight> because yolo. Instead, I
-              would like to call it <Highlight>X.com</Highlight> so that it can easily
-              be confused with adult sites.
-            </p>
-          ),
-        },
-        {
-          id: 2,
-          name: "Tyler Durden",
-          designation: "Manager Project Mayhem",
-          content: (
-            <p>
-              The first rule of
-              <Highlight>Fight Club</Highlight> is that you do not talk about fight
-              club. The second rule of
-              <Highlight>Fight club</Highlight> is that you DO NOT TALK about fight
-              club.
-            </p>
-          ),
-        },
-      ]
+      protip:
+        "Effortlessly add tweets by simply providing the tweet link. We’ll automatically fetch, process, and store the tweet’s text content on our servers. This content can then be used as contextual material when creating your posts.",
     },
     {
       id: "notes",
@@ -226,48 +64,8 @@ const LinkSection2 = () => {
       icon: <FileTextIcon className="size-10" />,
       iconColor: "text-amber-500",
       component: <TextNoteTab />,
-      protip: "LOrem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-
-      cards: [
-        {
-          id: 0,
-          name: "Manu Arora",
-          designation: "Senior Software Engineer",
-          content: (
-            <p>
-              These cards are amazing, <Highlight>I want to use them</Highlight> in my
-              project. Framer motion is a godsend ngl tbh fam 🙏
-            </p>
-          ),
-        },
-        {
-          id: 1,
-          name: "Elon Musk",
-          designation: "Senior Shitposter",
-          content: (
-            <p>
-              I dont like this Twitter thing,{" "}
-              <Highlight>deleting it right away</Highlight> because yolo. Instead, I
-              would like to call it <Highlight>X.com</Highlight> so that it can easily
-              be confused with adult sites.
-            </p>
-          ),
-        },
-        {
-          id: 2,
-          name: "Tyler Durden",
-          designation: "Manager Project Mayhem",
-          content: (
-            <p>
-              The first rule of
-              <Highlight>Fight Club</Highlight> is that you do not talk about fight
-              club. The second rule of
-              <Highlight>Fight club</Highlight> is that you DO NOT TALK about fight
-              club.
-            </p>
-          ),
-        },
-      ]
+      protip:
+        "Write your own handwritten content and format it however you like. Once saved, it will be securely stored for future use—whether you need it as a personal reference or as contextual input for generating new posts.",
     },
     {
       id: "websites",
@@ -275,52 +73,13 @@ const LinkSection2 = () => {
       icon: <LinkIcon className="size-10" />,
       iconColor: "text-purple-500",
       component: <WebsitesTab />,
-      protip: "LOrem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      protip: `We don’t scrape website content—we simply capture a homepage screenshot and store it on our servers. Our AI reads the content from the image during post generation.
 
-      cards: [
-        {
-          id: 0,
-          name: "Manu Arora",
-          designation: "Senior Software Engineer",
-          content: (
-            <p>
-              These cards are amazing, <Highlight>I want to use them</Highlight> in my
-              project. Framer motion is a godsend ngl tbh fam 🙏
-            </p>
-          ),
-        },
-        {
-          id: 1,
-          name: "Elon Musk",
-          designation: "Senior Shitposter",
-          content: (
-            <p>
-              I dont like this Twitter thing,{" "}
-              <Highlight>deleting it right away</Highlight> because yolo. Instead, I
-              would like to call it <Highlight>X.com</Highlight> so that it can easily
-              be confused with adult sites.
-            </p>
-          ),
-        },
-        {
-          id: 2,
-          name: "Tyler Durden",
-          designation: "Manager Project Mayhem",
-          content: (
-            <p>
-              The first rule of
-              <Highlight>Fight Club</Highlight> is that you do not talk about fight
-              club. The second rule of
-              <Highlight>Fight club</Highlight> is that you DO NOT TALK about fight
-              club.
-            </p>
-          ),
-        },
-      ]
+For better accuracy, consider pasting the website text into the Notes section or uploading a screenshot of the relevant section to the Images tab.`,
     },
   ];
 
-  const handleCardClick = (sectionId) => {
+  const handleCardClick = (sectionId: string) => {
     setActiveSection(sectionId);
   };
 
@@ -329,9 +88,7 @@ const LinkSection2 = () => {
   };
 
   return (
-
     <>
-
       <motion.div layout className="h-full w-full p-5 ">
         <AnimatePresence mode="wait">
           {activeSection === null ? (
@@ -341,14 +98,10 @@ const LinkSection2 = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="h-[15vh] bg-gradient-to-r text-center from-blue-500 to-blue-600 rounded-xl p-3 flex flex-col text-white items-center justify-center">
-                <div className="text-4xl font-bold">
-                  Welcome to Post Pilot
-                </div>
-                <p>
-                  Select your content source to get started
-                </p>
-
+                className="h-[15vh] bg-gradient-to-r text-center from-blue-500 to-blue-600 rounded-xl p-3 flex flex-col text-white items-center justify-center"
+              >
+                <div className="text-4xl font-bold">Welcome to Post Pilot</div>
+                <p>Select your content source to get started</p>
               </motion.div>
               <motion.div
                 key="grid"
@@ -381,7 +134,6 @@ const LinkSection2 = () => {
                 ))}
               </motion.div>
             </div>
-
           ) : (
             <motion.div
               key="content"
@@ -408,13 +160,13 @@ const LinkSection2 = () => {
                   layoutId={`icon-${activeSection}`}
                   className={`mb-3 p-3 text-black dark:text-white rounded-full bg-gradient-to-b from-white to-blue-200 dark:from-gray-700 dark:to-blue-800`}
                 >
-                  {sections.find(s => s.id === activeSection)?.icon}
+                  {sections.find((s) => s.id === activeSection)?.icon}
                 </motion.div>
                 <motion.h2
                   layoutId={`title-${activeSection}`}
                   className="text-3xl font-semibold"
                 >
-                  {sections.find(s => s.id === activeSection)?.title}
+                  {sections.find((s) => s.id === activeSection)?.title}
                 </motion.h2>
               </div>
 
@@ -425,8 +177,10 @@ const LinkSection2 = () => {
                 className="h-[calc(100%-6rem)] w-full  flex md:flex-row flex-col   md:space-x-6 space-y-3 "
               >
                 <div className="md:w-2/3 w-full ">
-                  {sections.find((section) => section.id === activeSection)?.component}
-
+                  {
+                    sections.find((section) => section.id === activeSection)
+                      ?.component
+                  }
                 </div>
                 <Card className="md:w-1/2 w-full flex h-full items-center justify-center cursor-pointer rounded-xl p-1 border dark:border-gray-700 shadow-[0_3px_10px_rgb(0,0,0,0.1)] hover:shadow-[0_6px_10px_rgb(0,0,0,0.2)] dark:shadow-[0_3px_10px_rgb(255,255,255,0.05)] dark:hover:shadow-[0_6px_10px_rgb(255,255,255,0.1)] bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-900  flex-col  text-center dark:text-white">
                   <CardHeader className="flex flex-row items-center justify-start  w-full     space-x-2 ">
@@ -434,7 +188,10 @@ const LinkSection2 = () => {
                     <CardTitle className="text-lg">Pro Tip</CardTitle>
                   </CardHeader>
                   <CardContent className="pt-0 text-left">
-                    {sections.find((section) => section.id === activeSection)?.protip}
+                    {
+                      sections.find((section) => section.id === activeSection)
+                        ?.protip
+                    }
                   </CardContent>
                 </Card>
               </motion.div>
@@ -442,9 +199,7 @@ const LinkSection2 = () => {
           )}
         </AnimatePresence>
       </motion.div>
-
     </>
-
   );
 };
 

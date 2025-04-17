@@ -1,5 +1,3 @@
-"use client";
-
 import type React from "react";
 
 import { useState } from "react";
@@ -15,6 +13,7 @@ import {
   SelectValue,
 } from "../../components/ui/select";
 import { ArrowDownAZ, ArrowUpAZ } from "lucide-react";
+import ComingSoonCard from "./coming-soon";
 
 // Define the ScheduledPost type
 export interface ScheduledPost {
@@ -146,6 +145,8 @@ export function ScheduledPostsPage() {
 
     // Show success toast
   };
+
+  return <ComingSoonCard />;
 
   return (
     <div className="container mx-auto py-6 space-y-6">

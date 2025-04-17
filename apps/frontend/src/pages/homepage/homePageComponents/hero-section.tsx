@@ -42,10 +42,9 @@ const HeroSection = () => {
           transition={{ delay: 0.6 }}
           className="mt-8 max-w-2xl mx-auto text-lg text-white/70 leading-relaxed px-5 text-balance"
         >
-          Transform the way you engage on LinkedIn. Whether you’re looking to
-          amplify your brand’s voice or save time on daily post creation,
-          PostPilot is your all-in-one solution for AI-enhanced content creation
-          and automated scheduling.
+          Transform your LinkedIn engagement with PostPilot. AI-powered content
+          creation and automated scheduling to amplify your brand and save you
+          time.
         </motion.p>
 
         {/* CTA Button */}
