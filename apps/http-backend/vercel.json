@@ -6,7 +6,7 @@
 
   "rewrites": [{ "source": "/(.*)", "destination": "/api" }],
   "functions": {
-    "api/index.ts": {
+    "api/**/*.js": {
       "runtime": "nodejs18.x"
     }
   }
