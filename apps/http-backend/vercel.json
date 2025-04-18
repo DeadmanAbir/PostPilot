@@ -4,5 +4,10 @@
   "buildCommand": "turbo run build",
   "installCommand": "pnpm install",
 
-  "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
+  "rewrites": [{ "source": "/(.*)", "destination": "/api" }],
+  "functions": {
+    "api/index.ts": {
+      "runtime": "nodejs18.x"
+    }
+  }
 }
