@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Lightbulb } from "lucide-react";
+import Banner from "@/components/banner";
 
 const LinkSection2 = () => {
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -98,10 +99,10 @@ For better accuracy, consider pasting the website text into the Notes section or
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="h-[15vh] bg-gradient-to-r text-center from-blue-500 to-blue-600 rounded-xl p-3 flex flex-col text-white items-center justify-center"
+      
               >
-                <div className="text-4xl font-bold">Welcome to Post Pilot</div>
-                <p>Select your content source to get started</p>
+              <Banner/>
+
               </motion.div>
               <motion.div
                 key="grid"
