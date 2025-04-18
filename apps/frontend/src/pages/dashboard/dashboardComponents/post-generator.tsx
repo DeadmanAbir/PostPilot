@@ -363,10 +363,10 @@ export function PostGenerator() {
               <CardContent className="h-full space-y-3">
                 <div className="flex items-center gap-4">
                   {/* Image Upload Section */}
-                  <div className="w-full group border-2 rounded-md border-gray-200 dark:border-gray-800 bg-blue-100/20 dark:bg-blue-900/20 p-5 hover:shadow-md">
+                  <div className="w-full group border-2 rounded-md border-gray-200 dark:border-gray-800 bg-blue-100/20 dark:bg-blue-900/20  hover:shadow-md h-56">
                     <div className="w-full">
                       <AnimatePresence>
-                        <div className="flex gap-3">
+                        <div id="imageLoad" className="flex gap-3 overflow-x-auto h-56 flex-wrap items-center justify-center p-5">
                           {images.map((media) => (
                             media.type !== "video" && (
                               <motion.div
@@ -416,43 +416,44 @@ export function PostGenerator() {
                               />
                             </div>
                           )}
+                          {!images.some(media => media.type !== "video") && (
+                            <label className="cursor-pointer col-span-full md:col-span-">
+                              <motion.div
+                                className="flex flex-col items-center justify-center p-2  transition-all"
+                                whileHover="hover"
+                              >
+                                <div className="h-24 w-32 mb-4 flex items-center justify-center">
+                                  <motion.div
+                                    className="bg-gradient-to-br from-blue-100 to-blue-300 dark:from-blue-800 dark:to-blue-900 rounded-full group-hover:dark:from-blue-800/40 group-hover:dark:to-blue-900/40 transition-colors duration-200"
+                                  >
+                                    <ImageIcon className="w-8 h-8 m-4 text-blue-500" />
+                                  </motion.div>
+                                </div>
+                                <div className="text-xl">
+                                  Upload Images
+                                </div>
+                                <p className="text-sm text-gray-500 text-center mt-2">
+                                  Upload photos
+                                </p>
+                                <input
+                                  type="file"
+                                  multiple
+                                  accept="image/*"
+                                  className="hidden"
+                                  onChange={handleFileChange}
+                                />
+                              </motion.div>
+                            </label>
+                          )}
                         </div>
 
-                        {!images.some(media => media.type !== "video") && (
-                          <label className="cursor-pointer col-span-full md:col-span-1">
-                            <motion.div
-                              className="flex flex-col items-center justify-center p-2 h-40 transition-all"
-                              whileHover="hover"
-                            >
-                              <div className="h-24 w-32 mb-4 flex items-center justify-center">
-                                <motion.div
-                                  className="bg-gradient-to-br from-blue-100 to-blue-300 dark:from-blue-800 dark:to-blue-900 rounded-full group-hover:dark:from-blue-800/40 group-hover:dark:to-blue-900/40 transition-colors duration-200"
-                                >
-                                  <ImageIcon className="w-8 h-8 m-4 text-blue-500" />
-                                </motion.div>
-                              </div>
-                              <div className="text-xl">
-                                Upload Images
-                              </div>
-                              <p className="text-sm text-gray-500 text-center mt-2">
-                                Upload photos
-                              </p>
-                              <input
-                                type="file"
-                                multiple
-                                accept="image/*"
-                                className="hidden"
-                                onChange={handleFileChange}
-                              />
-                            </motion.div>
-                          </label>
-                        )}
+
                       </AnimatePresence>
                     </div>
                   </div>
 
                   {/* Video Upload Section */}
-                  <div className="w-full group border-2 rounded-md border-gray-200 dark:border-gray-800 bg-blue-100/20 dark:bg-blue-900/20 p-5 hover:shadow-md">
+                  <div className="w-full group border-2 rounded-md border-gray-200 dark:border-gray-800 bg-blue-100/20 dark:bg-blue-900/20 p-5 hover:shadow-md h-56">
                     <div className="w-full">
                       <AnimatePresence>
                         <div className="flex gap-3 items-center justify-center">
@@ -481,12 +482,10 @@ export function PostGenerator() {
                               </motion.div>
                             )
                           ))}
-                        </div>
-
-                        {!images.some(media => media.type === "video") && (
+                                {!images.some(media => media.type === "video") && (
                           <label className="cursor-pointer col-span-full md:col-span-1">
                             <motion.div
-                              className="flex flex-col items-center justify-center p-2 h-40 transition-all"
+                              className="flex flex-col items-center justify-center p-2  transition-all"
                               whileHover="hover"
                             >
                               <div className="h-24 w-32 mb-4 flex items-center justify-center">
@@ -512,6 +511,9 @@ export function PostGenerator() {
                             </motion.div>
                           </label>
                         )}
+                        </div>
+
+                  
                       </AnimatePresence>
                     </div>
                   </div>
