@@ -432,10 +432,14 @@ export function PostGenerator() {
 
 
                               </div>
-                              <p className="text-sm text-gray-500 text-center">
-                                Drag & drop images here
-                                <br />
-                                or click to browse
+                              <div className="text-xl">
+                              Upload Images
+
+                              </div>
+                              <p className="text-sm text-gray-500 text-center mt-2">
+                              Upload photos
+
+                               
                               </p>
                               <input
                                 type="file"
@@ -493,7 +497,7 @@ export function PostGenerator() {
 
                         {images.length === 0 && (
                           <label className="cursor-pointer col-span-full md:col-span-1">
-                           <motion.div
+                            <motion.div
                               className=" flex flex-col items-center justify-center p-2 h-40 transition-all"
                               whileHover="hover"
                             >
@@ -506,10 +510,14 @@ export function PostGenerator() {
 
 
                               </div>
-                              <p className="text-sm text-gray-500 text-center">
-                                Drag & drop images here
-                                <br />
-                                or click to browse
+                              <div className="text-xl">
+                              Upload Video
+
+                              </div>
+                              <p className="text-sm text-gray-500 text-center mt-2">
+                              Upload Video
+
+                               
                               </p>
                               <input
                                 type="file"
