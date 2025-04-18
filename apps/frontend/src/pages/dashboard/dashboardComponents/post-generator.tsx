@@ -521,7 +521,7 @@ export function PostGenerator() {
                   </div>
                 </div>
 
-                <div className="border">
+                <div className="border shadow-md">
                   <Editor
                     value={generatedPost}
                     onChange={(val) => setGeneratedPost(val)}
