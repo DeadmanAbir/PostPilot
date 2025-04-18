@@ -28,6 +28,7 @@ import {
   ImageIcon,
   PencilRuler,
   Twitter,
+  Video,
   X,
   Youtube,
 } from "lucide-react";
@@ -374,16 +375,11 @@ export function PostGenerator() {
                               transition={{ duration: 0.3 }}
                               className="relative aspect-square rounded-lg group size-20 "
                             >
-                              {media.type !== "video" ? (
+                              {media.type !== "video" && (
                                 <img
                                   src={media.preview}
                                   alt="Preview"
                                   className="w-full h-full object-cover size-20 border-blue-400 border-4"
-                                />
-                              ) : (
-                                <video
-                                  src={media.preview}
-                                  className="w-full h-full object-cover size-20 border-green-400 border-4"
                                 />
                               )}
 
@@ -444,7 +440,7 @@ export function PostGenerator() {
                               <input
                                 type="file"
                                 multiple
-                                accept="image/*,video/*"
+                                accept="image/*"
                                 className="hidden"
                                 onChange={handleFileChange}
                               />
@@ -453,10 +449,12 @@ export function PostGenerator() {
                         )}
                       </AnimatePresence>
                     </div>
-                  </div><div className="w-full border-dotted border-4 rounded-md border-blue-400 bg-blue-50 p-5 ">
+                  </div>
+                  <div className="w-full group  border-2 rounded-md border-gray-200 dark:border-gray-800 bg-blue-100/20 dark:bg-blue-900/20 p-5 hover:shadow-md">
+
                     <div className="w-full ">
                       <AnimatePresence>
-                        <div className="flex gap-3">
+                        <div className="flex gap-3 items-center justify-center">
                           {images.map((media) => (
                             <motion.div
                               key={media.id}
@@ -464,7 +462,7 @@ export function PostGenerator() {
                               animate={{ opacity: 1, scale: 1 }}
                               exit={{ opacity: 0, scale: 0.8, y: 20 }}
                               transition={{ duration: 0.3 }}
-                              className="relative aspect-square rounded-lg group size-20 "
+                              className="relative aspect-video rounded-lg group flex items-center justify-center  "
                             >
                               {media.type !== "video" ? (
                                 <img
@@ -475,7 +473,7 @@ export function PostGenerator() {
                               ) : (
                                 <video
                                   src={media.preview}
-                                  className="w-full h-full object-cover size-20 border-green-400 border-4"
+                                  className="w-full object-cover h-40 border-green-400 border-4"
                                 />
                               )}
 
@@ -490,71 +488,23 @@ export function PostGenerator() {
                             </motion.div>
                           ))}
 
-                          {images.length > 0 && images[0].type === "image" && (
-                            <div>
-                              <label
-                                htmlFor="media-upload"
-                                className="flex flex-col items-center justify-center size-20 cursor-pointer border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-blue-500 hover:text-blue-500 transition"
-                              >
-                                <span className="text-4xl">＋</span>
-                                <span className="text-xs mt-1 text-center">
-                                  Add more
-                                </span>
-                              </label>
-                           <input
-  id="media-upload"
-  type="file"
-  multiple
-  accept="video/*"
-  className="hidden"
-  onChange={handleFileChange}
-/>
 
-                            </div>
-                          )}
                         </div>
 
                         {images.length === 0 && (
                           <label className="cursor-pointer col-span-full md:col-span-1">
-                            <motion.div
-                              className=" flex flex-col items-center justify-center p-2 h-36 transition-all"
+                           <motion.div
+                              className=" flex flex-col items-center justify-center p-2 h-40 transition-all"
                               whileHover="hover"
                             >
-                              <div className="relative h-24 w-32 mb-4">
+                              <div className=" h-24 w-32 mb-4  flex items-center justify-center">
                                 <motion.div
-                                  className="absolute bg-blue-100 w-16 h-16 rounded border border-blue-400"
-                                  variants={{
-                                    hover: {
-                                      x: -20,
-                                      y: -10,
-                                      rotate: -5,
-                                      transition: { duration: 0.3 },
-                                    },
-                                  }}
+                                  className="bg-gradient-to-br from-blue-100 to-blue-300 dark:from-blue-800 dark:to-blue-900 rounded-full group-hover:dark:from-blue-800/40 group-hover:dark:to-blue-900/40 transition-colors duration-200"
                                 >
-                                  <ImageIcon className="w-8 h-8 m-4 text-blue-500" />
+                                  <Video className="w-8 h-8 m-4 text-blue-500" />
                                 </motion.div>
-                                <motion.div
-                                  className="absolute bg-green-100 w-16 h-16 rounded border border-green-500 left-4 top-2"
-                                  variants={{
-                                    hover: { transition: { duration: 0.3 } },
-                                  }}
-                                >
-                                  <ImageIcon className="w-8 h-8 m-4 text-green-500" />
-                                </motion.div>
-                                <motion.div
-                                  className="absolute bg-purple-100 w-16 h-16 rounded border border-purple-500 left-8 top-4"
-                                  variants={{
-                                    hover: {
-                                      x: 20,
-                                      y: -10,
-                                      rotate: 5,
-                                      transition: { duration: 0.3 },
-                                    },
-                                  }}
-                                >
-                                  <ImageIcon className="w-8 h-8 m-4 text-purple-500" />
-                                </motion.div>
+
+
                               </div>
                               <p className="text-sm text-gray-500 text-center">
                                 Drag & drop images here
