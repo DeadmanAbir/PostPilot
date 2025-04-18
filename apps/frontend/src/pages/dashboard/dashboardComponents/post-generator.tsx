@@ -794,8 +794,8 @@ export function PostGenerator() {
 
 
         {images.length > 0 && (
-          <div className="mb-8 relative bg-white rounded-xl shadow-xl border-2 p-3  ">
-            <div className="p-2 text-xl font-bold">Media Preview</div>
+          <div className="mb-8 relative bg-white rounded-xl shadow-xl border-2  p-3  ">
+            <div className="p-2 text-xl font-bold dark:text-black">Media Preview</div>
             <motion.div
               className="relative overflow-hidden w-full aspect-video bg-white h-60 rounded-xl border "
               initial={{ opacity: 0, y: 20 }}
@@ -848,8 +848,8 @@ export function PostGenerator() {
                         key={index}
                         onClick={() => setCurrentSlide(index)}
                         className={`h-2 rounded-full transition-all ${index === currentSlide
-                          ? "dark:bg-white bg-black w-4"
-                          : "dark:bg-white bg-black bg-opacity-50 w-2"
+                          ? " bg-black w-4"
+                          : " bg-black bg-opacity-50 w-2"
                           }`}
                       />
                     ))}
