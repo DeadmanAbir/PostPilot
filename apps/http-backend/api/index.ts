@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Express } from "express";
 import fileRouter from "@/routes/context-processing-route";
 import postRouter from "@/routes/post-generation.route";
 import profileRouter from "@/routes/user-route";
@@ -13,7 +13,7 @@ declare module "express-session" {
   }
 }
 
-const app = express();
+const app: Express = express();
 
 app.use(express.json());
 app.use(cors());
@@ -50,3 +50,5 @@ app.use("/api/linkedin", linkedinRouter);
 app.listen(9000, () => {
   console.log("Server is running on port 9000");
 });
+
+export default app;
