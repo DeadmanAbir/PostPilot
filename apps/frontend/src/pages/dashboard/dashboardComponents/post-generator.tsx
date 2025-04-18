@@ -358,7 +358,7 @@ export function PostGenerator() {
           <div className="space-y-4 ">
             <Card className="border-0 p-0 shadow-none">
               <CardHeader>
-                <CardTitle>Create Your Content</CardTitle>
+                <CardTitle className="text-xl">Create Your Content</CardTitle>
               </CardHeader>
               <CardContent className="h-full space-y-3">
                 <div className="flex items-center gap-4">
