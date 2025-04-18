@@ -163,7 +163,7 @@ export function PostGenerator() {
 
   const isExpired = optionData?.linkedin?.expires_at
     ? optionData.linkedin.expires_at &&
-      new Date(optionData.linkedin.expires_at) < new Date()
+    new Date(optionData.linkedin.expires_at) < new Date()
     : true;
   const { mutate: generatePost, isPending } = generatePostFn(
     user?.accessToken!,
@@ -224,7 +224,7 @@ export function PostGenerator() {
   };
   const handleGenerate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newText=getTextFromHTML(generatedPost)
+    const newText = getTextFromHTML(generatedPost)
     generatePost({
       query: newText,
       media: groupItemsByType({ selectedItems }),
@@ -333,7 +333,7 @@ export function PostGenerator() {
   };
 
   const handlePost = async () => {
-     const media = await uploadToSupabase("post-pilot");
+    const media = await uploadToSupabase("post-pilot");
     const processed = processHTMLContent(generatedPost);
     console.log(processed, "faisal")
 
@@ -347,7 +347,7 @@ export function PostGenerator() {
   };
 
 
- 
+
   return (
     <div className="flex w-full gap-5 h-full">
       <div className="w-2/3 flex flex-col items-center h-full  ">
@@ -482,57 +482,15 @@ export function PostGenerator() {
                   </div>
                 </div>
                 <div className="border">
-                <Editor 
-             value={generatedPost}
-             onChange={(val) => setGeneratedPost(val)}
-             disabled={isPending || isRegenerating}
-             />
+                  <Editor
+                    value={generatedPost}
+                    onChange={(val) => setGeneratedPost(val)}
+                    disabled={isPending || isRegenerating}
+                  />
 
                 </div>
 
-                {/* <div className="relative">
-                  <div className="absolute top-0 flex items-center space-x-2 p-2 border-b w-full">
-                    <Button
-                      variant="ghost"
-                      onClick={() => applyFormatting('bold')}
-                      type="button"
-                      size="icon"
-                      className="font-bold "
-                    >
-                      B
-                    </Button>
-                    <Button
-                      onClick={() => applyFormatting('italic')}
-                      type="button"
-                      size="icon"
-                      className=" italic"
-                      variant="ghost"
 
-                    >
-                      I
-                    </Button>
-                    <Button
-                      onClick={() => applyFormatting('boldItalic')}
-                      type="button"
-                      size="icon"
-                      className="font-bold italic "
-                      variant="ghost"
-                    >
-                      A
-                    </Button>
-                  </div>
-                  <Textarea
-                    ref={textareaRef}
-
-                    placeholder="Enter your prompt for AI generation..."
-                    className="max-h-[30vh] min-h-[20vh]  h-full pt-14"
-                    value={generatedPost}
-                    disabled={isPending || isRegenerating}
-                    required
-                    rows={20}
-                    onChange={(e) => setGeneratedPost(e.target.value)}
-                  />
-                </div> */}
 
               </CardContent>
               <CardFooter className="flex  flex-col items-start justify-start gap-2">
@@ -795,14 +753,7 @@ export function PostGenerator() {
         className="w-1/3 border-l bg-muted  h-full p-4 overflow-y-auto"
         id="imageLoad"
       >
-        {/* <Card className="mb-4">
-        <CardHeader>
-          <CardTitle>Upcoming Posts</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <AvatarCircles numPeople={avatars.length} avatarUrls={avatars} />
-        </CardContent>
-      </Card> */}
+
 
         {images.length > 0 && (
           <div className="mb-8 relative bg-white rounded-xl shadow-xl border-2 p-3  ">
@@ -925,15 +876,7 @@ export function PostGenerator() {
                     </PopoverContent>
                   </Popover>
                   <div className="space-y-4">
-                    {/* <div>
-                    <Label>Date</Label>
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      onSelect={(newDate) => newDate && setDate(newDate)}
-                      className="rounded-md border"
-                    />
-                  </div> */}
+
                     <div className="mt-2">
                       <Label htmlFor="time">Time</Label>
                       <Input
@@ -962,48 +905,7 @@ export function PostGenerator() {
             </motion.div>
           )}
         </AnimatePresence>
-        {/* <Collapsible open={open} onOpenChange={setOpen}>
-        <CollapsibleTrigger asChild>
-          <Button className="w-full mb-3 flex justify-between items-center">
-            <span>Schedule Post</span>
-            {open ? (
-              <ChevronUp className="w-4 h-4" />
-            ) : (
-              <ChevronDown className="w-4 h-4" />
-            )}
-          </Button>
-        </CollapsibleTrigger>
-        <CollapsibleContent>
-          <Card>
-            <CardContent className="p-4">
-              <div className="space-y-4">
-                <div>
-                  <Label>Date</Label>
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={(newDate) => newDate && setDate(newDate)}
-                    className="rounded-md border"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="time">Time</Label>
-                  <Input
-                    id="time"
-                    type="time"
-                    value={time}
-                    min={date.toDateString() === new Date().toDateString() ? getCurrentTime() : undefined}
-                    onChange={(e) => setTime(e.target.value)}
-                  />
-                </div>
-                <Button onClick={handleSchedule} className="w-full">
-                  Schedule
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </CollapsibleContent>
-      </Collapsible> */}
+
 
         {postGenerated && (
           <motion.div
