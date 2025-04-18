@@ -1,5 +1,8 @@
 {
   "version": 2,
+  "outputDirectory": "dist",
+  "buildCommand": "turbo run build",
+  "installCommand": "pnpm install",
   "builds": [
     {
       "src": "dist/index.js",
@@ -7,8 +10,7 @@
       "config": { "includeFiles": ["dist/**"] }
     }
   ],
-  "buildCommand": "turbo run build",
-  "installCommand": "pnpm install",
+
   "routes": [
     {
       "src": "/(.*)",
