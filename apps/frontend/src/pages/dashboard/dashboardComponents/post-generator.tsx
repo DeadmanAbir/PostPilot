@@ -424,7 +424,7 @@ export function PostGenerator() {
                               >
                                 <div className="h-24 w-32 mb-4 flex items-center justify-center">
                                   <motion.div
-                                    className="bg-gradient-to-br from-blue-100 to-blue-300 dark:from-blue-800 dark:to-blue-900 rounded-full w-16 h-16 flex items-center justify-center cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40 transition-all duration-300"
+                                    className="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full w-16 h-16 flex items-center justify-center cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40 transition-all duration-300"
                                     whileHover={{ scale: 1.1 }}
                                   >
                                     <ImageIcon className="w-8 h-8 text-blue-700 dark:text-blue-200" />
