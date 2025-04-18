@@ -2,11 +2,11 @@
   "name": "@repo/http-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "api/index.js",
   "scripts": {
     "build": "tsc -b",
-    "start": "node dist/index.js",
-    "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node -r tsconfig-paths/register src/index.ts"
+    "start": "node dist/api/index.js",
+    "dev": "nodemon --watch \"api/**/*.ts\" --exec \"ts-node -r tsconfig-paths/register api/index.ts\""
   },
   "dependencies": {
     "@google/generative-ai": "^0.22.0",
