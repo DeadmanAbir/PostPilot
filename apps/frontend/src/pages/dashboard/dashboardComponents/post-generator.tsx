@@ -130,11 +130,13 @@ export function PostGenerator() {
     { id: string; label: string; type: string }[]
   >([]);
   const inputRef = useRef(null);
-
+  const inputImageRef = useRef(null);
   const handleButtonClick = () => {
     inputRef.current?.click();
   };
-
+  const handleImageButtonClick = () => {
+    inputImageRef.current?.click();
+  };
 
   const uploadToSupabase = async (bucket: string) => {
     const fileUrl: string[] = [];
@@ -379,7 +381,7 @@ export function PostGenerator() {
                   <div className="w-full group border-[1px] rounded-lg border-gray-200 dark:border-blue-900 bg-blue-100/20 dark:bg-blue-900/20 bg-white shadow-sm hover:shadow-md h-56">
                     <div className="w-full">
                       <AnimatePresence>
-                        <div id="imageLoad" className="flex gap-3 overflow-x-auto h-56 flex-wrap items-center justify-center p-5">
+                        <div id="imageLoad" className="flex gap-3 overflow-x-auto h-56 flex-wrap items-center justify-center ">
                           {images.map((media) => (
                             media.type !== "video" && (
                               <motion.div
@@ -430,14 +432,14 @@ export function PostGenerator() {
                             </div>
                           )}
                           {!images.some(media => media.type !== "video") && (
-                            <label className="cursor-pointer col-span-full md:col-span-">
+                            <label className="cursor-pointer -translate-y-2 ">
                               <motion.div
                                 className="flex flex-col items-center justify-center p-2  transition-all"
                                 whileHover="hover"
                               >
-                                <div className="h-24 w-32 mb-4 flex items-center justify-center">
+                                <div className="h-24 w-32  flex items-center justify-center">
                                   <motion.div
-                                    className="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full w-16 h-16 flex items-center justify-center cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40 transition-all duration-300"
+                                    className="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full w-14 h-14 flex items-center justify-center cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40 transition-all duration-300"
                                     whileHover={{ scale: 1.1 }}
                                   >
                                     <ImageIcon className="w-8 h-8 text-blue-700 dark:text-blue-200" />
@@ -446,15 +448,24 @@ export function PostGenerator() {
                                 <div className="text-xl">
                                   Upload Images
                                 </div>
-                                <p className="text-sm text-gray-500 text-center mt-2">
+                                <p className="text-sm text-gray-500 text-center ">
                                   Upload photos
                                 </p>
+                                <Button className="mt-2" variant="outline" onClick={(e) => {
+                                  e.preventDefault()
+                                  handleImageButtonClick()
+                                }}>
+                                  <Plus  />
+                                  Add
+                                </Button>
                                 <input
                                   type="file"
                                   multiple
                                   accept="image/*"
                                   className="hidden"
                                   onChange={handleFileChange}
+                                  ref={inputImageRef}
+
                                 />
                               </motion.div>
                             </label>
