@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "../../../components/ui/button";
 import {
   Card,
@@ -30,6 +30,7 @@ import {
   ImageIcon,
   Lock,
   PencilRuler,
+  Plus,
   Send,
   Twitter,
   Video,
@@ -128,6 +129,12 @@ export function PostGenerator() {
   const [selectedItems, setSelectedItems] = useState<
     { id: string; label: string; type: string }[]
   >([]);
+  const inputRef = useRef(null);
+
+  const handleButtonClick = () => {
+    inputRef.current?.click();
+  };
+
 
   const uploadToSupabase = async (bucket: string) => {
     const fileUrl: string[] = [];
@@ -358,7 +365,7 @@ export function PostGenerator() {
     <div className="flex w-full gap-5 h-full">
       <div className="w-2/3 flex flex-col items-center h-full  ">
         <div className="px-5 py-5 text-3xl font-bold tracking-wider text-left w-full  text-transparent bg-clip-text bg-gradient-to-r from-blue-500 dark:from-blue-200 to-blue-600 dark:to-blue-400">
-          Welcome {user?.user?.user_metadata.displayName} 
+          Welcome {user?.user?.user_metadata.displayName}
         </div>
         <form onSubmit={handleGenerate} className="w-full">
           <div className="space-y-4 ">
@@ -460,7 +467,7 @@ export function PostGenerator() {
                   </div>
 
                   {/* Video Upload Section */}
-                  <div className="w-full group border-[1px] rounded-lg border-gray-200 dark:border-blue-900 bg-blue-100/20 dark:bg-blue-900/20 bg-white shadow-sm p-5 hover:shadow-md h-56">
+                  <div className="w-full group border-[1px] rounded-lg border-gray-200 dark:border-blue-900 bg-blue-100/20 dark:bg-blue-900/20 bg-white shadow-sm  hover:shadow-md h-56">
                     <div className="w-full">
                       <AnimatePresence>
                         <div className="flex gap-3 items-center justify-center">
@@ -490,14 +497,14 @@ export function PostGenerator() {
                             )
                           ))}
                           {!images.some(media => media.type === "video") && (
-                            <label className="cursor-pointer col-span-full md:col-span-1">
+                            <label className="cursor-pointer  ">
                               <motion.div
                                 className="flex flex-col items-center justify-center p-2  transition-all"
                                 whileHover="hover"
                               >
-                                <div className="h-24 w-32 mb-4 flex items-center justify-center">
+                                <div className="h-24 w-32  flex items-center justify-center">
                                   <motion.div
-                                    className="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full w-16 h-16 flex items-center justify-center cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40 transition-all duration-300"
+                                    className="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full w-14 h-14 flex items-center justify-center cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40 transition-all duration-300"
                                     whileHover={{ scale: 1.1 }}
                                   >
                                     <Video className="w-8 h-8 text-blue-700 dark:text-blue-200" />
@@ -506,15 +513,23 @@ export function PostGenerator() {
                                 <div className="text-xl">
                                   Upload Video
                                 </div>
-                                <p className="text-sm text-gray-500 text-center mt-2">
+                                <p className="text-sm text-gray-500 text-center ">
                                   Upload Video
                                 </p>
+                                <Button className="mt-2" variant="outline" onClick={(e) => {
+                                  e.preventDefault()
+                                  handleButtonClick()
+                                }}>
+                                  <Plus  />
+                                  Add
+                                </Button>
                                 <input
                                   type="file"
-                                  multiple
                                   accept="video/*"
                                   className="hidden"
+                                  ref={inputRef}
                                   onChange={handleFileChange}
+                                  multiple={false}
                                 />
                               </motion.div>
                             </label>
@@ -591,7 +606,7 @@ export function PostGenerator() {
                             asChild
                             disabled={isSourcesFetching || isPending}
                           >
-                            <Button variant={"outline"} className="" > <Filter/> Select Options</Button>
+                            <Button variant={"outline"} className="" > <Filter /> Select Options</Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="start" className="w-64">
                             {[
