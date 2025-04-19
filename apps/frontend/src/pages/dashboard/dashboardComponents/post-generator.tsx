@@ -811,7 +811,7 @@ export function PostGenerator() {
                                 className="flex flex-col  items-center w-full"
                               >
                                 <Button
-                                  className="w-full text-lg tracking-wider"
+                                  className="w-full tracking-wider"
                                   onClick={(e) => {
                                     e.preventDefault()
                                     setOpenPost(true)
