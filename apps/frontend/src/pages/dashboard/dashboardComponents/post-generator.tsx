@@ -34,6 +34,7 @@ import {
   Send,
   Twitter,
   Video,
+  WandSparkles,
   X,
   Youtube,
 } from "lucide-react";
@@ -566,8 +567,8 @@ export function PostGenerator() {
 
               </CardContent>
               <CardFooter className="flex  flex-col items-start justify-start gap-2">
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-between w-full">
+                <div className="flex items-center gap-3 w-full">
+                  <div className="flex items-center justify-between w-full ">
                     <div className="flex gap-2">
                       {postGenerated ? (
                         <Button
@@ -786,8 +787,13 @@ export function PostGenerator() {
                           </DropdownMenuContent>
                         </DropdownMenu>
                       )}
+                    
                     </div>
-
+                    {!postGenerated && optionData && (
+                      <Button size={"icon"}>
+                        <WandSparkles/>
+                      </Button>
+                      )}
                   </div>
                   {postGenerated && (
 
