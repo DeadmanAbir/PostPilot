@@ -784,9 +784,18 @@ export function PostGenerator() {
 
                         </div>
                         {!postGenerated && optionData && (
-                          <Button size={"icon"}>
+                          <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger>       <Button size={"icon"}>
                             <WandSparkles />
-                          </Button>
+                          </Button></TooltipTrigger>
+                            <TooltipContent>
+                              <p>Enhance prompt</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                        
+                   
                         )}
                       </div>
                       {postGenerated && (
