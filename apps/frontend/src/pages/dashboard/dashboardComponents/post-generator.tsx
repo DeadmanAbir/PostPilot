@@ -572,7 +572,7 @@ export function PostGenerator() {
                               type="button"
                               onClick={() => setIsRegenerateModalOpen(true)}
                               disabled={isPending || isRegenerating}
-                              className="relative overflow-hidden"
+                              className="relative overflow-hidden text-white"
                             >
                               <div
                                 className={`transform transition-transform duration-300 ${isPending || isRegenerating ? "-translate-y-[250%]" : "translate-y-0"}`}
@@ -592,7 +592,7 @@ export function PostGenerator() {
                             <Button
                               type="submit"
                               disabled={isPending}
-                              className="relative overflow-hidden"
+                              className="relative overflow-hidden text-white"
                             >
                               <div
                                 className={`transform transition-transform duration-300 ${isPending || isRegenerating ? "-translate-y-[250%]" : "translate-y-0"}`}
@@ -811,17 +811,17 @@ export function PostGenerator() {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 10 }}
                                 transition={{ duration: 0.2 }}
-                                className="flex flex-col  items-center w-full"
+                                className="flex flex-col  items-end w-full"
                               >
                                 <Button
-                                  className="w-full tracking-wider"
+                                  className="tracking-wider w-20 text-white "
                                   onClick={(e) => {
                                     e.preventDefault()
                                     setOpenPost(true)
                                   }}
                                   disabled={isExpired}
                                 >
-                                  Post
+                               <Send/>   Post
                                 </Button>
                               </motion.div>
                             </TooltipTrigger>
