@@ -369,7 +369,7 @@ export function PostGenerator() {
               <CardContent className="h-full space-y-3">
                 <div className="flex items-center gap-4">
                   {/* Image Upload Section */}
-                  <div className="w-full group border-2 rounded-md border-gray-200 dark:border-gray-800 bg-blue-100/20 dark:bg-blue-900/20 bg-white  hover:shadow-md h-56">
+                  <div className="w-full group border-[1px] rounded-lg border-gray-200 dark:border-blue-900 bg-blue-100/20 dark:bg-blue-900/20 bg-white shadow-sm hover:shadow-md h-56">
                     <div className="w-full">
                       <AnimatePresence>
                         <div id="imageLoad" className="flex gap-3 overflow-x-auto h-56 flex-wrap items-center justify-center p-5">
@@ -460,7 +460,7 @@ export function PostGenerator() {
                   </div>
 
                   {/* Video Upload Section */}
-                  <div className="w-full group border-2 rounded-md border-gray-200 dark:border-gray-800 bg-blue-100/20 dark:bg-blue-900/20 p-5 hover:shadow-md h-56">
+                  <div className="w-full group border-[1px] rounded-lg border-gray-200 dark:border-blue-900 bg-blue-100/20 dark:bg-blue-900/20 bg-white shadow-sm p-5 hover:shadow-md h-56">
                     <div className="w-full">
                       <AnimatePresence>
                         <div className="flex gap-3 items-center justify-center">

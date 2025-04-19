@@ -119,7 +119,7 @@ const MenuBar = ({ editor, onCopy, copied }: MenuBarProps) => {
   }
   
   return (
-    <div className="border-b p-2 flex items-center justify-between gap-2 bg-blue-50/40 dark:bg-blue-900/20">
+    <div className="border-b dark:border-blue-900 p-2 flex items-center justify-between gap-2 bg-background dark:bg-blue-600/20">
       <div className='flex items-center gap-2'>
       <Button
         variant="ghost"
@@ -214,9 +214,9 @@ export default function Editor({ value, onChange,disabled }: EditorProps) {
   };
 
   return (
-    <div className="w-full border">
+    <div className="w-full border dark:border-blue-900">
       <MenuBar editor={editor} onCopy={handleCopy} copied={copied} />
-      <div className="h-[160px] overflow-auto" id="imageLoad">
+      <div className="h-[160px] overflow-auto bg-white dark:bg-blue-900/20" id="imageLoad">
       <EditorContent editor={editor} />
     </div>
       
