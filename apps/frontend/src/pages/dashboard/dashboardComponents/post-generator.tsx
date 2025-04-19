@@ -362,14 +362,14 @@ export function PostGenerator() {
         </div>
         <form onSubmit={handleGenerate} className="w-full">
           <div className="space-y-4 ">
-            <Card className="border-0 p-0 shadow-none">
-              <CardHeader>
+            <Card className="border-0 p-0 shadow-none bg-transparent">
+              <CardHeader className="py-3 px-6">
                 <CardTitle className="text-xl">Create Your Content</CardTitle>
               </CardHeader>
               <CardContent className="h-full space-y-3">
                 <div className="flex items-center gap-4">
                   {/* Image Upload Section */}
-                  <div className="w-full group border-2 rounded-md border-gray-200 dark:border-gray-800 bg-blue-100/20 dark:bg-blue-900/20  hover:shadow-md h-56">
+                  <div className="w-full group border-2 rounded-md border-gray-200 dark:border-gray-800 bg-blue-100/20 dark:bg-blue-900/20 bg-white  hover:shadow-md h-56">
                     <div className="w-full">
                       <AnimatePresence>
                         <div id="imageLoad" className="flex gap-3 overflow-x-auto h-56 flex-wrap items-center justify-center p-5">
