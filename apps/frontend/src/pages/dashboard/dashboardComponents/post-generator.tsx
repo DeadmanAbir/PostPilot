@@ -24,6 +24,7 @@ import {
   ChevronLeft,
   ChevronRight,
   File,
+  Filter,
   Globe2,
   Image,
   ImageIcon,
@@ -591,7 +592,7 @@ export function PostGenerator() {
                             asChild
                             disabled={isSourcesFetching || isPending}
                           >
-                            <Button variant={"outline"}>Select Options</Button>
+                            <Button variant={"outline"} className="" > <Filter/> Select Options</Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="start" className="w-64">
                             {[

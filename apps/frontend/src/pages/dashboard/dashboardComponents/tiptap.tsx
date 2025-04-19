@@ -130,8 +130,8 @@ const MenuBar = ({ editor, onCopy, copied }: MenuBarProps) => {
           editor.chain().focus().toggleBold().run();
         }} 
         disabled={!editor.can().chain().focus().toggleBold().run()}
-        className={editor.isActive("bold") ? "bg-muted" : ""}
-      >
+        className={`${editor.isActive("bold") ? "bg-muted" : ""} hover:text-blue-500 dark:hover:bg-blue-900/40`}
+        >
         <Bold className="h-4 w-4" />
       </Button>
       <Button
@@ -143,7 +143,7 @@ const MenuBar = ({ editor, onCopy, copied }: MenuBarProps) => {
           editor.chain().focus().toggleItalic().run();
         }}
         disabled={!editor.can().chain().focus().toggleItalic().run()}
-        className={editor.isActive("italic") ? "bg-muted" : ""}
+        className={`${editor.isActive("italic") ? "bg-muted" : ""} hover:text-blue-500 dark:hover:bg-blue-900/40`}
       >
         <Italic className="h-4 w-4" />
       </Button>
