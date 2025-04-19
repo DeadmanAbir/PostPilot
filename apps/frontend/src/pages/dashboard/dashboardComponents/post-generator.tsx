@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import {
+  ArrowRight,
   CalendarClock,
   Check,
   ChevronLeft,
@@ -31,6 +32,8 @@ import {
   Lock,
   PencilRuler,
   Plus,
+  Recycle,
+  Repeat,
   Send,
   Twitter,
   Video,
@@ -575,9 +578,9 @@ export function PostGenerator() {
                               className="relative overflow-hidden text-white"
                             >
                               <div
-                                className={`transform transition-transform duration-300 ${isPending || isRegenerating ? "-translate-y-[250%]" : "translate-y-0"}`}
+                                className={`transform flex items-center gap-2 transition-transform duration-300 ${isPending || isRegenerating ? "-translate-y-[250%]" : "translate-y-0"}`}
                               >
-                                Regenerate Post
+                              <span>Regenerate Post  </span>   <Repeat/>
                               </div>
                               <div
                                 className={`absolute transform transition-transform duration-300 ${isPending || isRegenerating ? "translate-y-0" : "translate-y-[250%]"}`}
@@ -595,9 +598,9 @@ export function PostGenerator() {
                               className="relative overflow-hidden text-white"
                             >
                               <div
-                                className={`transform transition-transform duration-300 ${isPending || isRegenerating ? "-translate-y-[250%]" : "translate-y-0"}`}
+                                className={`transform flex items-center gap-2 transition-transform duration-300 ${isPending || isRegenerating ? "-translate-y-[250%]" : "translate-y-0"}`}
                               >
-                                {postGenerated ? "Regenerate Post" : "Generate Post"}
+                               <span> {postGenerated ? "Regenerate Post" : "Generate Post"} </span>  <ArrowRight/>
                               </div>
                               <div
                                 className={`absolute transform transition-transform duration-300 ${isPending || isRegenerating ? "translate-y-0" : "translate-y-[250%]"}`}
