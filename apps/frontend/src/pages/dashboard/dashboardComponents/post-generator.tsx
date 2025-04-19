@@ -556,7 +556,8 @@ export function PostGenerator() {
                   </div>
                 </div>
 
-                <div className="border shadow-md  dark:border-blue-900">
+                <div className="border shadow-md  dark:border-blue-900 transition-all
+      focus-within:outline focus-within:outline-2 focus-within:outline-blue-500 rounded-lg">
                   <Editor
                     value={generatedPost}
                     onChange={(val) => setGeneratedPost(val)}
