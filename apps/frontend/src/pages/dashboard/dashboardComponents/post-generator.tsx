@@ -367,7 +367,7 @@ export function PostGenerator() {
 
   return (
     <div className="flex w-full gap-5 h-full">
-      <div className="w-2/3 flex flex-col items-center h-full  ">
+      <div className="lg:w-2/3 w-full flex flex-col items-center h-full  ">
         <div className="px-5 py-5 text-3xl font-bold tracking-wider text-left w-full  text-transparent bg-clip-text bg-gradient-to-r from-blue-500 dark:from-blue-200 to-blue-600 dark:to-blue-400">
           Welcome {user?.user?.user_metadata.displayName}
         </div>
@@ -877,7 +877,7 @@ export function PostGenerator() {
         </form>
       </div>
       <aside
-        className="w-1/3 border-l bg-white dark:bg-blue-950/10  h-full p-4 overflow-y-auto"
+        className="w-1/3 border-l bg-white dark:bg-blue-950/10 hidden lg:block h-full p-4 overflow-y-auto"
         id="imageLoad"
       >
 
