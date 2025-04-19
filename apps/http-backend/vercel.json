@@ -1,7 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "pnpm install && pnpm run build",
   "outputDirectory": "dist",
-  "builds": [{ "src": "dist/api/index.js", "use": "@vercel/node" }],
-  "routes": [{ "src": "/(.*)", "dest": "/dist/api/index.js" }]
+  "buildCommand": "turbo run build",
+  "installCommand": "pnpm install",
+
+  "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
 }
