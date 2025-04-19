@@ -214,7 +214,7 @@ export default function Editor({ value, onChange,disabled }: EditorProps) {
   };
 
   return (
-    <div className="w-full border dark:border-blue-900">
+    <div className="w-full ">
       <MenuBar editor={editor} onCopy={handleCopy} copied={copied} />
       <div className="h-[160px] overflow-auto bg-white dark:bg-blue-900/20" id="imageLoad">
       <EditorContent editor={editor} />

@@ -456,7 +456,7 @@ export function PostGenerator() {
                                   e.preventDefault()
                                   handleImageButtonClick()
                                 }}>
-                                  <Plus  />
+                                  <Plus />
                                   Add
                                 </Button>
                                 <input
@@ -532,7 +532,7 @@ export function PostGenerator() {
                                   e.preventDefault()
                                   handleButtonClick()
                                 }}>
-                                  <Plus  />
+                                  <Plus />
                                   Add
                                 </Button>
                                 <input
@@ -554,305 +554,305 @@ export function PostGenerator() {
                   </div>
                 </div>
 
-                <div className="border shadow-md">
+                <div className="border shadow-md  dark:border-blue-900">
                   <Editor
                     value={generatedPost}
                     onChange={(val) => setGeneratedPost(val)}
                     disabled={isPending || isRegenerating}
                   />
+                  <div className="flex  flex-col items-start justify-start gap-2 p-5 bg-background dark:bg-blue-600/20 border-t dark:border-blue-900">
+                    <div className="flex items-center gap-3 w-full">
+                      <div className="flex items-center justify-between w-full ">
+                        <div className="flex gap-2">
+                          {postGenerated ? (
+                            <Button
+                              type="button"
+                              onClick={() => setIsRegenerateModalOpen(true)}
+                              disabled={isPending || isRegenerating}
+                              className="relative overflow-hidden"
+                            >
+                              <div
+                                className={`transform transition-transform duration-300 ${isPending || isRegenerating ? "-translate-y-[250%]" : "translate-y-0"}`}
+                              >
+                                Regenerate Post
+                              </div>
+                              <div
+                                className={`absolute transform transition-transform duration-300 ${isPending || isRegenerating ? "translate-y-0" : "translate-y-[250%]"}`}
+                              >
+                                <div className="flex items-center gap-2">
+                                  <span>Loading</span>
+                                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                                </div>
+                              </div>
+                            </Button>
+                          ) : (
+                            <Button
+                              type="submit"
+                              disabled={isPending}
+                              className="relative overflow-hidden"
+                            >
+                              <div
+                                className={`transform transition-transform duration-300 ${isPending || isRegenerating ? "-translate-y-[250%]" : "translate-y-0"}`}
+                              >
+                                {postGenerated ? "Regenerate Post" : "Generate Post"}
+                              </div>
+                              <div
+                                className={`absolute transform transition-transform duration-300 ${isPending || isRegenerating ? "translate-y-0" : "translate-y-[250%]"}`}
+                              >
+                                <div className="flex items-center gap-2">
+                                  <span>Loading</span>
+                                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                                </div>
+                              </div>
+                            </Button>
+                          )}
+                          {!postGenerated && optionData && (
+                            <DropdownMenu>
+                              <DropdownMenuTrigger
+                                asChild
+                                disabled={isSourcesFetching || isPending}
+                              >
+                                <Button variant={"outline"} className="" > <Filter /> Select Options</Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="start" className="w-64">
+                                {[
+                                  {
+                                    label: "Files",
+                                    data: optionData.files,
+                                    icon: File,
+                                  },
+                                  {
+                                    label: "Images",
+                                    data: optionData.images,
+                                    icon: Image,
+                                  },
+                                  {
+                                    label: "Tweets",
+                                    data: optionData.tweets,
+                                    icon: Twitter,
+                                  },
+                                  {
+                                    label: "Text",
+                                    data: optionData.text_node,
+                                    icon: PencilRuler,
+                                  },
+                                  {
+                                    label: "Websites",
+                                    data: optionData.websites,
+                                    icon: Globe2,
+                                  },
+                                  {
+                                    label: "YouTube",
+                                    data: optionData.youtube,
+                                    icon: Youtube,
+                                  },
+                                ].map(({ label, icon: Icon, data }) => {
+                                  // Only render if there's data
+                                  if (!data?.length) return null;
 
+                                  // Create unique state for each submenu's search
+                                  const searchId = `search-${label.toLowerCase()}`;
+
+                                  return (
+                                    <DropdownMenuSub key={label}>
+                                      <DropdownMenuSubTrigger className="gap-2">
+                                        <Icon /> <span>{label}</span>
+                                      </DropdownMenuSubTrigger>
+                                      <DropdownMenuPortal>
+                                        <DropdownMenuSubContent className="max-h-80">
+                                          {/* Search input */}
+                                          <div className="px-2 py-1.5 sticky top-0 bg-white z-10 border-b">
+                                            <input
+                                              type="text"
+                                              placeholder={`Search ${label}...`}
+                                              className="w-full px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                              onChange={(e) => {
+                                                const searchContainer =
+                                                  e.currentTarget.closest(
+                                                    ".max-h-80"
+                                                  );
+                                                const searchTerm =
+                                                  e.target.value.toLowerCase();
+
+                                                // Store search term in a data attribute on the element
+                                                searchContainer?.setAttribute(
+                                                  searchId,
+                                                  searchTerm
+                                                );
+
+                                                // Filter items
+                                                let visibleCount = 0;
+                                                searchContainer
+                                                  ?.querySelectorAll(".dropdown-item")
+                                                  .forEach((item) => {
+                                                    const text =
+                                                      item.textContent?.toLowerCase() ||
+                                                      "";
+                                                    if (text.includes(searchTerm)) {
+                                                      (
+                                                        item as HTMLElement
+                                                      ).style.display = "";
+                                                      visibleCount++;
+                                                    } else {
+                                                      (
+                                                        item as HTMLElement
+                                                      ).style.display = "none";
+                                                    }
+                                                  });
+
+                                                // Handle empty state display
+                                                const emptyMessage =
+                                                  searchContainer?.querySelector(
+                                                    ".empty-message"
+                                                  );
+                                                if (emptyMessage) {
+                                                  if (
+                                                    visibleCount === 0 &&
+                                                    searchTerm
+                                                  ) {
+                                                    (
+                                                      emptyMessage as HTMLElement
+                                                    ).style.display = "flex";
+                                                  } else {
+                                                    (
+                                                      emptyMessage as HTMLElement
+                                                    ).style.display = "none";
+                                                  }
+                                                }
+                                              }}
+                                              onClick={(e) => e.stopPropagation()}
+                                            />
+                                          </div>
+
+                                          {/* Items container with overflow */}
+                                          <div className="overflow-y-auto max-h-64">
+                                            {/* No results message */}
+                                            <div className="empty-message p-2 text-gray-500 justify-center items-center text-sm hidden">
+                                              No items found
+                                            </div>
+
+                                            {data.map(
+                                              (
+                                                item: {
+                                                  id?: string;
+                                                  name?: string;
+                                                  url?: string;
+                                                  tweet?: string;
+                                                },
+                                                index: number
+                                              ) => {
+                                                const displayText =
+                                                  item.name ||
+                                                  item.url ||
+                                                  item.tweet ||
+                                                  "Untitled";
+                                                const itemId =
+                                                  item.id || index.toString();
+
+                                                return (
+                                                  <DropdownMenuItem
+                                                    key={itemId}
+                                                    onSelect={(e: Event) => {
+                                                      e.preventDefault();
+                                                      toggleSelect({
+                                                        id: itemId,
+                                                        label: displayText,
+                                                        type: label,
+                                                      });
+                                                    }}
+                                                    className="flex justify-between gap-2 dropdown-item"
+                                                  >
+                                                    <span className="truncate w-48">
+                                                      {displayText}
+                                                    </span>
+                                                    {selectedItems.some(
+                                                      (i) => i.id === itemId
+                                                    ) && <Check size={16} />}
+                                                  </DropdownMenuItem>
+                                                );
+                                              }
+                                            )}
+                                          </div>
+                                        </DropdownMenuSubContent>
+                                      </DropdownMenuPortal>
+                                    </DropdownMenuSub>
+                                  );
+                                })}
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          )}
+
+                        </div>
+                        {!postGenerated && optionData && (
+                          <Button size={"icon"}>
+                            <WandSparkles />
+                          </Button>
+                        )}
+                      </div>
+                      {postGenerated && (
+
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 10 }}
+                                transition={{ duration: 0.2 }}
+                                className="flex flex-col  items-center w-full"
+                              >
+                                <Button
+                                  className="w-full text-lg tracking-wider"
+                                  onClick={(e) => {
+                                    e.preventDefault()
+                                    setOpenPost(true)
+                                  }}
+                                  disabled={isExpired}
+                                >
+                                  Post
+                                </Button>
+                              </motion.div>
+                            </TooltipTrigger>
+                            {isExpired && (
+                              <TooltipContent>
+                                <p>Please connect LinkedIn to enable posting</p>
+                              </TooltipContent>
+                            )}
+                          </Tooltip>
+                        </TooltipProvider>
+
+
+
+                      )}
+                    </div>
+
+                    {selectedItems.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mt-3">
+                        {selectedItems.map((item) => (
+                          <Badge
+                            key={item.id}
+                            variant="outline"
+                            className="flex items-center gap-1 w-40"
+                          >
+                            <span className="truncate overflow-hidden whitespace-nowrap flex-1">
+                              {item.label}
+                            </span>
+                            <X
+                              size={12}
+                              className="cursor-pointer shrink-0"
+                              onClick={() => removeItem(item.id)}
+                            />
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
 
 
               </CardContent>
-              <CardFooter className="flex  flex-col items-start justify-start gap-2">
-                <div className="flex items-center gap-3 w-full">
-                  <div className="flex items-center justify-between w-full ">
-                    <div className="flex gap-2">
-                      {postGenerated ? (
-                        <Button
-                          type="button"
-                          onClick={() => setIsRegenerateModalOpen(true)}
-                          disabled={isPending || isRegenerating}
-                          className="relative overflow-hidden"
-                        >
-                          <div
-                            className={`transform transition-transform duration-300 ${isPending || isRegenerating ? "-translate-y-[250%]" : "translate-y-0"}`}
-                          >
-                            Regenerate Post
-                          </div>
-                          <div
-                            className={`absolute transform transition-transform duration-300 ${isPending || isRegenerating ? "translate-y-0" : "translate-y-[250%]"}`}
-                          >
-                            <div className="flex items-center gap-2">
-                              <span>Loading</span>
-                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                            </div>
-                          </div>
-                        </Button>
-                      ) : (
-                        <Button
-                          type="submit"
-                          disabled={isPending}
-                          className="relative overflow-hidden"
-                        >
-                          <div
-                            className={`transform transition-transform duration-300 ${isPending || isRegenerating ? "-translate-y-[250%]" : "translate-y-0"}`}
-                          >
-                            {postGenerated ? "Regenerate Post" : "Generate Post"}
-                          </div>
-                          <div
-                            className={`absolute transform transition-transform duration-300 ${isPending || isRegenerating ? "translate-y-0" : "translate-y-[250%]"}`}
-                          >
-                            <div className="flex items-center gap-2">
-                              <span>Loading</span>
-                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                            </div>
-                          </div>
-                        </Button>
-                      )}
-                      {!postGenerated && optionData && (
-                        <DropdownMenu>
-                          <DropdownMenuTrigger
-                            asChild
-                            disabled={isSourcesFetching || isPending}
-                          >
-                            <Button variant={"outline"} className="" > <Filter /> Select Options</Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="start" className="w-64">
-                            {[
-                              {
-                                label: "Files",
-                                data: optionData.files,
-                                icon: File,
-                              },
-                              {
-                                label: "Images",
-                                data: optionData.images,
-                                icon: Image,
-                              },
-                              {
-                                label: "Tweets",
-                                data: optionData.tweets,
-                                icon: Twitter,
-                              },
-                              {
-                                label: "Text",
-                                data: optionData.text_node,
-                                icon: PencilRuler,
-                              },
-                              {
-                                label: "Websites",
-                                data: optionData.websites,
-                                icon: Globe2,
-                              },
-                              {
-                                label: "YouTube",
-                                data: optionData.youtube,
-                                icon: Youtube,
-                              },
-                            ].map(({ label, icon: Icon, data }) => {
-                              // Only render if there's data
-                              if (!data?.length) return null;
 
-                              // Create unique state for each submenu's search
-                              const searchId = `search-${label.toLowerCase()}`;
-
-                              return (
-                                <DropdownMenuSub key={label}>
-                                  <DropdownMenuSubTrigger className="gap-2">
-                                    <Icon /> <span>{label}</span>
-                                  </DropdownMenuSubTrigger>
-                                  <DropdownMenuPortal>
-                                    <DropdownMenuSubContent className="max-h-80">
-                                      {/* Search input */}
-                                      <div className="px-2 py-1.5 sticky top-0 bg-white z-10 border-b">
-                                        <input
-                                          type="text"
-                                          placeholder={`Search ${label}...`}
-                                          className="w-full px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                          onChange={(e) => {
-                                            const searchContainer =
-                                              e.currentTarget.closest(
-                                                ".max-h-80"
-                                              );
-                                            const searchTerm =
-                                              e.target.value.toLowerCase();
-
-                                            // Store search term in a data attribute on the element
-                                            searchContainer?.setAttribute(
-                                              searchId,
-                                              searchTerm
-                                            );
-
-                                            // Filter items
-                                            let visibleCount = 0;
-                                            searchContainer
-                                              ?.querySelectorAll(".dropdown-item")
-                                              .forEach((item) => {
-                                                const text =
-                                                  item.textContent?.toLowerCase() ||
-                                                  "";
-                                                if (text.includes(searchTerm)) {
-                                                  (
-                                                    item as HTMLElement
-                                                  ).style.display = "";
-                                                  visibleCount++;
-                                                } else {
-                                                  (
-                                                    item as HTMLElement
-                                                  ).style.display = "none";
-                                                }
-                                              });
-
-                                            // Handle empty state display
-                                            const emptyMessage =
-                                              searchContainer?.querySelector(
-                                                ".empty-message"
-                                              );
-                                            if (emptyMessage) {
-                                              if (
-                                                visibleCount === 0 &&
-                                                searchTerm
-                                              ) {
-                                                (
-                                                  emptyMessage as HTMLElement
-                                                ).style.display = "flex";
-                                              } else {
-                                                (
-                                                  emptyMessage as HTMLElement
-                                                ).style.display = "none";
-                                              }
-                                            }
-                                          }}
-                                          onClick={(e) => e.stopPropagation()}
-                                        />
-                                      </div>
-
-                                      {/* Items container with overflow */}
-                                      <div className="overflow-y-auto max-h-64">
-                                        {/* No results message */}
-                                        <div className="empty-message p-2 text-gray-500 justify-center items-center text-sm hidden">
-                                          No items found
-                                        </div>
-
-                                        {data.map(
-                                          (
-                                            item: {
-                                              id?: string;
-                                              name?: string;
-                                              url?: string;
-                                              tweet?: string;
-                                            },
-                                            index: number
-                                          ) => {
-                                            const displayText =
-                                              item.name ||
-                                              item.url ||
-                                              item.tweet ||
-                                              "Untitled";
-                                            const itemId =
-                                              item.id || index.toString();
-
-                                            return (
-                                              <DropdownMenuItem
-                                                key={itemId}
-                                                onSelect={(e: Event) => {
-                                                  e.preventDefault();
-                                                  toggleSelect({
-                                                    id: itemId,
-                                                    label: displayText,
-                                                    type: label,
-                                                  });
-                                                }}
-                                                className="flex justify-between gap-2 dropdown-item"
-                                              >
-                                                <span className="truncate w-48">
-                                                  {displayText}
-                                                </span>
-                                                {selectedItems.some(
-                                                  (i) => i.id === itemId
-                                                ) && <Check size={16} />}
-                                              </DropdownMenuItem>
-                                            );
-                                          }
-                                        )}
-                                      </div>
-                                    </DropdownMenuSubContent>
-                                  </DropdownMenuPortal>
-                                </DropdownMenuSub>
-                              );
-                            })}
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      )}
-                    
-                    </div>
-                    {!postGenerated && optionData && (
-                      <Button size={"icon"}>
-                        <WandSparkles/>
-                      </Button>
-                      )}
-                  </div>
-                  {postGenerated && (
-
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <motion.div
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 10 }}
-                            transition={{ duration: 0.2 }}
-                            className="flex flex-col  items-center w-full"
-                          >
-                            <Button
-                              className="w-full text-lg tracking-wider"
-                              onClick={(e) => {
-                                e.preventDefault()
-                                setOpenPost(true)
-                              }}
-                              disabled={isExpired}
-                            >
-                              Post
-                            </Button>
-                          </motion.div>
-                        </TooltipTrigger>
-                        {isExpired && (
-                          <TooltipContent>
-                            <p>Please connect LinkedIn to enable posting</p>
-                          </TooltipContent>
-                        )}
-                      </Tooltip>
-                    </TooltipProvider>
-
-
-
-                  )}
-                </div>
-
-                {selectedItems.length > 0 && (
-                  <div className="flex flex-wrap gap-1 mt-3">
-                    {selectedItems.map((item) => (
-                      <Badge
-                        key={item.id}
-                        variant="outline"
-                        className="flex items-center gap-1 w-40"
-                      >
-                        <span className="truncate overflow-hidden whitespace-nowrap flex-1">
-                          {item.label}
-                        </span>
-                        <X
-                          size={12}
-                          className="cursor-pointer shrink-0"
-                          onClick={() => removeItem(item.id)}
-                        />
-                      </Badge>
-                    ))}
-                  </div>
-                )}
-              </CardFooter>
             </Card>
 
             <RegenerateModal
