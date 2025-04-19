@@ -79,6 +79,7 @@ import removeMd from "remove-markdown";
 import Editor, { processHTMLContent } from "./tiptap";
 import { getTextFromHTML } from "@/utils/functions/getText";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Separator } from "@/components/ui/separator";
 interface ScheduledPost {
   id: string;
   date: Date;
@@ -370,6 +371,7 @@ export function PostGenerator() {
         <div className="px-5 py-5 text-3xl font-bold tracking-wider text-left w-full  text-transparent bg-clip-text bg-gradient-to-r from-blue-500 dark:from-blue-200 to-blue-600 dark:to-blue-400">
           Welcome {user?.user?.user_metadata.displayName}
         </div>
+        <Separator/>
         <form onSubmit={handleGenerate} className="w-full">
           <div className="space-y-4 ">
             <Card className="border-0 p-0 shadow-none bg-transparent">
