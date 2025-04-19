@@ -83,6 +83,17 @@ import Editor, { processHTMLContent } from "./tiptap";
 import { getTextFromHTML } from "@/utils/functions/getText";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Separator } from "@/components/ui/separator";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+
 interface ScheduledPost {
   id: string;
   date: Date;
@@ -369,12 +380,12 @@ export function PostGenerator() {
 
 
   return (
-    <div className="flex w-full gap-5 h-full">
+    <div className="flex w-full gap-5 h-full relative">
       <div className="lg:w-2/3 w-full flex flex-col items-center h-full  ">
         <div className="px-5 py-5 text-3xl font-bold tracking-wider text-left w-full  text-transparent bg-clip-text bg-gradient-to-r from-blue-500 dark:from-blue-200 to-blue-600 dark:to-blue-400">
           Welcome {user?.user?.user_metadata.displayName}
         </div>
-        <Separator/>
+        <Separator />
         <form onSubmit={handleGenerate} className="w-full">
           <div className="space-y-4 ">
             <Card className="border-0 p-0 shadow-none bg-transparent">
@@ -580,7 +591,7 @@ export function PostGenerator() {
                               <div
                                 className={`transform flex items-center gap-2 transition-transform duration-300 ${isPending || isRegenerating ? "-translate-y-[250%]" : "translate-y-0"}`}
                               >
-                              <span>Regenerate Post  </span>   <Repeat/>
+                                <span>Regenerate Post  </span>   <Repeat />
                               </div>
                               <div
                                 className={`absolute transform transition-transform duration-300 ${isPending || isRegenerating ? "translate-y-0" : "translate-y-[250%]"}`}
@@ -600,7 +611,7 @@ export function PostGenerator() {
                               <div
                                 className={`transform flex items-center gap-2 transition-transform duration-300 ${isPending || isRegenerating ? "-translate-y-[250%]" : "translate-y-0"}`}
                               >
-                               <span> {postGenerated ? "Regenerate Post" : "Generate Post"} </span>  <ArrowRight/>
+                                <span> {postGenerated ? "Regenerate Post" : "Generate Post"} </span>  <ArrowRight />
                               </div>
                               <div
                                 className={`absolute transform transition-transform duration-300 ${isPending || isRegenerating ? "translate-y-0" : "translate-y-[250%]"}`}
@@ -791,17 +802,17 @@ export function PostGenerator() {
                         </div>
                         {!postGenerated && optionData && (
                           <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger>       <Button size={"icon"}>
-                            <WandSparkles />
-                          </Button></TooltipTrigger>
-                            <TooltipContent>
-                              <p>Enhance prompt</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                        
-                   
+                            <Tooltip>
+                              <TooltipTrigger>       <Button size={"icon"}>
+                                <WandSparkles />
+                              </Button></TooltipTrigger>
+                              <TooltipContent>
+                                <p>Enhance prompt</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+
+
                         )}
                       </div>
                       {postGenerated && (
@@ -824,7 +835,7 @@ export function PostGenerator() {
                                   }}
                                   disabled={isExpired}
                                 >
-                               <Send/>   Post
+                                  <Send />   Post
                                 </Button>
                               </motion.div>
                             </TooltipTrigger>
@@ -1107,6 +1118,214 @@ export function PostGenerator() {
           </DialogHeader>
         </DialogContent>
       </Dialog>
+      <Drawer>
+        <DrawerTrigger><Button className="absolute lg:hidden bottom-10 right-5 rounded-lg text-white">
+          Schedule Post
+        </Button></DrawerTrigger>
+        <DrawerContent className="h-[600px]">
+          <aside
+            className=" bg-white dark:bg-blue-950/10  h-full p-4 overflow-y-auto"
+            id="imageLoad"
+          >
+
+
+            {images.length > 0 && (
+              <div className="mb-8 relative bg-white rounded-xl shadow-xl border-2  p-3  ">
+                <div className="p-2 text-xl font-bold dark:text-black">Media Preview</div>
+                <motion.div
+                  className="relative overflow-hidden w-full aspect-video bg-white h-60 rounded-xl border "
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <AnimatePresence mode="wait">
+                    {images[currentSlide]?.type === "video" ? (
+                      <motion.video
+                        key={currentSlide}
+                        src={images[currentSlide]?.preview}
+                        controls
+                        className="w-full h-full object-contain"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    ) : (
+                      <motion.img
+                        key={currentSlide}
+                        src={images[currentSlide]?.preview}
+                        alt="Selected preview"
+                        className="w-full h-full object-contain"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+                <div>
+                  {images.length > 1 && (
+                    <div className="flex items-center justify-between w-full pt-2">
+                      <motion.button
+                        whileHover={{
+                          scale: 1.1,
+                          backgroundColor: "rgba(0,0,0,0.7)",
+                        }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={prevSlide}
+                        className="  bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
+                      >
+                        <ChevronLeft size={16} />
+                      </motion.button>
+                      <div className=" flex justify-center gap-2">
+                        {images.map((_, index) => (
+                          <button
+                            key={index}
+                            onClick={() => setCurrentSlide(index)}
+                            className={`h-2 rounded-full transition-all ${index === currentSlide
+                              ? " bg-black w-4"
+                              : " bg-black bg-opacity-50 w-2"
+                              }`}
+                          />
+                        ))}
+                      </div>
+                      <motion.button
+                        whileHover={{
+                          scale: 1.1,
+                          backgroundColor: "rgba(0,0,0,0.7)",
+                        }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={nextSlide}
+                        className=" bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
+                      >
+                        <ChevronRight size={16} />
+                      </motion.button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            <div className="mb-2 flex items-center gap-2 bg-white dark:bg-blue-900/40 w-full justify-between p-3 dark:border-blue-700 border-blue-100 rounded-lg text-black dark:text-white border shadow-md">
+              <Label className="flex items-center gap-1"><CalendarClock className="size-5" />  <span className="font-bold">Schedule Post  </span> </Label>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Switch
+                      disabled={isExpired}
+                      checked={enabled}
+                      onCheckedChange={setEnabled}
+                    />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{isExpired ? "Please connect LinkedIn" : "Schedule post"}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+
+
+            </div>
+            <AnimatePresence>
+              {enabled && (
+                <motion.div
+                  key="schedule"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Card>
+                    <CardContent className="p-4">
+                      <Label className="">Date</Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              " justify-start text-left font-normal w-full mt-1",
+                              !date && "text-muted-foreground"
+                            )}
+                          >
+                            <CalendarIcon />
+                            {date ? format(date, "PPP") : <span>Pick a date</span>}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0">
+                          <Calendar
+                            mode="single"
+                            selected={date}
+                            onSelect={(newDate) => newDate && setDate(newDate)}
+                            className="rounded-md border"
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <div className="space-y-4">
+
+                        <div className="mt-2">
+                          <Label htmlFor="time">Time</Label>
+                          <Input
+                            id="time"
+                            type="time"
+                            value={time}
+                            min={
+                              date.toDateString() === new Date().toDateString()
+                                ? getCurrentTime()
+                                : undefined
+                            }
+                            onChange={(e) => setTime(e.target.value)}
+                            className="mt-1"
+                          />
+                        </div>
+                        <Button
+                          onClick={handleSchedule}
+                          className="w-full"
+                          disabled={!postGenerated}
+                        >
+                          Schedule
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+
+
+            <Dialog
+              open={!!selectedPost}
+              onOpenChange={() => setSelectedPost(null)}
+            >
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Scheduled Post Preview</DialogTitle>
+                </DialogHeader>
+                {selectedPost && (
+                  <div className="mt-2">
+                    <p>
+                      <strong>Date:</strong> {selectedPost.date.toDateString()}
+                    </p>
+                    <p>
+                      <strong>Time:</strong> {selectedPost.time}
+                    </p>
+                    <p>
+                      <strong>Content:</strong> {selectedPost.content}
+                    </p>
+                    <img
+                      src={selectedPost.image || "/placeholder.svg"}
+                      alt="Post preview"
+                      className="mt-2 rounded-md"
+                    />
+                  </div>
+                )}
+              </DialogContent>
+            </Dialog>
+          </aside>
+        </DrawerContent>
+      </Drawer>
+
 
     </div>
   );
