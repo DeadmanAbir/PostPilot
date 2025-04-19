@@ -68,8 +68,8 @@ export function AppSidebar() {
 
 
   return (
-    <Sidebar variant="sidebar" collapsible="icon" className="p-2">
-      <SidebarContent className="gap-0">
+    <Sidebar variant="sidebar" collapsible="icon" className="p-2 bg-white dark:bg-blue-950/10">
+      <SidebarContent className="gap-0 ">
         <SidebarGroup>
           <motion.div
             initial={{ opacity: 0, x: -50 }}

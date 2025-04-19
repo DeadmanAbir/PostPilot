@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import {
+  CalendarClock,
   Check,
   ChevronLeft,
   ChevronRight,
@@ -833,7 +834,7 @@ export function PostGenerator() {
         </form>
       </div>
       <aside
-        className="w-1/3 border-l bg-muted  h-full p-4 overflow-y-auto"
+        className="w-1/3 border-l bg-white dark:bg-blue-950/10  h-full p-4 overflow-y-auto"
         id="imageLoad"
       >
 
@@ -916,8 +917,8 @@ export function PostGenerator() {
           </div>
         )}
 
-        <div className="mb-2 flex items-center gap-2 bg-white w-full justify-between p-3 rounded-sm text-black border shadow-sm">
-          <Label>Schedule Post</Label>
+        <div className="mb-2 flex items-center gap-2 bg-white dark:bg-blue-900/40 w-full justify-between p-3 dark:border-blue-700 border-blue-100 rounded-lg text-black dark:text-white border shadow-md">
+          <Label className="flex items-center gap-1"><CalendarClock className="size-5" />  <span className="font-bold">Schedule Post  </span> </Label>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
