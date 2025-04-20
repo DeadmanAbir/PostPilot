@@ -16,6 +16,7 @@ import { useAuth } from "@/providers/supabaseAuthProvider";
 import { getPostQuery } from "@/lib/tanstack-query/query";
 import PostedLoading from "@/components/skeletons/posted-skeleton";
 import Banner from "@/components/banner";
+import EmptyStateCard from "./empty-post-card";
 
 export function PostsPage() {
   const { user } = useAuth();
@@ -170,11 +171,7 @@ export function PostsPage() {
         </>
       )}
 
-      {!isPending && data?.length === 0 && (
-        <h1 className="text-slate-800 dark:text-white h-[30vh] flex items-center justify-center">
-          No posts yet
-        </h1>
-      )}
+      {!isPending && data?.length === 0 && <EmptyStateCard />}
     </div>
   );
 }
