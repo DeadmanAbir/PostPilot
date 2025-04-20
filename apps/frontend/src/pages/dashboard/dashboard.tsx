@@ -8,7 +8,7 @@ export function Dashboard() {
         <div className="flex flex-1 overflow-hidden w-full ">
           <div className="w-full flex flex-col">
          
-            <main id="imageLoad" className="flex-1 overflow-y-auto px-4">
+            <main id="imageLoad" className="flex-1 overflow-y-auto  ">
               <PostGenerator />
             </main>
           </div>

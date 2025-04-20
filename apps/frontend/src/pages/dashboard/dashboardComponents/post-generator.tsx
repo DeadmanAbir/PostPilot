@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { Button } from "../../../components/ui/button";
-import { Textarea } from "../../../components/ui/textarea";
 import {
   Card,
   CardContent,
@@ -20,15 +19,25 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import {
+  ArrowRight,
+  CalendarClock,
   Check,
   ChevronLeft,
   ChevronRight,
   File,
+  Filter,
   Globe2,
   Image,
   ImageIcon,
+  Lock,
   PencilRuler,
+  Plus,
+  Recycle,
+  Repeat,
+  Send,
   Twitter,
+  Video,
+  WandSparkles,
   X,
   Youtube,
 } from "lucide-react";
@@ -49,8 +58,10 @@ import { Label } from "../../../components/ui/label";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "../../../components/ui/dialog";
 import {
   Popover,
@@ -70,6 +81,19 @@ import removeMd from "remove-markdown";
 
 import Editor, { processHTMLContent } from "./tiptap";
 import { getTextFromHTML } from "@/utils/functions/getText";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Separator } from "@/components/ui/separator";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+
 interface ScheduledPost {
   id: string;
   date: Date;
@@ -116,11 +140,19 @@ export function PostGenerator() {
   const dispatch = useAppDispatch();
   const [images, setImages] = useState<Media[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
-
+  const [openPost, setOpenPost] = useState(false)
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<
     { id: string; label: string; type: string }[]
   >([]);
+  const inputRef = useRef(null);
+  const inputImageRef = useRef(null);
+  const handleButtonClick = () => {
+    inputRef.current?.click();
+  };
+  const handleImageButtonClick = () => {
+    inputImageRef.current?.click();
+  };
 
   const uploadToSupabase = async (bucket: string) => {
     const fileUrl: string[] = [];
@@ -163,7 +195,7 @@ export function PostGenerator() {
 
   const isExpired = optionData?.linkedin?.expires_at
     ? optionData.linkedin.expires_at &&
-      new Date(optionData.linkedin.expires_at) < new Date()
+    new Date(optionData.linkedin.expires_at) < new Date()
     : true;
   const { mutate: generatePost, isPending } = generatePostFn(
     user?.accessToken!,
@@ -224,7 +256,13 @@ export function PostGenerator() {
   };
   const handleGenerate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newText=getTextFromHTML(generatedPost)
+    const newText = getTextFromHTML(generatedPost)
+    if (!newText.trim()) {
+      // Optionally show an error message here
+      alert("Text cannot be empty");
+      return;
+    }
+  
     generatePost({
       query: newText,
       media: groupItemsByType({ selectedItems }),
@@ -333,7 +371,7 @@ export function PostGenerator() {
   };
 
   const handlePost = async () => {
-     const media = await uploadToSupabase("post-pilot");
+    const media = await uploadToSupabase("post-pilot");
     const processed = processHTMLContent(generatedPost);
     console.log(processed, "faisal")
 
@@ -347,438 +385,513 @@ export function PostGenerator() {
   };
 
 
- 
   return (
-    <div className="flex w-full gap-5 h-full">
-      <div className="w-2/3 flex flex-col items-center h-full  ">
-        <div className="p-5 text-3xl font-bold tracking-wider text-left w-full">
-          Welcome {user?.user?.user_metadata.displayName} 👋
+    <div className="flex w-full  h-full relative">
+      <div className="lg:w-2/3 w-full flex flex-col items-center h-[1300px] md:h-full  ">
+        <div className="px-5 py-5 text-3xl font-bold tracking-wider text-left w-full  text-transparent bg-clip-text bg-gradient-to-r from-blue-500 dark:from-blue-200 to-blue-600 dark:to-blue-400">
+          Welcome, {user?.user?.user_metadata.displayName}
         </div>
-        <form onSubmit={handleGenerate} className="w-full">
+        <Separator />
+        <form onSubmit={handleGenerate} className="w-full ">
           <div className="space-y-4 ">
-            <Card>
-              <CardHeader>
-                <CardTitle>Generate Post</CardTitle>
+            <Card className="border-0 p-0 shadow-none bg-transparent">
+              <CardHeader className="py-3 px-6">
+                <CardTitle className="text-lg">Create Your Content</CardTitle>
               </CardHeader>
               <CardContent className="h-full space-y-3">
-                <div className="w-full border-dotted border-4 rounded-md border-blue-400 bg-blue-50 p-5 ">
-                  <div className="w-full ">
-                    <AnimatePresence>
-                      <div className="flex gap-3">
-                        {images.map((media) => (
-                          <motion.div
-                            key={media.id}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-                            transition={{ duration: 0.3 }}
-                            className="relative aspect-square rounded-lg group size-20 "
-                          >
-                            {media.type !== "video" ? (
-                              <img
-                                src={media.preview}
-                                alt="Preview"
-                                className="w-full h-full object-cover size-20 border-blue-400 border-4"
-                              />
-                            ) : (
-                              <video
-                                src={media.preview}
-                                className="w-full h-full object-cover size-20 border-green-400 border-4"
-                              />
-                            )}
+                <div className="flex flex-col md:flex-row items-center gap-3">
+                  {/* Image Upload Section */}
+                  <div className="w-full group border-[1px] rounded-lg border-gray-200 dark:border-blue-900 bg-blue-100/20 dark:bg-blue-900/20 bg-white shadow-sm hover:shadow-md h-56">
+                    <div className="w-full">
+                      <AnimatePresence>
+                        <div id="imageLoad" className={`flex gap-3 overflow-x-auto h-56 flex-wrap items-center justify-center ${images.length >0 &&  images.some(media => media.type !== "video") ? "p-5" :"p-0" } `}>
+                          {images.map((media) => (
+                            media.type !== "video" && (
+                              <motion.div
+                                key={media.id}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.8, y: 20 }}
+                                transition={{ duration: 0.3 }}
+                                className="relative aspect-square rounded-lg group/image size-20 "
+                              >
+                                <img
+                                  src={media.preview}
+                                  alt="Preview"
+                                  className="w-full h-full object-cover size-20 border-blue-400 border-4"
+                                />
 
-                            <motion.button
-                              whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.9 }}
-                              onClick={() => removeImage(media.id)}
-                              className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                            >
-                              <X size={16} />
-                            </motion.button>
-                          </motion.div>
-                        ))}
+                                <motion.button
+                                  whileHover={{ scale: 1.1 }}
+                                  whileTap={{ scale: 0.9 }}
+                                  onClick={() => removeImage(media.id)}
+                                  className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover/image:opacity-100 transition-opacity"
+                                >
+                                  <X size={16} />
+                                </motion.button>
+                              </motion.div>
+                            )
+                          ))}
 
-                        {images.length > 0 && images[0].type === "image" && (
-                          <div>
-                            <label
-                              htmlFor="media-upload"
-                              className="flex flex-col items-center justify-center size-20 cursor-pointer border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-blue-500 hover:text-blue-500 transition"
-                            >
-                              <span className="text-4xl">＋</span>
-                              <span className="text-xs mt-1 text-center">
-                                Add more
-                              </span>
+                          {images.some(media => media.type !== "video") && (
+                            <div>
+                              <label
+                                htmlFor="image-upload"
+                                className="flex flex-col items-center justify-center size-20 cursor-pointer border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-blue-500 hover:text-blue-500 transition"
+                              >
+                                <span className="text-4xl">＋</span>
+                                <span className="text-xs mt-1 text-center">
+                                  Add more
+                                </span>
+                              </label>
+                              <input
+                                id="image-upload"
+                                type="file"
+                                multiple
+                                accept="image/*"
+                                className="hidden"
+                                onChange={handleFileChange}
+                                disabled={images.length > 0 && images.some(media => media.type === "video")}
+
+                              />
+                            </div>
+                          )}
+                          {!images.some(media => media.type !== "video") && (
+                            <label className="cursor-pointer -translate-y-2 ">
+                              <motion.div
+                                className="flex flex-col items-center justify-center p-2  transition-all"
+                                whileHover="hover"
+                              >
+                                <div className="h-24 w-32  flex items-center justify-center">
+                                  <motion.div
+                                    className="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full md:size-14 size-12 flex items-center justify-center cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40 transition-all duration-300"
+                                    whileHover={{ scale: 1.1 }}
+                                  >
+                                    <ImageIcon className="md:size-8 size-6 text-blue-700 dark:text-blue-200" />
+                                  </motion.div>
+                                </div>
+                                <div className="md:text-xl text-base">
+                                  Upload Images
+                                </div>
+                                <p className="text-xs md:text-sm text-gray-500 text-center ">
+                                Share photos,graphics or illustration
+                                </p>
+                                <Button className="mt-2" variant="outline" onClick={(e) => {
+                                  e.preventDefault()
+                                  handleImageButtonClick()
+                                }}>
+                                  <Plus />
+                                  Add
+                                </Button>
+                                <input
+                                  type="file"
+                                  multiple
+                                  accept="image/*"
+                                  className="hidden"
+                                  onChange={handleFileChange}
+                                  ref={inputImageRef}
+                                  disabled={images.length > 0 && images.some(media => media.type === "video")}
+
+
+                                />
+                              </motion.div>
                             </label>
-                            <input
-                              id="media-upload"
-                              type="file"
-                              multiple
-                              accept="image/*"
-                              className="hidden"
-                              onChange={handleFileChange}
-                            />
-                          </div>
+                          )}
+                        </div>
+
+
+                      </AnimatePresence>
+                    </div>
+                  </div>
+
+                  {/* Video Upload Section */}
+                  <div className="w-full group border-[1px] rounded-lg border-gray-200 dark:border-blue-900 bg-blue-100/20 dark:bg-blue-900/20 bg-white shadow-sm  hover:shadow-md h-56">
+                    <div className="w-full">
+                      <AnimatePresence>
+                        <div className={`flex gap-3 items-center justify-center ${images.length >0 &&  images.some(media => media.type === "video") ? "p-5" :"p-0" }`}>
+                          {images.map((media) => (
+                            media.type === "video" && (
+                              <motion.div
+                                key={media.id}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.8, y: 20 }}
+                                transition={{ duration: 0.3 }}
+                                className="relative aspect-video rounded-lg group flex items-center justify-center "
+                              >
+                                <video
+                                  src={media.preview}
+                                  className="w-full object-cover h-40 border-green-400 border-4"
+                                />
+                                <motion.button
+                                  whileHover={{ scale: 1.1 }}
+                                  whileTap={{ scale: 0.9 }}
+                                  onClick={() => removeImage(media.id)}
+                                  className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                                >
+                                  <X size={16} />
+                                </motion.button>
+                              </motion.div>
+                            )
+                          ))}
+                          {!images.some(media => media.type === "video") && (
+                            <label className="cursor-pointer  ">
+                              <motion.div
+                                className="flex flex-col items-center justify-center p-2  transition-all"
+                                whileHover="hover"
+                              >
+                                <div className="h-24 w-32  flex items-center justify-center">
+                                  <motion.div
+                                    className="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full md:size-14 size-12 flex items-center justify-center cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40 transition-all duration-300"
+                                    whileHover={{ scale: 1.1 }}
+                                  >
+                                    <Video className="md:size-8 size-6 text-blue-700 dark:text-blue-200" />
+                                  </motion.div>
+                                </div>
+                                <div className="md:text-xl text-base">
+                                  Upload Video
+                                </div>
+                                <p className="text-xs md:text-sm text-gray-500 text-center ">
+                              Share clips, animation or reel
+                                </p>
+                                <Button className="mt-2" variant="outline" onClick={(e) => {
+                                  e.preventDefault()
+                                  handleButtonClick()
+                                }}>
+                                  <Plus />
+                                  Add
+                                </Button>
+                                <input
+                                  type="file"
+                                  accept="video/*"
+                                  className="hidden"
+                                  ref={inputRef}
+                                  onChange={handleFileChange}
+                                  multiple={false}
+                                  disabled={images.length > 0 && images.some(media => media.type !== "video")}
+                                />
+                              </motion.div>
+                            </label>
+                          )}
+                        </div>
+
+
+                      </AnimatePresence>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="border shadow-md  dark:border-blue-900 transition-all
+      focus-within:outline focus-within:outline-2 focus-within:outline-blue-500 rounded-lg">
+                  <Editor
+                    value={generatedPost}
+                    onChange={(val) => setGeneratedPost(val)}
+                    disabled={isPending || isRegenerating}
+                  />
+                  <div className="flex  flex-col items-start justify-start gap-2 p-5 bg-background dark:bg-blue-600/20 border-t dark:border-blue-900">
+                    <div className="flex items-center gap-3 w-full">
+                      <div className="flex items-center md:justify-between flex-wrap gap-2 w-full ">
+                        <div className="flex gap-2">
+                          {postGenerated ? (
+                            <Button
+                              type="button"
+                              onClick={() => setIsRegenerateModalOpen(true)}
+                              disabled={isPending || isRegenerating}
+                              className="relative overflow-hidden text-white"
+                            >
+                              <div
+                                className={`transform flex items-center gap-2 transition-transform duration-300 ${isPending || isRegenerating ? "-translate-y-[250%]" : "translate-y-0"}`}
+                              >
+                                <span>Regenerate Post  </span>   <Repeat />
+                              </div>
+                              <div
+                                className={`absolute transform transition-transform duration-300 ${isPending || isRegenerating ? "translate-y-0" : "translate-y-[250%]"}`}
+                              >
+                                <div className="flex items-center gap-2">
+                                  <span>Loading</span>
+                                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                                </div>
+                              </div>
+                            </Button>
+                          ) : (
+                            <Button
+                              type="submit"
+                              disabled={isPending}
+                              className="relative overflow-hidden text-white"
+                            >
+                              <div
+                                className={`transform flex items-center gap-2 transition-transform duration-300 ${isPending || isRegenerating ? "-translate-y-[250%]" : "translate-y-0"}`}
+                              >
+                                <span> {postGenerated ? "Regenerate Post" : "Generate Post"} </span>  <ArrowRight />
+                              </div>
+                              <div
+                                className={`absolute transform transition-transform duration-300 ${isPending || isRegenerating ? "translate-y-0" : "translate-y-[250%]"}`}
+                              >
+                                <div className="flex items-center gap-2">
+                                  <span>Loading</span>
+                                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                                </div>
+                              </div>
+                            </Button>
+                          )}
+                          {!postGenerated && optionData && (
+                            <DropdownMenu>
+                              <DropdownMenuTrigger
+                                asChild
+                                disabled={isSourcesFetching || isPending}
+                              >
+                                <Button variant={"outline"} className="" > <Filter /> Select Options</Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="start" className="w-64">
+                                {[
+                                  {
+                                    label: "Files",
+                                    data: optionData.files,
+                                    icon: File,
+                                  },
+                                  {
+                                    label: "Images",
+                                    data: optionData.images,
+                                    icon: Image,
+                                  },
+                                  {
+                                    label: "Tweets",
+                                    data: optionData.tweets,
+                                    icon: Twitter,
+                                  },
+                                  {
+                                    label: "Text",
+                                    data: optionData.text_node,
+                                    icon: PencilRuler,
+                                  },
+                                  {
+                                    label: "Websites",
+                                    data: optionData.websites,
+                                    icon: Globe2,
+                                  },
+                                  {
+                                    label: "YouTube",
+                                    data: optionData.youtube,
+                                    icon: Youtube,
+                                  },
+                                ].map(({ label, icon: Icon, data }) => {
+                                  // Only render if there's data
+                                  if (!data?.length) return null;
+
+                                  // Create unique state for each submenu's search
+                                  const searchId = `search-${label.toLowerCase()}`;
+
+                                  return (
+                                    <DropdownMenuSub key={label}>
+                                      <DropdownMenuSubTrigger className="gap-2">
+                                        <Icon /> <span>{label}</span>
+                                      </DropdownMenuSubTrigger>
+                                      <DropdownMenuPortal>
+                                        <DropdownMenuSubContent className="max-h-80">
+                                          {/* Search input */}
+                                          <div className="px-2 py-1.5 sticky top-0 bg-white z-10 border-b">
+                                            <input
+                                              type="text"
+                                              placeholder={`Search ${label}...`}
+                                              className="w-full px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                              onChange={(e) => {
+                                                const searchContainer =
+                                                  e.currentTarget.closest(
+                                                    ".max-h-80"
+                                                  );
+                                                const searchTerm =
+                                                  e.target.value.toLowerCase();
+
+                                                // Store search term in a data attribute on the element
+                                                searchContainer?.setAttribute(
+                                                  searchId,
+                                                  searchTerm
+                                                );
+
+                                                // Filter items
+                                                let visibleCount = 0;
+                                                searchContainer
+                                                  ?.querySelectorAll(".dropdown-item")
+                                                  .forEach((item) => {
+                                                    const text =
+                                                      item.textContent?.toLowerCase() ||
+                                                      "";
+                                                    if (text.includes(searchTerm)) {
+                                                      (
+                                                        item as HTMLElement
+                                                      ).style.display = "";
+                                                      visibleCount++;
+                                                    } else {
+                                                      (
+                                                        item as HTMLElement
+                                                      ).style.display = "none";
+                                                    }
+                                                  });
+
+                                                // Handle empty state display
+                                                const emptyMessage =
+                                                  searchContainer?.querySelector(
+                                                    ".empty-message"
+                                                  );
+                                                if (emptyMessage) {
+                                                  if (
+                                                    visibleCount === 0 &&
+                                                    searchTerm
+                                                  ) {
+                                                    (
+                                                      emptyMessage as HTMLElement
+                                                    ).style.display = "flex";
+                                                  } else {
+                                                    (
+                                                      emptyMessage as HTMLElement
+                                                    ).style.display = "none";
+                                                  }
+                                                }
+                                              }}
+                                              onClick={(e) => e.stopPropagation()}
+                                            />
+                                          </div>
+
+                                          {/* Items container with overflow */}
+                                          <div className="overflow-y-auto max-h-64">
+                                            {/* No results message */}
+                                            <div className="empty-message p-2 text-gray-500 justify-center items-center text-sm hidden">
+                                              No items found
+                                            </div>
+
+                                            {data.map(
+                                              (
+                                                item: {
+                                                  id?: string;
+                                                  name?: string;
+                                                  url?: string;
+                                                  tweet?: string;
+                                                },
+                                                index: number
+                                              ) => {
+                                                const displayText =
+                                                  item.name ||
+                                                  item.url ||
+                                                  item.tweet ||
+                                                  "Untitled";
+                                                const itemId =
+                                                  item.id || index.toString();
+
+                                                return (
+                                                  <DropdownMenuItem
+                                                    key={itemId}
+                                                    onSelect={(e: Event) => {
+                                                      e.preventDefault();
+                                                      toggleSelect({
+                                                        id: itemId,
+                                                        label: displayText,
+                                                        type: label,
+                                                      });
+                                                    }}
+                                                    className="flex justify-between gap-2 dropdown-item"
+                                                  >
+                                                    <span className="truncate w-48">
+                                                      {displayText}
+                                                    </span>
+                                                    {selectedItems.some(
+                                                      (i) => i.id === itemId
+                                                    ) && <Check size={16} />}
+                                                  </DropdownMenuItem>
+                                                );
+                                              }
+                                            )}
+                                          </div>
+                                        </DropdownMenuSubContent>
+                                      </DropdownMenuPortal>
+                                    </DropdownMenuSub>
+                                  );
+                                })}
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          )}
+
+                        </div>
+                        {!postGenerated && optionData && (
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger>       <Button size={"icon"} onClick={(e)=>{
+                                e.preventDefault()
+                              }}>
+                                <WandSparkles  className="text-white"/>
+                              </Button></TooltipTrigger>
+                              <TooltipContent>
+                                <p>Enhance prompt</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+
+
                         )}
                       </div>
+                      {postGenerated && (
 
-                      {images.length === 0 && (
-                        <label className="cursor-pointer col-span-full md:col-span-1">
-                          <motion.div
-                            className=" flex flex-col items-center justify-center p-2 h-36 transition-all"
-                            whileHover="hover"
-                          >
-                            <div className="relative h-24 w-32 mb-4">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
                               <motion.div
-                                className="absolute bg-blue-100 w-16 h-16 rounded border border-blue-400"
-                                variants={{
-                                  hover: {
-                                    x: -20,
-                                    y: -10,
-                                    rotate: -5,
-                                    transition: { duration: 0.3 },
-                                  },
-                                }}
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 10 }}
+                                transition={{ duration: 0.2 }}
+                                className="flex flex-col  items-end w-full"
                               >
-                                <ImageIcon className="w-8 h-8 m-4 text-blue-500" />
+                                <Button
+                                  className="tracking-wider w-20 text-white "
+                                  onClick={(e) => {
+                                    e.preventDefault()
+                                    setOpenPost(true)
+                                  }}
+                                  disabled={isExpired}
+                                >
+                                  <Send />   Post
+                                </Button>
                               </motion.div>
-                              <motion.div
-                                className="absolute bg-green-100 w-16 h-16 rounded border border-green-500 left-4 top-2"
-                                variants={{
-                                  hover: { transition: { duration: 0.3 } },
-                                }}
-                              >
-                                <ImageIcon className="w-8 h-8 m-4 text-green-500" />
-                              </motion.div>
-                              <motion.div
-                                className="absolute bg-purple-100 w-16 h-16 rounded border border-purple-500 left-8 top-4"
-                                variants={{
-                                  hover: {
-                                    x: 20,
-                                    y: -10,
-                                    rotate: 5,
-                                    transition: { duration: 0.3 },
-                                  },
-                                }}
-                              >
-                                <ImageIcon className="w-8 h-8 m-4 text-purple-500" />
-                              </motion.div>
-                            </div>
-                            <p className="text-sm text-gray-500 text-center">
-                              Drag & drop images here
-                              <br />
-                              or click to browse
-                            </p>
-                            <input
-                              type="file"
-                              multiple
-                              accept="image/*,video/*"
-                              className="hidden"
-                              onChange={handleFileChange}
-                            />
-                          </motion.div>
-                        </label>
+                            </TooltipTrigger>
+                            {isExpired && (
+                              <TooltipContent>
+                                <p>Please connect LinkedIn to enable posting</p>
+                              </TooltipContent>
+                            )}
+                          </Tooltip>
+                        </TooltipProvider>
+
+
+
                       )}
-                    </AnimatePresence>
+                    </div>
+
+                    {selectedItems.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mt-3">
+                        {selectedItems.map((item) => (
+                          <Badge
+                            key={item.id}
+                            variant="outline"
+                            className="flex items-center gap-1 w-40"
+                          >
+                            <span className="truncate overflow-hidden whitespace-nowrap flex-1">
+                              {item.label}
+                            </span>
+                            <X
+                              size={12}
+                              className="cursor-pointer shrink-0"
+                              onClick={() => removeItem(item.id)}
+                            />
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
-                <div className="border">
-                <Editor 
-             value={generatedPost}
-             onChange={(val) => setGeneratedPost(val)}
-             disabled={isPending || isRegenerating}
-             />
 
-                </div>
 
-                {/* <div className="relative">
-                  <div className="absolute top-0 flex items-center space-x-2 p-2 border-b w-full">
-                    <Button
-                      variant="ghost"
-                      onClick={() => applyFormatting('bold')}
-                      type="button"
-                      size="icon"
-                      className="font-bold "
-                    >
-                      B
-                    </Button>
-                    <Button
-                      onClick={() => applyFormatting('italic')}
-                      type="button"
-                      size="icon"
-                      className=" italic"
-                      variant="ghost"
-
-                    >
-                      I
-                    </Button>
-                    <Button
-                      onClick={() => applyFormatting('boldItalic')}
-                      type="button"
-                      size="icon"
-                      className="font-bold italic "
-                      variant="ghost"
-                    >
-                      A
-                    </Button>
-                  </div>
-                  <Textarea
-                    ref={textareaRef}
-
-                    placeholder="Enter your prompt for AI generation..."
-                    className="max-h-[30vh] min-h-[20vh]  h-full pt-14"
-                    value={generatedPost}
-                    disabled={isPending || isRegenerating}
-                    required
-                    rows={20}
-                    onChange={(e) => setGeneratedPost(e.target.value)}
-                  />
-                </div> */}
 
               </CardContent>
-              <CardFooter className="flex  flex-col items-start justify-start gap-2">
-                <div className="flex items-center justify-between w-full">
-                  <div className="flex gap-2">
-                    {postGenerated ? (
-                      <Button
-                        type="button"
-                        onClick={() => setIsRegenerateModalOpen(true)}
-                        disabled={isPending || isRegenerating}
-                        className="relative overflow-hidden"
-                      >
-                        <div
-                          className={`transform transition-transform duration-300 ${isPending || isRegenerating ? "-translate-y-[250%]" : "translate-y-0"}`}
-                        >
-                          Regenerate Post
-                        </div>
-                        <div
-                          className={`absolute transform transition-transform duration-300 ${isPending || isRegenerating ? "translate-y-0" : "translate-y-[250%]"}`}
-                        >
-                          <div className="flex items-center gap-2">
-                            <span>Loading</span>
-                            <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                          </div>
-                        </div>
-                      </Button>
-                    ) : (
-                      <Button
-                        type="submit"
-                        disabled={isPending}
-                        className="relative overflow-hidden"
-                      >
-                        <div
-                          className={`transform transition-transform duration-300 ${isPending || isRegenerating ? "-translate-y-[250%]" : "translate-y-0"}`}
-                        >
-                          {postGenerated ? "Regenerate Post" : "Generate Post"}
-                        </div>
-                        <div
-                          className={`absolute transform transition-transform duration-300 ${isPending || isRegenerating ? "translate-y-0" : "translate-y-[250%]"}`}
-                        >
-                          <div className="flex items-center gap-2">
-                            <span>Loading</span>
-                            <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                          </div>
-                        </div>
-                      </Button>
-                    )}
-                    {!postGenerated && optionData && (
-                      <DropdownMenu>
-                        <DropdownMenuTrigger
-                          asChild
-                          disabled={isSourcesFetching || isPending}
-                        >
-                          <Button variant={"outline"}>Select Options</Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="start" className="w-64">
-                          {[
-                            {
-                              label: "Files",
-                              data: optionData.files,
-                              icon: File,
-                            },
-                            {
-                              label: "Images",
-                              data: optionData.images,
-                              icon: Image,
-                            },
-                            {
-                              label: "Tweets",
-                              data: optionData.tweets,
-                              icon: Twitter,
-                            },
-                            {
-                              label: "Text",
-                              data: optionData.text_node,
-                              icon: PencilRuler,
-                            },
-                            {
-                              label: "Websites",
-                              data: optionData.websites,
-                              icon: Globe2,
-                            },
-                            {
-                              label: "YouTube",
-                              data: optionData.youtube,
-                              icon: Youtube,
-                            },
-                          ].map(({ label, icon: Icon, data }) => {
-                            // Only render if there's data
-                            if (!data?.length) return null;
 
-                            // Create unique state for each submenu's search
-                            const searchId = `search-${label.toLowerCase()}`;
-
-                            return (
-                              <DropdownMenuSub key={label}>
-                                <DropdownMenuSubTrigger className="gap-2">
-                                  <Icon /> <span>{label}</span>
-                                </DropdownMenuSubTrigger>
-                                <DropdownMenuPortal>
-                                  <DropdownMenuSubContent className="max-h-80">
-                                    {/* Search input */}
-                                    <div className="px-2 py-1.5 sticky top-0 bg-white z-10 border-b">
-                                      <input
-                                        type="text"
-                                        placeholder={`Search ${label}...`}
-                                        className="w-full px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        onChange={(e) => {
-                                          const searchContainer =
-                                            e.currentTarget.closest(
-                                              ".max-h-80"
-                                            );
-                                          const searchTerm =
-                                            e.target.value.toLowerCase();
-
-                                          // Store search term in a data attribute on the element
-                                          searchContainer?.setAttribute(
-                                            searchId,
-                                            searchTerm
-                                          );
-
-                                          // Filter items
-                                          let visibleCount = 0;
-                                          searchContainer
-                                            ?.querySelectorAll(".dropdown-item")
-                                            .forEach((item) => {
-                                              const text =
-                                                item.textContent?.toLowerCase() ||
-                                                "";
-                                              if (text.includes(searchTerm)) {
-                                                (
-                                                  item as HTMLElement
-                                                ).style.display = "";
-                                                visibleCount++;
-                                              } else {
-                                                (
-                                                  item as HTMLElement
-                                                ).style.display = "none";
-                                              }
-                                            });
-
-                                          // Handle empty state display
-                                          const emptyMessage =
-                                            searchContainer?.querySelector(
-                                              ".empty-message"
-                                            );
-                                          if (emptyMessage) {
-                                            if (
-                                              visibleCount === 0 &&
-                                              searchTerm
-                                            ) {
-                                              (
-                                                emptyMessage as HTMLElement
-                                              ).style.display = "flex";
-                                            } else {
-                                              (
-                                                emptyMessage as HTMLElement
-                                              ).style.display = "none";
-                                            }
-                                          }
-                                        }}
-                                        onClick={(e) => e.stopPropagation()}
-                                      />
-                                    </div>
-
-                                    {/* Items container with overflow */}
-                                    <div className="overflow-y-auto max-h-64">
-                                      {/* No results message */}
-                                      <div className="empty-message p-2 text-gray-500 justify-center items-center text-sm hidden">
-                                        No items found
-                                      </div>
-
-                                      {data.map(
-                                        (
-                                          item: {
-                                            id?: string;
-                                            name?: string;
-                                            url?: string;
-                                            tweet?: string;
-                                          },
-                                          index: number
-                                        ) => {
-                                          const displayText =
-                                            item.name ||
-                                            item.url ||
-                                            item.tweet ||
-                                            "Untitled";
-                                          const itemId =
-                                            item.id || index.toString();
-
-                                          return (
-                                            <DropdownMenuItem
-                                              key={itemId}
-                                              onSelect={(e: Event) => {
-                                                e.preventDefault();
-                                                toggleSelect({
-                                                  id: itemId,
-                                                  label: displayText,
-                                                  type: label,
-                                                });
-                                              }}
-                                              className="flex justify-between gap-2 dropdown-item"
-                                            >
-                                              <span className="truncate w-48">
-                                                {displayText}
-                                              </span>
-                                              {selectedItems.some(
-                                                (i) => i.id === itemId
-                                              ) && <Check size={16} />}
-                                            </DropdownMenuItem>
-                                          );
-                                        }
-                                      )}
-                                    </div>
-                                  </DropdownMenuSubContent>
-                                </DropdownMenuPortal>
-                              </DropdownMenuSub>
-                            );
-                          })}
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    )}
-                  </div>
-                </div>
-
-                {selectedItems.length > 0 && (
-                  <div className="flex flex-wrap gap-1 mt-3">
-                    {selectedItems.map((item) => (
-                      <Badge
-                        key={item.id}
-                        variant="outline"
-                        className="flex items-center gap-1 w-40"
-                      >
-                        <span className="truncate overflow-hidden whitespace-nowrap flex-1">
-                          {item.label}
-                        </span>
-                        <X
-                          size={12}
-                          className="cursor-pointer shrink-0"
-                          onClick={() => removeItem(item.id)}
-                        />
-                      </Badge>
-                    ))}
-                  </div>
-                )}
-              </CardFooter>
             </Card>
 
             <RegenerateModal
@@ -792,21 +905,14 @@ export function PostGenerator() {
         </form>
       </div>
       <aside
-        className="w-1/3 border-l bg-muted  h-full p-4 overflow-y-auto"
+        className="w-1/3 border-l bg-white dark:bg-blue-950/10 hidden lg:block h-full p-4 overflow-y-auto"
         id="imageLoad"
       >
-        {/* <Card className="mb-4">
-        <CardHeader>
-          <CardTitle>Upcoming Posts</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <AvatarCircles numPeople={avatars.length} avatarUrls={avatars} />
-        </CardContent>
-      </Card> */}
+
 
         {images.length > 0 && (
-          <div className="mb-8 relative bg-white rounded-xl shadow-xl border-2 p-3  ">
-            <div className="p-2 text-xl font-bold">Media Preview</div>
+          <div className="mb-8 relative bg-white rounded-xl shadow-xl border-2  p-3  ">
+            <div className="p-2 text-xl font-bold dark:text-black">Media Preview</div>
             <motion.div
               className="relative overflow-hidden w-full aspect-video bg-white h-60 rounded-xl border "
               initial={{ opacity: 0, y: 20 }}
@@ -859,8 +965,8 @@ export function PostGenerator() {
                         key={index}
                         onClick={() => setCurrentSlide(index)}
                         className={`h-2 rounded-full transition-all ${index === currentSlide
-                          ? "dark:bg-white bg-black w-4"
-                          : "dark:bg-white bg-black bg-opacity-50 w-2"
+                          ? " bg-black w-4"
+                          : " bg-black bg-opacity-50 w-2"
                           }`}
                       />
                     ))}
@@ -882,13 +988,25 @@ export function PostGenerator() {
           </div>
         )}
 
-        <div className="mb-2 flex items-center gap-2 bg-white w-full justify-between p-3 rounded-sm text-black border shadow-sm">
-          <Label>Schedule Post</Label>
-          <Switch
-            disabled={isExpired}
-            checked={enabled}
-            onCheckedChange={setEnabled}
-          />
+        <div className="mb-2 flex items-center gap-2 bg-white dark:bg-blue-900/40 w-full justify-between p-3 dark:border-blue-700 border-blue-100 rounded-lg text-black dark:text-white border shadow-md">
+          <Label className="flex items-center gap-1"><CalendarClock className="size-5" />  <span className="font-bold">Schedule Post  </span> </Label>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Switch
+                  disabled={isExpired}
+                  checked={enabled}
+                  onCheckedChange={setEnabled}
+                />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{isExpired ? "Please connect LinkedIn" : "Schedule post"}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+
+
         </div>
         <AnimatePresence>
           {enabled && (
@@ -925,15 +1043,7 @@ export function PostGenerator() {
                     </PopoverContent>
                   </Popover>
                   <div className="space-y-4">
-                    {/* <div>
-                    <Label>Date</Label>
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      onSelect={(newDate) => newDate && setDate(newDate)}
-                      className="rounded-md border"
-                    />
-                  </div> */}
+
                     <div className="mt-2">
                       <Label htmlFor="time">Time</Label>
                       <Input
@@ -962,74 +1072,9 @@ export function PostGenerator() {
             </motion.div>
           )}
         </AnimatePresence>
-        {/* <Collapsible open={open} onOpenChange={setOpen}>
-        <CollapsibleTrigger asChild>
-          <Button className="w-full mb-3 flex justify-between items-center">
-            <span>Schedule Post</span>
-            {open ? (
-              <ChevronUp className="w-4 h-4" />
-            ) : (
-              <ChevronDown className="w-4 h-4" />
-            )}
-          </Button>
-        </CollapsibleTrigger>
-        <CollapsibleContent>
-          <Card>
-            <CardContent className="p-4">
-              <div className="space-y-4">
-                <div>
-                  <Label>Date</Label>
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={(newDate) => newDate && setDate(newDate)}
-                    className="rounded-md border"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="time">Time</Label>
-                  <Input
-                    id="time"
-                    type="time"
-                    value={time}
-                    min={date.toDateString() === new Date().toDateString() ? getCurrentTime() : undefined}
-                    onChange={(e) => setTime(e.target.value)}
-                  />
-                </div>
-                <Button onClick={handleSchedule} className="w-full">
-                  Schedule
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </CollapsibleContent>
-      </Collapsible> */}
 
-        {postGenerated && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.2 }}
-            className="flex flex-col my-4 items-center w-full"
-          >
-            <Button
-              className="w-full text-lg tracking-wider"
-              onClick={handlePost}
-              disabled={isExpired}
-            >
-              Post
-            </Button>
-            <div className="flex my-2 items-center gap-2">
-              <span>Connection Only</span>
-              <Switch
-                checked={connectionOnly}
-                onCheckedChange={setConnectionOnly}
-                disabled={isExpired}
-              />
-            </div>
-          </motion.div>
-        )}
+
+
         <Dialog
           open={!!selectedPost}
           onOpenChange={() => setSelectedPost(null)}
@@ -1059,6 +1104,242 @@ export function PostGenerator() {
           </DialogContent>
         </Dialog>
       </aside>
+      <Dialog open={openPost} onOpenChange={setOpenPost}>
+        <DialogTrigger className="hidden">Open</DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Publish Your Post
+            </DialogTitle>
+            <p>Choose who can view this post before publishing.
+
+            </p>
+            <DialogDescription>
+              <div className="flex my-5 items-center justify-between gap-2">
+                <div className="flex items-center space-x-2 font-bold"><Lock className="size-5" /> <span>Connection Only </span></div>
+                <Switch
+                  checked={connectionOnly}
+                  onCheckedChange={setConnectionOnly}
+                  disabled={isExpired}
+                />
+              </div>
+            </DialogDescription>
+            <div className="flex items-center justify-end">
+              <Button className="flex items-center" onClick={handlePost}>
+                <Send />    <span>Publish </span>
+              </Button>
+            </div>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+      <Drawer>
+        <DrawerTrigger><Button className="fixed lg:hidden bottom-10 right-5 rounded-lg text-white">
+          Schedule Post
+        </Button></DrawerTrigger>
+        <DrawerContent className="h-[600px]">
+          <aside
+            className=" bg-white dark:bg-blue-950/10  h-full p-4 overflow-y-auto"
+            id="imageLoad"
+          >
+
+
+            {images.length > 0 && (
+              <div className="mb-8 relative bg-white rounded-xl shadow-xl border-2  p-3  ">
+                <div className="p-2 text-xl font-bold dark:text-black">Media Preview</div>
+                <motion.div
+                  className="relative overflow-hidden w-full aspect-video bg-white h-60 rounded-xl border "
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <AnimatePresence mode="wait">
+                    {images[currentSlide]?.type === "video" ? (
+                      <motion.video
+                        key={currentSlide}
+                        src={images[currentSlide]?.preview}
+                        controls
+                        className="w-full h-full object-contain"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    ) : (
+                      <motion.img
+                        key={currentSlide}
+                        src={images[currentSlide]?.preview}
+                        alt="Selected preview"
+                        className="w-full h-full object-contain"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+                <div>
+                  {images.length > 1 && (
+                    <div className="flex items-center justify-between w-full pt-2">
+                      <motion.button
+                        whileHover={{
+                          scale: 1.1,
+                          backgroundColor: "rgba(0,0,0,0.7)",
+                        }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={prevSlide}
+                        className="  bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
+                      >
+                        <ChevronLeft size={16} />
+                      </motion.button>
+                      <div className=" flex justify-center gap-2">
+                        {images.map((_, index) => (
+                          <button
+                            key={index}
+                            onClick={() => setCurrentSlide(index)}
+                            className={`h-2 rounded-full transition-all ${index === currentSlide
+                              ? " bg-black w-4"
+                              : " bg-black bg-opacity-50 w-2"
+                              }`}
+                          />
+                        ))}
+                      </div>
+                      <motion.button
+                        whileHover={{
+                          scale: 1.1,
+                          backgroundColor: "rgba(0,0,0,0.7)",
+                        }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={nextSlide}
+                        className=" bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
+                      >
+                        <ChevronRight size={16} />
+                      </motion.button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            <div className="mb-2 flex items-center gap-2 bg-white dark:bg-blue-900/40 w-full justify-between p-3 dark:border-blue-700 border-blue-100 rounded-lg text-black dark:text-white border shadow-md">
+              <Label className="flex items-center gap-1"><CalendarClock className="size-5" />  <span className="font-bold">Schedule Post  </span> </Label>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Switch
+                      disabled={isExpired}
+                      checked={enabled}
+                      onCheckedChange={setEnabled}
+                    />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{isExpired ? "Please connect LinkedIn" : "Schedule post"}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+
+
+            </div>
+            <AnimatePresence>
+              {enabled && (
+                <motion.div
+                  key="schedule"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Card>
+                    <CardContent className="p-4">
+                      <Label className="">Date</Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              " justify-start text-left font-normal w-full mt-1",
+                              !date && "text-muted-foreground"
+                            )}
+                          >
+                            <CalendarIcon />
+                            {date ? format(date, "PPP") : <span>Pick a date</span>}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0">
+                          <Calendar
+                            mode="single"
+                            selected={date}
+                            onSelect={(newDate) => newDate && setDate(newDate)}
+                            className="rounded-md border"
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <div className="space-y-4">
+
+                        <div className="mt-2">
+                          <Label htmlFor="time">Time</Label>
+                          <Input
+                            id="time"
+                            type="time"
+                            value={time}
+                            min={
+                              date.toDateString() === new Date().toDateString()
+                                ? getCurrentTime()
+                                : undefined
+                            }
+                            onChange={(e) => setTime(e.target.value)}
+                            className="mt-1"
+                          />
+                        </div>
+                        <Button
+                          onClick={handleSchedule}
+                          className="w-full"
+                          disabled={!postGenerated}
+                        >
+                          Schedule
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+
+
+            <Dialog
+              open={!!selectedPost}
+              onOpenChange={() => setSelectedPost(null)}
+            >
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Scheduled Post Preview</DialogTitle>
+                </DialogHeader>
+                {selectedPost && (
+                  <div className="mt-2">
+                    <p>
+                      <strong>Date:</strong> {selectedPost.date.toDateString()}
+                    </p>
+                    <p>
+                      <strong>Time:</strong> {selectedPost.time}
+                    </p>
+                    <p>
+                      <strong>Content:</strong> {selectedPost.content}
+                    </p>
+                    <img
+                      src={selectedPost.image || "/placeholder.svg"}
+                      alt="Post preview"
+                      className="mt-2 rounded-md"
+                    />
+                  </div>
+                )}
+              </DialogContent>
+            </Dialog>
+          </aside>
+        </DrawerContent>
+      </Drawer>
+
+
     </div>
   );
 }

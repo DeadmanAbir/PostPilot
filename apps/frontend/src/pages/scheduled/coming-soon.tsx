@@ -1,6 +1,6 @@
 const ComingSoonCard = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-900 transition-colors duration-300">
+    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-transparent transition-colors duration-300">
       {/* Coming Soon Card */}
       <div className="w-96 p-8 rounded-lg shadow-lg transition-all duration-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
         {/* Icon or Badge */}

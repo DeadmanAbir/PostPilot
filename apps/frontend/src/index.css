@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background:210deg 20% 98.04%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
@@ -32,7 +32,7 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 222.2 80% 4.9%;
     --foreground: 210 40% 98%;
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
@@ -95,4 +95,28 @@ textarea {
   float: left;
   height: 0;
   pointer-events: none;
+}
+#editor {
+  overflow-y: auto;
+  scrollbar-width: thin;            /* Firefox */
+  scrollbar-color: #888 #f1f1f1;    /* Firefox */
+}
+
+/* Chrome, Safari, Edge */
+#editor::-webkit-scrollbar {
+  width: 6px;
+}
+
+#editor::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+#editor::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+}
+
+#editor::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from '@tiptap/extension-placeholder';
-import { Bold, Italic, Code } from "lucide-react";
+import { Bold, Italic, Code, Copy, Check } from "lucide-react";
 
 // Unicode Converter from your code
 const UnicodeConverter = {
@@ -107,13 +107,20 @@ interface EditorProps {
   disabled:boolean
 }
 
-const MenuBar = ({ editor}) => {
+interface MenuBarProps {
+  editor: any;
+  onCopy: () => void;
+  copied: boolean;
+}
+
+const MenuBar = ({ editor, onCopy, copied }: MenuBarProps) => {
   if (!editor) {
     return null;
   }
   
   return (
-    <div className="border-b p-2 flex flex-wrap gap-2">
+    <div className="border-b dark:border-blue-900 p-2 flex items-center justify-between gap-2 bg-background dark:bg-blue-600/20">
+      <div className='flex items-center gap-2'>
       <Button
         variant="ghost"
         type="button"
@@ -123,8 +130,8 @@ const MenuBar = ({ editor}) => {
           editor.chain().focus().toggleBold().run();
         }} 
         disabled={!editor.can().chain().focus().toggleBold().run()}
-        className={editor.isActive("bold") ? "bg-muted" : ""}
-      >
+        className={`${editor.isActive("bold") ? "bg-muted" : ""} hover:text-blue-500 dark:hover:bg-blue-900/40`}
+        >
         <Bold className="h-4 w-4" />
       </Button>
       <Button
@@ -136,17 +143,31 @@ const MenuBar = ({ editor}) => {
           editor.chain().focus().toggleItalic().run();
         }}
         disabled={!editor.can().chain().focus().toggleItalic().run()}
-        className={editor.isActive("italic") ? "bg-muted" : ""}
+        className={`${editor.isActive("italic") ? "bg-muted" : ""} hover:text-blue-500 dark:hover:bg-blue-900/40`}
       >
         <Italic className="h-4 w-4" />
       </Button>
 
+      </div>
+      <div className='flex items-center gap-2'>
+      <Button
+        variant="ghost"
+        type="button"
+        size="icon"
+        onClick={onCopy}
+        className={copied ? "bg-green-200 dark:bg-green-800" : editor.isActive("bold") ? "bg-muted" : ""}
+      >
+        {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />} 
+      </Button>
+     
+
+      </div>
     </div>
   );
 };
 
 export default function Editor({ value, onChange,disabled }: EditorProps) {
-  
+  const [copied, setCopied] = useState(false);
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -177,32 +198,29 @@ export default function Editor({ value, onChange,disabled }: EditorProps) {
     }
   }, [value, disabled, editor]);
 
-
-//   const handleProcess = () => {
-//     if (editor) {
-//       const html = editor.getHTML();
-//       const processed = processHTMLContent(html);
-//       setProcessedText(processed);
-      
-//       if (onProcessedTextChange) {
-//         onProcessedTextChange(processed);
-//       }
-//     }
-//   };
+  // Copy handler
+  const handleCopy = async () => {
+    if (editor) {
+      const html = editor.getHTML();
+      const processed = processHTMLContent(html);
+      try {
+        await navigator.clipboard.writeText(processed);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1200);
+      } catch (err) {
+        setCopied(false);
+      }
+    }
+  };
 
   return (
-    <div className="w-full">
-      <MenuBar editor={editor}  />
-      <div className="max-h-[200px] overflow-auto" id="imageLoad">
+    <div className="w-full ">
+      <MenuBar editor={editor} onCopy={handleCopy} copied={copied} />
+      <div className="h-[160px] overflow-auto bg-white dark:bg-blue-900/20" id="editor">
       <EditorContent editor={editor} />
     </div>
       
-      {/* {processedText && (
-        <div className="mt-4 p-4 border rounded">
-          <h3 className="font-medium mb-2">Processed Text with Unicode:</h3>
-          <div className="whitespace-pre-wrap">{processedText}</div>
-        </div>
-      )} */}
+
     </div>
   );
 }
