@@ -456,10 +456,10 @@ export function PostGenerator() {
                               >
                                 <div className="h-24 w-32  flex items-center justify-center">
                                   <motion.div
-                                    className="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full w-14 h-14 flex items-center justify-center cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40 transition-all duration-300"
+                                    className="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full md:size-14 size-12 flex items-center justify-center cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40 transition-all duration-300"
                                     whileHover={{ scale: 1.1 }}
                                   >
-                                    <ImageIcon className="w-8 h-8 text-blue-700 dark:text-blue-200" />
+                                    <ImageIcon className="md:size-8 size-6 text-blue-700 dark:text-blue-200" />
                                   </motion.div>
                                 </div>
                                 <div className="md:text-xl text-base">
@@ -532,10 +532,10 @@ export function PostGenerator() {
                               >
                                 <div className="h-24 w-32  flex items-center justify-center">
                                   <motion.div
-                                    className="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full w-14 h-14 flex items-center justify-center cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40 transition-all duration-300"
+                                    className="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full md:size-14 size-12 flex items-center justify-center cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40 transition-all duration-300"
                                     whileHover={{ scale: 1.1 }}
                                   >
-                                    <Video className="w-8 h-8 text-blue-700 dark:text-blue-200" />
+                                    <Video className="md:size-8 size-6 text-blue-700 dark:text-blue-200" />
                                   </motion.div>
                                 </div>
                                 <div className="md:text-xl text-base">
