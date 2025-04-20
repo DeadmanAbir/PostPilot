@@ -257,6 +257,12 @@ export function PostGenerator() {
   const handleGenerate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newText = getTextFromHTML(generatedPost)
+    if (!newText.trim()) {
+      // Optionally show an error message here
+      alert("Text cannot be empty");
+      return;
+    }
+  
     generatePost({
       query: newText,
       media: groupItemsByType({ selectedItems }),
