@@ -387,7 +387,7 @@ export function PostGenerator() {
 
   return (
     <div className="flex w-full  h-full relative">
-      <div className="lg:w-2/3 w-full flex flex-col items-center h-full  ">
+      <div className="lg:w-2/3 w-full flex flex-col items-center h-[1300px] md:h-full  ">
         <div className="px-5 py-5 text-3xl font-bold tracking-wider text-left w-full  text-transparent bg-clip-text bg-gradient-to-r from-blue-500 dark:from-blue-200 to-blue-600 dark:to-blue-400">
           Welcome, {user?.user?.user_metadata.displayName}
         </div>
@@ -399,7 +399,7 @@ export function PostGenerator() {
                 <CardTitle className="text-lg">Create Your Content</CardTitle>
               </CardHeader>
               <CardContent className="h-full space-y-3">
-                <div className="flex  items-center gap-3">
+                <div className="flex flex-col md:flex-row items-center gap-3">
                   {/* Image Upload Section */}
                   <div className="w-full group border-[1px] rounded-lg border-gray-200 dark:border-blue-900 bg-blue-100/20 dark:bg-blue-900/20 bg-white shadow-sm hover:shadow-md h-56">
                     <div className="w-full">
@@ -1127,7 +1127,7 @@ export function PostGenerator() {
         </DialogContent>
       </Dialog>
       <Drawer>
-        <DrawerTrigger><Button className="absolute lg:hidden bottom-10 right-5 rounded-lg text-white">
+        <DrawerTrigger><Button className="fixed lg:hidden bottom-10 right-5 rounded-lg text-white">
           Schedule Post
         </Button></DrawerTrigger>
         <DrawerContent className="h-[600px]">
