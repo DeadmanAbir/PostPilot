@@ -451,6 +451,8 @@ export function PostGenerator() {
                                 accept="image/*"
                                 className="hidden"
                                 onChange={handleFileChange}
+                                disabled={images.length > 0 && images.some(media => media.type === "video")}
+
                               />
                             </div>
                           )}
@@ -488,6 +490,8 @@ export function PostGenerator() {
                                   className="hidden"
                                   onChange={handleFileChange}
                                   ref={inputImageRef}
+                                  disabled={images.length > 0 && images.some(media => media.type === "video")}
+
 
                                 />
                               </motion.div>
@@ -564,6 +568,7 @@ export function PostGenerator() {
                                   ref={inputRef}
                                   onChange={handleFileChange}
                                   multiple={false}
+                                  disabled={images.length > 0 && images.some(media => media.type !== "video")}
                                 />
                               </motion.div>
                             </label>
