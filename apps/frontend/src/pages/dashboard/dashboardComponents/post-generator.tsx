@@ -803,7 +803,9 @@ export function PostGenerator() {
                         {!postGenerated && optionData && (
                           <TooltipProvider>
                             <Tooltip>
-                              <TooltipTrigger>       <Button size={"icon"}>
+                              <TooltipTrigger>       <Button size={"icon"} onClick={(e)=>{
+                                e.preventDefault()
+                              }}>
                                 <WandSparkles  className="text-white"/>
                               </Button></TooltipTrigger>
                               <TooltipContent>
