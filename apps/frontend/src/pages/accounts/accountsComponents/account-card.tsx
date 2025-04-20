@@ -48,13 +48,13 @@ export function AccountCard({
     user?.accessToken!,
     {
       onSuccess: () => {
-        toast("account disconnected  successfully")
+        toast.success("account disconnected  successfully")
 
         queryClient.invalidateQueries({ queryKey: ["linkedin"] });
       },
       onError: (error: unknown) => {
         console.log(error);
-        alert("error in disconnecting account");
+        toast.error("error in disconnecting account");
       },
     }
   );
@@ -65,7 +65,7 @@ export function AccountCard({
 
       if (newError) {
         console.error("LinkedIn connection error:", newError);
-        alert("LinkedIn connection error:");
+        toast.error("LinkedIn connection error:");
         return;
       }
 

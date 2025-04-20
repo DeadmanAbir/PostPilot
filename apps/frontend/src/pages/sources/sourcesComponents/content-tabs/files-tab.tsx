@@ -14,6 +14,7 @@ import {
   addRemoteFilesFn,
 } from "@/lib/tanstack-query/mutation";
 import { nanoid } from "nanoid";
+import { toast } from "sonner";
 
 export function FilesTab() {
   const { user } = useAuth();
@@ -27,12 +28,12 @@ export function FilesTab() {
   const { mutate: addRemoteFile, isPending: isRemoteFetching } =
     addRemoteFilesFn(user?.accessToken!, {
       onSuccess: () => {
-        alert("remote file added  successfully");
+        toast.success("remote file added  successfully");
         setRemoteFiles([]);
       },
       onError: (error: unknown) => {
         console.log(error);
-        alert("error in adding remote file");
+        toast.error("error in adding remote file");
       },
     });
 
@@ -40,12 +41,12 @@ export function FilesTab() {
     user?.accessToken!,
     {
       onSuccess: () => {
-        alert("Local file added  successfully");
+        toast.success("Local file added  successfully");
         setLocalFiles([]);
       },
       onError: (error: unknown) => {
         console.log(error);
-        alert("error in adding local file");
+        toast.error("error in adding local file");
       },
     }
   );
@@ -65,7 +66,7 @@ export function FilesTab() {
           .upload(filePath, file);
         if (error) {
           console.error("Error uploading file:", error.message);
-          alert("error in uploading file");
+          toast.error("error in uploading file");
           throw error;
         }
 

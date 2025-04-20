@@ -12,6 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { toast } from "sonner";
 
 export function TweetsTab() {
   const [tweetUrl, setTweetUrl] = useState("");
@@ -25,14 +26,14 @@ export function TweetsTab() {
     user?.accessToken!,
     {
       onSuccess: () => {
-        alert("Tweet fetched successfully");
+        toast.success("Tweet fetched successfully");
         setTweetUrl("");
         setTweetName("");
         setIsValidUrl(true);
       },
       onError: (error: unknown) => {
         console.log(error);
-        alert("Error in fetching tweet");
+        toast.error("Error in fetching tweet");
       },
     }
   );

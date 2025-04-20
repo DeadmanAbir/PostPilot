@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { fetchWebsiteFn } from "@/lib/tanstack-query/mutation";
+import { toast } from "sonner";
 
 export function WebsitesTab() {
   const [websiteUrl, setWebsiteUrl] = useState("");
@@ -15,12 +16,12 @@ export function WebsitesTab() {
     user?.accessToken!,
     {
       onSuccess: () => {
-        alert("website fetched  successfully");
+        toast.success("website fetched  successfully");
         setWebsiteUrl("");
       },
       onError: (error: unknown) => {
         console.log(error);
-        alert("error in fetching");
+        toast.error("error in fetching");
       },
     }
   );

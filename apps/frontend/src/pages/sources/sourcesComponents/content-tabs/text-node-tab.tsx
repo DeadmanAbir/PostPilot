@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { addNodeContentFn } from "@/lib/tanstack-query/mutation";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { lazy, Suspense, useState } from "react";
+import { toast } from "sonner";
 // Import the Editor component with SSR disabled
 const Editor = lazy(() => import("../../../../components/tiptap-editor"));
 
@@ -19,7 +20,7 @@ export function TextNoteTab() {
     {
       onSuccess: (data: unknown) => {
         console.log(data);
-        alert("content added successfully");
+        toast.success("content added successfully");
         setContent({
           name: "Text Editor",
           description: "",
@@ -27,7 +28,7 @@ export function TextNoteTab() {
       },
       onError: (error: unknown) => {
         console.log(error);
-        alert("error in adding content");
+        toast.error("error in adding content");
       },
     }
   );

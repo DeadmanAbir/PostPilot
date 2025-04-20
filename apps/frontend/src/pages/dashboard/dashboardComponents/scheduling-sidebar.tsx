@@ -25,6 +25,7 @@ import { motion, AnimatePresence } from "motion/react"
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns"
+import { toast } from "sonner";
 
 interface ScheduledPost {
   id: string;
@@ -86,7 +87,7 @@ export function SchedulingSidebar() {
 
     // Prevent scheduling past dates
     if (selectedDate < today) {
-      alert("Cannot schedule a post in the past.");
+      toast.error("Cannot schedule a post in the past.");
       return;
     }
 
@@ -95,7 +96,7 @@ export function SchedulingSidebar() {
       selectedDate.getTime() === today.getTime() &&
       time < getCurrentTime()
     ) {
-      alert("Cannot schedule a post in the past time.");
+      toast.error("Cannot schedule a post in the past time.");
       return;
     }
 
