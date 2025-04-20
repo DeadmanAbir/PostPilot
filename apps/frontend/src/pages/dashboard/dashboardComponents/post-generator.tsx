@@ -404,7 +404,7 @@ export function PostGenerator() {
                   <div className="w-full group border-[1px] rounded-lg border-gray-200 dark:border-blue-900 bg-blue-100/20 dark:bg-blue-900/20 bg-white shadow-sm hover:shadow-md h-56">
                     <div className="w-full">
                       <AnimatePresence>
-                        <div id="imageLoad" className="flex gap-3 overflow-x-auto h-56 flex-wrap items-center justify-center ">
+                        <div id="imageLoad" className={`flex gap-3 overflow-x-auto h-56 flex-wrap items-center justify-center ${images.length >0 &&  images.some(media => media.type !== "video") ? "p-5" :"p-0" } `}>
                           {images.map((media) => (
                             media.type !== "video" && (
                               <motion.div
@@ -413,7 +413,7 @@ export function PostGenerator() {
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.8, y: 20 }}
                                 transition={{ duration: 0.3 }}
-                                className="relative aspect-square rounded-lg group/image size-20"
+                                className="relative aspect-square rounded-lg group/image size-20 "
                               >
                                 <img
                                   src={media.preview}
@@ -504,7 +504,7 @@ export function PostGenerator() {
                   <div className="w-full group border-[1px] rounded-lg border-gray-200 dark:border-blue-900 bg-blue-100/20 dark:bg-blue-900/20 bg-white shadow-sm  hover:shadow-md h-56">
                     <div className="w-full">
                       <AnimatePresence>
-                        <div className="flex gap-3 items-center justify-center">
+                        <div className={`flex gap-3 items-center justify-center ${images.length >0 &&  images.some(media => media.type === "video") ? "p-5" :"p-0" }`}>
                           {images.map((media) => (
                             media.type === "video" && (
                               <motion.div
@@ -513,7 +513,7 @@ export function PostGenerator() {
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.8, y: 20 }}
                                 transition={{ duration: 0.3 }}
-                                className="relative aspect-video rounded-lg group flex items-center justify-center"
+                                className="relative aspect-video rounded-lg group flex items-center justify-center "
                               >
                                 <video
                                   src={media.preview}
