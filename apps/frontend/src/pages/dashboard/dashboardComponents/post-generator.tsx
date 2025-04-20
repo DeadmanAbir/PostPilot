@@ -380,7 +380,7 @@ export function PostGenerator() {
 
 
   return (
-    <div className="flex w-full gap-5 h-full relative">
+    <div className="flex w-full  h-full relative">
       <div className="lg:w-2/3 w-full flex flex-col items-center h-full  ">
         <div className="px-5 py-5 text-3xl font-bold tracking-wider text-left w-full  text-transparent bg-clip-text bg-gradient-to-r from-blue-500 dark:from-blue-200 to-blue-600 dark:to-blue-400">
           Welcome, {user?.user?.user_metadata.displayName}
@@ -393,7 +393,7 @@ export function PostGenerator() {
                 <CardTitle className="text-lg">Create Your Content</CardTitle>
               </CardHeader>
               <CardContent className="h-full space-y-3">
-                <div className="flex flex-col items-center gap-1 md:gap-3">
+                <div className="flex  items-center gap-3">
                   {/* Image Upload Section */}
                   <div className="w-full group border-[1px] rounded-lg border-gray-200 dark:border-blue-900 bg-blue-100/20 dark:bg-blue-900/20 bg-white shadow-sm hover:shadow-md h-56">
                     <div className="w-full">
@@ -462,11 +462,11 @@ export function PostGenerator() {
                                     <ImageIcon className="w-8 h-8 text-blue-700 dark:text-blue-200" />
                                   </motion.div>
                                 </div>
-                                <div className="text-xl">
+                                <div className="md:text-xl text-base">
                                   Upload Images
                                 </div>
-                                <p className="text-sm text-gray-500 text-center ">
-                                  Upload photos
+                                <p className="text-xs md:text-sm text-gray-500 text-center ">
+                                Share photos,graphics or illustration
                                 </p>
                                 <Button className="mt-2" variant="outline" onClick={(e) => {
                                   e.preventDefault()
@@ -538,11 +538,11 @@ export function PostGenerator() {
                                     <Video className="w-8 h-8 text-blue-700 dark:text-blue-200" />
                                   </motion.div>
                                 </div>
-                                <div className="text-xl">
+                                <div className="md:text-xl text-base">
                                   Upload Video
                                 </div>
-                                <p className="text-sm text-gray-500 text-center ">
-                                  Upload Video
+                                <p className="text-xs md:text-sm text-gray-500 text-center ">
+                              Share clips, animation or reel
                                 </p>
                                 <Button className="mt-2" variant="outline" onClick={(e) => {
                                   e.preventDefault()
@@ -579,7 +579,7 @@ export function PostGenerator() {
                   />
                   <div className="flex  flex-col items-start justify-start gap-2 p-5 bg-background dark:bg-blue-600/20 border-t dark:border-blue-900">
                     <div className="flex items-center gap-3 w-full">
-                      <div className="flex items-center justify-between w-full ">
+                      <div className="flex items-center md:justify-between flex-wrap gap-2 w-full ">
                         <div className="flex gap-2">
                           {postGenerated ? (
                             <Button
@@ -804,7 +804,7 @@ export function PostGenerator() {
                           <TooltipProvider>
                             <Tooltip>
                               <TooltipTrigger>       <Button size={"icon"}>
-                                <WandSparkles />
+                                <WandSparkles  className="text-white"/>
                               </Button></TooltipTrigger>
                               <TooltipContent>
                                 <p>Enhance prompt</p>
