@@ -722,11 +722,11 @@ export function PostGenerator() {
                                       <DropdownMenuPortal>
                                         <DropdownMenuSubContent className="max-h-80">
                                           {/* Search input */}
-                                          <div className="px-2 py-1.5 sticky top-0 bg-white z-10 border-b">
+                                          <div className="px-2 py-1.5 sticky top-0 bg-white dark:bg-blue-950/10 z-10 border-b">
                                             <input
                                               type="text"
                                               placeholder={`Search ${label}...`}
-                                              className="w-full px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                              className="w-full px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:ring-blue-700  dark:bg-blue-950/40"
                                               onChange={(e) => {
                                                 const searchContainer =
                                                   e.currentTarget.closest(
