@@ -939,8 +939,8 @@ export function PostGenerator() {
         id="imageLoad"
       >
         {images.length > 0 && (
-          <div className="mb-8 relative bg-white rounded-xl shadow-xl border-2  p-3  ">
-            <div className="p-2 text-xl font-bold dark:text-black">
+          <div className="mb-8 relative bg-white dark:bg-blue-950/10 rounded-xl dark:border-blue-900 shadow-xl border-2  p-3  ">
+            <div className="p-2 text-xl font-bold dark:text-white text-black">
               Media Preview
             </div>
             <motion.div
@@ -985,7 +985,7 @@ export function PostGenerator() {
                     }}
                     whileTap={{ scale: 0.9 }}
                     onClick={prevSlide}
-                    className="  bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
+                    className="  bg-black dark:border-blue-400 border bg-opacity-50 text-white p-2 rounded-full shadow-md"
                   >
                     <ChevronLeft size={16} />
                   </motion.button>
@@ -996,8 +996,8 @@ export function PostGenerator() {
                         onClick={() => setCurrentSlide(index)}
                         className={`h-2 rounded-full transition-all ${
                           index === currentSlide
-                            ? " bg-black w-4"
-                            : " bg-black bg-opacity-50 w-2"
+                            ? " bg-black dark:bg-blue-700 w-4"
+                            : " bg-black dark:bg-blue-700 bg-opacity-50 w-2"
                         }`}
                       />
                     ))}
@@ -1009,7 +1009,7 @@ export function PostGenerator() {
                     }}
                     whileTap={{ scale: 0.9 }}
                     onClick={nextSlide}
-                    className=" bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
+                    className=" bg-black dark:border-blue-400 border bg-opacity-50 text-white p-2 rounded-full shadow-md"
                   >
                     <ChevronRight size={16} />
                   </motion.button>
@@ -1178,8 +1178,8 @@ export function PostGenerator() {
             id="imageLoad"
           >
             {images.length > 0 && (
-              <div className="mb-8 relative bg-white rounded-xl shadow-xl border-2  p-3  ">
-                <div className="p-2 text-xl font-bold dark:text-black">
+              <div className="mb-8 relative bg-white dark:bg-blue-950/20 dark:border-blue-700 border-blue-100 rounded-lg shadow-xl border-2  p-3  ">
+                <div className="p-2 text-xl font-bold text-black dark:text-white ">
                   Media Preview
                 </div>
                 <motion.div
@@ -1224,7 +1224,7 @@ export function PostGenerator() {
                         }}
                         whileTap={{ scale: 0.9 }}
                         onClick={prevSlide}
-                        className="  bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
+                        className="  bg-black dark:border-blue-400 border bg-opacity-50 text-white p-2 rounded-full shadow-md"
                       >
                         <ChevronLeft size={16} />
                       </motion.button>
@@ -1235,8 +1235,8 @@ export function PostGenerator() {
                             onClick={() => setCurrentSlide(index)}
                             className={`h-2 rounded-full transition-all ${
                               index === currentSlide
-                                ? " bg-black w-4"
-                                : " bg-black bg-opacity-50 w-2"
+                                ? " bg-black dark:bg-blue-700 w-4"
+                                : " bg-black dark:bg-blue-700 bg-opacity-50 w-2"
                             }`}
                           />
                         ))}
@@ -1248,7 +1248,7 @@ export function PostGenerator() {
                         }}
                         whileTap={{ scale: 0.9 }}
                         onClick={nextSlide}
-                        className=" bg-black bg-opacity-50 text-white p-2 rounded-full shadow-md"
+                        className=" bg-black dark:border-blue-400 border bg-opacity-50 text-white p-2 rounded-full shadow-md"
                       >
                         <ChevronRight size={16} />
                       </motion.button>
