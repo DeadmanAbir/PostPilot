@@ -14,6 +14,7 @@ import {
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { nanoid } from "nanoid";
 import { supabase } from "@/lib/supabaseClient";
+import { toast } from "sonner";
 
 export function ImagesTab() {
   const { user } = useAuth();
@@ -29,24 +30,24 @@ export function ImagesTab() {
   const { mutate: addRemoteImages, isPending: isRemoteFetching } =
     addRemoteImagesFn(user?.accessToken!, {
       onSuccess: () => {
-        alert("remote images added  successfully");
+        toast.success("remote images added  successfully");
         setRemoteImages([]);
       },
       onError: (error: unknown) => {
         console.log(error);
-        alert("error in adding remote images");
+        toast.error("error in adding remote images");
       },
     });
 
   const { mutate: addLocalImages, isPending: isLocalFetching } =
     addLocalImagesFn(user?.accessToken!, {
       onSuccess: () => {
-        alert("local images added  successfully");
+        toast.success("local images added  successfully");
         setLocalImages([]);
       },
       onError: (error: unknown) => {
         console.log(error);
-        alert("error in adding local images");
+        toast.error("error in adding local images");
       },
     });
 
@@ -66,7 +67,7 @@ export function ImagesTab() {
 
         if (error) {
           console.error("Error uploading file:", error.message);
-          alert("error in uploading file");
+          toast.error("error in uploading file");
           throw error;
         }
 

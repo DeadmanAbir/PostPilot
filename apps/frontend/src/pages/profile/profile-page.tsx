@@ -55,6 +55,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { NoPostsCard } from "./profilePageComponents/empty-posts";
 import { ComingSoonCard } from "./profilePageComponents/coming-soon-schedule";
+import { toast } from "sonner";
 
 export function ProfilePage() {
   const data = Route.useLoaderData();
@@ -83,21 +84,21 @@ export function ProfilePage() {
         });
         if (error) {
           console.error(error.message);
-          alert("Error in updating profile:");
+          toast.error("Error in updating profile:");
         }
-        alert("profile name updated successfully");
+        toast.success("profile name updated successfully");
       } else if (data.success) {
-        alert("profile image updated successfully");
+        toast.success("profile image updated successfully");
         await supabase.auth.updateUser({
           data: { profile_url: profileImage },
         });
       } else {
-        alert("Profile update failed");
+        toast.error("Profile update failed");
       }
     },
     onError: (error: unknown) => {
       console.log(error);
-      alert("Profile update failed");
+      toast.error("Profile update failed");
     },
   });
 
@@ -158,7 +159,7 @@ export function ProfilePage() {
 
       if (error) {
         console.error("Error uploading file:", error.message);
-        alert("error in uploading file");
+        toast.error("error in uploading file");
         throw error;
       }
 

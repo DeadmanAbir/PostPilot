@@ -100,6 +100,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { toast } from "sonner";
 
 interface ScheduledPost {
   id: string;
@@ -176,7 +177,7 @@ export function PostGenerator() {
 
         if (error) {
           console.error("Error uploading file:", error.message);
-          alert("error in uploading file");
+          toast.error("error in uploading file");
           throw error;
         }
 
@@ -210,12 +211,12 @@ export function PostGenerator() {
       onSuccess: (data: LinkedinPostResponse) => {
         const cleanData = removeMd(data.post_content);
         setGeneratedPost(cleanData);
-        alert("Post generated successfully");
+        toast.success("Post generated successfully");
         dispatch(setPostGenerated(true));
       },
       onError: (error: unknown) => {
         console.log(error);
-        alert("error in posting");
+        toast.error("error in posting");
       },
     }
   );
@@ -229,11 +230,11 @@ export function PostGenerator() {
         setGeneratedPost("");
         setGeneratedPost("");
         setSelectedItems([]);
-        alert("Posted to Linkedin successfully");
+        toast.success("Posted to Linkedin successfully");
       },
       onError: (error: unknown) => {
         console.log(error);
-        alert("error in posting");
+        toast.error("error in posting");
       },
     }
   );
@@ -243,11 +244,11 @@ export function PostGenerator() {
       onSuccess: (data: LinkedinPostResponse) => {
         const cleanData = removeMd(data.post_content);
         setGeneratedPost(cleanData);
-        alert("Post re-generated successfully");
+        toast.success("Post re-generated successfully");
       },
       onError: (error: unknown) => {
         console.log(error);
-        alert("error in posting");
+        toast.error("error in posting");
       },
     });
 
@@ -281,7 +282,7 @@ export function PostGenerator() {
     const newText = getTextFromHTML(generatedPost);
     if (!newText.trim()) {
       // Optionally show an error message here
-      alert("Text cannot be empty");
+      toast.error("Text cannot be empty");
       return;
     }
 

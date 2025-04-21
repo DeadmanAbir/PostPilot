@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export function YouTubeTab() {
   const [youtubeUrl, setYoutubeUrl] = useState("");
@@ -30,7 +31,7 @@ export function YouTubeTab() {
 
   const handleUpload = async () => {
     if (!videoId || !videoTitle.trim()) {
-      alert("Please enter a valid YouTube URL and title.");
+      toast.error("Please enter a valid YouTube URL and title.");
       return;
     }
 
@@ -46,13 +47,13 @@ export function YouTubeTab() {
 
       if (!res.ok) throw new Error("Failed to upload");
 
-      alert("YouTube video uploaded successfully!");
+      toast.success("YouTube video uploaded successfully!");
       setYoutubeUrl("");
       setVideoTitle("");
       setVideoId("");
     } catch (error) {
       console.error(error);
-      alert("Error uploading YouTube video.");
+      toast.error("Error uploading YouTube video.");
     } finally {
       setIsUploading(false);
     }
