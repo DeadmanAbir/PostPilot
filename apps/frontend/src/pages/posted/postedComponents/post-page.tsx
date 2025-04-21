@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -18,6 +16,7 @@ import { useAuth } from "@/providers/supabaseAuthProvider";
 import { getPostQuery } from "@/lib/tanstack-query/query";
 import PostedLoading from "@/components/skeletons/posted-skeleton";
 import Banner from "@/components/banner";
+import EmptyStateCard from "./empty-post-card";
 
 export function PostsPage() {
   const { user } = useAuth();
@@ -40,7 +39,11 @@ export function PostsPage() {
   return (
     <div className="container mx-auto py-8 px-8 space-y-8 min-h-screen ">
       {/* Create New Post Banner */}
-     <Banner/>
+      <Banner
+        heading="Ready to share your next great idea?"
+        subheading="Create and schedule your LinkedIn posts to engage with your network and grow your professional brand."
+        buttonLabel="Create New Post"
+      />
 
       {/* Header with filters */}
       {isPending ? (
@@ -119,19 +122,20 @@ export function PostsPage() {
                     <CardContent className="p-6">
                       <div className="flex justify-between items-start mb-4">
                         <div className="flex items-center justify-between w-full">
-                        <div className="text-sm font-medium flex items-center gap-1 text-slate-600 dark:text-gray-400">
-                         <Calendar className="size-5"/> {formatDate(post.created_at)}
-                          <span className="text-slate-300 dark:text-gray-600 mx-1">
-                            •
-                          </span>{" "}
+                          <div className="text-sm font-medium flex items-center gap-1 text-slate-600 dark:text-gray-400">
+                            <Calendar className="size-5" />{" "}
+                            {formatDate(post.created_at)}
+                            <span className="text-slate-300 dark:text-gray-600 mx-1">
+                              •
+                            </span>{" "}
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <Badge className="bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 shadow-sm px-3 py-1 font-semibold rounded-full">
+                              posted
+                            </Badge>
+                          </div>
                         </div>
-                        <div className="flex items-center gap-3">
-                        <Badge className="bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 shadow-sm px-3 py-1 font-semibold rounded-full">
-                          posted
-                        </Badge>
-                      </div>
-                        </div>
-                    
+
                         <div className="flex items-center">
                           {post.media[0] && (
                             <div className="flex items-center text-blue-600 dark:text-blue-400 text-xs font-semibold bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded-full">
@@ -150,14 +154,12 @@ export function PostsPage() {
                     </CardContent>
 
                     <CardFooter className="p-6 pt-0 flex justify-between ">
-                    
-
                       <Button
                         variant="outline"
                         className="text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-700 dark:hover:text-blue-300 hover:border-blue-300 dark:hover:border-blue-800 font-medium px-4 shadow-sm transition-all duration-200"
                         onClick={() => window.open(post.post_url, "_blank")}
                       >
-                        <Eye/>
+                        <Eye />
                         View Post
                       </Button>
                     </CardFooter>
@@ -169,11 +171,7 @@ export function PostsPage() {
         </>
       )}
 
-      {!isPending && data?.length === 0 && (
-        <h1 className="text-slate-800 dark:text-white h-[30vh] flex items-center justify-center">
-          No posts yet
-        </h1>
-      )}
+      {!isPending && data?.length === 0 && <EmptyStateCard />}
     </div>
   );
 }

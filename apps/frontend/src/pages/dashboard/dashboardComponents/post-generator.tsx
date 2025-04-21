@@ -24,6 +24,7 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
+  Clock,
   File,
   Filter,
   Globe2,
@@ -45,6 +46,7 @@ import { RegenerateModal } from "@/components/regenerate-modal";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import {
   generatePostFn,
+  improvePostFn,
   postToLinkedinFn,
   regeneratePostFn,
 } from "@/lib/tanstack-query/mutation";
@@ -81,7 +83,12 @@ import removeMd from "remove-markdown";
 
 import Editor, { processHTMLContent } from "./tiptap";
 import { getTextFromHTML } from "@/utils/functions/getText";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Separator } from "@/components/ui/separator";
 import {
   Drawer,
@@ -92,7 +99,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer"
+} from "@/components/ui/drawer";
 import { toast } from "sonner";
 
 interface ScheduledPost {
@@ -141,7 +148,7 @@ export function PostGenerator() {
   const dispatch = useAppDispatch();
   const [images, setImages] = useState<Media[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [openPost, setOpenPost] = useState(false)
+  const [openPost, setOpenPost] = useState(false);
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<
     { id: string; label: string; type: string }[]
@@ -196,7 +203,7 @@ export function PostGenerator() {
 
   const isExpired = optionData?.linkedin?.expires_at
     ? optionData.linkedin.expires_at &&
-    new Date(optionData.linkedin.expires_at) < new Date()
+      new Date(optionData.linkedin.expires_at) < new Date()
     : true;
   const { mutate: generatePost, isPending } = generatePostFn(
     user?.accessToken!,
@@ -245,6 +252,21 @@ export function PostGenerator() {
       },
     });
 
+  const { mutate: refinePost, isPending: isImproving } = improvePostFn(
+    user?.accessToken!,
+    {
+      onSuccess: (data: LinkedinPostResponse) => {
+        const cleanData = removeMd(data.post_content);
+        setGeneratedPost(cleanData);
+        alert("Post improved successfully");
+      },
+      onError: (error: unknown) => {
+        console.log(error);
+        alert("error inimproving");
+      },
+    }
+  );
+
   const toggleSelect = (item: { id: string; label: string; type: string }) => {
     setSelectedItems((prev) => {
       const exists = prev.some((i) => i.id === item.id);
@@ -257,13 +279,13 @@ export function PostGenerator() {
   };
   const handleGenerate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newText = getTextFromHTML(generatedPost)
+    const newText = getTextFromHTML(generatedPost);
     if (!newText.trim()) {
       // Optionally show an error message here
       toast.error("Text cannot be empty");
       return;
     }
-  
+
     generatePost({
       query: newText,
       media: groupItemsByType({ selectedItems }),
@@ -297,35 +319,6 @@ export function PostGenerator() {
     useState<ScheduledPost[]>(mockUpcomingPosts);
   const [selectedPost, setSelectedPost] = useState<ScheduledPost | null>(null);
 
-  const handleSchedule = () => {
-    const today = new Date();
-    const selectedDate = new Date(date);
-    selectedDate.setHours(0, 0, 0, 0);
-    today.setHours(0, 0, 0, 0);
-
-    // Prevent scheduling past dates
-    if (selectedDate < today) {
-      toast.error("Cannot schedule a post in the past.");
-      return;
-    }
-
-    // Prevent scheduling past times for today
-    if (selectedDate.getTime() === today.getTime() && time < getCurrentTime()) {
-      toast.error("Cannot schedule a post in the past time.");
-      return;
-    }
-
-    const newPost: ScheduledPost = {
-      id: (scheduledPosts.length + 1).toString(),
-      date,
-      time,
-      content: "New scheduled post",
-      image: "/placeholder.svg?height=40&width=40",
-    };
-
-    setScheduledPosts([...scheduledPosts, newPost]);
-    // setOpen(false); // Close the collapsible after scheduling
-  };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files as FileList);
@@ -374,8 +367,7 @@ export function PostGenerator() {
   const handlePost = async () => {
     const media = await uploadToSupabase("post-pilot");
     const processed = processHTMLContent(generatedPost);
-    console.log(processed, "faisal")
-
+    console.log(processed, "faisal");
 
     post({
       text: processed,
@@ -385,6 +377,11 @@ export function PostGenerator() {
     });
   };
 
+  const handleImproveQuery = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    const processed = processHTMLContent(generatedPost);
+    refinePost(processed);
+  };
 
   return (
     <div className="flex w-full  h-full relative">
@@ -405,36 +402,40 @@ export function PostGenerator() {
                   <div className="w-full group border-[1px] rounded-lg border-gray-200 dark:border-blue-900 bg-blue-100/20 dark:bg-blue-900/20 bg-white shadow-sm hover:shadow-md h-56">
                     <div className="w-full">
                       <AnimatePresence>
-                        <div id="imageLoad" className={`flex gap-3 overflow-x-auto h-56 flex-wrap items-center justify-center ${images.length >0 &&  images.some(media => media.type !== "video") ? "p-5" :"p-0" } `}>
-                          {images.map((media) => (
-                            media.type !== "video" && (
-                              <motion.div
-                                key={media.id}
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.8, y: 20 }}
-                                transition={{ duration: 0.3 }}
-                                className="relative aspect-square rounded-lg group/image size-20 "
-                              >
-                                <img
-                                  src={media.preview}
-                                  alt="Preview"
-                                  className="w-full h-full object-cover size-20 border-blue-400 border-4"
-                                />
-
-                                <motion.button
-                                  whileHover={{ scale: 1.1 }}
-                                  whileTap={{ scale: 0.9 }}
-                                  onClick={() => removeImage(media.id)}
-                                  className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover/image:opacity-100 transition-opacity"
+                        <div
+                          id="imageLoad"
+                          className={`flex gap-3 overflow-x-auto h-56 flex-wrap items-center justify-center ${images.length > 0 && images.some((media) => media.type !== "video") ? "p-5" : "p-0"} `}
+                        >
+                          {images.map(
+                            (media) =>
+                              media.type !== "video" && (
+                                <motion.div
+                                  key={media.id}
+                                  initial={{ opacity: 0, scale: 0.8 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  exit={{ opacity: 0, scale: 0.8, y: 20 }}
+                                  transition={{ duration: 0.3 }}
+                                  className="relative aspect-square rounded-lg group/image size-20 "
                                 >
-                                  <X size={16} />
-                                </motion.button>
-                              </motion.div>
-                            )
-                          ))}
+                                  <img
+                                    src={media.preview}
+                                    alt="Preview"
+                                    className="w-full h-full object-cover size-20 border-blue-400 border-4"
+                                  />
 
-                          {images.some(media => media.type !== "video") && (
+                                  <motion.button
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    onClick={() => removeImage(media.id)}
+                                    className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover/image:opacity-100 transition-opacity"
+                                  >
+                                    <X size={16} />
+                                  </motion.button>
+                                </motion.div>
+                              )
+                          )}
+
+                          {images.some((media) => media.type !== "video") && (
                             <div>
                               <label
                                 htmlFor="image-upload"
@@ -452,12 +453,14 @@ export function PostGenerator() {
                                 accept="image/*"
                                 className="hidden"
                                 onChange={handleFileChange}
-                                disabled={images.length > 0 && images.some(media => media.type === "video")}
-
+                                disabled={
+                                  images.length > 0 &&
+                                  images.some((media) => media.type === "video")
+                                }
                               />
                             </div>
                           )}
-                          {!images.some(media => media.type !== "video") && (
+                          {!images.some((media) => media.type !== "video") && (
                             <label className="cursor-pointer -translate-y-2 ">
                               <motion.div
                                 className="flex flex-col items-center justify-center p-2  transition-all"
@@ -475,14 +478,18 @@ export function PostGenerator() {
                                   Upload Images
                                 </div>
                                 <p className="text-xs md:text-sm text-gray-500 text-center ">
-                                Share photos,graphics or illustration
+                                  Share photos,graphics or illustration
                                 </p>
-                                <Button className="mt-2" variant="outline" onClick={(e) => {
-                                  e.preventDefault()
-                                  handleImageButtonClick()
-                                }}>
+                                <Button
+                                  className="mt-2 rounded-lg"
+                                  variant="outline"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    handleImageButtonClick();
+                                  }}
+                                >
                                   <Plus />
-                                  Add
+                                  Add Images
                                 </Button>
                                 <input
                                   type="file"
@@ -491,16 +498,17 @@ export function PostGenerator() {
                                   className="hidden"
                                   onChange={handleFileChange}
                                   ref={inputImageRef}
-                                  disabled={images.length > 0 && images.some(media => media.type === "video")}
-
-
+                                  disabled={
+                                    images.length > 0 &&
+                                    images.some(
+                                      (media) => media.type === "video"
+                                    )
+                                  }
                                 />
                               </motion.div>
                             </label>
                           )}
                         </div>
-
-
                       </AnimatePresence>
                     </div>
                   </div>
@@ -509,33 +517,36 @@ export function PostGenerator() {
                   <div className="w-full group border-[1px] rounded-lg border-gray-200 dark:border-blue-900 bg-blue-100/20 dark:bg-blue-900/20 bg-white shadow-sm  hover:shadow-md h-56">
                     <div className="w-full">
                       <AnimatePresence>
-                        <div className={`flex gap-3 items-center justify-center ${images.length >0 &&  images.some(media => media.type === "video") ? "p-5" :"p-0" }`}>
-                          {images.map((media) => (
-                            media.type === "video" && (
-                              <motion.div
-                                key={media.id}
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.8, y: 20 }}
-                                transition={{ duration: 0.3 }}
-                                className="relative aspect-video rounded-lg group flex items-center justify-center "
-                              >
-                                <video
-                                  src={media.preview}
-                                  className="w-full object-cover h-40 border-green-400 border-4"
-                                />
-                                <motion.button
-                                  whileHover={{ scale: 1.1 }}
-                                  whileTap={{ scale: 0.9 }}
-                                  onClick={() => removeImage(media.id)}
-                                  className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                        <div
+                          className={`flex gap-3 items-center justify-center ${images.length > 0 && images.some((media) => media.type === "video") ? "p-5" : "p-0"}`}
+                        >
+                          {images.map(
+                            (media) =>
+                              media.type === "video" && (
+                                <motion.div
+                                  key={media.id}
+                                  initial={{ opacity: 0, scale: 0.8 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  exit={{ opacity: 0, scale: 0.8, y: 20 }}
+                                  transition={{ duration: 0.3 }}
+                                  className="relative aspect-video rounded-lg group flex items-center justify-center "
                                 >
-                                  <X size={16} />
-                                </motion.button>
-                              </motion.div>
-                            )
-                          ))}
-                          {!images.some(media => media.type === "video") && (
+                                  <video
+                                    src={media.preview}
+                                    className="w-full object-cover h-40 border-green-400 border-4"
+                                  />
+                                  <motion.button
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    onClick={() => removeImage(media.id)}
+                                    className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                                  >
+                                    <X size={16} />
+                                  </motion.button>
+                                </motion.div>
+                              )
+                          )}
+                          {!images.some((media) => media.type === "video") && (
                             <label className="cursor-pointer  ">
                               <motion.div
                                 className="flex flex-col items-center justify-center p-2  transition-all"
@@ -553,14 +564,18 @@ export function PostGenerator() {
                                   Upload Video
                                 </div>
                                 <p className="text-xs md:text-sm text-gray-500 text-center ">
-                              Share clips, animation or reel
+                                  Share clips, animation or reel
                                 </p>
-                                <Button className="mt-2" variant="outline" onClick={(e) => {
-                                  e.preventDefault()
-                                  handleButtonClick()
-                                }}>
+                                <Button
+                                  className="mt-2 rounded-lg"
+                                  variant="outline"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    handleButtonClick();
+                                  }}
+                                >
                                   <Plus />
-                                  Add
+                                  Add Video
                                 </Button>
                                 <input
                                   type="file"
@@ -569,21 +584,26 @@ export function PostGenerator() {
                                   ref={inputRef}
                                   onChange={handleFileChange}
                                   multiple={false}
-                                  disabled={images.length > 0 && images.some(media => media.type !== "video")}
+                                  disabled={
+                                    images.length > 0 &&
+                                    images.some(
+                                      (media) => media.type !== "video"
+                                    )
+                                  }
                                 />
                               </motion.div>
                             </label>
                           )}
                         </div>
-
-
                       </AnimatePresence>
                     </div>
                   </div>
                 </div>
 
-                <div className="border shadow-md  dark:border-blue-900 transition-all
-      focus-within:outline focus-within:outline-2 focus-within:outline-blue-500 rounded-lg">
+                <div
+                  className="border shadow-md  dark:border-blue-900 transition-all
+      focus-within:outline focus-within:outline-2 focus-within:outline-blue-500 rounded-lg"
+                >
                   <Editor
                     value={generatedPost}
                     onChange={(val) => setGeneratedPost(val)}
@@ -603,7 +623,7 @@ export function PostGenerator() {
                               <div
                                 className={`transform flex items-center gap-2 transition-transform duration-300 ${isPending || isRegenerating ? "-translate-y-[250%]" : "translate-y-0"}`}
                               >
-                                <span>Regenerate Post  </span>   <Repeat />
+                                <span>Regenerate Post </span> <Repeat />
                               </div>
                               <div
                                 className={`absolute transform transition-transform duration-300 ${isPending || isRegenerating ? "translate-y-0" : "translate-y-[250%]"}`}
@@ -623,7 +643,13 @@ export function PostGenerator() {
                               <div
                                 className={`transform flex items-center gap-2 transition-transform duration-300 ${isPending || isRegenerating ? "-translate-y-[250%]" : "translate-y-0"}`}
                               >
-                                <span> {postGenerated ? "Regenerate Post" : "Generate Post"} </span>  <ArrowRight />
+                                <span>
+                                  {" "}
+                                  {postGenerated
+                                    ? "Regenerate Post"
+                                    : "Generate Post"}{" "}
+                                </span>{" "}
+                                <ArrowRight />
                               </div>
                               <div
                                 className={`absolute transform transition-transform duration-300 ${isPending || isRegenerating ? "translate-y-0" : "translate-y-[250%]"}`}
@@ -641,9 +667,15 @@ export function PostGenerator() {
                                 asChild
                                 disabled={isSourcesFetching || isPending}
                               >
-                                <Button variant={"outline"} className="" > <Filter /> Select Options</Button>
+                                <Button variant={"outline"} className="">
+                                  {" "}
+                                  <Filter /> Select Options
+                                </Button>
                               </DropdownMenuTrigger>
-                              <DropdownMenuContent align="start" className="w-64">
+                              <DropdownMenuContent
+                                align="start"
+                                className="w-64"
+                              >
                                 {[
                                   {
                                     label: "Files",
@@ -712,12 +744,16 @@ export function PostGenerator() {
                                                 // Filter items
                                                 let visibleCount = 0;
                                                 searchContainer
-                                                  ?.querySelectorAll(".dropdown-item")
+                                                  ?.querySelectorAll(
+                                                    ".dropdown-item"
+                                                  )
                                                   .forEach((item) => {
                                                     const text =
                                                       item.textContent?.toLowerCase() ||
                                                       "";
-                                                    if (text.includes(searchTerm)) {
+                                                    if (
+                                                      text.includes(searchTerm)
+                                                    ) {
                                                       (
                                                         item as HTMLElement
                                                       ).style.display = "";
@@ -749,7 +785,9 @@ export function PostGenerator() {
                                                   }
                                                 }
                                               }}
-                                              onClick={(e) => e.stopPropagation()}
+                                              onClick={(e) =>
+                                                e.stopPropagation()
+                                              }
                                             />
                                           </div>
 
@@ -810,27 +848,30 @@ export function PostGenerator() {
                               </DropdownMenuContent>
                             </DropdownMenu>
                           )}
-
                         </div>
                         {!postGenerated && optionData && (
                           <TooltipProvider>
                             <Tooltip>
-                              <TooltipTrigger>       <Button size={"icon"} onClick={(e)=>{
-                                e.preventDefault()
-                              }}>
-                                <WandSparkles  className="text-white"/>
-                              </Button></TooltipTrigger>
+                              <TooltipTrigger>
+                                {" "}
+                                <Button
+                                  size={"icon"}
+                                  className="rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border bg-background hover:text-accent-foreground ml-2 shadow-sm hover:shadow border-primary/20 hover:border-primary/30 h-10 w-10 hover:bg-accent"
+                                  onClick={handleImproveQuery}
+                                >
+                                  <WandSparkles className="text-blue-600" />
+                                </Button>
+                              </TooltipTrigger>
                               <TooltipContent>
-                                <p>Enhance prompt</p>
+                                <p className="text-white">
+                                  Reform your writing with AI
+                                </p>
                               </TooltipContent>
                             </Tooltip>
                           </TooltipProvider>
-
-
                         )}
                       </div>
                       {postGenerated && (
-
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger asChild>
@@ -844,12 +885,12 @@ export function PostGenerator() {
                                 <Button
                                   className="tracking-wider w-20 text-white "
                                   onClick={(e) => {
-                                    e.preventDefault()
-                                    setOpenPost(true)
+                                    e.preventDefault();
+                                    setOpenPost(true);
                                   }}
                                   disabled={isExpired}
                                 >
-                                  <Send />   Post
+                                  <Send /> Post
                                 </Button>
                               </motion.div>
                             </TooltipTrigger>
@@ -860,9 +901,6 @@ export function PostGenerator() {
                             )}
                           </Tooltip>
                         </TooltipProvider>
-
-
-
                       )}
                     </div>
 
@@ -888,11 +926,7 @@ export function PostGenerator() {
                     )}
                   </div>
                 </div>
-
-
-
               </CardContent>
-
             </Card>
 
             <RegenerateModal
@@ -909,11 +943,11 @@ export function PostGenerator() {
         className="w-1/3 border-l bg-white dark:bg-blue-950/10 hidden lg:block h-full p-4 overflow-y-auto"
         id="imageLoad"
       >
-
-
         {images.length > 0 && (
           <div className="mb-8 relative bg-white rounded-xl shadow-xl border-2  p-3  ">
-            <div className="p-2 text-xl font-bold dark:text-black">Media Preview</div>
+            <div className="p-2 text-xl font-bold dark:text-black">
+              Media Preview
+            </div>
             <motion.div
               className="relative overflow-hidden w-full aspect-video bg-white h-60 rounded-xl border "
               initial={{ opacity: 0, y: 20 }}
@@ -965,10 +999,11 @@ export function PostGenerator() {
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
-                        className={`h-2 rounded-full transition-all ${index === currentSlide
-                          ? " bg-black w-4"
-                          : " bg-black bg-opacity-50 w-2"
-                          }`}
+                        className={`h-2 rounded-full transition-all ${
+                          index === currentSlide
+                            ? " bg-black w-4"
+                            : " bg-black bg-opacity-50 w-2"
+                        }`}
                       />
                     ))}
                   </div>
@@ -990,7 +1025,10 @@ export function PostGenerator() {
         )}
 
         <div className="mb-2 flex items-center gap-2 bg-white dark:bg-blue-900/40 w-full justify-between p-3 dark:border-blue-700 border-blue-100 rounded-lg text-black dark:text-white border shadow-md">
-          <Label className="flex items-center gap-1"><CalendarClock className="size-5" />  <span className="font-bold">Schedule Post  </span> </Label>
+          <Label className="flex items-center gap-1">
+            <CalendarClock className="size-5" />{" "}
+            <span className="font-bold">Schedule Post </span>{" "}
+          </Label>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
@@ -1005,9 +1043,6 @@ export function PostGenerator() {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-
-
-
         </div>
         <AnimatePresence>
           {enabled && (
@@ -1044,7 +1079,6 @@ export function PostGenerator() {
                     </PopoverContent>
                   </Popover>
                   <div className="space-y-4">
-
                     <div className="mt-2">
                       <Label htmlFor="time">Time</Label>
                       <Input
@@ -1061,11 +1095,11 @@ export function PostGenerator() {
                       />
                     </div>
                     <Button
-                      onClick={handleSchedule}
-                      className="w-full"
-                      disabled={!postGenerated}
+                      className="w-full text-white rounded-lg"
+                      disabled={true}
                     >
-                      Schedule
+                      <Clock className="text-white" />
+                      Coming Soon
                     </Button>
                   </div>
                 </CardContent>
@@ -1073,8 +1107,6 @@ export function PostGenerator() {
             </motion.div>
           )}
         </AnimatePresence>
-
-
 
         <Dialog
           open={!!selectedPost}
@@ -1109,14 +1141,13 @@ export function PostGenerator() {
         <DialogTrigger className="hidden">Open</DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Publish Your Post
-            </DialogTitle>
-            <p>Choose who can view this post before publishing.
-
-            </p>
+            <DialogTitle>Publish Your Post</DialogTitle>
+            <p>Choose who can view this post before publishing.</p>
             <DialogDescription>
               <div className="flex my-5 items-center justify-between gap-2">
-                <div className="flex items-center space-x-2 font-bold"><Lock className="size-5" /> <span>Connection Only </span></div>
+                <div className="flex items-center space-x-2 font-bold">
+                  <Lock className="size-5" /> <span>Connection Only </span>
+                </div>
                 <Switch
                   checked={connectionOnly}
                   onCheckedChange={setConnectionOnly}
@@ -1126,26 +1157,29 @@ export function PostGenerator() {
             </DialogDescription>
             <div className="flex items-center justify-end">
               <Button className="flex items-center" onClick={handlePost}>
-                <Send />    <span>Publish </span>
+                <Send className="text-white" />{" "}
+                <span className="text-white">Publish </span>
               </Button>
             </div>
           </DialogHeader>
         </DialogContent>
       </Dialog>
       <Drawer>
-        <DrawerTrigger><Button className="fixed lg:hidden bottom-10 right-5 rounded-lg text-white">
-          Schedule Post
-        </Button></DrawerTrigger>
+        <DrawerTrigger>
+          <Button className="fixed lg:hidden bottom-10 right-5 rounded-lg text-white">
+            Schedule Post
+          </Button>
+        </DrawerTrigger>
         <DrawerContent className="h-[600px]">
           <aside
             className=" bg-white dark:bg-blue-950/10  h-full p-4 overflow-y-auto"
             id="imageLoad"
           >
-
-
             {images.length > 0 && (
               <div className="mb-8 relative bg-white rounded-xl shadow-xl border-2  p-3  ">
-                <div className="p-2 text-xl font-bold dark:text-black">Media Preview</div>
+                <div className="p-2 text-xl font-bold dark:text-black">
+                  Media Preview
+                </div>
                 <motion.div
                   className="relative overflow-hidden w-full aspect-video bg-white h-60 rounded-xl border "
                   initial={{ opacity: 0, y: 20 }}
@@ -1197,10 +1231,11 @@ export function PostGenerator() {
                           <button
                             key={index}
                             onClick={() => setCurrentSlide(index)}
-                            className={`h-2 rounded-full transition-all ${index === currentSlide
-                              ? " bg-black w-4"
-                              : " bg-black bg-opacity-50 w-2"
-                              }`}
+                            className={`h-2 rounded-full transition-all ${
+                              index === currentSlide
+                                ? " bg-black w-4"
+                                : " bg-black bg-opacity-50 w-2"
+                            }`}
                           />
                         ))}
                       </div>
@@ -1222,7 +1257,10 @@ export function PostGenerator() {
             )}
 
             <div className="mb-2 flex items-center gap-2 bg-white dark:bg-blue-900/40 w-full justify-between p-3 dark:border-blue-700 border-blue-100 rounded-lg text-black dark:text-white border shadow-md">
-              <Label className="flex items-center gap-1"><CalendarClock className="size-5" />  <span className="font-bold">Schedule Post  </span> </Label>
+              <Label className="flex items-center gap-1">
+                <CalendarClock className="size-5" />{" "}
+                <span className="font-bold">Schedule Post </span>{" "}
+              </Label>
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger>
@@ -1233,13 +1271,12 @@ export function PostGenerator() {
                     />
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>{isExpired ? "Please connect LinkedIn" : "Schedule post"}</p>
+                    <p>
+                      {isExpired ? "Please connect LinkedIn" : "Schedule post"}
+                    </p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-
-
-
             </div>
             <AnimatePresence>
               {enabled && (
@@ -1263,7 +1300,11 @@ export function PostGenerator() {
                             )}
                           >
                             <CalendarIcon />
-                            {date ? format(date, "PPP") : <span>Pick a date</span>}
+                            {date ? (
+                              format(date, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0">
@@ -1276,7 +1317,6 @@ export function PostGenerator() {
                         </PopoverContent>
                       </Popover>
                       <div className="space-y-4">
-
                         <div className="mt-2">
                           <Label htmlFor="time">Time</Label>
                           <Input
@@ -1293,11 +1333,10 @@ export function PostGenerator() {
                           />
                         </div>
                         <Button
-                          onClick={handleSchedule}
-                          className="w-full"
-                          disabled={!postGenerated}
+                          className="w-full text-white rounded-lg"
+                          disabled={true}
                         >
-                          Schedule
+                          <Clock className="text-white" /> Coming soon
                         </Button>
                       </div>
                     </CardContent>
@@ -1305,8 +1344,6 @@ export function PostGenerator() {
                 </motion.div>
               )}
             </AnimatePresence>
-
-
 
             <Dialog
               open={!!selectedPost}
@@ -1339,8 +1376,6 @@ export function PostGenerator() {
           </aside>
         </DrawerContent>
       </Drawer>
-
-
     </div>
   );
 }

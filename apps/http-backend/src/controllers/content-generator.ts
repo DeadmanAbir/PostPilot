@@ -1,8 +1,13 @@
 import { Response } from "express";
 
-import { generatePostPrompt, regeneratePostPrompt } from "@/utils/constant";
+import {
+  generatePostPrompt,
+  improvePostPrompt,
+  regeneratePostPrompt,
+} from "@/utils/constant";
 import { ZodError } from "zod";
 import {
+  improvePostValidator,
   postGenerateValidator,
   postRegenerateValidator,
 } from "@repo/common/validator";
@@ -104,6 +109,38 @@ export const regeneratePost = async (
     // @ts-ignore
     const postContent = JSON.parse(data.content);
 
+    const updatedData = [{ post_content: postContent.post_content }];
+
+    response.status(200).json({ updatedData });
+  } catch (e: unknown) {
+    console.log(e);
+    if (e instanceof ZodError) {
+      response
+        .status(422)
+        .json({ error: "Invalid request body", details: e.errors });
+    } else if (e instanceof Error) {
+      response.status(500).json({ error: e.message });
+    } else {
+      response.status(500).json({ error: "An unknown error occurred" });
+    }
+  }
+};
+
+export const improvePost = async (request: AuthRequest, response: Response) => {
+  try {
+    const { query } = improvePostValidator.parse(request.body);
+    console.log(query, "query");
+    const chatOpenai = createClient("OpenAI");
+    const data = await chatOpenai.chat({
+      prompt:
+        "Here's a LinkedIn post I want to publish. Please enhance it according to your instructions.",
+      systemInstruction: improvePostPrompt,
+      context: query,
+      outputFormat: '{"post_content": ""}',
+    });
+
+    // @ts-ignore
+    const postContent = JSON.parse(data.output);
     const updatedData = [{ post_content: postContent.post_content }];
 
     response.status(200).json({ updatedData });

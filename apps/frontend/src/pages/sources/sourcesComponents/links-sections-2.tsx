@@ -99,10 +99,12 @@ For better accuracy, consider pasting the website text into the Notes section or
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-      
               >
-              <Banner/>
-
+                <Banner
+                  heading="Welcome to Post Pilot"
+                  subheading="Select your content source to get started"
+                  buttonLabel="Create a Post"
+                />
               </motion.div>
               <motion.div
                 key="grid"

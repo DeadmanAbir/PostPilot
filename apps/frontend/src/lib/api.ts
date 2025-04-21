@@ -124,6 +124,28 @@ export const regeneratePost = async (
   }
 };
 
+export const improvePost = async (accessToken: string, query: string) => {
+  try {
+    const response = await fetch("/api/improve-post", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ query }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.updatedData[0];
+  } catch (error) {
+    console.error("Failed to improve post:", error);
+    throw error;
+  }
+};
+
 export const fetchTweet = async (
   accessToken: string,
   content: TweetContent

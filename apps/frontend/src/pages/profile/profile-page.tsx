@@ -53,6 +53,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { NoPostsCard } from "./profilePageComponents/empty-posts";
+import { ComingSoonCard } from "./profilePageComponents/coming-soon-schedule";
 import { toast } from "sonner";
 
 export function ProfilePage() {
@@ -246,9 +248,7 @@ export function ProfilePage() {
                   )
                 )}
 
-                {!data?.post || data.post.length === 0 ? (
-                  <h1>no posts</h1>
-                ) : null}
+                {!data?.post || data.post.length === 0 ? <NoPostsCard /> : null}
               </div>
             </div>
 
@@ -257,7 +257,7 @@ export function ProfilePage() {
               <h2 className="text-xl font-semibold mb-4">Scheduled Posts</h2>
               <div className="space-y-2">
                 <CardContent className="p-4">
-                  <h1>Coming soon</h1>
+                  <ComingSoonCard />
                 </CardContent>
               </div>
             </div>
