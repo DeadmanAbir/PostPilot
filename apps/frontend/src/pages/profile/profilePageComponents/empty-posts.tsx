@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 export function NoPostsCard() {
   return (
-    <Card className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg mb-6">
+    <Card className="w-full bg-gradient-to-br from-slate-100 via-white to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-black text-white border border-slate-200 dark:border-slate-700 rounded-lg">
       <CardHeader className="pb-2"></CardHeader>
       <CardContent className="pt-0">
         <div className="flex flex-col items-center py-6 text-center">

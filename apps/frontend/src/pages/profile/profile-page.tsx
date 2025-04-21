@@ -256,7 +256,7 @@ export function ProfilePage() {
             <div>
               <h2 className="text-xl font-semibold mb-4">Scheduled Posts</h2>
               <div className="space-y-2">
-                <CardContent className="p-4">
+                <CardContent className="p-0">
                   <ComingSoonCard />
                 </CardContent>
               </div>
@@ -285,7 +285,7 @@ export function ProfilePage() {
                         Connected As
                       </p>
                     </div>
-                    <div className="flex flex-col ">
+                    <div className="flex ">
                       <Avatar className="h-8 w-8">
                         <AvatarImage
                           src={data.linkedin?.profile_pic ?? null}
