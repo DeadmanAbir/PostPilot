@@ -80,7 +80,7 @@ export function AccountCard({
   };
   return (
     <Card className="overflow-hidden border border-slate-100 dark:border-blue-700 hover:shadow-md transition-all duration-200 dark:bg-blue-900/20 p-2">
-      <CardContent className="px-6 py-4 flex items-center gap-4">
+      <CardContent className="px-2 md:px-6 py-4 flex items-center gap-4">
         <div
           className="flex items-center justify-center w-16 h-16 rounded-2xl"
           style={{ backgroundColor: "#0A66C2" }}

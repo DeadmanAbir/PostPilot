@@ -21,7 +21,7 @@ export function AccountsPage() {
     : true;
 
   return (
-    <div className="container mx-auto py-8 px-10 space-y-8 min-h-screen ">
+    <div className="container mx-auto py-8 md:px-10 px-2 space-y-8 min-h-screen ">
          <Banner/>
 
 
