@@ -1145,9 +1145,16 @@ export function PostGenerator() {
             <p>Choose who can view this post before publishing.</p>
             <DialogDescription>
               <div className="flex my-5 items-center justify-between gap-2">
-                <div className="flex items-center space-x-2 font-bold">
+                <div className="flex flex-col items-start gap-1">
+                <div className="flex  items-center space-x-2 font-bold">
                   <Lock className="size-5" /> <span>Connection Only </span>
+                
                 </div>
+                <span className="text-muted-foreground">
+                {connectionOnly ? "Only your connections will be able to view this post." : "Everyone will be able to view this post."}
+                  </span>
+                </div>
+              
                 <Switch
                   checked={connectionOnly}
                   onCheckedChange={setConnectionOnly}
