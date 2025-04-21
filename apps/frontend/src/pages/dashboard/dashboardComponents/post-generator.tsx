@@ -92,12 +92,8 @@ import {
 import { Separator } from "@/components/ui/separator";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
+
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { toast } from "sonner";
@@ -153,8 +149,8 @@ export function PostGenerator() {
   const [selectedItems, setSelectedItems] = useState<
     { id: string; label: string; type: string }[]
   >([]);
-  const inputRef = useRef(null);
-  const inputImageRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const inputImageRef = useRef<HTMLInputElement>(null);
   const handleButtonClick = () => {
     inputRef.current?.click();
   };
@@ -315,8 +311,7 @@ export function PostGenerator() {
   const [enabled, setEnabled] = useState(false);
   const [connectionOnly, setConnectionOnly] = useState(false);
 
-  const [scheduledPosts, setScheduledPosts] =
-    useState<ScheduledPost[]>(mockUpcomingPosts);
+  // const [scheduledPosts, setScheduledPosts] =useState<ScheduledPost[]>(mockUpcomingPosts);
   const [selectedPost, setSelectedPost] = useState<ScheduledPost | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
