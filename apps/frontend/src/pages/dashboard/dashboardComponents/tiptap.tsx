@@ -7,10 +7,10 @@ import { Bold, Italic, Code, Copy, Check } from "lucide-react";
 
 // Unicode Converter from your code
 const UnicodeConverter = {
-  bold: function(text) {
+  bold: function (text) {
     return text.replace(/[0-9A-Za-z]/g, (char) => {
       const code = char.charCodeAt(0);
-      
+
       if (code >= 48 && code <= 57) { // 0-9
         return String.fromCodePoint(code + 120734);
       } else if (code >= 65 && code <= 90) { // A-Z
@@ -21,11 +21,11 @@ const UnicodeConverter = {
       return char;
     });
   },
-  
-  italic: function(text) {
+
+  italic: function (text) {
     return text.replace(/[A-Za-z]/g, (char) => {
       const code = char.charCodeAt(0);
-      
+
       if (code >= 65 && code <= 90) { // A-Z
         return String.fromCodePoint(code + 120263);
       } else if (code >= 97 && code <= 122) { // a-z
@@ -34,11 +34,11 @@ const UnicodeConverter = {
       return char;
     });
   },
-  
-  boldItalic: function(text) {
+
+  boldItalic: function (text) {
     return text.replace(/[A-Za-z]/g, (char) => {
       const code = char.charCodeAt(0);
-      
+
       if (code >= 65 && code <= 90) { // A-Z
         return String.fromCodePoint(code + 120315);
       } else if (code >= 97 && code <= 122) { // a-z
@@ -54,13 +54,13 @@ export const processHTMLContent = (html) => {
   // Create a temporary div to parse the HTML
   const tempDiv = document.createElement('div');
   tempDiv.innerHTML = html;
-  
+
   // Process the DOM tree recursively
   return processNode(tempDiv);
 };
- const processNode = (node) => {
+const processNode = (node) => {
   let result = '';
-  
+
   // Process each child node
   node.childNodes.forEach((child) => {
     if (child.nodeType === Node.TEXT_NODE) {
@@ -69,18 +69,18 @@ export const processHTMLContent = (html) => {
     } else if (child.nodeType === Node.ELEMENT_NODE) {
       const element = child;
       let text = processNode(element); // Process nested content first
-      
+
       // Apply formatting based on the element type
       if (element.tagName === 'STRONG' || element.tagName === 'B') {
-        if (element.querySelector('em') || element.querySelector('i') || 
-            element.parentElement?.tagName === 'EM' || element.parentElement?.tagName === 'I') {
+        if (element.querySelector('em') || element.querySelector('i') ||
+          element.parentElement?.tagName === 'EM' || element.parentElement?.tagName === 'I') {
           text = UnicodeConverter.boldItalic(text);
         } else {
           text = UnicodeConverter.bold(text);
         }
       } else if (element.tagName === 'EM' || element.tagName === 'I') {
-        if (element.querySelector('strong') || element.querySelector('b') || 
-            element.parentElement?.tagName === 'STRONG' || element.parentElement?.tagName === 'B') {
+        if (element.querySelector('strong') || element.querySelector('b') ||
+          element.parentElement?.tagName === 'STRONG' || element.parentElement?.tagName === 'B') {
           text = UnicodeConverter.boldItalic(text);
         } else {
           text = UnicodeConverter.italic(text);
@@ -93,18 +93,18 @@ export const processHTMLContent = (html) => {
       } else if (element.tagName === 'BR') {
         text = '\n';
       }
-      
+
       result += text;
     }
   });
-  
+
   return result.trim();
 };
 
 interface EditorProps {
   value: string;
   onChange: (value: string) => void;
-  disabled:boolean
+  disabled: boolean
 }
 
 interface MenuBarProps {
@@ -117,56 +117,56 @@ const MenuBar = ({ editor, onCopy, copied }: MenuBarProps) => {
   if (!editor) {
     return null;
   }
-  
+
   return (
     <div className="border-b dark:border-blue-900 p-2 flex items-center justify-between gap-2 bg-background dark:bg-blue-600/20">
       <div className='flex items-center gap-2'>
-      <Button
-        variant="ghost"
-        type="button"
-        size="icon"
-        onClick={(e) => {
-          e.preventDefault();
-          editor.chain().focus().toggleBold().run();
-        }} 
-        disabled={!editor.can().chain().focus().toggleBold().run()}
-        className={`${editor.isActive("bold") ? "bg-muted" : ""} hover:text-blue-500 dark:hover:bg-blue-900/40`}
+        <Button
+          variant="ghost"
+          type="button"
+          size="icon"
+          onClick={(e) => {
+            e.preventDefault();
+            editor.chain().focus().toggleBold().run();
+          }}
+          disabled={!editor.can().chain().focus().toggleBold().run()}
+          className={`${editor.isActive("bold") ? "bg-muted" : ""} hover:text-blue-500 dark:hover:bg-blue-900/40`}
         >
-        <Bold className="h-4 w-4" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        type="button"
-        onClick={(e) => {
-          e.preventDefault();
-          editor.chain().focus().toggleItalic().run();
-        }}
-        disabled={!editor.can().chain().focus().toggleItalic().run()}
-        className={`${editor.isActive("italic") ? "bg-muted" : ""} hover:text-blue-500 dark:hover:bg-blue-900/40`}
-      >
-        <Italic className="h-4 w-4" />
-      </Button>
+          <Bold className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            editor.chain().focus().toggleItalic().run();
+          }}
+          disabled={!editor.can().chain().focus().toggleItalic().run()}
+          className={`${editor.isActive("italic") ? "bg-muted" : ""} hover:text-blue-500 dark:hover:bg-blue-900/40`}
+        >
+          <Italic className="h-4 w-4" />
+        </Button>
 
       </div>
       <div className='flex items-center gap-2'>
-      <Button
-        variant="ghost"
-        type="button"
-        size="icon"
-        onClick={onCopy}
-        className={copied ? "bg-green-200 dark:bg-green-800" : editor.isActive("bold") ? "bg-muted" : ""}
-      >
-        {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />} 
-      </Button>
-     
+        <Button
+          variant="ghost"
+          type="button"
+          size="icon"
+          onClick={onCopy}
+          className={copied ? "bg-green-200 dark:bg-green-800" : editor.isActive("bold") ? "bg-muted" : ""}
+        >
+          {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+        </Button>
+
 
       </div>
     </div>
   );
 };
 
-export default function Editor({ value, onChange,disabled }: EditorProps) {
+export default function Editor({ value, onChange, disabled }: EditorProps) {
   const [copied, setCopied] = useState(false);
   const editor = useEditor({
     extensions: [
@@ -216,10 +216,14 @@ export default function Editor({ value, onChange,disabled }: EditorProps) {
   return (
     <div className="w-full ">
       <MenuBar editor={editor} onCopy={handleCopy} copied={copied} />
-      <div className="h-[160px] overflow-auto bg-white dark:bg-blue-900/20" id="editor">
-      <EditorContent editor={editor} />
-    </div>
-      
+      <div
+        className="h-[160px] overflow-auto bg-white dark:bg-blue-900/20"
+        id="editor"
+        onClick={() => editor?.commands.focus()}
+      >
+        <EditorContent editor={editor} />
+      </div>
+
 
     </div>
   );
