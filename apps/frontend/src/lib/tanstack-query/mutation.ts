@@ -17,6 +17,7 @@ import {
   deleteLinkedinAccount,
   fetchTweet,
   fetchWebsite,
+  improvePost,
   linkedinPost,
   postToLinkedin,
   regeneratePost,
@@ -35,6 +36,13 @@ export const regeneratePostFn = (accessToken: string, options = {}) => {
   return useMutation({
     mutationFn: (details: RegeneratePostContent) =>
       regeneratePost(accessToken!, details),
+    ...options,
+  });
+};
+
+export const improvePostFn = (accessToken: string, options = {}) => {
+  return useMutation({
+    mutationFn: (query: string) => improvePost(accessToken!, query),
     ...options,
   });
 };

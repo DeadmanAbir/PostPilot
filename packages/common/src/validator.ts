@@ -42,6 +42,10 @@ export const postRegenerateValidator = z.object({
   }),
 });
 
+export const improvePostValidator = z.object({
+  query: z.string(),
+});
+
 export const profileIdValidator = z.object({
   id: z.string(),
 });

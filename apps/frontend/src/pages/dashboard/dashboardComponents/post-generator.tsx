@@ -46,6 +46,7 @@ import { RegenerateModal } from "@/components/regenerate-modal";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import {
   generatePostFn,
+  improvePostFn,
   postToLinkedinFn,
   regeneratePostFn,
 } from "@/lib/tanstack-query/mutation";
@@ -250,6 +251,21 @@ export function PostGenerator() {
       },
     });
 
+  const { mutate: refinePost, isPending: isImproving } = improvePostFn(
+    user?.accessToken!,
+    {
+      onSuccess: (data: LinkedinPostResponse) => {
+        const cleanData = removeMd(data.post_content);
+        setGeneratedPost(cleanData);
+        alert("Post improved successfully");
+      },
+      onError: (error: unknown) => {
+        console.log(error);
+        alert("error inimproving");
+      },
+    }
+  );
+
   const toggleSelect = (item: { id: string; label: string; type: string }) => {
     setSelectedItems((prev) => {
       const exists = prev.some((i) => i.id === item.id);
@@ -358,6 +374,11 @@ export function PostGenerator() {
       images: images[0]?.type == "image" ? media : undefined,
       video: images[0]?.type == "video" ? media[0] : undefined,
     });
+  };
+
+  const handleImproveQuery = async () => {
+    const processed = processHTMLContent(generatedPost);
+    refinePost(processed);
   };
 
   return (
@@ -834,9 +855,7 @@ export function PostGenerator() {
                                 <Button
                                   size={"icon"}
                                   className="rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border bg-background hover:text-accent-foreground ml-2 shadow-sm hover:shadow border-primary/20 hover:border-primary/30 h-10 w-10 hover:bg-accent"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                  }}
+                                  onClick={handleImproveQuery}
                                 >
                                   <WandSparkles className="text-blue-600" />
                                 </Button>
