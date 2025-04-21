@@ -199,7 +199,7 @@ export function PostGenerator() {
 
   const isExpired = optionData?.linkedin?.expires_at
     ? optionData.linkedin.expires_at &&
-      new Date(optionData.linkedin.expires_at) < new Date()
+    new Date(optionData.linkedin.expires_at) < new Date()
     : true;
   const { mutate: generatePost, isPending } = generatePostFn(
     user?.accessToken!,
@@ -434,7 +434,10 @@ export function PostGenerator() {
                             <div>
                               <label
                                 htmlFor="image-upload"
-                                className="flex flex-col items-center justify-center size-20 cursor-pointer border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-blue-500 hover:text-blue-500 transition"
+                                className={`flex flex-col items-center justify-center size-20 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 transition ${images.some((media) => media.type === "video")
+                                  ? "opacity-50 cursor-not-allowed"
+                                  : "cursor-pointer hover:border-blue-500 hover:text-blue-500"
+                                  }`}
                               >
                                 <span className="text-4xl">＋</span>
                                 <span className="text-xs mt-1 text-center">
@@ -456,15 +459,21 @@ export function PostGenerator() {
                             </div>
                           )}
                           {!images.some((media) => media.type !== "video") && (
-                            <label className="cursor-pointer -translate-y-2 ">
+                            <label className={`${images.some((media) => media.type === "video")
+                              ? "cursor-not-allowed"
+                              : "cursor-pointer"
+                              } -translate-y-2`}>
                               <motion.div
-                                className="flex flex-col items-center justify-center p-2  transition-all"
+                                className="flex flex-col items-center justify-center p-2 transition-all"
                                 whileHover="hover"
                               >
-                                <div className="h-24 w-32  flex items-center justify-center">
+                                <div className="h-24 w-32 flex items-center justify-center">
                                   <motion.div
-                                    className="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full md:size-14 size-12 flex items-center justify-center cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40 transition-all duration-300"
-                                    whileHover={{ scale: 1.1 }}
+                                    className={`bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full md:size-14 size-12 flex items-center justify-center ${images.some((media) => media.type === "video")
+                                      ? "opacity-50 cursor-not-allowed"
+                                      : "cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40"
+                                      } transition-all duration-300`}
+                                    whileHover={!images.some((media) => media.type === "video") ? { scale: 1.1 } : {}}
                                   >
                                     <ImageIcon className="md:size-8 size-6 text-blue-700 dark:text-blue-200" />
                                   </motion.div>
@@ -472,16 +481,20 @@ export function PostGenerator() {
                                 <div className="md:text-xl text-base">
                                   Upload Images
                                 </div>
-                                <p className="text-xs md:text-sm text-gray-500 text-center ">
-                                  Share photos,graphics or illustration
+                                <p className="text-xs md:text-sm text-gray-500 text-center">
+                                  Share photos, graphics or illustration
                                 </p>
                                 <Button
-                                  className="mt-2 rounded-lg"
+                                  className={`mt-2 rounded-lg ${images.some((media) => media.type === "video") ? "opacity-50 cursor-not-allowed" : ""
+                                    }`}
                                   variant="outline"
                                   onClick={(e) => {
                                     e.preventDefault();
-                                    handleImageButtonClick();
+                                    if (!images.some((media) => media.type === "video")) {
+                                      handleImageButtonClick();
+                                    }
                                   }}
+                                  disabled={images.some((media) => media.type === "video")}
                                 >
                                   <Plus />
                                   Add Images
@@ -495,9 +508,7 @@ export function PostGenerator() {
                                   ref={inputImageRef}
                                   disabled={
                                     images.length > 0 &&
-                                    images.some(
-                                      (media) => media.type === "video"
-                                    )
+                                    images.some((media) => media.type === "video")
                                   }
                                 />
                               </motion.div>
@@ -509,7 +520,7 @@ export function PostGenerator() {
                   </div>
 
                   {/* Video Upload Section */}
-                  <div className="w-full group border-[1px] rounded-lg border-gray-200 dark:border-blue-900 bg-blue-100/20 dark:bg-blue-900/20 bg-white shadow-sm  hover:shadow-md h-56">
+                  <div className="w-full group border-[1px] rounded-lg border-gray-200 dark:border-blue-900 bg-blue-100/20 dark:bg-blue-900/20 bg-white shadow-sm hover:shadow-md h-56">
                     <div className="w-full">
                       <AnimatePresence>
                         <div
@@ -524,7 +535,7 @@ export function PostGenerator() {
                                   animate={{ opacity: 1, scale: 1 }}
                                   exit={{ opacity: 0, scale: 0.8, y: 20 }}
                                   transition={{ duration: 0.3 }}
-                                  className="relative aspect-video rounded-lg group flex items-center justify-center "
+                                  className="relative aspect-video rounded-lg group flex items-center justify-center"
                                 >
                                   <video
                                     src={media.preview}
@@ -542,15 +553,21 @@ export function PostGenerator() {
                               )
                           )}
                           {!images.some((media) => media.type === "video") && (
-                            <label className="cursor-pointer  ">
+                            <label className={`${images.some((media) => media.type !== "video")
+                              ? "cursor-not-allowed"
+                              : "cursor-pointer"
+                              }`}>
                               <motion.div
-                                className="flex flex-col items-center justify-center p-2  transition-all"
+                                className="flex flex-col items-center justify-center p-2 transition-all"
                                 whileHover="hover"
                               >
-                                <div className="h-24 w-32  flex items-center justify-center">
+                                <div className="h-24 w-32 flex items-center justify-center">
                                   <motion.div
-                                    className="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full md:size-14 size-12 flex items-center justify-center cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40 transition-all duration-300"
-                                    whileHover={{ scale: 1.1 }}
+                                    className={`bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full md:size-14 size-12 flex items-center justify-center ${images.some((media) => media.type !== "video")
+                                      ? "opacity-50 cursor-not-allowed"
+                                      : "cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40"
+                                      } transition-all duration-300`}
+                                    whileHover={!images.some((media) => media.type !== "video") ? { scale: 1.1 } : {}}
                                   >
                                     <Video className="md:size-8 size-6 text-blue-700 dark:text-blue-200" />
                                   </motion.div>
@@ -558,16 +575,20 @@ export function PostGenerator() {
                                 <div className="md:text-xl text-base">
                                   Upload Video
                                 </div>
-                                <p className="text-xs md:text-sm text-gray-500 text-center ">
+                                <p className="text-xs md:text-sm text-gray-500 text-center">
                                   Share clips, animation or reel
                                 </p>
                                 <Button
-                                  className="mt-2 rounded-lg"
+                                  className={`mt-2 rounded-lg ${images.some((media) => media.type !== "video") ? "opacity-50 cursor-not-allowed" : ""
+                                    }`}
                                   variant="outline"
                                   onClick={(e) => {
                                     e.preventDefault();
-                                    handleButtonClick();
+                                    if (!images.some((media) => media.type !== "video")) {
+                                      handleButtonClick();
+                                    }
                                   }}
+                                  disabled={images.some((media) => media.type !== "video")}
                                 >
                                   <Plus />
                                   Add Video
@@ -581,9 +602,7 @@ export function PostGenerator() {
                                   multiple={false}
                                   disabled={
                                     images.length > 0 &&
-                                    images.some(
-                                      (media) => media.type !== "video"
-                                    )
+                                    images.some((media) => media.type !== "video")
                                   }
                                 />
                               </motion.div>
@@ -994,11 +1013,10 @@ export function PostGenerator() {
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
-                        className={`h-2 rounded-full transition-all ${
-                          index === currentSlide
-                            ? " bg-black dark:bg-blue-700 w-4"
-                            : " bg-black dark:bg-blue-700 bg-opacity-50 w-2"
-                        }`}
+                        className={`h-2 rounded-full transition-all ${index === currentSlide
+                          ? " bg-black dark:bg-blue-700 w-4"
+                          : " bg-black dark:bg-blue-700 bg-opacity-50 w-2"
+                          }`}
                       />
                     ))}
                   </div>
@@ -1141,15 +1159,15 @@ export function PostGenerator() {
             <DialogDescription>
               <div className="flex my-5 items-center justify-between gap-2">
                 <div className="flex flex-col items-start gap-1">
-                <div className="flex  items-center space-x-2 font-bold">
-                  <Lock className="size-5" /> <span>Connection Only </span>
-                
-                </div>
-                <span className="text-muted-foreground">
-                {connectionOnly ? "Only your connections will be able to view this post." : "Everyone will be able to view this post."}
+                  <div className="flex  items-center space-x-2 font-bold">
+                    <Lock className="size-5" /> <span>Connection Only </span>
+
+                  </div>
+                  <span className="text-muted-foreground">
+                    {connectionOnly ? "Only your connections will be able to view this post." : "Everyone will be able to view this post."}
                   </span>
                 </div>
-              
+
                 <Switch
                   checked={connectionOnly}
                   onCheckedChange={setConnectionOnly}
@@ -1233,11 +1251,10 @@ export function PostGenerator() {
                           <button
                             key={index}
                             onClick={() => setCurrentSlide(index)}
-                            className={`h-2 rounded-full transition-all ${
-                              index === currentSlide
-                                ? " bg-black dark:bg-blue-700 w-4"
-                                : " bg-black dark:bg-blue-700 bg-opacity-50 w-2"
-                            }`}
+                            className={`h-2 rounded-full transition-all ${index === currentSlide
+                              ? " bg-black dark:bg-blue-700 w-4"
+                              : " bg-black dark:bg-blue-700 bg-opacity-50 w-2"
+                              }`}
                           />
                         ))}
                       </div>
