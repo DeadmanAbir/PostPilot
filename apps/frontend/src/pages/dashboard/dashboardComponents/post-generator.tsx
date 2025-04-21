@@ -376,7 +376,8 @@ export function PostGenerator() {
     });
   };
 
-  const handleImproveQuery = async () => {
+  const handleImproveQuery = async (e: React.MouseEvent) => {
+    e.preventDefault();
     const processed = processHTMLContent(generatedPost);
     refinePost(processed);
   };

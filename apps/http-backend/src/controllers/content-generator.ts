@@ -136,12 +136,11 @@ export const improvePost = async (request: AuthRequest, response: Response) => {
         "Here's a LinkedIn post I want to publish. Please enhance it according to your instructions.",
       systemInstruction: improvePostPrompt,
       context: query,
-      outputFormat: "{`post_content`: ``}",
+      outputFormat: '{"post_content": ""}',
     });
 
     // @ts-ignore
     const postContent = JSON.parse(data.output);
-
     const updatedData = [{ post_content: postContent.post_content }];
 
     response.status(200).json({ updatedData });
