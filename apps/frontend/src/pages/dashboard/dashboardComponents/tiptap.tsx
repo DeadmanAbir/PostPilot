@@ -1,15 +1,21 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor, EditorContent, Editor as Tip } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from '@tiptap/extension-placeholder';
-import { Bold, Italic, Code, Copy, Check } from "lucide-react";
+import { Bold, Italic,  Copy, Check } from "lucide-react";
 
 // Unicode Converter from your code
-const UnicodeConverter = {
-  bold: function (text) {
-    return text.replace(/[0-9A-Za-z]/g, (char) => {
-      const code = char.charCodeAt(0);
+interface UnicodeConverterInterface {
+  bold: (text: string) => string;
+  italic: (text: string) => string;
+  boldItalic: (text: string) => string;
+}
+
+const UnicodeConverter: UnicodeConverterInterface = {
+  bold: function (text: string): string {
+    return text.replace(/[0-9A-Za-z]/g, (char: string) => {
+      const code: number = char.charCodeAt(0);
 
       if (code >= 48 && code <= 57) { // 0-9
         return String.fromCodePoint(code + 120734);
@@ -22,9 +28,9 @@ const UnicodeConverter = {
     });
   },
 
-  italic: function (text) {
-    return text.replace(/[A-Za-z]/g, (char) => {
-      const code = char.charCodeAt(0);
+  italic: function (text: string): string {
+    return text.replace(/[A-Za-z]/g, (char: string) => {
+      const code: number = char.charCodeAt(0);
 
       if (code >= 65 && code <= 90) { // A-Z
         return String.fromCodePoint(code + 120263);
@@ -35,9 +41,9 @@ const UnicodeConverter = {
     });
   },
 
-  boldItalic: function (text) {
-    return text.replace(/[A-Za-z]/g, (char) => {
-      const code = char.charCodeAt(0);
+  boldItalic: function (text: string): string {
+    return text.replace(/[A-Za-z]/g, (char: string) => {
+      const code: number = char.charCodeAt(0);
 
       if (code >= 65 && code <= 90) { // A-Z
         return String.fromCodePoint(code + 120315);
@@ -50,24 +56,25 @@ const UnicodeConverter = {
 };
 
 // Function to process HTML content and apply Unicode formatting
-export const processHTMLContent = (html) => {
+export const processHTMLContent = (html: string): string => {
   // Create a temporary div to parse the HTML
-  const tempDiv = document.createElement('div');
+  const tempDiv: HTMLDivElement = document.createElement('div');
   tempDiv.innerHTML = html;
 
   // Process the DOM tree recursively
   return processNode(tempDiv);
 };
-const processNode = (node) => {
+
+const processNode = (node: Node): string => {
   let result = '';
 
   // Process each child node
-  node.childNodes.forEach((child) => {
+  node.childNodes.forEach((child: ChildNode) => {
     if (child.nodeType === Node.TEXT_NODE) {
       // For text nodes, just add the text content
-      result += child.textContent;
+      result += (child as Text).textContent || '';
     } else if (child.nodeType === Node.ELEMENT_NODE) {
-      const element = child;
+      const element = child as HTMLElement;
       let text = processNode(element); // Process nested content first
 
       // Apply formatting based on the element type
@@ -108,7 +115,7 @@ interface EditorProps {
 }
 
 interface MenuBarProps {
-  editor: any;
+  editor: Tip | null;
   onCopy: () => void;
   copied: boolean;
 }
@@ -209,6 +216,7 @@ export default function Editor({ value, onChange, disabled }: EditorProps) {
         setTimeout(() => setCopied(false), 1200);
       } catch (err) {
         setCopied(false);
+        console.log(err)
       }
     }
   };
