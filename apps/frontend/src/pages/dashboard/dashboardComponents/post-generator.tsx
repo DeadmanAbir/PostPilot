@@ -293,8 +293,15 @@ export function PostGenerator() {
   const handleRegenerate = async (additionalContext: string) => {
     // TODO: Implement actual AI regeneration logic
     // setGeneratedPost(`Regenerated post with context: ${additionalContext}`);
+    const newText = getTextFromHTML(generatedPost);
+    if (!newText.trim()) {
+      // Optionally show an error message here
+      toast.error("Text cannot be empty");
+      return;
+    }
+
     regeneratePost({
-      previousPost: generatedPost,
+      previousPost: newText,
       query: additionalContext,
       media: groupItemsByType({ selectedItems }),
     });
