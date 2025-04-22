@@ -1,5 +1,13 @@
 // Face component for each side of the cube
-const CubeFace = ({ bgColor, transform, children, icon: Icon, label }) => (
+type CubeFaceProps = {
+  bgColor: string;
+  transform: string;
+  children?: React.ReactNode;
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+};
+
+const CubeFace = ({ bgColor, transform,  icon: Icon, label }: CubeFaceProps) => (
     <div
       className={`absolute w-40 h-40 flex items-center justify-center  ${bgColor} border border-white/20`}
       style={{
@@ -129,7 +137,7 @@ const CubeFace = ({ bgColor, transform, children, icon: Icon, label }) => (
           {/* Glowing effect */}
         </div>
         
-        <style jsx>{`
+        <style>{`
           @keyframes rotateCube {
             0% {
               transform: rotateX(0deg) rotateY(0deg);

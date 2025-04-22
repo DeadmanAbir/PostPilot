@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Brain, Sparkles, Workflow, Code } from "lucide-react";
+import { Brain, Sparkles, Workflow,} from "lucide-react";
 
 const features = [
   {
@@ -22,7 +22,7 @@ const features = [
   },
 ];
 
-const FeatureCard = ({ icon: Icon, title, description, color, index }) => {
+const FeatureCard = ({ icon: Icon, title, description, color }: { icon: React.ComponentType<{ size: number }>; title: string; description: string; color: string }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -52,8 +52,8 @@ const StaggerFeatures = () => {
   return (
     <div className="w-full">
       <div className="grid grid-cols-1 gap-4 px-5 pt-2 pb-5 w-full">
-        {features.map((feature, index) => (
-          <FeatureCard key={feature.title} {...feature} index={index} />
+        {features.map((feature) => (
+          <FeatureCard key={feature.title} {...feature} />
         ))}
       </div>
     </div>
