@@ -82,9 +82,9 @@ const Sources = () => {
           </Button>
         </div>
       </div>
-      {/* <div className="min-h-screen flex items-center justify-center overflow-visible  ">
+      <div className="min-h-screen flex items-center justify-center overflow-visible  ">
         <PreviewSection />
-      </div> */}
+      </div>
     </div>
   );
 };
