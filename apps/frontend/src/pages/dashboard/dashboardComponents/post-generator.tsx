@@ -157,7 +157,7 @@ export function PostGenerator() {
   const handleImageButtonClick = () => {
     inputImageRef.current?.click();
   };
-
+  const isPostTextEmpty = getTextFromHTML(generatedPost).trim().length === 0;
   const uploadToSupabase = async (bucket: string) => {
     const fileUrl: string[] = [];
     try {
@@ -863,6 +863,7 @@ export function PostGenerator() {
                             </DropdownMenu>
                           )}
                         </div>
+                        <div className="flex items-center gap-2">
                         {!postGenerated && optionData && (
                           <TooltipProvider>
                             <Tooltip>
@@ -884,8 +885,6 @@ export function PostGenerator() {
                             </Tooltip>
                           </TooltipProvider>
                         )}
-                      </div>
-                      {postGenerated && (
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger asChild>
@@ -902,8 +901,8 @@ export function PostGenerator() {
                                     e.preventDefault();
                                     setOpenPost(true);
                                   }}
-                                  disabled={isExpired}
-                                >
+                                  disabled={isExpired || isPostTextEmpty}
+                                  >
                                   <Send /> Post
                                 </Button>
                               </motion.div>
@@ -915,7 +914,12 @@ export function PostGenerator() {
                             )}
                           </Tooltip>
                         </TooltipProvider>
-                      )}
+                        </div>
+                      
+                      </div>
+                       
+                        
+                      
                     </div>
 
                     {selectedItems.length > 0 && (
