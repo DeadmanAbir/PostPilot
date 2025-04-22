@@ -1,6 +1,5 @@
 import { FileText } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader,  } from "@/components/ui/card";
 export function NoPostsCard() {
   return (
     <Card className="w-full bg-gradient-to-br from-slate-100 via-white to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-black text-white border border-slate-200 dark:border-slate-700 rounded-lg">
