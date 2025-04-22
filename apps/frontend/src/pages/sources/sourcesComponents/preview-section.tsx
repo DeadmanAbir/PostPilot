@@ -9,13 +9,19 @@ import { fetchSourcesQuery } from "@/lib/tanstack-query/query";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { ImageCard } from "./cards/image-card";
 import { CreateSourceCard } from "./cards/create-source-card";
-
+type SourceData = {
+  websites: { title: string; url: string }[];
+  files: { name: string }[];
+  text_node: { name: string; description: string }[];
+  images: { name: string; url: string }[];
+  tweets: { id: string; url: string }[];
+  youtube: { name: string; url: string }[];
+};
 const PreviewSection = () => {
   const { user } = useAuth();
-  const {
-    data,
-    isPending,
-  } = user?.accessToken ? fetchSourcesQuery(user.accessToken) : { data: null, isPending: false };
+  const queryResult = user?.accessToken ? fetchSourcesQuery(user.accessToken) : { data: null, isPending: false };
+  const data: SourceData | null = queryResult.data ?? null;
+  const isPending: boolean = queryResult.isPending ?? false;
 
   if (isPending) {
     return <h1>fetching.....</h1>;
@@ -71,43 +77,45 @@ const PreviewSection = () => {
         </TabsList>
         <TabsContent value="all">
           <div className="grid grid-cols-3 gap-4">
-            {data.websites.map((item: any) => (
-              <WebpageCard title={item.title} url={item.url} />
+          {data?.websites?.map((item) => (
+              <WebpageCard key={item.url} title={item.title} url={item.url} />
             ))}
-            {data.files.map((item: any) => (
+            {data?.files?.map((item) => (
               <DocumentCard
+              key={item.name}
                 title={item.name}
                 type="PDF Document"
                 preview="A comprehensive proposal for..."
               />
             ))}
 
-            {data.text_node.map((item: any) => (
+{data?.text_node?.map((item) => (
               <NoteCard
+                key={item.name}
                 title={item.name}
                 content={item.description}
                 timestamp="2 hours ago"
               />
             ))}
-            {data.images.map((item: any) => (
-              <ImageCard title={item.name} avatarSrc={item.url} />
+             {data?.images?.map((item) => (
+              <ImageCard key={item.url} title={item.name} avatarSrc={item.url} />
             ))}
             <div className=" col-span-2 w-full  ">
               <YoutubeCard videoId="https://www.youtube.com/embed/pNlq-EVld70?si=37liFmxxC7U_D14y" />
             </div>
-            {data.tweets.map((item: any) => (
-              <TweetCard url={item.url} key={item.id} />
+            {data?.tweets?.map((item) => (
+              <TweetCard key={item.id} url={item.url} />
             ))}
 
-            {(!data || data.length === 0) && (
+{(!data || Object.values(data).every((arr) => arr.length === 0)) && (
               <CreateSourceCard value="sources" path="/sources" />
             )}
           </div>
         </TabsContent>
         <TabsContent value="websites">
           <div className="grid grid-cols-3 gap-4">
-            {data.websites.map((item: any) => (
-              <WebpageCard title={item.title} url={item.url} />
+          {data?.websites?.map((item) => (
+              <WebpageCard key={item.url} title={item.title} url={item.url} />
             ))}
             {!data ||
               !data.websites ||
@@ -118,8 +126,8 @@ const PreviewSection = () => {
         </TabsContent>
         <TabsContent value="tweets">
           <div className="grid grid-cols-3 gap-4">
-            {data.tweets.map((item: any) => (
-              <TweetCard url={item.url} key={item.id} />
+          {data?.tweets?.map((item) => (
+              <TweetCard key={item.id} url={item.url} />
             ))}
 
             {!data ||
@@ -131,8 +139,9 @@ const PreviewSection = () => {
         </TabsContent>
         <TabsContent value="files">
           <div className="grid grid-cols-3 gap-4">
-            {data.files.map((item: any) => (
+          {data?.files?.map((item) => (
               <DocumentCard
+              key={item.name}
                 title={item.name}
                 type="PDF Document"
                 preview="A comprehensive proposal for..."
@@ -147,8 +156,9 @@ const PreviewSection = () => {
         </TabsContent>
         <TabsContent value="text_node">
           <div className="grid grid-cols-3 gap-4">
-            {data.text_node.map((item: any) => (
+          {data?.text_node?.map((item) => (
               <NoteCard
+                key={item.name}
                 title={item.name}
                 content={item.description}
                 timestamp="2 hours ago"
@@ -163,8 +173,8 @@ const PreviewSection = () => {
         </TabsContent>
         <TabsContent value="images">
           <div className="grid grid-cols-3 gap-4">
-            {data.images.map((item: any) => (
-              <ImageCard title={item.name} avatarSrc={item.url} />
+          {data?.images?.map((item) => (
+              <ImageCard key={item.url} title={item.name} avatarSrc={item.url} />
             ))}
             {!data ||
               !data.images ||
@@ -175,8 +185,8 @@ const PreviewSection = () => {
         </TabsContent>
         <TabsContent value="youtube">
           <div className="grid grid-cols-3 gap-4">
-            {data.youtube.map((item: any) => (
-              <ImageCard title={item.name} avatarSrc={item.url} />
+          {data?.images?.map((item) => (
+              <ImageCard key={item.url} title={item.name} avatarSrc={item.url} />
             ))}
             {!data ||
               !data.youtube ||
