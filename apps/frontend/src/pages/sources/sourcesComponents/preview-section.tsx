@@ -14,9 +14,8 @@ const PreviewSection = () => {
   const { user } = useAuth();
   const {
     data,
-    refetch: connectLinkedinRefetch,
     isPending,
-  } = fetchSourcesQuery(user?.accessToken!);
+  } = user?.accessToken ? fetchSourcesQuery(user.accessToken) : { data: null, isPending: false };
 
   if (isPending) {
     return <h1>fetching.....</h1>;
