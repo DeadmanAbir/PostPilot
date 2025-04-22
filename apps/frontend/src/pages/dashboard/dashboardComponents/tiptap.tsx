@@ -192,12 +192,12 @@ export default function Editor({ value, onChange, disabled }: EditorProps) {
   useEffect(() => {
     if (editor) {
       if (value !== editor.getHTML()) {
-        editor.commands.setContent(value);
+        const htmlValue = value.replace(/\n/g, "<br>");
+        editor.commands.setContent(htmlValue);
       }
       editor.setEditable(!disabled);
     }
   }, [value, disabled, editor]);
-
   // Copy handler
   const handleCopy = async () => {
     if (editor) {
