@@ -19,6 +19,7 @@ import {
   SquareDashedMousePointer,
   Moon,
   Sun,
+  Plus,
 } from "lucide-react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { groupedItems } from "./app-sidebar";
@@ -63,12 +64,12 @@ const AppDrawer = () => {
               <Link
                 to="/dashboard"
                 className={buttonVariants({
-                  className: "w-full",
+                  className: "w-full dark:text-white flex items-center ",
                 })}
                 onClick={() => setOpen(false)}
               >
-                Create Post
-              </Link>
+         <Plus/> <span>Create Post  </span>  
+         </Link>
             </div>
             
             <div className="px-4 flex flex-col space-y-6">

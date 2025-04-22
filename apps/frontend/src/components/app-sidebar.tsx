@@ -9,6 +9,7 @@ import {
   Send,
   Book,
   SquareDashedMousePointer,
+  Plus,
 } from "lucide-react";
 import { motion } from "motion/react";
 import {
@@ -85,10 +86,10 @@ export function AppSidebar() {
           <Link
             to="/dashboard"
             className={buttonVariants({
-              className: "w-full ",
+              className: "w-full dark:text-white flex items-center ",
             })}
           >
-            Create Post
+         <Plus/>  <span> Create Post </span> 
           </Link>
         </div>
         {groupedItems.map((group) => (
