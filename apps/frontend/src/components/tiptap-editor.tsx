@@ -19,7 +19,9 @@ interface EditorProps {
   onChange: (value: string) => void;
   placeholder?: string;
 }
-const MenuBar = ({ editor }: { editor: any }) => {
+import { Editor  as Tip} from "@tiptap/react";
+
+const MenuBar = ({ editor }: { editor: Tip | null }) => {
   if (!editor) {
     return null;
   }
@@ -121,7 +123,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
   );
 };
 
-export default function Editor({ value, onChange, placeholder }: EditorProps) {
+export default function Editor({ value, onChange }: EditorProps) {
   const editor = useEditor({
     extensions: [StarterKit],
     content: value,

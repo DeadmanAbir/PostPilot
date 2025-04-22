@@ -3,7 +3,6 @@ import { Button } from "../../../components/ui/button";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "../../../components/ui/card";
@@ -33,7 +32,6 @@ import {
   Lock,
   PencilRuler,
   Plus,
-  Recycle,
   Repeat,
   Send,
   Twitter,
@@ -113,29 +111,29 @@ interface Media {
 }
 
 // Mock data for upcoming posts
-const mockUpcomingPosts: ScheduledPost[] = [
-  {
-    id: "1",
-    date: new Date(2024, 2, 15),
-    time: "10:00",
-    content: "Exciting news coming soon!",
-    image: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: "2",
-    date: new Date(2024, 2, 16),
-    time: "14:30",
-    content: "Check out our latest product launch",
-    image: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: "3",
-    date: new Date(2024, 2, 17),
-    time: "09:00",
-    content: "Join us for a live webinar",
-    image: "/placeholder.svg?height=40&width=40",
-  },
-];
+// const mockUpcomingPosts: ScheduledPost[] = [
+//   {
+//     id: "1",
+//     date: new Date(2024, 2, 15),
+//     time: "10:00",
+//     content: "Exciting news coming soon!",
+//     image: "/placeholder.svg?height=40&width=40",
+//   },
+//   {
+//     id: "2",
+//     date: new Date(2024, 2, 16),
+//     time: "14:30",
+//     content: "Check out our latest product launch",
+//     image: "/placeholder.svg?height=40&width=40",
+//   },
+//   {
+//     id: "3",
+//     date: new Date(2024, 2, 17),
+//     time: "09:00",
+//     content: "Join us for a live webinar",
+//     image: "/placeholder.svg?height=40&width=40",
+//   },
+// ];
 
 export function PostGenerator() {
   const { user } = useAuth();
@@ -194,7 +192,7 @@ export function PostGenerator() {
   };
 
   const { data: optionData, isPending: isSourcesFetching } = fetchSourcesQuery(
-    user?.accessToken!
+    user?.accessToken ?? ""
   );
 
   const isExpired = optionData?.linkedin?.expires_at
@@ -202,7 +200,7 @@ export function PostGenerator() {
     new Date(optionData.linkedin.expires_at) < new Date()
     : true;
   const { mutate: generatePost, isPending } = generatePostFn(
-    user?.accessToken!,
+    user?.accessToken ?? "",
     {
       onSuccess: (data: LinkedinPostResponse) => {
         const cleanData = removeMd(data.post_content);
@@ -217,8 +215,8 @@ export function PostGenerator() {
     }
   );
 
-  const { mutate: post, isPending: isPosting } = postToLinkedinFn(
-    user?.accessToken!,
+  const { mutate: post } = postToLinkedinFn(
+    user?.accessToken ?? "",
     {
       onSuccess: (data: unknown) => {
         console.log(data);
@@ -236,7 +234,7 @@ export function PostGenerator() {
   );
 
   const { mutate: regeneratePost, isPending: isRegenerating } =
-    regeneratePostFn(user?.accessToken!, {
+    regeneratePostFn(user?.accessToken ?? "", {
       onSuccess: (data: LinkedinPostResponse) => {
         const cleanData = removeMd(data.post_content);
         setGeneratedPost(cleanData);
@@ -248,8 +246,8 @@ export function PostGenerator() {
       },
     });
 
-  const { mutate: refinePost, isPending: isImproving } = improvePostFn(
-    user?.accessToken!,
+  const { mutate: refinePost, } = improvePostFn(
+    user?.accessToken ?? "",
     {
       onSuccess: (data: LinkedinPostResponse) => {
         const cleanData = removeMd(data.post_content);

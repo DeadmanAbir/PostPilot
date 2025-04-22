@@ -1,13 +1,8 @@
 import { useState } from "react";
-import { Button } from "./ui/button";
-import { Textarea } from "./ui/textarea";
+
 import { Dialog, DialogContent } from "./ui/dialog";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { ChevronsUpDown, Wand, X } from "lucide-react";
+
+import { Wand,  } from "lucide-react";
 
 interface RegenerateModalProps {
   isOpen: boolean;
@@ -25,7 +20,6 @@ export function RegenerateModal({
   isRegenerating,
 }: RegenerateModalProps) {
   const [additionalContext, setAdditionalContext] = useState("");
-  const [open, setIsOpen] = useState(false);
 
   const handleRegenerate = () => {
     onRegenerate(additionalContext);
