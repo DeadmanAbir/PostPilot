@@ -75,126 +75,125 @@ const PreviewSection = () => {
             YouTube
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="all">
-          <div className="grid grid-cols-3 gap-4">
-          {data?.websites?.map((item) => (
-              <WebpageCard key={item.url} title={item.title} url={item.url} />
-            ))}
-            {data?.files?.map((item) => (
-              <DocumentCard
-              key={item.name}
-                title={item.name}
-                type="PDF Document"
-                preview="A comprehensive proposal for..."
-              />
-            ))}
-
-{data?.text_node?.map((item) => (
-              <NoteCard
-                key={item.name}
-                title={item.name}
-                content={item.description}
-                timestamp="2 hours ago"
-              />
-            ))}
-             {data?.images?.map((item) => (
-              <ImageCard key={item.url} title={item.name} avatarSrc={item.url} />
-            ))}
-            <div className=" col-span-2 w-full  ">
-              <YoutubeCard videoId="https://www.youtube.com/embed/pNlq-EVld70?si=37liFmxxC7U_D14y" />
+        <div id="imageLoad" className="min-h-[500px] max-h-[70vh] overflow-y-auto transition-all duration-300">
+          <TabsContent value="all">
+            <div className="grid grid-cols-3 gap-4">
+              {data?.websites?.map((item) => (
+                <WebpageCard key={item.url} title={item.title} url={item.url} />
+              ))}
+              {data?.files?.map((item) => (
+                <DocumentCard
+                  key={item.name}
+                  title={item.name}
+                  type="PDF Document"
+                  preview="A comprehensive proposal for..."
+                />
+              ))}
+              {data?.text_node?.map((item) => (
+                <NoteCard
+                  key={item.name}
+                  title={item.name}
+                  content={item.description}
+                  timestamp="2 hours ago"
+                />
+              ))}
+              {data?.images?.map((item) => (
+                <ImageCard key={item.url} title={item.name} avatarSrc={item.url} />
+              ))}
+              <div className="w-full">
+                <YoutubeCard videoId="https://www.youtube.com/embed/pNlq-EVld70?si=37liFmxxC7U_D14y" />
+              </div>
+              {data?.tweets?.map((item) => (
+                <TweetCard key={item.id} url={item.url} />
+              ))}
+              {(!data || Object.values(data).every((arr) => arr.length === 0)) && (
+                <CreateSourceCard value="sources" path="/sources" />
+              )}
             </div>
-            {data?.tweets?.map((item) => (
-              <TweetCard key={item.id} url={item.url} />
-            ))}
-
-{(!data || Object.values(data).every((arr) => arr.length === 0)) && (
-              <CreateSourceCard value="sources" path="/sources" />
-            )}
-          </div>
-        </TabsContent>
-        <TabsContent value="websites">
-          <div className="grid grid-cols-3 gap-4">
-          {data?.websites?.map((item) => (
-              <WebpageCard key={item.url} title={item.title} url={item.url} />
-            ))}
-            {!data ||
-              !data.websites ||
-              (data.websites.length === 0 && (
-                <CreateSourceCard value="websites" path="/sources" />
+          </TabsContent>
+          <TabsContent value="websites">
+            <div className="grid grid-cols-3 gap-4">
+              {data?.websites?.map((item) => (
+                <WebpageCard key={item.url} title={item.title} url={item.url} />
               ))}
-          </div>
-        </TabsContent>
-        <TabsContent value="tweets">
-          <div className="grid grid-cols-3 gap-4">
-          {data?.tweets?.map((item) => (
-              <TweetCard key={item.id} url={item.url} />
-            ))}
-
-            {!data ||
-              !data.tweets ||
-              (data.tweets.length === 0 && (
-                <CreateSourceCard value="tweets" path="/sources" />
+              {!data ||
+                !data.websites ||
+                (data.websites.length === 0 && (
+                  <CreateSourceCard value="websites" path="/sources" />
+                ))}
+            </div>
+          </TabsContent>
+          <TabsContent value="tweets">
+            <div className="grid grid-cols-3 gap-4">
+              {data?.tweets?.map((item) => (
+                <TweetCard key={item.id} url={item.url} />
               ))}
-          </div>
-        </TabsContent>
-        <TabsContent value="files">
-          <div className="grid grid-cols-3 gap-4">
-          {data?.files?.map((item) => (
-              <DocumentCard
-              key={item.name}
-                title={item.name}
-                type="PDF Document"
-                preview="A comprehensive proposal for..."
-              />
-            ))}
-            {!data ||
-              !data.files ||
-              (data.files.length === 0 && (
-                <CreateSourceCard value="files" path="/sources" />
+              {!data ||
+                !data.tweets ||
+                (data.tweets.length === 0 && (
+                  <CreateSourceCard value="tweets" path="/sources" />
+                ))}
+            </div>
+          </TabsContent>
+          <TabsContent value="files">
+            <div className="grid grid-cols-3 gap-4">
+              {data?.files?.map((item) => (
+                <DocumentCard
+                  key={item.name}
+                  title={item.name}
+                  type="PDF Document"
+                  preview="A comprehensive proposal for..."
+                />
               ))}
-          </div>
-        </TabsContent>
-        <TabsContent value="text_node">
-          <div className="grid grid-cols-3 gap-4">
-          {data?.text_node?.map((item) => (
-              <NoteCard
-                key={item.name}
-                title={item.name}
-                content={item.description}
-                timestamp="2 hours ago"
-              />
-            ))}
-            {!data ||
-              !data.text_node ||
-              (data.text_node.length === 0 && (
-                <CreateSourceCard value="Notes" path="/sources" />
+              {!data ||
+                !data.files ||
+                (data.files.length === 0 && (
+                  <CreateSourceCard value="files" path="/sources" />
+                ))}
+            </div>
+          </TabsContent>
+          <TabsContent value="text_node">
+            <div className="grid grid-cols-3 gap-4">
+              {data?.text_node?.map((item) => (
+                <NoteCard
+                  key={item.name}
+                  title={item.name}
+                  content={item.description}
+                  timestamp="2 hours ago"
+                />
               ))}
-          </div>
-        </TabsContent>
-        <TabsContent value="images">
-          <div className="grid grid-cols-3 gap-4">
-          {data?.images?.map((item) => (
-              <ImageCard key={item.url} title={item.name} avatarSrc={item.url} />
-            ))}
-            {!data ||
-              !data.images ||
-              (data.images.length === 0 && (
-                <CreateSourceCard value="images" path="/sources" />
+              {!data ||
+                !data.text_node ||
+                (data.text_node.length === 0 && (
+                  <CreateSourceCard value="Notes" path="/sources" />
+                ))}
+            </div>
+          </TabsContent>
+          <TabsContent value="images">
+            <div className="grid grid-cols-3 gap-4">
+              {data?.images?.map((item) => (
+                <ImageCard key={item.url} title={item.name} avatarSrc={item.url} />
               ))}
-          </div>
-        </TabsContent>
-        <TabsContent value="youtube">
-          <div className="grid grid-cols-3 gap-4">
-          {data?.images?.map((item) => (
-              <ImageCard key={item.url} title={item.name} avatarSrc={item.url} />
-            ))}
-            {!data ||
-              !data.youtube ||
-              (data.youtube.length === 0 && (
-                <CreateSourceCard value="youtube video" path="/sources" />
+              {!data ||
+                !data.images ||
+                (data.images.length === 0 && (
+                  <CreateSourceCard value="images" path="/sources" />
+                ))}
+            </div>
+          </TabsContent>
+          <TabsContent value="youtube">
+            <div className="grid grid-cols-3 gap-4">
+              {data?.images?.map((item) => (
+                <ImageCard key={item.url} title={item.name} avatarSrc={item.url} />
               ))}
-          </div>
-        </TabsContent>
+              {!data ||
+                !data.youtube ||
+                (data.youtube.length === 0 && (
+                  <CreateSourceCard value="youtube video" path="/sources" />
+                ))}
+            </div>
+          </TabsContent>
+        </div>
       </Tabs>
     </div>
   );

@@ -8,7 +8,7 @@ interface WebpageCardProps {
 
 export function WebpageCard({ title, url }: WebpageCardProps) {
   return (
-    <Card className="hover:shadow-md transition-shadow">
+    <Card className="hover:shadow-md transition-shadow ">
       <CardHeader className="flex flex-row items-center gap-2 p-4">
         <Globe className="h-4 w-4 text-blue-500" />
         <h3 className="font-medium">{title}</h3>
