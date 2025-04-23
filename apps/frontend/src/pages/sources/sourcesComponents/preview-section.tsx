@@ -29,7 +29,7 @@ const PreviewSection = () => {
   return (
     <div className="w-full h-full p-4">
       <Tabs defaultValue="all" className="w-full ">
-        <TabsList className="w-full flex flex-wrap mb-10 md:mb-0 items-center justify-start bg-transparent">
+        <TabsList className="w-full flex flex-wrap mb-10 md:mb-2 items-center justify-start bg-transparent">
           <TabsTrigger
             value="all"
             className="relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
@@ -112,7 +112,7 @@ const PreviewSection = () => {
             </div>
           </TabsContent>
           <TabsContent value="websites">
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
               {data?.websites?.map((item) => (
                 <WebpageCard key={item.url} title={item.title} url={item.url} />
               ))}
