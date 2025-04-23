@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "generate-routes": "tsr generate",
+    "build": "pnpm run generate-routes && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -62,6 +63,7 @@
     "@repo/eslint-config": "workspace:*",
     "@repo/tailwind-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@tanstack/router-cli": "^1.117.0",
     "@tanstack/router-devtools": "^1.112.0",
     "@tanstack/router-plugin": "^1.112.0",
     "@types/node": "^22.13.4",
