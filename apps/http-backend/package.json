@@ -4,7 +4,7 @@
   "description": "",
   "main": "api/index.js",
   "scripts": {
-    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
+    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json --output dist",
     "start": "node dist/api/index.js",
     "dev": "nodemon --watch \"api/**/*.ts\" --exec \"ts-node -r tsconfig-paths/register api/index.ts\""
   },
