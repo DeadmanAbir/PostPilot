@@ -11,12 +11,12 @@ export function Dashboard() {
         <meta property="og:title" content="Dashboard | PostPilot" />
         <meta property="og:description" content="Your dashboard for managing posts and campaigns in PostPilot." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://yourdomain.com/dashboard" />
-        <meta property="og:image" content="/public/og-image.png" />
+        <meta property="og:url" content="https://post-pilot-beta.vercel.app/" />
+        <meta property="og:image" content="/og-image.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Dashboard | PostPilot" />
         <meta name="twitter:description" content="Your dashboard for managing posts and campaigns in PostPilot." />
-        <meta name="twitter:image" content="/public/og-image.png" />
+        <meta name="twitter:image" content="/og-image.png" />
       </Helmet>
       <div className="flex h-screen bg-background">
         <div className="flex flex-col flex-1 overflow-hidden">

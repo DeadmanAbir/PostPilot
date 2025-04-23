@@ -29,12 +29,12 @@ function App() {
         <meta property="og:title" content="PostPilot" />
         <meta property="og:description" content="PostPilot - The best way to manage your posts and campaigns." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://yourdomain.com/" />
-        <meta property="og:image" content="/public/og-image.png" />
+        <meta property="og:url" content="https://post-pilot-beta.vercel.app/" />
+        <meta property="og:image" content="/og-image.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="PostPilot" />
         <meta name="twitter:description" content="PostPilot - The best way to manage your posts and campaigns." />
-        <meta name="twitter:image" content="/public/og-image.png" />
+        <meta name="twitter:image" content="/og-image.png" />
       </Helmet>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
