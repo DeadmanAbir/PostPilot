@@ -9,6 +9,7 @@ import { fetchSourcesQuery } from "@/lib/tanstack-query/query";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { ImageCard } from "./cards/image-card";
 import { CreateSourceCard } from "./cards/create-source-card";
+import { SourcesSkeleton } from "@/components/skeletons/sources-skeleton";
 
 // Badge component for count
 const CountBadge = ({ count }: { count: number }) => (
@@ -27,13 +28,18 @@ type SourceData = {
 };
 const PreviewSection = () => {
   const { user } = useAuth();
-  const queryResult = user?.accessToken ? fetchSourcesQuery(user.accessToken) : { data: null, isPending: false };
+  const queryResult = user?.accessToken
+    ? fetchSourcesQuery(user.accessToken)
+    : { data: null, isPending: false };
   const data: SourceData | null = queryResult.data ?? null;
   const isPending: boolean = queryResult.isPending ?? false;
 
   // Counts for each tab
   const counts = {
-    all: Object.values(data ?? {}).reduce((acc, arr) => acc + (Array.isArray(arr) ? arr.length : 0), 0),
+    all: Object.values(data ?? {}).reduce(
+      (acc, arr) => acc + (Array.isArray(arr) ? arr.length : 0),
+      0
+    ),
     websites: data?.websites?.length ?? 0,
     tweets: data?.tweets?.length ?? 0,
     images: data?.images?.length ?? 0,
@@ -43,7 +49,7 @@ const PreviewSection = () => {
   };
 
   if (isPending) {
-    return <h1>fetching.....</h1>;
+    return <SourcesSkeleton />;
   }
   return (
     <div className="w-full h-full p-4">
@@ -101,7 +107,10 @@ const PreviewSection = () => {
             <CountBadge count={counts.youtube} />
           </TabsTrigger>
         </TabsList>
-        <div id="imageLoad" className="min-h-[600px] max-h-[70vh] overflow-y-auto transition-all duration-300">
+        <div
+          id="imageLoad"
+          className="min-h-[600px] max-h-[70vh] overflow-y-auto transition-all duration-300"
+        >
           <TabsContent value="all">
             <div className="md:columns-3 columns-1 space-y-4">
               {data?.websites?.map((item) => (
@@ -124,7 +133,11 @@ const PreviewSection = () => {
                 />
               ))}
               {data?.images?.map((item) => (
-                <ImageCard key={item.url} title={item.name} avatarSrc={item.url} />
+                <ImageCard
+                  key={item.url}
+                  title={item.name}
+                  avatarSrc={item.url}
+                />
               ))}
               <div className="w-full">
                 <YoutubeCard videoId="https://www.youtube.com/embed/pNlq-EVld70?si=37liFmxxC7U_D14y" />
@@ -132,7 +145,8 @@ const PreviewSection = () => {
               {data?.tweets?.map((item) => (
                 <TweetCard key={item.id} url={item.url} />
               ))}
-              {(!data || Object.values(data).every((arr) => arr.length === 0)) && (
+              {(!data ||
+                Object.values(data).every((arr) => arr.length === 0)) && (
                 <CreateSourceCard value="sources" path="/sources" />
               )}
             </div>
@@ -198,7 +212,11 @@ const PreviewSection = () => {
           <TabsContent value="images">
             <div className="grid grid-cols-3 gap-4">
               {data?.images?.map((item) => (
-                <ImageCard key={item.url} title={item.name} avatarSrc={item.url} />
+                <ImageCard
+                  key={item.url}
+                  title={item.name}
+                  avatarSrc={item.url}
+                />
               ))}
               {!data ||
                 !data.images ||
