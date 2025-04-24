@@ -112,130 +112,135 @@ const PreviewSection = () => {
           className="min-h-[600px] max-h-[70vh] overflow-y-auto transition-all duration-300"
         >
           <TabsContent value="all">
-            <div className="md:columns-3 columns-1 space-y-4">
-              {data?.websites?.map((item) => (
-                <WebpageCard key={item.url} title={item.title} url={item.url} />
-              ))}
-              {data?.files?.map((item) => (
-                <DocumentCard
-                  key={item.name}
-                  title={item.name}
-                  type="PDF Document"
-                  preview="A comprehensive proposal for..."
-                />
-              ))}
-              {data?.text_node?.map((item) => (
-                <NoteCard
-                  key={item.name}
-                  title={item.name}
-                  content={item.description}
-                  timestamp="2 hours ago"
-                />
-              ))}
-              {data?.images?.map((item) => (
-                <ImageCard
-                  key={item.url}
-                  title={item.name}
-                  avatarSrc={item.url}
-                />
-              ))}
-              <div className="w-full">
-                <YoutubeCard videoId="https://www.youtube.com/embed/pNlq-EVld70?si=37liFmxxC7U_D14y" />
+            {data && Object.values(data).some((arr) => Array.isArray(arr) && arr.length > 0) ? (
+              <div className="md:columns-3 columns-1 space-y-4">
+                {data?.websites?.map((item) => (
+                  <WebpageCard key={item.url} title={item.title} url={item.url} />
+                ))}
+                {data?.files?.map((item) => (
+                  <DocumentCard
+                    key={item.name}
+                    title={item.name}
+                    type="PDF Document"
+                    preview="A comprehensive proposal for..."
+                  />
+                ))}
+                {data?.text_node?.map((item) => (
+                  <NoteCard
+                    key={item.name}
+                    title={item.name}
+                    content={item.description}
+                    timestamp="2 hours ago"
+                  />
+                ))}
+                {data?.images?.map((item) => (
+                  <ImageCard
+                    key={item.url}
+                    title={item.name}
+                    avatarSrc={item.url}
+                  />
+                ))}
+                {data?.tweets?.map((item) => (
+                  <TweetCard key={item.id} url={item.url} />
+                ))}
               </div>
-              {data?.tweets?.map((item) => (
-                <TweetCard key={item.id} url={item.url} />
-              ))}
-              {(!data ||
-                Object.values(data).every((arr) => arr.length === 0)) && (
+            ) : (
+              <div className="flex flex-col items-start justify-start min-h-[400px]">
                 <CreateSourceCard value="sources" path="/sources" />
-              )}
-            </div>
+              </div>
+            )}
           </TabsContent>
           <TabsContent value="websites">
-            <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
-              {data?.websites?.map((item) => (
-                <WebpageCard key={item.url} title={item.title} url={item.url} />
-              ))}
-              {!data ||
-                !data.websites ||
-                (data.websites.length === 0 && (
-                  <CreateSourceCard value="websites" path="/sources" />
+            {data && data.websites && data.websites.length > 0 ? (
+              <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
+                {data?.websites?.map((item) => (
+                  <WebpageCard key={item.url} title={item.title} url={item.url} />
                 ))}
-            </div>
+              </div>
+            ) : (
+              <div className="flex flex-col items-start justify-start min-h-[400px]">
+                <CreateSourceCard value="websites" path="/sources" />
+              </div>
+            )}
           </TabsContent>
           <TabsContent value="tweets">
-            <div className="grid grid-cols-3 gap-4">
-              {data?.tweets?.map((item) => (
-                <TweetCard key={item.id} url={item.url} />
-              ))}
-              {!data ||
-                !data.tweets ||
-                (data.tweets.length === 0 && (
-                  <CreateSourceCard value="tweets" path="/sources" />
+            {data && data.tweets && data.tweets.length > 0 ? (
+              <div className="grid grid-cols-3 gap-4">
+                {data?.tweets?.map((item) => (
+                  <TweetCard key={item.id} url={item.url} />
                 ))}
-            </div>
+              </div>
+            ) : (
+              <div className="flex flex-col items-start justify-start min-h-[400px]">
+                <CreateSourceCard value="tweets" path="/sources" />
+              </div>
+            )}
           </TabsContent>
           <TabsContent value="files">
-            <div className="grid grid-cols-3 gap-4">
-              {data?.files?.map((item) => (
-                <DocumentCard
-                  key={item.name}
-                  title={item.name}
-                  type="PDF Document"
-                  preview="A comprehensive proposal for..."
-                />
-              ))}
-              {!data ||
-                !data.files ||
-                (data.files.length === 0 && (
-                  <CreateSourceCard value="files" path="/sources" />
+            {data && data.files && data.files.length > 0 ? (
+              <div className="grid grid-cols-3 gap-4">
+                {data?.files?.map((item) => (
+                  <DocumentCard
+                    key={item.name}
+                    title={item.name}
+                    type="PDF Document"
+                    preview="A comprehensive proposal for..."
+                  />
                 ))}
-            </div>
+              </div>
+            ) : (
+              <div className="flex flex-col items-start justify-start min-h-[400px]">
+                <CreateSourceCard value="files" path="/sources" />
+              </div>
+            )}
           </TabsContent>
           <TabsContent value="text_node">
-            <div className="grid grid-cols-3 gap-4">
-              {data?.text_node?.map((item) => (
-                <NoteCard
-                  key={item.name}
-                  title={item.name}
-                  content={item.description}
-                  timestamp="2 hours ago"
-                />
-              ))}
-              {!data ||
-                !data.text_node ||
-                (data.text_node.length === 0 && (
-                  <CreateSourceCard value="Notes" path="/sources" />
+            {data && data.text_node && data.text_node.length > 0 ? (
+              <div className="grid grid-cols-3 gap-4">
+                {data?.text_node?.map((item) => (
+                  <NoteCard
+                    key={item.name}
+                    title={item.name}
+                    content={item.description}
+                    timestamp="2 hours ago"
+                  />
                 ))}
-            </div>
+              </div>
+            ) : (
+              <div className="flex flex-col items-start justify-start min-h-[400px]">
+                <CreateSourceCard value="Notes" path="/sources" />
+              </div>
+            )}
           </TabsContent>
           <TabsContent value="images">
-            <div className="grid grid-cols-3 gap-4">
-              {data?.images?.map((item) => (
-                <ImageCard
-                  key={item.url}
-                  title={item.name}
-                  avatarSrc={item.url}
-                />
-              ))}
-              {!data ||
-                !data.images ||
-                (data.images.length === 0 && (
-                  <CreateSourceCard value="images" path="/sources" />
+            {data && data.images && data.images.length > 0 ? (
+              <div className="grid grid-cols-3 gap-4">
+                {data?.images?.map((item) => (
+                  <ImageCard
+                    key={item.url}
+                    title={item.name}
+                    avatarSrc={item.url}
+                  />
                 ))}
-            </div>
+              </div>
+            ) : (
+              <div className="flex flex-col items-start justify-start min-h-[400px]">
+                <CreateSourceCard value="images" path="/sources" />
+              </div>
+            )}
           </TabsContent>
           <TabsContent value="youtube">
-            <div className="grid grid-cols-3 gap-4">
-              {data?.youtube?.map((item) => (
-                <YoutubeCard key={item.url} videoId={item.url} />
-              ))}
-              {!data ||
-                !data.youtube ||
-                (data.youtube.length === 0 && (
-                  <CreateSourceCard value="youtube video" path="/sources" />
+            {data && data.youtube && data.youtube.length > 0 ? (
+              <div className="grid grid-cols-3 gap-4">
+                {data?.youtube?.map((item) => (
+                  <YoutubeCard key={item.url} videoId={item.url} />
                 ))}
-            </div>
+              </div>
+            ) : (
+              <div className="flex flex-col items-start justify-start min-h-[400px]">
+                <CreateSourceCard value="youtube video" path="/sources" />
+              </div>
+            )}
           </TabsContent>
         </div>
       </Tabs>

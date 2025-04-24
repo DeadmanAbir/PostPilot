@@ -11,22 +11,34 @@ export function CreateSourceCard({
 }) {
   const navigate = useNavigate();
   return (
-    <Card className="w-64 h-64 flex flex-col items-center text-center text-muted-foreground">
+    <Card
+      className="w-64 h-64 flex flex-col items-center text-center text-muted-foreground 
+        bg-gradient-to-br from-white via-blue-50 to-blue-100 
+        dark:bg-gradient-to-br dark:from-gray-900 dark:via-gray-800 dark:to-slate-900
+        shadow-xl border border-blue-200 dark:border-slate-700 rounded-3xl 
+        transition-transform duration-200 hover:scale-105 hover:shadow-2xl cursor-pointer"
+    >
       <CardHeader className="pb-0">
-        <CardTitle>No Resource Found</CardTitle>
+        <CardTitle className="text-lg font-semibold text-blue-700 dark:text-blue-200 drop-shadow-sm">
+          No Resource Found
+        </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center flex-grow -mt-[30px]">
-        <div className="rounded-full bg-gray-200 text-gray-600 w-12 h-12 flex items-center justify-center">
-          <Plus
-            className="w-6 h-6 cursor-pointer"
-            onClick={() => {
-              navigate({
-                to: path,
-              });
-            }}
-          />
+        <div
+          className="rounded-full bg-gradient-to-tr from-blue-400 via-blue-300 to-blue-200 
+            dark:from-blue-800 dark:via-blue-700 dark:to-blue-600
+            text-white w-16 h-16 flex items-center justify-center shadow-lg 
+            transition-all duration-200 hover:scale-110 hover:bg-blue-500 dark:hover:bg-blue-700"
+          onClick={() => {
+            navigate({
+              to: path,
+            });
+          }}
+          style={{ boxShadow: "0 6px 30px 0 rgba(0, 80, 220, 0.10)" }}
+        >
+          <Plus className="w-8 h-8" />
         </div>
-        <p className="mt-2 text-sm">Add {value}</p>
+        <p className="mt-4 text-base font-medium text-blue-600 dark:text-blue-300">Add {value}</p>
       </CardContent>
     </Card>
   );
