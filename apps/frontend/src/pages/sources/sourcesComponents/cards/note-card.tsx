@@ -1,7 +1,7 @@
 import { FileText } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { lazy, Suspense } from "react";
-const Editor = lazy(() => import("../../../../components/tiptap-editor"));
+import { Suspense } from "react";
+import { Textarea } from "@/components/ui/textarea";
 interface NoteCardProps {
   title: string;
   content: string;
@@ -24,11 +24,12 @@ export function NoteCard({ title, content, timestamp }: NoteCardProps) {
             Loading..
             <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
           </div>}>
-            <Editor
-              value={content}
-              onChange={() => { }}
-              placeholder="Write your note..."
-            />
+         
+        <Textarea
+          value={content}
+          className="outline-none dark:bg-background resize-none"
+          disabled={true}
+        />
           </Suspense>
         </div>
       </CardContent>
