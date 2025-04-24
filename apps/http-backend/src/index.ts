@@ -4,7 +4,7 @@ import postRouter from "@/routes/post-generation.route";
 import profileRouter from "@/routes/user-route";
 import linkedinRouter from "@/routes/linkedin-auth-route";
 import cors from "cors";
-import { authMiddleware } from "../src/middlewares/authMiddleware";
+import { authMiddleware } from "./middlewares/authMiddleware";
 import session from "express-session";
 
 declare module "express-session" {
