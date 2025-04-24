@@ -172,7 +172,7 @@ const PreviewSection = () => {
           </TabsContent>
           <TabsContent value="tweets">
             {data && data.tweets && data.tweets.length > 0 ? (
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
                 {data?.tweets?.map((item) => (
                   <TweetCard key={item.id} url={item.url} />
                 ))}
@@ -185,7 +185,7 @@ const PreviewSection = () => {
           </TabsContent>
           <TabsContent value="files">
             {data && data.files && data.files.length > 0 ? (
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
                 {data?.files?.map((item) => (
                   <DocumentCard
                     key={item.name}
@@ -203,7 +203,7 @@ const PreviewSection = () => {
           </TabsContent>
           <TabsContent value="text_node">
             {data && data.text_node && data.text_node.length > 0 ? (
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
                 {data?.text_node?.map((item) => (
                   <NoteCard
                     key={item.name}
@@ -221,7 +221,7 @@ const PreviewSection = () => {
           </TabsContent>
           <TabsContent value="images">
             {data && data.images && data.images.length > 0 ? (
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
                 {data?.images?.map((item) => (
                   <ImageCard
                     key={item.url}
@@ -239,7 +239,7 @@ const PreviewSection = () => {
           </TabsContent>
           <TabsContent value="youtube">
             {data && data.youtube && data.youtube.length > 0 ? (
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
                 {data?.youtube?.map((item) => (
                   <YoutubeCard key={item.url} videoId={item.url} />
                 ))}
