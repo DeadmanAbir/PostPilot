@@ -1,12 +1,16 @@
-import { Card, CardHeader, CardContent } from "@/components/ui/card"; 
+import { Card, CardHeader, CardContent, CardFooter,  } from "@/components/ui/card"; 
+import { Separator } from "@/components/ui/separator";
+import { formatDate } from "@/utils/functions/formatDate";
 import { Image as ImageIcon } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 
 interface ImageCardProps {
   title: string;
   avatarSrc: string;
+  createdAt: string;
 }
 
-export function ImageCard({ title, avatarSrc }: ImageCardProps) {
+export function ImageCard({ title, avatarSrc, createdAt }: ImageCardProps) {
   return (
     <Card className="group hover:shadow-lg transition-shadow border-2 border-blue-100 dark:border-blue-900 bg-gradient-to-br from-blue-50 to-white dark:from-blue-950 dark:to-zinc-900 rounded-xl overflow-hidden">
       <CardHeader className="flex flex-row items-center gap-3 p-4 bg-blue-50/70 dark:bg-blue-950/60 border-b border-blue-100 dark:border-blue-900">
@@ -20,6 +24,13 @@ export function ImageCard({ title, avatarSrc }: ImageCardProps) {
           <img src={avatarSrc} alt={title} className="w-full h-full object-cover" />
         </div>
       </CardContent>
+      <Separator />
+      <CardFooter>
+      <div className="flex items-center text-xs text-muted-foreground truncate w-full pt-6">
+          <CalendarIcon className="h-4 w-4 mr-1" />
+          <span>{formatDate(createdAt)}</span>
+        </div>
+      </CardFooter>
     </Card>
   );
 }

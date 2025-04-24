@@ -1,14 +1,17 @@
-import { Globe } from "lucide-react";
+import { CalendarIcon, Globe } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { formatDate } from "@/utils/functions/formatDate";
 
 interface WebpageCardProps {
   title?: string;
   url: string;
+  createdAt: string;
 }
 
 const DEFAULT_IMAGE = "/og-image.png"; // Place a default image in your public folder
 
-export function WebpageCard({ title, url }: WebpageCardProps) {
+
+export function WebpageCard({ title, url, createdAt }: WebpageCardProps) {
   return (
     <Card className="hover:shadow-lg transition-shadow border-2 border-blue-100 dark:border-blue-900 bg-gradient-to-br from-blue-50 to-white dark:from-blue-950 dark:to-zinc-900 rounded-xl overflow-hidden group">
       <CardHeader className="flex flex-row items-center gap-3 p-4 bg-blue-50/70 dark:bg-blue-950/60 border-b border-blue-100 dark:border-blue-900">
@@ -22,6 +25,11 @@ export function WebpageCard({ title, url }: WebpageCardProps) {
           <img src={DEFAULT_IMAGE} alt="Website preview" className="w-full h-full object-cover" />
         </div>
         <p className="text-sm text-muted-foreground truncate w-full mt-2">{url}</p>
+        <div className="flex items-center text-xs text-muted-foreground truncate w-full mt-2">
+          <CalendarIcon className="h-4 w-4 mr-1" />
+          <span>{formatDate(createdAt)}</span>
+        </div>
+
       </CardContent>
     </Card>
   );

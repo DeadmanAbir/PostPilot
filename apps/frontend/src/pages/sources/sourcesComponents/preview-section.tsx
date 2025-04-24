@@ -19,10 +19,10 @@ const CountBadge = ({ count }: { count: number }) => (
 );
 
 type SourceData = {
-  websites: { title: string; url: string }[];
+  websites: { title: string; url: string; created_at: string }[];
   files: { name: string }[];
   text_node: { name: string; description: string }[];
-  images: { name: string; url: string }[];
+  images: { name: string; url: string; created_at: string }[];
   tweets: { id: string; url: string }[];
   youtube: { name: string; url: string }[];
 };
@@ -51,6 +51,11 @@ const PreviewSection = () => {
   if (isPending) {
     return <SourcesSkeleton />;
   }
+  console.log(
+    "%c Sources Data ",
+    "font-size:1.5em;font-weight:bold;color:#00b0ff",
+    data
+  );
   return (
     <div className="w-full h-full p-4">
       <Tabs defaultValue="all" className="w-full ">
@@ -115,7 +120,7 @@ const PreviewSection = () => {
             {data && Object.values(data).some((arr) => Array.isArray(arr) && arr.length > 0) ? (
               <div className="md:columns-3 columns-1 space-y-4">
                 {data?.websites?.map((item) => (
-                  <WebpageCard key={item.url} title={item.title} url={item.url} />
+                  <WebpageCard key={item.url} title={item.title} url={item.url} createdAt={item.created_at} />
                 ))}
                 {data?.files?.map((item) => (
                   <DocumentCard
@@ -138,6 +143,7 @@ const PreviewSection = () => {
                     key={item.url}
                     title={item.name}
                     avatarSrc={item.url}
+                    createdAt={item.created_at}
                   />
                 ))}
                 {data?.tweets?.map((item) => (
@@ -154,7 +160,7 @@ const PreviewSection = () => {
             {data && data.websites && data.websites.length > 0 ? (
               <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
                 {data?.websites?.map((item) => (
-                  <WebpageCard key={item.url} title={item.title} url={item.url} />
+                  <WebpageCard key={item.url} title={item.title} url={item.url} createdAt={item.created_at} />
                 ))}
               </div>
             ) : (
@@ -220,6 +226,7 @@ const PreviewSection = () => {
                     key={item.url}
                     title={item.name}
                     avatarSrc={item.url}
+                    createdAt={item.created_at}
                   />
                 ))}
               </div>
