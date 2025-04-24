@@ -1,4 +1,4 @@
-import { FileText } from "lucide-react";
+import { CalendarIcon, FileText } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Suspense } from "react";
 import { Textarea } from "@/components/ui/textarea";
@@ -18,7 +18,10 @@ export function NoteCard({ title, content, timestamp }: NoteCardProps) {
         <h3 className="font-semibold text-base truncate flex-1" title={title}>{title}</h3>
       </CardHeader>
       <CardContent className="p-4 flex flex-col gap-2">
-        <p className="text-xs text-muted-foreground mb-1">{timestamp}</p>
+        <div className="flex items-center gap-1 text-xs text-muted-foreground mb-1">
+          <CalendarIcon className="h-4 w-4" />
+          <span>{timestamp}</span>
+        </div>
         <div className="rounded-lg border border-blue-100 dark:border-blue-900 bg-white dark:bg-zinc-900 p-2 min-h-[72px]">
           <Suspense fallback={<div className="h-20 flex items-center justify-center gap-4">
             Loading..

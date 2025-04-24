@@ -10,6 +10,7 @@ import { useAuth } from "@/providers/supabaseAuthProvider";
 import { ImageCard } from "./cards/image-card";
 import { CreateSourceCard } from "./cards/create-source-card";
 import { SourcesSkeleton } from "@/components/skeletons/sources-skeleton";
+import { formatDate } from "@/utils/functions/formatDate";
 
 // Badge component for count
 const CountBadge = ({ count }: { count: number }) => (
@@ -21,7 +22,7 @@ const CountBadge = ({ count }: { count: number }) => (
 type SourceData = {
   websites: { title: string; url: string; created_at: string }[];
   files: { name: string }[];
-  text_node: { name: string; description: string }[];
+  text_node: { name: string; description: string; created_at: string }[];
   images: { name: string; url: string; created_at: string }[];
   tweets: { id: string; url: string }[];
   youtube: { name: string; url: string }[];
@@ -135,7 +136,7 @@ const PreviewSection = () => {
                     key={item.name}
                     title={item.name}
                     content={item.description}
-                    timestamp="2 hours ago"
+                    timestamp={formatDate(item.created_at)}
                   />
                 ))}
                 {data?.images?.map((item) => (
@@ -208,7 +209,7 @@ const PreviewSection = () => {
                     key={item.name}
                     title={item.name}
                     content={item.description}
-                    timestamp="2 hours ago"
+                    timestamp={formatDate(item.created_at)}
                   />
                 ))}
               </div>
