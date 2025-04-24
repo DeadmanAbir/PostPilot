@@ -8,6 +8,7 @@
       "outputs": [
         "@repo/http-backend/dist/**",
         "dist/**",
+        "api/**",
         ".vercel/output/**",
         ".next/**",
         "!.next/cache/**"

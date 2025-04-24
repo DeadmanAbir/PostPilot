@@ -5,8 +5,8 @@
   "main": "api/index.js",
   "scripts": {
     "build": "tsup src/index.ts --out-dir api --format cjs",
-    "start": "node dist/api/index.js",
-    "dev": "nodemon --watch \"api/**/*.ts\" --exec \"ts-node -r tsconfig-paths/register api/index.ts\""
+    "start": "node api/index.js",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node -r tsconfig-paths/register src/index.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.22.0",
