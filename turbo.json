@@ -6,7 +6,8 @@
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [
-        "apps/http-backend/dist/**",
+        "@repo/http-backend/dist/**",
+        "dist/**",
         ".vercel/output/**",
         ".next/**",
         "!.next/cache/**"
