@@ -16,7 +16,7 @@ export function CreateSourceCard({
         bg-gradient-to-br from-white via-blue-50 to-blue-100 
         dark:bg-gradient-to-br dark:from-gray-900 dark:via-gray-800 dark:to-slate-900
         shadow-xl border border-blue-200 dark:border-slate-700 rounded-3xl 
-        transition-transform duration-200 hover:scale-105 hover:shadow-2xl cursor-pointer"
+        transition-transform duration-200 cursor-pointer"
     >
       <CardHeader className="pb-0">
         <CardTitle className="text-lg font-semibold text-blue-700 dark:text-blue-200 drop-shadow-sm">
