@@ -120,36 +120,57 @@ const PreviewSection = () => {
           <TabsContent value="all">
             {data && Object.values(data).some((arr) => Array.isArray(arr) && arr.length > 0) ? (
               <div className="md:columns-3 columns-1 space-y-4">
-                {data?.websites?.map((item) => (
-                  <WebpageCard key={item.url} title={item.title} url={item.url} createdAt={item.created_at} screenShot={item.screenshot} />
-                ))}
-                {data?.files?.map((item) => (
-                  <DocumentCard
-                    key={item.name}
-                    title={item.name}
-                    type="PDF Document"
-                    preview="A comprehensive proposal for..."
-                  />
-                ))}
-                {data?.text_node?.map((item) => (
-                  <NoteCard
-                    key={item.name}
-                    title={item.name}
-                    content={item.description}
-                    timestamp={formatDate(item.created_at)}
-                  />
-                ))}
-                {data?.images?.map((item) => (
-                  <ImageCard
-                    key={item.url}
-                    title={item.name}
-                    avatarSrc={item.url}
-                    createdAt={item.created_at}
-                  />
-                ))}
-                {data?.tweets?.map((item) => (
-                  <TweetCard key={item.id} url={item.url} />
-                ))}
+                {(() => {
+                  // Flatten all arrays into a single array with type info
+                  const allItems = [
+                    ...(data?.websites?.map((item: any) => ({ ...item, _type: 'website' })) || []),
+                    ...(data?.files?.map((item: any) => ({ ...item, _type: 'file' })) || []),
+                    ...(data?.text_node?.map((item: any) => ({ ...item, _type: 'text_node' })) || []),
+                    ...(data?.images?.map((item: any) => ({ ...item, _type: 'image' })) || []),
+                    ...(data?.tweets?.map((item: any) => ({ ...item, _type: 'tweet' })) || []),
+                  ];
+                  // Sort all items by created_at descending
+                  allItems.sort((a, b) => new Date(b.created_at || b.createdAt).getTime() - new Date(a.created_at || a.createdAt).getTime());
+                  return allItems.map((item: any) => {
+                    switch (item._type) {
+                      case 'website':
+                        return (
+                          <WebpageCard key={item.url} title={item.title} url={item.url} createdAt={item.created_at} screenShot={item.screenshot} />
+                        );
+                      case 'file':
+                        return (
+                          <DocumentCard
+                            key={item.name}
+                            title={item.name}
+                            type="PDF Document"
+                            preview="A comprehensive proposal for..."
+                          />
+                        );
+                      case 'text_node':
+                        return (
+                          <NoteCard
+                            key={item.name}
+                            title={item.name}
+                            content={item.description}
+                            timestamp={formatDate(item.created_at)}
+                          />
+                        );
+                      case 'image':
+                        return (
+                          <ImageCard
+                            key={item.url}
+                            title={item.name}
+                            avatarSrc={item.url}
+                            createdAt={item.created_at}
+                          />
+                        );
+                      case 'tweet':
+                        return <TweetCard key={item.id} url={item.url} />;
+                      default:
+                        return null;
+                    }
+                  });
+                })()}
               </div>
             ) : (
               <div className="flex flex-col items-start justify-start min-h-[400px]">
