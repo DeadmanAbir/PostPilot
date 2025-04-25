@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/lib/supabaseClient";
+import { Button, buttonVariants } from "./ui/button";
 
 export function NavUser({
   user,
@@ -97,13 +98,18 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className="cursor-pointer hover:bg-red-500 hover:text-white"
+            <Button
+
+              className="w-full"
+              variant={"destructive"}
               onClick={handleLogout}
             >
               <LogOut />
-              Log out
-            </DropdownMenuItem>
+              <span>
+                Log out
+
+              </span>
+            </Button>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
