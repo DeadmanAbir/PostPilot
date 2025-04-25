@@ -73,7 +73,7 @@ export function SignIn({ onToggle }: SignInProps) {
           </div>
 
           {/* Social Sign In Buttons */}
-          <div className="space-y-3">
+          {/* <div className="space-y-3">
             <Button
               type="button"
               variant="outline"
@@ -116,9 +116,9 @@ export function SignIn({ onToggle }: SignInProps) {
               </svg>
               <span>Sign in with GitHub</span>
             </Button>
-          </div>
+          </div> */}
 
-          <div className="relative">
+          {/* <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <Separator className="w-full" />
             </div>
@@ -127,7 +127,7 @@ export function SignIn({ onToggle }: SignInProps) {
                 Or continue with
               </span>
             </div>
-          </div>
+          </div> */}
 
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-4">
@@ -146,7 +146,7 @@ export function SignIn({ onToggle }: SignInProps) {
                   onChange={handleChange}
                   placeholder="Enter Your Email"
                   required
-                  className="mt-1 border-b border-t-0 border-l-0 border-r-0 rounded-none px-0 shadow-none focus-visible:ring-0 focus-visible:border-primary"
+                  className="mt-1 border-b border-t-0 border-l-0 border-r-0 rounded-none px-2 shadow-none focus-visible:ring-0 focus-visible:border-primary"
                 />
               </div>
 
@@ -166,7 +166,7 @@ export function SignIn({ onToggle }: SignInProps) {
                     onChange={handleChange}
                     placeholder="Enter Your Password"
                     required
-                    className="mt-1 border-b border-t-0 border-l-0 border-r-0 rounded-none px-0 pr-10 shadow-none focus-visible:ring-0 focus-visible:border-primary"
+                    className="mt-1 border-b border-t-0 border-l-0 border-r-0 rounded-none px-2 pr-10 shadow-none focus-visible:ring-0 focus-visible:border-primary"
                   />
                   <button
                     type="button"
@@ -183,7 +183,7 @@ export function SignIn({ onToggle }: SignInProps) {
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
+            {/* <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="remember-me"
@@ -200,7 +200,7 @@ export function SignIn({ onToggle }: SignInProps) {
                   Forgot password?
                 </Button>
               </div>
-            </div>
+            </div> */}
 
             <div>
               <Button

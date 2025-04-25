@@ -3,10 +3,10 @@ import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+// import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
-import { Separator } from "@/components/ui/separator";
+// import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff } from "lucide-react";
 import { ReadingIllustration } from "./reading-illustration";
 import { supabase } from "@/lib/supabaseClient";
@@ -37,9 +37,9 @@ export function SignUp({ onToggle }: SignUpProps) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleCheckboxChange = (checked: boolean) => {
-    setFormData((prev) => ({ ...prev, agreeToTerms: checked }));
-  };
+  // const handleCheckboxChange = (checked: boolean) => {
+  //   setFormData((prev) => ({ ...prev, agreeToTerms: checked }));
+  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,9 +75,9 @@ export function SignUp({ onToggle }: SignUpProps) {
     }
   };
 
-  const handleSocialSignUp = (provider: string) => {
-    console.log(`Sign up with ${provider}`);
-  };
+  // const handleSocialSignUp = (provider: string) => {
+  //   console.log(`Sign up with ${provider}`);
+  // };
 
   // Toggle password visibility
   const togglePasswordVisibility = () => {
@@ -100,7 +100,7 @@ export function SignUp({ onToggle }: SignUpProps) {
           </div>
 
           {/* Social Sign Up Buttons */}
-          <div className="space-y-3">
+          {/* <div className="space-y-3">
             <Button
               type="button"
               variant="outline"
@@ -143,9 +143,9 @@ export function SignUp({ onToggle }: SignUpProps) {
               </svg>
               <span>Sign up with GitHub</span>
             </Button>
-          </div>
+          </div> */}
 
-          <div className="relative">
+          {/* <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <Separator className="w-full" />
             </div>
@@ -154,7 +154,7 @@ export function SignUp({ onToggle }: SignUpProps) {
                 Or continue with
               </span>
             </div>
-          </div>
+          </div> */}
 
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-4">
@@ -170,7 +170,7 @@ export function SignUp({ onToggle }: SignUpProps) {
                   onChange={handleChange}
                   placeholder="Enter Your Name"
                   required
-                  className="mt-1 border-b border-t-0 border-l-0 border-r-0 rounded-none px-0 shadow-none focus-visible:ring-0 focus-visible:border-primary"
+                  className="mt-1 border-b  border-t-0 border-l-0 border-r-0 rounded-none px-2 shadow-none focus-visible:ring-0 focus-visible:border-primary"
                 />
               </div>
 
@@ -189,7 +189,7 @@ export function SignUp({ onToggle }: SignUpProps) {
                   onChange={handleChange}
                   placeholder="Enter Your Email"
                   required
-                  className="mt-1 border-b border-t-0 border-l-0 border-r-0 rounded-none px-0 shadow-none focus-visible:ring-0 focus-visible:border-primary"
+                  className="mt-1 border-b border-t-0 border-l-0 border-r-0 rounded-none px-2 shadow-none focus-visible:ring-0 focus-visible:border-primary"
                 />
               </div>
 
@@ -209,7 +209,7 @@ export function SignUp({ onToggle }: SignUpProps) {
                     onChange={handleChange}
                     placeholder="Enter Your Password"
                     required
-                    className="mt-1 border-b border-t-0 border-l-0 border-r-0 rounded-none px-0 pr-10 shadow-none focus-visible:ring-0 focus-visible:border-primary"
+                    className="mt-1 border-b border-t-0 border-l-0 border-r-0 rounded-none px-2 pr-10 shadow-none focus-visible:ring-0 focus-visible:border-primary"
                   />
                   <button
                     type="button"
@@ -241,7 +241,7 @@ export function SignUp({ onToggle }: SignUpProps) {
                     onChange={handleChange}
                     placeholder="Enter Your Password"
                     required
-                    className="mt-1 border-b border-t-0 border-l-0 border-r-0 rounded-none px-0 pr-10 shadow-none focus-visible:ring-0 focus-visible:border-primary"
+                    className="mt-1 border-b border-t-0 border-l-0 border-r-0 rounded-none px-2 pr-10 shadow-none focus-visible:ring-0 focus-visible:border-primary"
                   />
                   <button
                     type="button"
@@ -258,7 +258,7 @@ export function SignUp({ onToggle }: SignUpProps) {
               </div>
             </div>
 
-            <div className="flex items-center space-x-2">
+            {/* <div className="flex items-center space-x-2">
               <Checkbox
                 id="terms"
                 checked={formData.agreeToTerms}
@@ -267,7 +267,7 @@ export function SignUp({ onToggle }: SignUpProps) {
               <Label htmlFor="terms" className="text-sm">
                 I agree the terms and conditions
               </Label>
-            </div>
+            </div> */}
 
             <div>
               <Button
