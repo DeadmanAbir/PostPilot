@@ -12,9 +12,9 @@ import {
   remoteFileUploadDetailsValidator,
   textNodeDataValidaor,
 } from "@repo/common/validator";
-import { extractTweetId, getUserId } from "@/utils/helper";
-import { supabase } from "@/utils/supabaseClient";
-import { AuthRequest } from "@/middlewares/authMiddleware";
+import { extractTweetId, getUserId } from "../utils/helper";
+import { supabase } from "../utils/supabaseClient";
+import { AuthRequest } from "../middlewares/authMiddleware";
 
 export async function fetchYoutubeVideoDetails(
   request: AuthRequest,

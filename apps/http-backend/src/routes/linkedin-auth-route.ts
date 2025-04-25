@@ -3,7 +3,7 @@ import {
   getLinkedinStatus,
   handleLinkedinCallback,
   postToLinkedin,
-} from "@/controllers/linkedin-auth-controller";
+} from "../controllers/linkedin-auth-controller";
 import express, { Router } from "express";
 
 const router: Router = express.Router();

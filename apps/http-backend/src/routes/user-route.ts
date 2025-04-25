@@ -6,7 +6,7 @@ import {
   getProfileData,
   getUser,
   updateUserData,
-} from "@/controllers/user-controllers";
+} from "../controllers/user-controllers";
 import express, { Router } from "express";
 
 const router: Router = express.Router();

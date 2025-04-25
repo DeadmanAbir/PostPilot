@@ -2,7 +2,7 @@ import {
   generatePost,
   improvePost,
   regeneratePost,
-} from "@/controllers/content-generator";
+} from "../controllers/content-generator";
 import express, { Router } from "express";
 
 const router: Router = express.Router();

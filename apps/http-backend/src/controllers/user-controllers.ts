@@ -3,8 +3,8 @@ import "dotenv/config";
 import createError from "http-errors";
 import { ZodError } from "zod";
 
-import { supabase } from "@/utils/supabaseClient";
-import { AuthRequest } from "@/middlewares/authMiddleware";
+import { supabase } from "../utils/supabaseClient";
+import { AuthRequest } from "../middlewares/authMiddleware";
 import { profileUpdateValidator } from "@repo/common/validator";
 
 export async function getProfileData(request: AuthRequest, response: Response) {

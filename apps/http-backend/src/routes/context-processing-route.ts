@@ -10,7 +10,7 @@ import {
   saveRemoteFileData,
   saveRemoteImageData,
   saveTextNodeData,
-} from "@/controllers/file-controllers";
+} from "../controllers/file-controllers";
 
 const router: Router = express.Router();
 

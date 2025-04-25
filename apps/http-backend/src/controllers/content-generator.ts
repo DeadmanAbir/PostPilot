@@ -4,7 +4,7 @@ import {
   generatePostPrompt,
   improvePostPrompt,
   regeneratePostPrompt,
-} from "@/utils/constant";
+} from "../utils/constant";
 import { ZodError } from "zod";
 import {
   improvePostValidator,
@@ -16,9 +16,9 @@ import {
   fetchMediaData,
   fetchTextualData,
   improvePrompt,
-} from "@/utils/helper";
+} from "../utils/helper";
 import "dotenv/config";
-import { AuthRequest } from "@/middlewares/authMiddleware";
+import { AuthRequest } from "../middlewares/authMiddleware";
 
 export const generatePost = async (
   request: AuthRequest,

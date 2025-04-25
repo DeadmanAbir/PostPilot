@@ -11,14 +11,14 @@ import {
   processMedia,
   storeCredentialsInDB,
   validateAndRefreshToken,
-} from "@/utils/helper";
+} from "../utils/helper";
 import crypto from "crypto";
 import {
   linkedinCallbackValidator,
   linkedinPostValidator,
 } from "@repo/common/validator";
-import { supabase } from "@/utils/supabaseClient";
-import { AuthRequest } from "@/middlewares/authMiddleware";
+import { supabase } from "../utils/supabaseClient";
+import { AuthRequest } from "../middlewares/authMiddleware";
 
 export async function getLinkedinCredentials(
   request: AuthRequest,
