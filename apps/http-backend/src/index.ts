@@ -24,6 +24,7 @@ app.use(
     secret: process.env.SESSION_SECRET || crypto.randomUUID(),
     resave: false,
     saveUninitialized: false,
+    name: "MyCoolWebAppCookieName",
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
       sameSite: "none",
