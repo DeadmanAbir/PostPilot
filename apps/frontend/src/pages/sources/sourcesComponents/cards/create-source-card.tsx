@@ -18,13 +18,13 @@ export function CreateSourceCard({
         shadow-xl border border-blue-200 dark:border-slate-700 rounded-3xl 
         transition-transform duration-200 cursor-pointer"
     >
-      <CardHeader className="pb-0">
+      <CardHeader className="pb-0 hidden">
         <CardTitle className="text-lg font-semibold text-blue-700 dark:text-blue-200 drop-shadow-sm">
           No Resource Found
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center flex-grow -mt-[30px]">
-        <div
+        {/* <div
           className="rounded-full bg-gradient-to-tr from-blue-400 via-blue-300 to-blue-200 
             dark:from-blue-800 dark:via-blue-700 dark:to-blue-600
             text-white w-16 h-16 flex items-center justify-center shadow-lg 
@@ -37,7 +37,10 @@ export function CreateSourceCard({
           style={{ boxShadow: "0 6px 30px 0 rgba(0, 80, 220, 0.10)" }}
         >
           <Plus className="w-8 h-8" />
-        </div>
+        </div> */}
+        <CardTitle className="text-lg font-semibold text-blue-700 dark:text-blue-200 drop-shadow-sm">
+          No Resource Found
+        </CardTitle>
         <p className="mt-4 text-base font-medium text-blue-600 dark:text-blue-300">Add {value}</p>
       </CardContent>
     </Card>
