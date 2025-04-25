@@ -4,10 +4,10 @@ import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+// import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
+// import { Checkbox } from "@/components/ui/checkbox";
 import { ReadingIllustration } from "./reading-illustration";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -30,9 +30,9 @@ export function SignIn({ onToggle }: SignInProps) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleCheckboxChange = (checked: boolean) => {
-    setFormData((prev) => ({ ...prev, rememberMe: checked }));
-  };
+  // const handleCheckboxChange = (checked: boolean) => {
+  //   setFormData((prev) => ({ ...prev, rememberMe: checked }));
+  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,10 +52,10 @@ export function SignIn({ onToggle }: SignInProps) {
     });
   };
 
-  const handleSocialSignIn = (provider: string) => {
-    console.log(`Sign in with ${provider}`);
-    // Implement social sign in logic here
-  };
+  // const handleSocialSignIn = (provider: string) => {
+  //   console.log(`Sign in with ${provider}`);
+  //   // Implement social sign in logic here
+  // };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
