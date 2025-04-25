@@ -1,15 +1,15 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useNavigate } from "@tanstack/react-router";
-import { Plus } from "lucide-react";
+// import { Plus } from "lucide-react";
 
 export function CreateSourceCard({
   value,
-  path,
+  path="/",
 }: {
   value: string;
   path: string;
 }) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  console.log(path)
   return (
     <Card
       className="w-64 h-64 flex flex-col items-center text-center text-muted-foreground 

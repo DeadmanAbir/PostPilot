@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/lib/supabaseClient";
-import { Button, buttonVariants } from "./ui/button";
+import { Button, } from "./ui/button";
 
 export function NavUser({
   user,
