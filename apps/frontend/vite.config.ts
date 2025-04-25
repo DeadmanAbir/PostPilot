@@ -5,7 +5,7 @@ import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
-  const BACKEND_URL = env.VITE_BACKEND_URL;
+  const BACKEND_URL = env.VITE_BACKEND_URL || "http://localhost:9000";
 
   return {
     plugins: [

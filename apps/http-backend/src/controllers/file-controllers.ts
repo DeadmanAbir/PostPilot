@@ -364,7 +364,5 @@ export async function saveRemoteImageData(
 }
 
 export function getUsersAdmin(request: AuthRequest, response: Response) {
-  console.log(request.userId, request.email, request.displayName);
-
   response.status(200).json("Sorry, cant find that");
 }

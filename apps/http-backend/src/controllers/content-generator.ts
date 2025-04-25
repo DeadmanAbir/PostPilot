@@ -46,7 +46,6 @@ export const generatePost = async (
       "\n",
       "Note : If any context is available (in any form), **use it heavily** on your response."
     );
-    console.log(textData, "textData");
     const chatGemini = createClient("Gemini");
     const data = await chatGemini.chat({
       prompt,
@@ -129,7 +128,6 @@ export const regeneratePost = async (
 export const improvePost = async (request: AuthRequest, response: Response) => {
   try {
     const { query } = improvePostValidator.parse(request.body);
-    console.log(query, "query");
     const chatOpenai = createClient("OpenAI");
     const data = await chatOpenai.chat({
       prompt:

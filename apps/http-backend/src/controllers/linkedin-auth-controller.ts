@@ -61,7 +61,6 @@ export async function handleLinkedinCallback(
       throw createError(400, `LinkedIn authorization error: ${error}`);
     }
 
-    console.log("callback session : ", request.session.userId);
     const userId = request.session.userId;
 
     const tokenData = await exchangeCodeForToken(code as string);

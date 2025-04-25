@@ -6,6 +6,7 @@ import linkedinRouter from "@/routes/linkedin-auth-route";
 import cors from "cors";
 import { authMiddleware } from "./middlewares/authMiddleware";
 import session from "express-session";
+import "dotenv/config";
 
 declare module "express-session" {
   interface SessionData {
@@ -14,13 +15,13 @@ declare module "express-session" {
 }
 
 const app: Express = express();
-
+const port = process.env.PORT || 9000;
 app.use(express.json());
 app.use(cors());
 
 app.use(
   session({
-    secret: "your-secret-key",
+    secret: process.env.SESSION_SECRET || crypto.randomUUID(),
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -39,7 +40,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Hello Worldss!");
+  res.send("PostPilot is up and running!");
 });
 
 app.use("/api", fileRouter);
@@ -47,6 +48,6 @@ app.use("/api", postRouter);
 app.use("/api", profileRouter);
 app.use("/api/linkedin", linkedinRouter);
 
-app.listen(9000, () => {
-  console.log("Server is running on port 9000");
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
