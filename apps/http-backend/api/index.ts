@@ -1,11 +1,11 @@
 import express, { Express } from "express";
-import fileRouter from "@/routes/context-processing-route";
-import postRouter from "@/routes/post-generation.route";
-import profileRouter from "@/routes/user-route";
-import linkedinRouter from "@/routes/linkedin-auth-route";
+import fileRouter from "../src/routes/context-processing-route";
+import postRouter from "../src/routes/post-generation.route";
+import profileRouter from "../src/routes/user-route";
+import linkedinRouter from "../src/routes/linkedin-auth-route";
 import cors from "cors";
-import { authMiddleware } from "./middlewares/authMiddleware";
 import session from "express-session";
+import { authMiddleware } from "../src/middlewares/authMiddleware";
 
 declare module "express-session" {
   interface SessionData {
