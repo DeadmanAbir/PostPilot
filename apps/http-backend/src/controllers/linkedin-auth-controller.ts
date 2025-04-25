@@ -62,6 +62,7 @@ export async function handleLinkedinCallback(
     }
 
     const userId = request.session.userId;
+    console.log("User ID from session:", userId);
 
     const tokenData = await exchangeCodeForToken(code as string);
 
