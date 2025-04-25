@@ -3,5 +3,16 @@
   "outputDirectory": "dist",
   "buildCommand": "turbo run build",
   "installCommand": "pnpm install",
-  "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
+  "builds": [
+    {
+      "src": "src/index.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "src/index.ts"
+    }
+  ]
 }

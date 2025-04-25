@@ -4,7 +4,7 @@
   "description": "",
   "main": "api/index.js",
   "scripts": {
-    "build": "tsup src/index.ts --out-dir api --format cjs",
+    "build": "tsc -b",
     "start": "node api/index.js",
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node -r tsconfig-paths/register src/index.ts"
   },
