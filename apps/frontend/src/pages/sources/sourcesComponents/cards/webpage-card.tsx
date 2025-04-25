@@ -6,12 +6,13 @@ interface WebpageCardProps {
   title?: string;
   url: string;
   createdAt: string;
+  screenShot:string;
 }
 
-const DEFAULT_IMAGE = "/og-image.png"; // Place a default image in your public folder
 
 
-export function WebpageCard({ title, url, createdAt }: WebpageCardProps) {
+export function WebpageCard({ title, url, createdAt,screenShot }: WebpageCardProps) {
+  console.log(screenShot)
   return (
     <Card className="hover:shadow-lg transition-shadow border-2 border-blue-100 dark:border-blue-900 bg-gradient-to-br from-blue-50 to-white dark:from-blue-950 dark:to-zinc-900 rounded-xl overflow-hidden group">
       <CardHeader className="flex flex-row items-center gap-3 p-4 bg-blue-50/70 dark:bg-blue-950/60 border-b border-blue-100 dark:border-blue-900">
@@ -22,7 +23,7 @@ export function WebpageCard({ title, url, createdAt }: WebpageCardProps) {
       </CardHeader>
       <CardContent className="p-4 flex flex-col gap-2">
         <div className="w-full h-32 rounded-lg overflow-hidden bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
-          <img src={DEFAULT_IMAGE} alt="Website preview" className="w-full h-full object-cover" />
+          <img src={screenShot} alt="Website preview" className="w-full h-full object-cover" />
         </div>
         <p className="text-sm text-muted-foreground truncate w-full mt-2">{url}</p>
         <div className="flex items-center text-xs text-muted-foreground truncate w-full mt-2">

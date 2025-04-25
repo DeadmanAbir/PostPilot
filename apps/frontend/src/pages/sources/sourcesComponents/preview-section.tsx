@@ -20,7 +20,7 @@ const CountBadge = ({ count }: { count: number }) => (
 );
 
 type SourceData = {
-  websites: { title: string; url: string; created_at: string }[];
+  websites: { title: string; url: string; created_at: string,screenshot:string }[];
   files: { name: string }[];
   text_node: { name: string; description: string; created_at: string }[];
   images: { name: string; url: string; created_at: string }[];
@@ -121,7 +121,7 @@ const PreviewSection = () => {
             {data && Object.values(data).some((arr) => Array.isArray(arr) && arr.length > 0) ? (
               <div className="md:columns-3 columns-1 space-y-4">
                 {data?.websites?.map((item) => (
-                  <WebpageCard key={item.url} title={item.title} url={item.url} createdAt={item.created_at} />
+                  <WebpageCard key={item.url} title={item.title} url={item.url} createdAt={item.created_at} screenShot={item.screenshot} />
                 ))}
                 {data?.files?.map((item) => (
                   <DocumentCard
@@ -161,7 +161,7 @@ const PreviewSection = () => {
             {data && data.websites && data.websites.length > 0 ? (
               <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
                 {data?.websites?.map((item) => (
-                  <WebpageCard key={item.url} title={item.title} url={item.url} createdAt={item.created_at} />
+                  <WebpageCard key={item.url} title={item.title} url={item.url} createdAt={item.created_at} screenShot={item.screenshot} />
                 ))}
               </div>
             ) : (
