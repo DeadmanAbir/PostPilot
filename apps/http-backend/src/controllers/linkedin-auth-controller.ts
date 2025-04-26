@@ -28,8 +28,11 @@ export async function getLinkedinCredentials(
     const userId = request.userId;
     const state = crypto.randomBytes(20).toString("hex");
 
-    request.session.userId = userId;
-    response.cookie("userId", userId, { maxAge: 900000, httpOnly: true });
+    response.cookie("userId", userId, {
+      maxAge: 900000,
+      httpOnly: true,
+      sameSite: "none",
+    });
     // Store state in session or database (using userId as key)
     // In a real application, you would store this in a secure session or temporary database record
     // For simplicity, we'll just include it in the redirect_uri
@@ -87,10 +90,10 @@ export async function handleLinkedinCallback(
     //   }
     //   response.redirect(process.env.REDIRECT_URL!);
     // });
-    response.clearCookie("userId", {
-      httpOnly: true,
-      sameSite: "lax",
-    });
+    // response.clearCookie("userId", {
+    //   httpOnly: true,
+    //   sameSite: "lax",
+    // });
     response.redirect(process.env.REDIRECT_URL!);
   } catch (e: unknown) {
     console.log(e);

@@ -20,19 +20,6 @@ const port = process.env.PORT || 9000;
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
-app.set("trust proxy", 1);
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || crypto.randomUUID(),
-    resave: false,
-    saveUninitialized: false,
-    name: "MyCoolWebAppCookieName",
-    cookie: {
-      maxAge: 24 * 60 * 60 * 1000,
-      sameSite: "none",
-    },
-  })
-);
 
 const publicRoutes = ["/", "/api/linkedin/callback"];
 
