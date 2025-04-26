@@ -320,7 +320,7 @@ export const addLocalFile = async (
 
 export const fetchUserSources = async (accessToken: string) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get-user?_=${Date.now()}`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get-user`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
