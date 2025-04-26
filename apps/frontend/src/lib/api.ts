@@ -11,7 +11,7 @@ import {
 
 export const getProfileData = async (accessToken: string) => {
   try {
-    const response = await fetch("/api/get-profile", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get-profile`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -32,7 +32,7 @@ export const getProfileData = async (accessToken: string) => {
 
 export const connectToLinkedin = async (accessToken: string) => {
   try {
-    const response = await fetch(`/api/linkedin/get-credentials`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/linkedin/get-credentials`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -54,7 +54,7 @@ export const updateProfile = async (
   details: ProfileDetails
 ) => {
   try {
-    const response = await fetch(`/api/update-user`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/update-user`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -79,7 +79,7 @@ export const linkedinPost = async (
   details: PostDetail
 ) => {
   try {
-    const response = await fetch("/api/generate-post", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/generate-post`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -104,7 +104,7 @@ export const regeneratePost = async (
   details: RegeneratePostContent
 ) => {
   try {
-    const response = await fetch("/api/regenerate-post", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/regenerate-post`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -126,7 +126,7 @@ export const regeneratePost = async (
 
 export const improvePost = async (accessToken: string, query: string) => {
   try {
-    const response = await fetch("/api/improve-post", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/improve-post`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -151,7 +151,7 @@ export const fetchTweet = async (
   content: TweetContent
 ) => {
   try {
-    const response = await fetch("/api/fetch-tweet", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/fetch-tweet`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -176,7 +176,7 @@ export const addTextNode = async (
   details: AddNodeContent
 ) => {
   try {
-    const response = await fetch("/api/add-text-node", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/add-text-node`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -198,7 +198,7 @@ export const addTextNode = async (
 
 export const fetchWebsite = async (accessToken: string, url: string) => {
   try {
-    const response = await fetch("/api/fetch-url", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/fetch-url`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -223,7 +223,7 @@ export const addRemoteImage = async (
   images: RemoteFileUploadDetail
 ) => {
   try {
-    const response = await fetch("/api/add-remote-image", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/add-remote-image`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -248,7 +248,7 @@ export const addRemoteFile = async (
   files: RemoteFileUploadDetail
 ) => {
   try {
-    const response = await fetch("/api/add-remote-file", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/add-remote-file`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -273,7 +273,7 @@ export const addLocalImage = async (
   images: LocalFileUploadDetail
 ) => {
   try {
-    const response = await fetch("/api/add-local-image", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/add-local-image`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -298,7 +298,7 @@ export const addLocalFile = async (
   files: LocalFileUploadDetail
 ) => {
   try {
-    const response = await fetch("/api/add-local-file", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/add-local-file`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -344,7 +344,7 @@ export const postToLinkedin = async (
   content: PostContent
 ) => {
   try {
-    const response = await fetch("/api/linkedin/post", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/linkedin/post`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -366,7 +366,7 @@ export const postToLinkedin = async (
 
 export const getLinkedinData = async (accessToken: string) => {
   try {
-    const response = await fetch("/api/get-linekdin-credentials", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get-linekdin-credentials`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -387,7 +387,7 @@ export const getLinkedinData = async (accessToken: string) => {
 
 export const deleteLinkedinAccount = async (accessToken: string) => {
   try {
-    const response = await fetch(`/api/delete-account`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/delete-account`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -408,7 +408,7 @@ export const deleteLinkedinAccount = async (accessToken: string) => {
 
 export const getPostData = async (accessToken: string) => {
   try {
-    const response = await fetch("/api/get-posts", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get-posts`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
