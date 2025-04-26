@@ -18,21 +18,21 @@ export default defineConfig(({ mode }) => {
         "@": path.resolve(__dirname, "./src"),
       },
     },
-    server: {
-      proxy: {
-        "/api": {
-          target: BACKEND_URL,
-          changeOrigin: true,
-          configure: (proxy, _options) => {
-            proxy.on('proxyReq', (proxyReq, _req, _res) => {
-              // Prevent caching
-              proxyReq.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-              proxyReq.setHeader('Pragma', 'no-cache');
-              proxyReq.setHeader('Expires', '0');
-            });
-          }
-        },
-      },
-    },
+    // server: {
+    //   proxy: {
+    //     "/api": {
+    //       target: BACKEND_URL,
+    //       changeOrigin: true,
+    //       configure: (proxy, _options) => {
+    //         proxy.on('proxyReq', (proxyReq, _req, _res) => {
+    //           // Prevent caching
+    //           proxyReq.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    //           proxyReq.setHeader('Pragma', 'no-cache');
+    //           proxyReq.setHeader('Expires', '0');
+    //         });
+    //       }
+    //     },
+    //   },
+    // },
   };
 });
