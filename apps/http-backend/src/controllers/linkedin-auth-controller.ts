@@ -26,12 +26,12 @@ export async function getLinkedinCredentials(
 ) {
   try {
     const userId = request.userId;
-    const state = crypto.randomBytes(20).toString("hex");
+    const state = `${crypto.randomBytes(16).toString('hex')}_${userId}`;
 
     response.cookie("userId", userId, {
       maxAge: 900000,
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: "none",
     });
     // Store state in session or database (using userId as key)
@@ -60,14 +60,13 @@ export async function handleLinkedinCallback(
   response: Response
 ) {
   try {
-    const { code, error } = linkedinCallbackValidator.parse(request.query);
-
+    const { code, state,  error } = linkedinCallbackValidator.parse(request.query);
     if (error) {
       throw createError(400, `LinkedIn authorization error: ${error}`);
     }
 
-    const userId = request.cookies.userId;
-    console.log("User ID from cookies:", userId, request.cookies);
+    const userId = state.split('_')[1];
+    console.log("User ID from cookies:", userId);
 
     const tokenData = await exchangeCodeForToken(code as string);
 
