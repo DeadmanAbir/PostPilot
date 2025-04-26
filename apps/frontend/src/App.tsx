@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { store } from "../store/index";
 import { useAuth } from "./hooks/useAuth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import {  HelmetProvider } from "react-helmet-async";
 
 const router = createRouter({
   routeTree,
