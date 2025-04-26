@@ -5,7 +5,6 @@ import profileRouter from "@/routes/user-route";
 import linkedinRouter from "@/routes/linkedin-auth-route";
 import cors from "cors";
 import { authMiddleware } from "./middlewares/authMiddleware";
-import session from "express-session";
 import cookieParser from "cookie-parser";
 import "dotenv/config";
 
@@ -16,9 +15,10 @@ declare module "express-session" {
 }
 
 const app: Express = express();
+app.use(cors());
 const port = process.env.PORT || 9000;
 app.use(express.json());
-app.use(cors());
+
 app.use(cookieParser());
 
 const publicRoutes = ["/", "/api/linkedin/callback"];
