@@ -59,7 +59,6 @@ import { toast } from "sonner";
 
 export function ProfilePage() {
   const data = Route.useLoaderData();
-  console.log(data);
   const navigate = useNavigate();
   const { user } = useAuth();
   const [name, setName] = useState(data.name);
@@ -128,7 +127,6 @@ export function ProfilePage() {
   };
 
   const handleLogOut = async () => {
-    console.log("logging out");
     const { error } = await supabase.auth.signOut();
 
     if (error) {
@@ -140,7 +138,6 @@ export function ProfilePage() {
   };
 
   const handlePictureChange = async () => {
-    console.log(newprofileImage);
     const profileData = await uploadToSupabase("post-pilot");
     setProfileImage(profileData.profile_url);
     updateProfile(profileData);

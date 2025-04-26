@@ -36,7 +36,7 @@ export function SignIn({ onToggle }: SignInProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const {  error } = await supabase.auth.signInWithPassword({
       email: formData.email,
       password: formData.password,
     });
@@ -46,7 +46,6 @@ export function SignIn({ onToggle }: SignInProps) {
       return;
     }
 
-    console.log(data);
     navigate({
       to: "/dashboard",
     });

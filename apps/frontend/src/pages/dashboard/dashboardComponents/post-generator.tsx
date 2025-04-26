@@ -218,8 +218,7 @@ export function PostGenerator() {
   const { mutate: post } = postToLinkedinFn(
     user?.accessToken ?? "",
     {
-      onSuccess: (data: unknown) => {
-        console.log(data);
+      onSuccess: () => {
         setImages([]);
         setGeneratedPost("");
         setGeneratedPost("");
@@ -367,7 +366,6 @@ export function PostGenerator() {
   const handlePost = async () => {
     const media = await uploadToSupabase("post-pilot");
     const processed = processHTMLContent(generatedPost);
-    console.log(processed, "faisal");
 
     post({
       text: processed,

@@ -18,8 +18,7 @@ export function TextNoteTab() {
   const { mutate: addNodeContent, isPending: isLoading } = addNodeContentFn(
     user?.accessToken!,
     {
-      onSuccess: (data: unknown) => {
-        console.log(data);
+      onSuccess: () => {
         toast.success("content added successfully");
         setContent({
           name: "Text Editor",

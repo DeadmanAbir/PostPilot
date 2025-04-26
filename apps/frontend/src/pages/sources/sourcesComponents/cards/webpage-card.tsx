@@ -12,7 +12,6 @@ interface WebpageCardProps {
 
 
 export function WebpageCard({ title, url, createdAt,screenShot }: WebpageCardProps) {
-  console.log(screenShot)
   return (
     <Card className="hover:shadow-lg transition-shadow border-2 border-blue-100 dark:border-blue-900 bg-gradient-to-br from-blue-50 to-white dark:from-blue-950 dark:to-zinc-900 rounded-xl overflow-hidden group">
       <CardHeader className="flex flex-row items-center gap-3 p-4 bg-blue-50/70 dark:bg-blue-950/60 border-b border-blue-100 dark:border-blue-900">

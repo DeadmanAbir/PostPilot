@@ -52,11 +52,7 @@ const PreviewSection = () => {
   if (isPending) {
     return <SourcesSkeleton />;
   }
-  console.log(
-    "%c Sources Data ",
-    "font-size:1.5em;font-weight:bold;color:#00b0ff",
-    data
-  );
+
   return (
     <div className="w-full h-full p-4">
       <Tabs defaultValue="all" className="w-full ">
@@ -174,7 +170,7 @@ const PreviewSection = () => {
               </div>
             ) : (
               <div className="flex flex-col items-start justify-start min-h-[400px]">
-                <CreateSourceCard value="sources" path="/sources" />
+                <CreateSourceCard value="sources" />
               </div>
             )}
           </TabsContent>
@@ -187,7 +183,7 @@ const PreviewSection = () => {
               </div>
             ) : (
               <div className="flex flex-col items-start justify-start min-h-[400px]">
-                <CreateSourceCard value="websites" path="/sources" />
+                <CreateSourceCard value="websites" />
               </div>
             )}
           </TabsContent>
@@ -200,7 +196,7 @@ const PreviewSection = () => {
               </div>
             ) : (
               <div className="flex flex-col items-start justify-start min-h-[400px]">
-                <CreateSourceCard value="tweets" path="/sources" />
+                <CreateSourceCard value="tweets"  />
               </div>
             )}
           </TabsContent>
@@ -218,7 +214,7 @@ const PreviewSection = () => {
               </div>
             ) : (
               <div className="flex flex-col items-start justify-start min-h-[400px]">
-                <CreateSourceCard value="files" path="/sources" />
+                <CreateSourceCard value="files"  />
               </div>
             )}
           </TabsContent>
@@ -236,7 +232,7 @@ const PreviewSection = () => {
               </div>
             ) : (
               <div className="flex flex-col items-start justify-start min-h-[400px]">
-                <CreateSourceCard value="Notes" path="/sources" />
+                <CreateSourceCard value="Notes"  />
               </div>
             )}
           </TabsContent>
@@ -254,7 +250,7 @@ const PreviewSection = () => {
               </div>
             ) : (
               <div className="flex flex-col items-start justify-start min-h-[400px]">
-                <CreateSourceCard value="images" path="/sources" />
+                <CreateSourceCard value="images"  />
               </div>
             )}
           </TabsContent>
@@ -267,7 +263,7 @@ const PreviewSection = () => {
               </div>
             ) : (
               <div className="flex flex-col items-start justify-start min-h-[400px]">
-                <CreateSourceCard value="youtube video" path="/sources" />
+                <CreateSourceCard value="youtube video" />
               </div>
             )}
           </TabsContent>

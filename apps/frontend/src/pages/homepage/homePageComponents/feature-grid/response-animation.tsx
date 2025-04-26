@@ -8,7 +8,7 @@ const ResponseEffect = () => {
   const [trigger, setTrigger] = useState(true);
   const [triggerAns, setTriggerAns] = useState(false);
   const [hasCompleted, setHasCompleted] = useState(false);
-  const [callCount, setCallCount] = useState(0);
+  const [,setCallCount] = useState(0);
   const [showGenerate, setShowGenerate] = useState(false);
 
   const runAnimation = async () => {
@@ -82,7 +82,6 @@ const ResponseEffect = () => {
       },
     },
   };
-console.log(callCount)
   return (
     <div ref={scope} className="absolute inset-0 mt-10">
       <div className="max-w-2xl mx-auto p-6">

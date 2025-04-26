@@ -10,15 +10,12 @@ import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
 import { ReadingIllustration } from "./reading-illustration";
 import { supabase } from "@/lib/supabaseClient";
-import { useAuth } from "@/providers/supabaseAuthProvider";
 
 interface SignUpProps {
   onToggle: () => void;
 }
 
 export function SignUp({ onToggle }: SignUpProps) {
-  const { user } = useAuth();
-  console.log(user);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -57,7 +54,7 @@ export function SignUp({ onToggle }: SignUpProps) {
       }
       console.log("User data:", data);
 
-      const response = await fetch("/api/onboard-user", {
+       await fetch("/api/onboard-user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,8 +62,8 @@ export function SignUp({ onToggle }: SignUpProps) {
         },
       });
 
-      const result = await response.json();
-      console.log("Backend response:", result);
+      // const result = await response.json();
+      // console.log("Backend response:", result);
       navigate({
         to: "/dashboard",
       });

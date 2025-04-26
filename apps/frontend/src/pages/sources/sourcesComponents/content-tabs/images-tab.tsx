@@ -130,7 +130,6 @@ export function ImagesTab() {
       url: file.url,
       fileName: file.name,
     }));
-    console.log("remoteImageData", remoteImageData);
     addRemoteImages(remoteImageData);
   };
 

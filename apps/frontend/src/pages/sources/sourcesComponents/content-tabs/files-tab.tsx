@@ -119,7 +119,6 @@ export function FilesTab() {
       url: file.url,
       fileName: file.name,
     }));
-    console.log(remoteFileData, "fauisl")
     addRemoteFile(remoteFileData);
   };
   const handleLocalFileUpload = async () => {
