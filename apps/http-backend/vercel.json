@@ -1,7 +1,0 @@
-{
-  "version": 2,
-  "outputDirectory": "dist",
-  "buildCommand": "turbo run build",
-  "installCommand": "pnpm install",
-  "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
-}

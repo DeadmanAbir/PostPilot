@@ -29,6 +29,7 @@ export async function getLinkedinCredentials(
     const state = crypto.randomBytes(20).toString("hex");
 
     request.session.userId = userId;
+    response.cookie("userId", userId, { maxAge: 900000, httpOnly: true });
     // Store state in session or database (using userId as key)
     // In a real application, you would store this in a secure session or temporary database record
     // For simplicity, we'll just include it in the redirect_uri
@@ -61,8 +62,8 @@ export async function handleLinkedinCallback(
       throw createError(400, `LinkedIn authorization error: ${error}`);
     }
 
-    const userId = request.session.userId;
-    console.log("User ID from session:", userId);
+    const userId = request.cookies.userId;
+    console.log("User ID from cookies:", userId);
 
     const tokenData = await exchangeCodeForToken(code as string);
 
@@ -80,12 +81,17 @@ export async function handleLinkedinCallback(
     if (!stored) {
       throw createError(500, "Failed to store LinkedIn credentials");
     }
-    request.session.destroy((err) => {
-      if (err) {
-        console.error("could not destroy session", err);
-      }
-      response.redirect(process.env.REDIRECT_URL!);
+    // request.session.destroy((err) => {
+    //   if (err) {
+    //     console.error("could not destroy session", err);
+    //   }
+    //   response.redirect(process.env.REDIRECT_URL!);
+    // });
+    response.clearCookie("userId", {
+      httpOnly: true,
+      sameSite: "lax",
     });
+    response.redirect(process.env.REDIRECT_URL!);
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {

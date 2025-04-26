@@ -6,6 +6,7 @@ import linkedinRouter from "@/routes/linkedin-auth-route";
 import cors from "cors";
 import { authMiddleware } from "./middlewares/authMiddleware";
 import session from "express-session";
+import cookieParser from "cookie-parser";
 import "dotenv/config";
 
 declare module "express-session" {
@@ -18,6 +19,7 @@ const app: Express = express();
 const port = process.env.PORT || 9000;
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 app.set("trust proxy", 1);
 app.use(
   session({
