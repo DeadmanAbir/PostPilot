@@ -31,6 +31,7 @@ export async function getLinkedinCredentials(
     response.cookie("userId", userId, {
       maxAge: 900000,
       httpOnly: true,
+      secure: true,
       sameSite: "none",
     });
     // Store state in session or database (using userId as key)
