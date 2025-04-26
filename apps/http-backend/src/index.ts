@@ -24,6 +24,12 @@ app.use(cookieParser());
 const publicRoutes = ["/", "/api/linkedin/callback"];
 
 app.use((req, res, next) => {
+  res.setHeader(
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, proxy-revalidate"
+  );
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
   if (publicRoutes.includes(req.path)) {
     return next();
   }
