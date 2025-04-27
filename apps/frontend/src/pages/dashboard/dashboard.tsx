@@ -11,7 +11,7 @@ export function Dashboard() {
         <meta property="og:title" content="Dashboard | PostPilot" />
         <meta property="og:description" content="Your dashboard for managing posts and campaigns in PostPilot." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://post-pilot-beta.vercel.app/" />
+        <meta property="og:url" content="https://postpilot.agentgenesis.dev/" />
         <meta property="og:image" content="/og-image.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Dashboard | PostPilot" />
