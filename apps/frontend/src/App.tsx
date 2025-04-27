@@ -6,6 +6,7 @@ import { store } from "../store/index";
 import { useAuth } from "./hooks/useAuth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {  HelmetProvider } from "react-helmet-async";
+import { Analytics } from '@vercel/analytics/react';
 
 const router = createRouter({
   routeTree,
@@ -28,6 +29,7 @@ function App() {
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
           <Provider store={store}>
             <RouterProvider router={router} context={{ authentication }} />
+            <Analytics />
           </Provider>
         </ThemeProvider>
       </QueryClientProvider>
