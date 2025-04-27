@@ -373,6 +373,7 @@ export function PostGenerator() {
       images: images[0]?.type == "image" ? media : undefined,
       video: images[0]?.type == "video" ? media[0] : undefined,
     });
+    setOpenPost(false)
   };
 
   const handleImproveQuery = async (e: React.MouseEvent) => {
