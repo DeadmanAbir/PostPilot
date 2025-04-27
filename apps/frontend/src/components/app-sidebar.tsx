@@ -72,16 +72,21 @@ export function AppSidebar() {
     <Sidebar variant="sidebar" collapsible="icon" className="p-2 bg-white dark:bg-blue-950/10">
       <SidebarContent className="gap-0 ">
         <SidebarGroup>
-          <motion.img
+        <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="size-24 mx-auto"
-            src="/logo.png"
+            className="text-3xl font-bold my-3 px-2 whitespace-nowrap relative text-center"
           >
-          </motion.img>
-          PostPilot
+            <img
+              src="/logo.png"
+              alt="Logo"
+              className="size-20 absolute -top-4 -left-5"
+            />
+
+            Post Pilot
+          </motion.div>
         </SidebarGroup>
         <div className="flex items-center justify-center px-3 py-2">
           <Link
