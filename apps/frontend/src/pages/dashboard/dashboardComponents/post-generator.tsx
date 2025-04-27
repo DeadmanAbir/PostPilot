@@ -96,7 +96,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { toast } from "sonner";
-import { Link, useRouter } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 
 interface ScheduledPost {
   id: string;
@@ -151,11 +151,7 @@ export function PostGenerator() {
   >([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const inputImageRef = useRef<HTMLInputElement>(null);
-  const router = useRouter();
 
-  const handleConnectClick = () => {
-    router.navigate("/integration");
-  };
   const handleButtonClick = () => {
     inputRef.current?.click();
   };
