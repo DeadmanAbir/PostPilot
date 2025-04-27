@@ -26,13 +26,7 @@ export async function getLinkedinCredentials(
 ) {
   try {
     const userId = request.userId;
-    const state = crypto.randomBytes(20).toString("hex");
-
-    request.session.userId = userId;
-    // Store state in session or database (using userId as key)
-    // In a real application, you would store this in a secure session or temporary database record
-    // For simplicity, we'll just include it in the redirect_uri
-
+    const state = `${crypto.randomBytes(16).toString('hex')}_${userId}`;
     const authUrl = getLinkedInAuthUrl(state);
 
     response.status(200).json({ authUrl });
@@ -55,14 +49,13 @@ export async function handleLinkedinCallback(
   response: Response
 ) {
   try {
-    const { code, error } = linkedinCallbackValidator.parse(request.query);
-
+    const { code, state,  error } = linkedinCallbackValidator.parse(request.query);
     if (error) {
       throw createError(400, `LinkedIn authorization error: ${error}`);
     }
 
-    const userId = request.session.userId;
-
+    const userId = state.split('_')[1];
+  
     const tokenData = await exchangeCodeForToken(code as string);
 
     // Get user's LinkedIn profile to get their LinkedIn ID
@@ -79,12 +72,8 @@ export async function handleLinkedinCallback(
     if (!stored) {
       throw createError(500, "Failed to store LinkedIn credentials");
     }
-    request.session.destroy((err) => {
-      if (err) {
-        console.error("could not destroy session", err);
-      }
-      response.redirect(process.env.REDIRECT_URL!);
-    });
+  
+    response.redirect(process.env.REDIRECT_URL!);
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof ZodError) {
