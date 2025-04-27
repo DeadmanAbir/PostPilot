@@ -20,7 +20,7 @@ const Navbar = () => {
             Home
           </div>
         </div> */}
-        <Button className="bg-blue-600 hover:bg-blue-700 rounded-full text-white">Get in touch</Button>
+        <Button onClick={() => { window.location.href = "mailto:abirdutta90990@gmail.com" }} className="bg-blue-600 hover:bg-blue-700 rounded-full text-white">Get in touch</Button>
       </div>
 
     </header>

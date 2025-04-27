@@ -14,11 +14,9 @@ const HeroSection = () => {
           transition={{ delay: 0.2 }}
           className="inline-flex items-center px-1 py-0.5 pl-2 pr-1 rounded-full bg-blue-900/70 text-blue-500 mb-5 border border-blue-500"
         >
-          <span className="text-sm">v0.1.3.5</span>
-          <div className="ml-2 flex items-center px-2 py-0.5 rounded-full bg-blue-900/90">
-            <span className="text-xs mr-1 text-white/70">New Release</span>
-            <ArrowRight size={12} />
-          </div>
+           <span className="text-xs mr-1 text-white/70">Trending🔥</span>
+           <ArrowRight size={12} />
+        
         </motion.div>
 
         {/* Main Heading */}
