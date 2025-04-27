@@ -118,7 +118,7 @@ export function AccountCard({
             <Button
               variant="outline"
               size="sm"
-              className="hidden sm:flex text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-700 dark:hover:text-blue-300 hover:border-blue-300 dark:hover:border-blue-800 font-medium shadow-sm transition-all duration-200"
+              className="flex text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-700 dark:hover:text-blue-300 hover:border-blue-300 dark:hover:border-blue-800 font-medium shadow-sm transition-all duration-200"
               onClick={handleClick}
             >
               Add Account
