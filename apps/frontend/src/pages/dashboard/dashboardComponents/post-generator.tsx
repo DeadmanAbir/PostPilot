@@ -29,6 +29,7 @@ import {
   Globe2,
   Image,
   ImageIcon,
+  LinkedinIcon,
   Lock,
   PencilRuler,
   Plus,
@@ -95,6 +96,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { toast } from "sonner";
+import { Link, useRouter } from "@tanstack/react-router";
 
 interface ScheduledPost {
   id: string;
@@ -149,6 +151,11 @@ export function PostGenerator() {
   >([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const inputImageRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+
+  const handleConnectClick = () => {
+    router.navigate("/integration");
+  };
   const handleButtonClick = () => {
     inputRef.current?.click();
   };
@@ -251,11 +258,11 @@ export function PostGenerator() {
       onSuccess: (data: LinkedinPostResponse) => {
         const cleanData = removeMd(data.post_content);
         setGeneratedPost(cleanData);
-        alert("Post improved successfully");
+        toast.success("Post improved successfully");
       },
       onError: (error: unknown) => {
         console.log(error);
-        alert("error inimproving");
+        toast.error("error inimproving");
       },
     }
   );
@@ -373,6 +380,7 @@ export function PostGenerator() {
       images: images[0]?.type == "image" ? media : undefined,
       video: images[0]?.type == "video" ? media[0] : undefined,
     });
+    setOpenPost(false)
   };
 
   const handleImproveQuery = async (e: React.MouseEvent) => {
@@ -867,62 +875,73 @@ export function PostGenerator() {
                           )}
                         </div>
                         <div className="flex items-center gap-2">
-                        {!postGenerated && optionData && (
+                          {!postGenerated && optionData && (
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger>
+                                  {" "}
+                                  <Button
+                                    size={"icon"}
+                                    className="rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border bg-background hover:text-accent-foreground ml-2 shadow-sm hover:shadow border-primary/20 hover:border-primary/30 h-10 w-10 hover:bg-accent"
+                                    onClick={handleImproveQuery}
+                                  >
+                                    <WandSparkles className="text-blue-600" />
+                                  </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p className="text-white">
+                                    Reform your writing with AI
+                                  </p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          )}
                           <TooltipProvider>
                             <Tooltip>
-                              <TooltipTrigger>
-                                {" "}
-                                <Button
-                                  size={"icon"}
-                                  className="rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border bg-background hover:text-accent-foreground ml-2 shadow-sm hover:shadow border-primary/20 hover:border-primary/30 h-10 w-10 hover:bg-accent"
-                                  onClick={handleImproveQuery}
+                              <TooltipTrigger asChild>
+                                <motion.div
+                                  initial={{ opacity: 0, y: -10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  exit={{ opacity: 0, y: 10 }}
+                                  transition={{ duration: 0.2 }}
+                                  className="flex flex-col  items-end w-full"
                                 >
-                                  <WandSparkles className="text-blue-600" />
-                                </Button>
+                                  <Button
+                                    className="tracking-wider w-20 text-white "
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      setOpenPost(true);
+                                    }}
+                                    disabled={isExpired || isPostTextEmpty}
+                                  >
+                                    <Send /> Post
+                                  </Button>
+                                </motion.div>
                               </TooltipTrigger>
-                              <TooltipContent>
-                                <p className="text-white">
-                                  Reform your writing with AI
-                                </p>
-                              </TooltipContent>
+                              {isExpired && (
+                                <TooltipContent className="bg-white dark:bg-gray-800 border-2">
+                                  <div className="space-y-3 px-3 py-2">
+                                    <p className="text-blue-800 dark:text-blue-300">
+                                      Please connect LinkedIn to enable posting
+                                    </p>
+                                    <Link
+                                      to="/integration"
+                                      className="flex items-center justify-center text-sm font-medium bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white py-1 px-3 w-full rounded"
+                                    >
+                                      <LinkedinIcon className="h-4 w-4 mr-2" />
+                                      Connect
+                                    </Link>
+                                  </div>
+                                </TooltipContent>
+                              )}
                             </Tooltip>
                           </TooltipProvider>
-                        )}
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <motion.div
-                                initial={{ opacity: 0, y: -10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 10 }}
-                                transition={{ duration: 0.2 }}
-                                className="flex flex-col  items-end w-full"
-                              >
-                                <Button
-                                  className="tracking-wider w-20 text-white "
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    setOpenPost(true);
-                                  }}
-                                  disabled={isExpired || isPostTextEmpty}
-                                  >
-                                  <Send /> Post
-                                </Button>
-                              </motion.div>
-                            </TooltipTrigger>
-                            {isExpired && (
-                              <TooltipContent>
-                                <p>Please connect LinkedIn to enable posting</p>
-                              </TooltipContent>
-                            )}
-                          </Tooltip>
-                        </TooltipProvider>
                         </div>
-                      
+
                       </div>
-                       
-                        
-                      
+
+
+
                     </div>
 
                     {selectedItems.length > 0 && (
@@ -1058,9 +1077,25 @@ export function PostGenerator() {
                   onCheckedChange={setEnabled}
                 />
               </TooltipTrigger>
-              <TooltipContent>
-                <p>{isExpired ? "Please connect LinkedIn" : "Schedule post"}</p>
+              <TooltipContent className="bg-white dark:bg-gray-800 border-2">
+                {isExpired ? (
+                  <div className="space-y-3 px-3 py-2">
+                    <p className="text-blue-800 dark:text-blue-300">
+                      Please connect LinkedIn to enable posting
+                    </p>
+                    <Link
+                      to="/integration"
+                      className="flex items-center justify-center text-sm font-medium bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white py-1 px-3 w-full rounded"
+                    >
+                      <LinkedinIcon className="h-4 w-4 mr-2" />
+                      Connect
+                    </Link>
+                  </div>
+                ) : (
+                  <p className="text-gray-800 dark:text-gray-200">Schedule post</p>
+                )}
               </TooltipContent>
+
             </Tooltip>
           </TooltipProvider>
         </div>

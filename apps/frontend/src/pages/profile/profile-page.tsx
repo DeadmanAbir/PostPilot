@@ -7,6 +7,7 @@ import {
   Linkedin,
   MoreHorizontal,
   Settings,
+  Calendar,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -225,8 +226,8 @@ export function ProfilePage() {
                               <h3 className="font-normal line-clamp-1 leading-loose ">
                                 {post.post_content}
                               </h3>
-                              <p className="text-sm text-muted-foreground">
-                                {index} lessons •{" "}
+                              <p className="text-sm text-muted-foreground flex items-center gap-1">
+                                <Calendar className="h-4 w-4"/>
                                 {formatDate(post.created_at)}{" "}
                               </p>
                             </div>

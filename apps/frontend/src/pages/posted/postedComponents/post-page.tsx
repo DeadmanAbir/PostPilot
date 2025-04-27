@@ -21,8 +21,8 @@ import EmptyStateCard from "./empty-post-card";
 export function PostsPage() {
   const { user } = useAuth();
   const [sortOrder, setSortOrder] = useState<string>("newest");
-  const [platformFilter, setPlatformFilter] = useState<string>("all");
-  const [timeFilter, setTimeFilter] = useState<string>("all");
+  // const [platformFilter, setPlatformFilter] = useState<string>("all");
+  // const [timeFilter, setTimeFilter] = useState<string>("all");
 
   const { data, isPending } = getPostQuery(user?.accessToken!);
 
@@ -69,7 +69,7 @@ export function PostsPage() {
                 </Select>
               </div>
 
-              <div className="flex items-center bg-slate-50 dark:bg-blue-700/20 rounded-lg px-3 py-2 border border-slate-100 dark:border-gray-600 shadow-sm">
+              {/* <div className="flex items-center bg-slate-50 dark:bg-blue-700/20 rounded-lg px-3 py-2 border border-slate-100 dark:border-gray-600 shadow-sm">
                 <Select
                   value={platformFilter}
                   onValueChange={setPlatformFilter}
@@ -98,7 +98,7 @@ export function PostsPage() {
                     <SelectItem value="month">This Month</SelectItem>
                   </SelectContent>
                 </Select>
-              </div>
+              </div> */}
             </div>
           </div>
 
