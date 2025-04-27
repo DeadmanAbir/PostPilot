@@ -54,7 +54,7 @@ export function SignUp({ onToggle }: SignUpProps) {
       }
       console.log("User data:", data);
 
-       await fetch("/api/onboard-user", {
+       await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/onboard-user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
