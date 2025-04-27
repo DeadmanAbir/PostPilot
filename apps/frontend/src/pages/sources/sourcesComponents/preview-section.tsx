@@ -2,7 +2,7 @@ import { DocumentCard } from "@/pages/sources/sourcesComponents/cards/document-c
 import { NoteCard } from "@/pages/sources/sourcesComponents/cards/note-card";
 import { TweetCard } from "@/pages/sources/sourcesComponents/cards/tweet-card";
 import { WebpageCard } from "@/pages/sources/sourcesComponents/cards/webpage-card";
-import { YoutubeCard } from "@/pages/sources/sourcesComponents/cards/youtube-card";
+// import { YoutubeCard } from "@/pages/sources/sourcesComponents/cards/youtube-card";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { fetchSourcesQuery } from "@/lib/tanstack-query/query";
@@ -101,13 +101,13 @@ const PreviewSection = () => {
             Notes
             <CountBadge count={counts.text_node} />
           </TabsTrigger>
-          <TabsTrigger
+          {/* <TabsTrigger
             value="youtube"
             className="relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
           >
             YouTube
             <CountBadge count={counts.youtube} />
-          </TabsTrigger>
+          </TabsTrigger> */}
         </TabsList>
         <div
           id="imageLoad"
@@ -254,7 +254,7 @@ const PreviewSection = () => {
               </div>
             )}
           </TabsContent>
-          <TabsContent value="youtube">
+          {/* <TabsContent value="youtube">
             {data && data.youtube && data.youtube.length > 0 ? (
               <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
                 {data?.youtube?.map((item) => (
@@ -266,7 +266,7 @@ const PreviewSection = () => {
                 <CreateSourceCard value="youtube video" />
               </div>
             )}
-          </TabsContent>
+          </TabsContent> */}
         </div>
       </Tabs>
     </div>

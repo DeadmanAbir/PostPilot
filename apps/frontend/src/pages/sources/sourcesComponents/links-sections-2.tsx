@@ -5,7 +5,7 @@ import { ImagesTab } from "@/pages/sources/sourcesComponents/content-tabs/images
 import { TextNoteTab } from "@/pages/sources/sourcesComponents/content-tabs/text-node-tab";
 import { TweetsTab } from "@/pages/sources/sourcesComponents/content-tabs/tweets-tab";
 import { WebsitesTab } from "@/pages/sources/sourcesComponents/content-tabs/websites-tab";
-import { YouTubeTab } from "@/pages/sources/sourcesComponents/content-tabs/youtube-tab";
+// import { YouTubeTab } from "@/pages/sources/sourcesComponents/content-tabs/youtube-tab";
 import {
   ArrowLeftIcon,
   FileIcon,
@@ -18,6 +18,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Lightbulb } from "lucide-react";
 import Banner from "@/components/banner";
+import YoutubeComingSoon from "./content-tabs/youtube-coming";
 
 const LinkSection2 = () => {
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -28,7 +29,7 @@ const LinkSection2 = () => {
       title: "YouTube Videos",
       icon: <YoutubeIcon className="size-10" />,
       iconColor: "text-red-500",
-      component: <YouTubeTab />,
+      component: <YoutubeComingSoon />,
       protip:
         "LOrem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
