@@ -30,8 +30,9 @@ const HeroSection = () => {
         >
           AI-Driven Content Automation
           <br /> Welcome to{" "}
-          <span className="inline-flex items-center px-4 py-1 bg-blue-700/20 rounded-lg text-blue-500 mx-2">
-            PostPilot <img src="/logo.png" alt="Loogo"  className="size-28"/>
+          <span className="inline-flex items-center px-4  bg-blue-700/20 rounded-lg text-blue-500 mx-2">
+            PostPilot 
+            <img src="/logo.png" alt="Loogo"  className="size-28"/>
           </span>
         </motion.h1>
 
