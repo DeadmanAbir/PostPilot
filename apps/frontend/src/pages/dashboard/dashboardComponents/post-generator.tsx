@@ -229,6 +229,7 @@ export function PostGenerator() {
         setSelectedItems([]);
         setPublishing(false);
         setOpenPost(false)
+        dispatch(setPostGenerated(false));
 
         toast.success("Posted to Linkedin successfully");
       },
