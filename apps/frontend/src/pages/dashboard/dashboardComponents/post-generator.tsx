@@ -74,7 +74,7 @@ import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
+import { format} from "date-fns";
 import { nanoid } from "nanoid";
 import { supabase } from "@/lib/supabaseClient";
 import { groupItemsByType } from "@/utils/functions/groupItem";
@@ -145,6 +145,7 @@ export function PostGenerator() {
   const [images, setImages] = useState<Media[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [openPost, setOpenPost] = useState(false);
+  const [publishing, setPublishing] = useState(false);
   const [isRegenerateModalOpen, setIsRegenerateModalOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<
     { id: string; label: string; type: string }[]
@@ -226,6 +227,9 @@ export function PostGenerator() {
         setGeneratedPost("");
         setGeneratedPost("");
         setSelectedItems([]);
+        setPublishing(false);
+        setOpenPost(false)
+
         toast.success("Posted to Linkedin successfully");
       },
       onError: (error: unknown) => {
@@ -369,14 +373,13 @@ export function PostGenerator() {
   const handlePost = async () => {
     const media = await uploadToSupabase("post-pilot");
     const processed = processHTMLContent(generatedPost);
-
+    setPublishing(true)
     post({
       text: processed,
       visibility: connectionOnly ? "CONNECTIONS" : "PUBLIC",
       images: images[0]?.type == "image" ? media : undefined,
       video: images[0]?.type == "video" ? media[0] : undefined,
     });
-    setOpenPost(false)
   };
 
   const handleImproveQuery = async (e: React.MouseEvent) => {
@@ -1188,9 +1191,13 @@ export function PostGenerator() {
           </DialogContent>
         </Dialog>
       </aside>
-      <Dialog open={openPost} onOpenChange={setOpenPost}>
+      <Dialog open={openPost} onOpenChange={setOpenPost}  >
         <DialogTrigger className="hidden">Open</DialogTrigger>
-        <DialogContent>
+        <DialogContent onInteractOutside={(e) => {
+          e.preventDefault();
+        }}
+          onEscapeKeyDown={(e) => e.preventDefault()}
+          className="[&>button]:hidden"   >
           <DialogHeader>
             <DialogTitle>Publish Your Post</DialogTitle>
             <p>Choose who can view this post before publishing.</p>
@@ -1213,8 +1220,11 @@ export function PostGenerator() {
                 />
               </div>
             </DialogDescription>
-            <div className="flex items-center justify-end">
-              <Button className="flex items-center" onClick={handlePost}>
+            <div className="flex items-center justify-end gap-2">
+              <Button className="flex items-center" variant={"outline"} onClick={() => setOpenPost(false)} disabled={publishing}>
+                <span className="text-white">Close </span>
+              </Button>
+              <Button className="flex items-center" onClick={handlePost} disabled={publishing}>
                 <Send className="text-white" />{" "}
                 <span className="text-white">Publish </span>
               </Button>
