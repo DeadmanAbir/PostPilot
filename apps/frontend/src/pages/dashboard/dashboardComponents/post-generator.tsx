@@ -29,6 +29,7 @@ import {
   Globe2,
   Image,
   ImageIcon,
+  LinkedinIcon,
   Lock,
   PencilRuler,
   Plus,
@@ -95,7 +96,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { toast } from "sonner";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 
 interface ScheduledPost {
   id: string;
@@ -150,6 +151,11 @@ export function PostGenerator() {
   >([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const inputImageRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+
+  const handleConnectClick = () => {
+    router.navigate("/integration");
+  };
   const handleButtonClick = () => {
     inputRef.current?.click();
   };
@@ -913,8 +919,19 @@ export function PostGenerator() {
                                 </motion.div>
                               </TooltipTrigger>
                               {isExpired && (
-                                <TooltipContent>
-                                  <p>Please connect LinkedIn to enable posting  <Link to="/integration" className="text-blue-100 underline">Go to integration</Link></p>
+                                <TooltipContent className="bg-white dark:bg-gray-800 border-2">
+                                  <div className="space-y-3 px-3 py-2">
+                                    <p className="text-blue-800 dark:text-blue-300">
+                                      Please connect LinkedIn to enable posting
+                                    </p>
+                                    <Link
+                                      to="/integration"
+                                      className="flex items-center justify-center text-sm font-medium bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white py-1 px-3 w-full rounded"
+                                    >
+                                      <LinkedinIcon className="h-4 w-4 mr-2" />
+                                      Connect
+                                    </Link>
+                                  </div>
                                 </TooltipContent>
                               )}
                             </Tooltip>
@@ -1060,16 +1077,22 @@ export function PostGenerator() {
                   onCheckedChange={setEnabled}
                 />
               </TooltipTrigger>
-              <TooltipContent>
+              <TooltipContent className="bg-white dark:bg-gray-800 border-2">
                 {isExpired ? (
-                  <p>
-                    Please connect LinkedIn{" "}
-                    <Link to="/integration" className="text-blue-100 underline">
-                      Go to integration
+                  <div className="space-y-3 px-3 py-2">
+                    <p className="text-blue-800 dark:text-blue-300">
+                      Please connect LinkedIn to enable posting
+                    </p>
+                    <Link
+                      to="/integration"
+                      className="flex items-center justify-center text-sm font-medium bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white py-1 px-3 w-full rounded"
+                    >
+                      <LinkedinIcon className="h-4 w-4 mr-2" />
+                      Connect
                     </Link>
-                  </p>
+                  </div>
                 ) : (
-                  <p>Schedule post</p>
+                  <p className="text-gray-800 dark:text-gray-200">Schedule post</p>
                 )}
               </TooltipContent>
 
