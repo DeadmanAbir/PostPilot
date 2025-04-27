@@ -1,13 +1,14 @@
-import { FileText } from "lucide-react";
+import { Calendar, CalendarIcon, FileText } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 interface DocumentCardProps {
   title: string;
   type: string;
   preview?: string;
+  createdAt: string;
 }
 
-export function DocumentCard({ title, type, preview }: DocumentCardProps) {
+export function DocumentCard({ title, type, preview , createdAt }: DocumentCardProps) {
   return (
     <Card className="hover:shadow-lg transition-shadow border-2 border-blue-100 dark:border-blue-900 bg-gradient-to-br from-blue-50 to-white dark:from-blue-950 dark:to-zinc-900 rounded-xl overflow-hidden">
       <CardHeader className="flex flex-row items-center gap-3 p-4 bg-blue-50/70 dark:bg-blue-950/60 border-b border-blue-100 dark:border-blue-900">
@@ -22,6 +23,11 @@ export function DocumentCard({ title, type, preview }: DocumentCardProps) {
         </span>
         {preview && (
           <div className="text-sm text-gray-700 dark:text-gray-300 mt-1 line-clamp-2">{preview}</div>
+        )}
+        {createdAt && (
+          <div className="text-xs text-muted-foreground mt-1 flex items-center">
+        <CalendarIcon className="h-4 w-4 mr-1" />  <span>{createdAt}  </span>   
+          </div>
         )}
       </CardContent>
     </Card>

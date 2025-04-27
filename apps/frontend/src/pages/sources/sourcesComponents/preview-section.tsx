@@ -21,7 +21,7 @@ const CountBadge = ({ count }: { count: number }) => (
 
 type SourceData = {
   websites: { title: string; url: string; created_at: string,screenshot:string }[];
-  files: { name: string }[];
+  files: { name: string ,created_at: string }[];
   text_node: { name: string; description: string; created_at: string }[];
   images: { name: string; url: string; created_at: string }[];
   tweets: { id: string; url: string }[];
@@ -140,6 +140,7 @@ const PreviewSection = () => {
                             title={item.name}
                             type="PDF Document"
                             preview="A comprehensive proposal for..."
+                            createdAt={formatDate(item.created_at)}
                           />
                         );
                       case 'text_node':
@@ -209,6 +210,8 @@ const PreviewSection = () => {
                     title={item.name}
                     type="PDF Document"
                     preview="A comprehensive proposal for..."
+                    createdAt={formatDate(item.created_at)}
+
                   />
                 ))}
               </div>
