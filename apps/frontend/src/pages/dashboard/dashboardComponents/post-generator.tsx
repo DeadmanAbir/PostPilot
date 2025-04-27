@@ -251,11 +251,11 @@ export function PostGenerator() {
       onSuccess: (data: LinkedinPostResponse) => {
         const cleanData = removeMd(data.post_content);
         setGeneratedPost(cleanData);
-        alert("Post improved successfully");
+        toast.success("Post improved successfully");
       },
       onError: (error: unknown) => {
         console.log(error);
-        alert("error inimproving");
+        toast.error("error inimproving");
       },
     }
   );
