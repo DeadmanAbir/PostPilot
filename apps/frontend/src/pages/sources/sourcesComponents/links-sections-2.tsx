@@ -180,13 +180,13 @@ For better accuracy, consider pasting the website text into the Notes section or
                 transition={{ delay: 0.3 }}
                 className="h-[calc(100%-6rem)] w-full  flex md:flex-row flex-col   md:space-x-6 space-y-3 "
               >
-                <div className="md:w-2/3 w-full ">
+                <div className={` w-full  ${activeSection === "youtube" ? "md:w-full": "md:w-2/3"} `}>
                   {
                     sections.find((section) => section.id === activeSection)
                       ?.component
                   }
                 </div>
-                <Card className="md:w-1/2 w-full flex h-full items-center justify-center cursor-pointer rounded-xl p-1 border dark:border-gray-700 shadow-[0_3px_10px_rgb(0,0,0,0.1)] hover:shadow-[0_6px_10px_rgb(0,0,0,0.2)] dark:shadow-[0_3px_10px_rgb(255,255,255,0.05)] dark:hover:shadow-[0_6px_10px_rgb(255,255,255,0.1)] bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-900  flex-col  text-center dark:text-white">
+              { activeSection !== "youtube" && <Card className="md:w-1/2 w-full flex h-full items-center justify-center cursor-pointer rounded-xl p-1 border dark:border-gray-700 shadow-[0_3px_10px_rgb(0,0,0,0.1)] hover:shadow-[0_6px_10px_rgb(0,0,0,0.2)] dark:shadow-[0_3px_10px_rgb(255,255,255,0.05)] dark:hover:shadow-[0_6px_10px_rgb(255,255,255,0.1)] bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-900  flex-col  text-center dark:text-white">
                   <CardHeader className="flex flex-row items-center justify-start  w-full     space-x-2 ">
                     <Lightbulb className="w-5 h-5 text-yellow-500" />
                     <CardTitle className="text-lg">Pro Tip</CardTitle>
@@ -197,7 +197,7 @@ For better accuracy, consider pasting the website text into the Notes section or
                         ?.protip
                     }
                   </CardContent>
-                </Card>
+                </Card>}
               </motion.div>
             </motion.div>
           )}
