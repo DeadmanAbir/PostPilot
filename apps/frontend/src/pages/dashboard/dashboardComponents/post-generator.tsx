@@ -1222,8 +1222,8 @@ export function PostGenerator() {
               </div>
             </DialogDescription>
             <div className="flex items-center justify-end gap-2">
-              <Button className="flex items-center" variant={"outline"} onClick={() => setOpenPost(false)} disabled={publishing}>
-                <span className="text-white">Close </span>
+              <Button className="flex items-center dark:text-white bg-white" variant={"outline"} onClick={() => setOpenPost(false)} disabled={publishing}>
+                <span className="text-black ">Close </span>
               </Button>
               <Button className="flex items-center" onClick={handlePost} disabled={publishing}>
                 <Send className="text-white" />{" "}
