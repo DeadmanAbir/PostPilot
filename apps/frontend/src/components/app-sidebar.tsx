@@ -72,15 +72,16 @@ export function AppSidebar() {
     <Sidebar variant="sidebar" collapsible="icon" className="p-2 bg-white dark:bg-blue-950/10">
       <SidebarContent className="gap-0 ">
         <SidebarGroup>
-          <motion.div
+          <motion.img
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="text-3xl font-bold my-3 px-2 whitespace-nowrap"
+            className="size-24 mx-auto"
+            src="/logo.png"
           >
-            {open ? "Post Pilot" : "P"}
-          </motion.div>
+          </motion.img>
+          PostPilot
         </SidebarGroup>
         <div className="flex items-center justify-center px-3 py-2">
           <Link
@@ -89,7 +90,7 @@ export function AppSidebar() {
               className: "w-full dark:text-white flex items-center ",
             })}
           >
-         <Plus/>  <span> Create Post </span> 
+            <Plus />  <span> Create Post </span>
           </Link>
         </div>
         {groupedItems.map((group) => (
