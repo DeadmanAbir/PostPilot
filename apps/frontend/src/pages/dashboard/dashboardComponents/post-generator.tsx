@@ -385,6 +385,13 @@ export function PostGenerator() {
 
   const handleImproveQuery = async (e: React.MouseEvent) => {
     e.preventDefault();
+    const newText = getTextFromHTML(generatedPost);
+    if (!newText.trim()) {
+      // Optionally show an error message here
+      toast.error("Text cannot be empty");
+      return;
+    }
+
     const processed = processHTMLContent(generatedPost);
     refinePost(processed);
   };
@@ -875,7 +882,7 @@ export function PostGenerator() {
                           )}
                         </div>
                         <div className="flex items-center gap-2">
-                          {!postGenerated && optionData && (
+                          {!postGenerated &&  (
                             <TooltipProvider>
                               <Tooltip>
                                 <TooltipTrigger>
