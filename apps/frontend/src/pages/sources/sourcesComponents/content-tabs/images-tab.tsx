@@ -15,9 +15,11 @@ import { useAuth } from "@/providers/supabaseAuthProvider";
 import { nanoid } from "nanoid";
 import { supabase } from "@/lib/supabaseClient";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function ImagesTab() {
   const { user } = useAuth();
+  const queryClient = useQueryClient();
   const [localImages, setLocalImages] = useState<File[]>([]);
   const [remoteImageUrl, setRemoteImageUrl] = useState({
     name: "",
@@ -32,6 +34,7 @@ export function ImagesTab() {
       onSuccess: () => {
         toast.success("remote images added  successfully");
         setRemoteImages([]);
+        queryClient.invalidateQueries({ queryKey: ["sources"] });
       },
       onError: (error: unknown) => {
         console.log(error);
@@ -44,6 +47,7 @@ export function ImagesTab() {
       onSuccess: () => {
         toast.success("local images added  successfully");
         setLocalImages([]);
+        queryClient.invalidateQueries({ queryKey: ["sources"] });
       },
       onError: (error: unknown) => {
         console.log(error);

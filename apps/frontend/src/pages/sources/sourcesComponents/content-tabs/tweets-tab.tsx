@@ -13,6 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function TweetsTab() {
   const [tweetUrl, setTweetUrl] = useState("");
@@ -21,7 +22,7 @@ export function TweetsTab() {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   const { user } = useAuth();
-
+  const queryClient = useQueryClient();
   const { mutate: fetchTweet, isPending: isFetching } = fetchTweetFn(
     user?.accessToken!,
     {
@@ -30,6 +31,7 @@ export function TweetsTab() {
         setTweetUrl("");
         setTweetName("");
         setIsValidUrl(true);
+        queryClient.invalidateQueries({ queryKey: ["sources"] });
       },
       onError: (error: unknown) => {
         console.log(error);

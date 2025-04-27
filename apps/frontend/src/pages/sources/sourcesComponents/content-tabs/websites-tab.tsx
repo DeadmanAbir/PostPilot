@@ -6,18 +6,20 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { fetchWebsiteFn } from "@/lib/tanstack-query/mutation";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function WebsitesTab() {
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [isValidUrl, setIsValidUrl] = useState(true);
   const { user } = useAuth();
-
+  const queryClient = useQueryClient();
   const { mutate: fetchWebsite, isPending: isFetching } = fetchWebsiteFn(
     user?.accessToken!,
     {
       onSuccess: () => {
         toast.success("website fetched  successfully");
         setWebsiteUrl("");
+        queryClient.invalidateQueries({ queryKey: ["sources"] });
       },
       onError: (error: unknown) => {
         console.log(error);

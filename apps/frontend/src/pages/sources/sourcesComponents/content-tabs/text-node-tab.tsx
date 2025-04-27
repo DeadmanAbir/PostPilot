@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { addNodeContentFn } from "@/lib/tanstack-query/mutation";
 import { useAuth } from "@/providers/supabaseAuthProvider";
+import { useQueryClient } from "@tanstack/react-query";
 import { lazy, Suspense, useState } from "react";
 import { toast } from "sonner";
 // Import the Editor component with SSR disabled
@@ -9,7 +10,7 @@ const Editor = lazy(() => import("../../../../components/tiptap-editor"));
 
 export function TextNoteTab() {
   const { user } = useAuth();
-
+  const queryClient = useQueryClient();
   const [content, setContent] = useState({
     name: "Text Editor",
     description: "",
@@ -24,6 +25,7 @@ export function TextNoteTab() {
           name: "Text Editor",
           description: "",
         });
+        queryClient.invalidateQueries({ queryKey: ["sources"] });
       },
       onError: (error: unknown) => {
         console.log(error);

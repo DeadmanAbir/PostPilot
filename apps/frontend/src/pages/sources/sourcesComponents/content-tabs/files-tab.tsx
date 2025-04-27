@@ -15,9 +15,11 @@ import {
 } from "@/lib/tanstack-query/mutation";
 import { nanoid } from "nanoid";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function FilesTab() {
   const { user } = useAuth();
+  const queryClient = useQueryClient();
   const [localFiles, setLocalFiles] = useState<File[]>([]);
   const [remoteFileUrl, setRemoteFileUrl] = useState({
     name: "",
@@ -30,6 +32,7 @@ export function FilesTab() {
       onSuccess: () => {
         toast.success("remote file added  successfully");
         setRemoteFiles([]);
+        queryClient.invalidateQueries({ queryKey: ["sources"] });
       },
       onError: (error: unknown) => {
         console.log(error);
@@ -43,6 +46,7 @@ export function FilesTab() {
       onSuccess: () => {
         toast.success("Local file added  successfully");
         setLocalFiles([]);
+        queryClient.invalidateQueries({ queryKey: ["sources"] });
       },
       onError: (error: unknown) => {
         console.log(error);
