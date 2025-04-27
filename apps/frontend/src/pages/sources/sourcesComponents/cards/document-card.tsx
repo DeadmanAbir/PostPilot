@@ -1,4 +1,4 @@
-import { Calendar, CalendarIcon, FileText } from "lucide-react";
+import {  CalendarIcon, FileText } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 interface DocumentCardProps {
