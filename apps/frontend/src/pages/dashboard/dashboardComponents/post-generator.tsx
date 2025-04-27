@@ -95,6 +95,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { toast } from "sonner";
+import { Link } from "@tanstack/react-router";
 
 interface ScheduledPost {
   id: string;
@@ -868,62 +869,62 @@ export function PostGenerator() {
                           )}
                         </div>
                         <div className="flex items-center gap-2">
-                        {!postGenerated && optionData && (
+                          {!postGenerated && optionData && (
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger>
+                                  {" "}
+                                  <Button
+                                    size={"icon"}
+                                    className="rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border bg-background hover:text-accent-foreground ml-2 shadow-sm hover:shadow border-primary/20 hover:border-primary/30 h-10 w-10 hover:bg-accent"
+                                    onClick={handleImproveQuery}
+                                  >
+                                    <WandSparkles className="text-blue-600" />
+                                  </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p className="text-white">
+                                    Reform your writing with AI
+                                  </p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          )}
                           <TooltipProvider>
                             <Tooltip>
-                              <TooltipTrigger>
-                                {" "}
-                                <Button
-                                  size={"icon"}
-                                  className="rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border bg-background hover:text-accent-foreground ml-2 shadow-sm hover:shadow border-primary/20 hover:border-primary/30 h-10 w-10 hover:bg-accent"
-                                  onClick={handleImproveQuery}
+                              <TooltipTrigger asChild>
+                                <motion.div
+                                  initial={{ opacity: 0, y: -10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  exit={{ opacity: 0, y: 10 }}
+                                  transition={{ duration: 0.2 }}
+                                  className="flex flex-col  items-end w-full"
                                 >
-                                  <WandSparkles className="text-blue-600" />
-                                </Button>
+                                  <Button
+                                    className="tracking-wider w-20 text-white "
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      setOpenPost(true);
+                                    }}
+                                    disabled={isExpired || isPostTextEmpty}
+                                  >
+                                    <Send /> Post
+                                  </Button>
+                                </motion.div>
                               </TooltipTrigger>
-                              <TooltipContent>
-                                <p className="text-white">
-                                  Reform your writing with AI
-                                </p>
-                              </TooltipContent>
+                              {isExpired && (
+                                <TooltipContent>
+                                  <p>Please connect LinkedIn to enable posting  <Link to="/integration" className="text-blue-100 underline">Go to integration</Link></p>
+                                </TooltipContent>
+                              )}
                             </Tooltip>
                           </TooltipProvider>
-                        )}
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <motion.div
-                                initial={{ opacity: 0, y: -10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 10 }}
-                                transition={{ duration: 0.2 }}
-                                className="flex flex-col  items-end w-full"
-                              >
-                                <Button
-                                  className="tracking-wider w-20 text-white "
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    setOpenPost(true);
-                                  }}
-                                  disabled={isExpired || isPostTextEmpty}
-                                  >
-                                  <Send /> Post
-                                </Button>
-                              </motion.div>
-                            </TooltipTrigger>
-                            {isExpired && (
-                              <TooltipContent>
-                                <p>Please connect LinkedIn to enable posting</p>
-                              </TooltipContent>
-                            )}
-                          </Tooltip>
-                        </TooltipProvider>
                         </div>
-                      
+
                       </div>
-                       
-                        
-                      
+
+
+
                     </div>
 
                     {selectedItems.length > 0 && (
@@ -1060,8 +1061,18 @@ export function PostGenerator() {
                 />
               </TooltipTrigger>
               <TooltipContent>
-                <p>{isExpired ? "Please connect LinkedIn" : "Schedule post"}</p>
+                {isExpired ? (
+                  <p>
+                    Please connect LinkedIn{" "}
+                    <Link to="/integration" className="text-blue-100 underline">
+                      Go to integration
+                    </Link>
+                  </p>
+                ) : (
+                  <p>Schedule post</p>
+                )}
               </TooltipContent>
+
             </Tooltip>
           </TooltipProvider>
         </div>
