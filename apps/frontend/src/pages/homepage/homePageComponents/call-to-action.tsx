@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
 const randomImages = [
   "https://picsum.photos/200/300",
   "https://picsum.photos/id/237/200/300",
@@ -21,12 +21,12 @@ const CallToAction = () => {
             <span className="mt-1 md:text-xl text-md  text-left  w-full  mx-auto z-40  text-white">
               Looking for specific use cases and support?
             </span>
-            <Link
-              to=""
+            <Button
+          onClick={() => { window.location.href = "mailto:abirdutta90990@gmail.com" }}
               className="bg-neutral-900 relative z-40 hover:bg-black/90 border border-transparent text-white text-sm md:text-sm transition font-medium duration-200 rounded-full px-4 py-2 flex items-center justify-center shadow-[0px_-1px_0px_0px_#FFFFFF40_inset,_0px_1px_0px_0px_#FFFFFF40_inset] "
             >
               Lets Chat
-            </Link>
+            </Button>
           </div>
           <div className="z-40 flex flex-col items-start justify-center gap-3 pt-5">
             <div className="grid grid-cols-2 gap-2 w-full md:pl-60">

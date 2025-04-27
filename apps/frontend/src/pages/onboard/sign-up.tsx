@@ -52,7 +52,6 @@ export function SignUp({ onToggle }: SignUpProps) {
         throw new Error(error.message);
         return;
       }
-      console.log("User data:", data);
 
        await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/onboard-user`, {
         method: "POST",
