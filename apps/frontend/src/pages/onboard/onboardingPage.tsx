@@ -7,7 +7,7 @@ export default function OnboardPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {isSignUp ? (
+      {!isSignUp ? (
         <SignUp onToggle={() => setIsSignUp(false)} />
       ) : (
         <SignIn onToggle={() => setIsSignUp(true)} />
