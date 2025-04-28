@@ -268,7 +268,7 @@ export function SignUp({ onToggle }: SignUpProps) {
             <div>
               <Button
                 type="submit"
-                className="w-full bg-primary/10 text-primary hover:bg-primary/20"
+                className="w-full"
               >
                 Create Account
               </Button>

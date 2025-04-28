@@ -204,8 +204,7 @@ export function SignIn({ onToggle }: SignInProps) {
             <div>
               <Button
                 type="submit"
-                className="w-full bg-primary/10 text-primary hover:bg-primary/20"
-              >
+                className="w-full"              >
                 Sign In
               </Button>
             </div>
