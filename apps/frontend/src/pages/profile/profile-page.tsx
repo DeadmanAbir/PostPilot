@@ -419,7 +419,7 @@ export function ProfilePage() {
                   <div className="flex items-center space-x-4">
                     <Avatar>
                       <AvatarImage src={profileImage} alt={name} />
-                      <AvatarFallback>{name}</AvatarFallback>
+                      <AvatarFallback>{name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <p className="text-sm text-muted-foreground">
                       Current profile picture
