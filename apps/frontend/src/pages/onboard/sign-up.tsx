@@ -92,7 +92,7 @@ export function SignUp({ onToggle }: SignUpProps) {
 
         <div className="max-w-md w-full mx-auto space-y-6 bg-white p-8 rounded-xl shadow-xl">
           <div>
-            <h2 className="text-3xl font-bold">Sign Up</h2>
+            <h2 className="text-3xl font-bold text-black">Sign Up</h2>
           </div>
 
           {/* Social Sign Up Buttons */}
@@ -153,7 +153,7 @@ export function SignUp({ onToggle }: SignUpProps) {
           </div> */}
 
           <form className="space-y-6" onSubmit={handleSubmit}>
-            <div className="space-y-4">
+            <div className="space-y-4 text-black">
               <div>
                 <Label htmlFor="name" className="text-sm text-muted-foreground">
                   Name
@@ -268,14 +268,14 @@ export function SignUp({ onToggle }: SignUpProps) {
             <div>
               <Button
                 type="submit"
-                className="w-full"
+                className="w-full text-white"
               >
                 Create Account
               </Button>
             </div>
           </form>
 
-          <div className="text-center">
+          <div className="text-center text-black">
   <p className="text-sm">
     Already have an account?{' '}
     <Button
