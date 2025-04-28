@@ -28,7 +28,7 @@ const HeroSection = () => {
         >
           AI-Driven Content Automation
           <br /> Welcome to{" "}
-          <span className="inline-flex items-center px-4  bg-blue-700/20 rounded-lg text-blue-500 mx-2">
+          <span className="inline-flex items-center px-4 my-2 md:my-0  bg-blue-700/20 rounded-lg text-blue-500 mx-2">
             PostPilot 
             <img src="/logo.png" alt="Loogo"  className="size-28"/>
           </span>
@@ -39,7 +39,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="mt-8 max-w-2xl mx-auto text-lg text-white/70 leading-relaxed px-5 text-balance"
+          className="mt-8 max-w-2xl mx-auto text-lg text-white/70 leading-relaxed px-5  text-pretty"
         >
           Transform your LinkedIn engagement with PostPilot. AI-powered content
           creation and automated scheduling to amplify your brand and save you
