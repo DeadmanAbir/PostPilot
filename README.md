@@ -1,84 +1,104 @@
-# Turborepo starter
+# PostPilot - AI-Powered Social Media Content Management Platform
 
-This Turborepo starter is maintained by the Turborepo core team.
 
-## Using this example
+https://github.com/user-attachments/assets/9da36208-aff4-4f68-8f7b-42b24858fb3c
 
-Run the following command:
 
-```sh
-npx create-turbo@latest
-```
 
-## What's inside?
+PostPilot is an AI-powered social media management platform that helps you create, schedule, and publish content directly to LinkedIn with ease. Leverage AI to craft engaging posts while using your own content as context, all within a streamlined dashboard.
 
-This Turborepo includes the following packages/apps:
+## 🚀 Features
 
-### Apps and Packages
+- **AI-Powered Content Creation**: Generate high-quality posts using artificial intelligence
+- **Context-Aware Drafting**: Upload your own content sources to inform AI-generated posts
+- **Direct LinkedIn Integration**: Connect your LinkedIn account and publish directly from the dashboard
+- **Smart Scheduling**: Plan your content calendar and automate posting at optimal times
+- **Intuitive Dashboard**: Manage all your social media activities in one place
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+## 🛠️ Tech Stack
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+PostPilot is built using a modern tech stack:
 
-### Utilities
+- **Turborepo**: Monorepo structure for efficient code organization and sharing
+- **Frontend**: Vite + React for a fast, responsive user interface
+- **Backend**: Express.js with TypeScript for a robust API layer
+- **AI Integration**: Advanced natural language processing for content generation
+- **DB**: Supabase as DB and auth
+- **Routing**: Tanstack as routing and Querying
 
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
+## 📁 Project Structure
 
 ```
-cd my-turborepo
-pnpm build
+PostPilot/
+├── apps/
+│   ├── frontend/          # Vite + React application
+│   └── http-backend/      # Express + TypeScript API
+├── packages/              # Shared packages and utilities
+└── ...
 ```
 
-### Develop
+## 🚀 Getting Started
 
-To develop all apps and packages, run the following command:
+### Prerequisites
 
-```
-cd my-turborepo
-pnpm dev
-```
+- Node.js (v16+)
+- pnpm
+- Git
 
-### Remote Caching
+### Installation
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/DeadmanAbir/PostPilot.git
+   cd PostPilot
+   ```
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+3. Start the development environment:
+   ```bash
+   pnpm dev
+   ```
 
-```
-cd my-turborepo
-npx turbo login
-```
+## 🔌 LinkedIn Integration
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+To use the LinkedIn publishing feature:
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+1. Navigate to the Integrations section in the dashboard
+2. Click "Add Account"
+3. Follow the authorization steps
+4. Once connected, you can publish directly to LinkedIn from the post creation interface
 
-```
-npx turbo link
-```
+## 🧠 AI Post Creation
 
-## Useful Links
+PostPilot's AI-powered post creation works in 3 simple steps:
 
-Learn more about the power of Turborepo:
+1. **Upload Sources**: Add articles, documents, or other content to use as context
+2. **Generate Draft**: Use the AI dashboard to create a post based on your sources
+3. **Edit & Schedule**: Refine the AI-generated content and schedule it for publication
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🔗 Links
+
+- [Twitter](https://x.com/ItsDutta99)
+- [Issues](https://www.linkedin.com/in/abir-dutta-408759223/)
+
+---
+
+Built with ❤️ by [DeadmanAbir](https://github.com/DeadmanAbir)
