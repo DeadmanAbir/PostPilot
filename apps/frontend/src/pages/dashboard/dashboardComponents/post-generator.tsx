@@ -30,6 +30,7 @@ import {
   Image,
   ImageIcon,
   LinkedinIcon,
+  Loader,
   Lock,
   PencilRuler,
   Plus,
@@ -893,7 +894,7 @@ export function PostGenerator() {
                                     disabled={improvePending}
                                     onClick={handleImproveQuery}
                                   >
-                                    <WandSparkles className="text-blue-600" />
+                                 {improvePending  ?  <Loader className="text-blue-900 animate-spin"/> :  <WandSparkles className="text-blue-600" /> }   
                                   </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>
