@@ -276,14 +276,18 @@ export function SignUp({ onToggle }: SignUpProps) {
           </form>
 
           <div className="text-center">
-            <Button
-              variant="link"
-              onClick={onToggle}
-              className="text-sm text-primary"
-            >
-              Login to your account
-            </Button>
-          </div>
+  <p className="text-sm">
+    Already have an account?{' '}
+    <Button
+      variant="link"
+      onClick={onToggle}
+      className="text-sm text-primary inline p-0 m-0"
+    >
+      Login
+    </Button>
+  </p>
+</div>
+
         </div>
       </div>
 
