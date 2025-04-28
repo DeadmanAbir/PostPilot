@@ -63,10 +63,10 @@ export function SignIn({ onToggle }: SignInProps) {
   return (
     <div className="flex min-h-screen">
       {/* Left side - Form */}
-      <div className="flex-1 flex flex-col justify-center px-4 sm:px-6 lg:px-8 xl:px-20">
+      <div className="flex-1 flex flex-col justify-center px-4 sm:px-6 lg:px-8 xl:px-20 ">
         <div className="absolute top-8 left-8"></div>
 
-        <div className="max-w-md w-full mx-auto space-y-6">
+        <div className="max-w-md w-full mx-auto space-y-6 bg-white p-8 rounded-xl shadow-xl">
           <div>
             <h2 className="text-3xl font-bold">Sign In</h2>
           </div>
