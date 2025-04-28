@@ -253,7 +253,7 @@ export function PostGenerator() {
       },
     });
 
-  const { mutate: refinePost, } = improvePostFn(
+  const { mutate: refinePost,isPending:improvePending } = improvePostFn(
     user?.accessToken ?? "",
     {
       onSuccess: (data: LinkedinPostResponse) => {
@@ -669,7 +669,7 @@ export function PostGenerator() {
                           ) : (
                             <Button
                               type="submit"
-                              disabled={isPending}
+                              disabled={isPending || improvePending}
                               className="relative overflow-hidden text-white"
                             >
                               <div
@@ -890,6 +890,7 @@ export function PostGenerator() {
                                   <Button
                                     size={"icon"}
                                     className="rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border bg-background hover:text-accent-foreground ml-2 shadow-sm hover:shadow border-primary/20 hover:border-primary/30 h-10 w-10 hover:bg-accent"
+                                    disabled={improvePending}
                                     onClick={handleImproveQuery}
                                   >
                                     <WandSparkles className="text-blue-600" />
