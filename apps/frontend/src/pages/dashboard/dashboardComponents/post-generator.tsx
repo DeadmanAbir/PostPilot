@@ -75,7 +75,7 @@ import { Switch } from "@/components/ui/switch";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
-import { format} from "date-fns";
+import { format } from "date-fns";
 import { nanoid } from "nanoid";
 import { supabase } from "@/lib/supabaseClient";
 import { groupItemsByType } from "@/utils/functions/groupItem";
@@ -254,7 +254,7 @@ export function PostGenerator() {
       },
     });
 
-  const { mutate: refinePost,isPending:improvePending } = improvePostFn(
+  const { mutate: refinePost, isPending: improvePending } = improvePostFn(
     user?.accessToken ?? "",
     {
       onSuccess: (data: LinkedinPostResponse) => {
@@ -710,180 +710,196 @@ export function PostGenerator() {
                                 className="w-64"
                               >
                                 {[
-                                  {
-                                    label: "Files",
-                                    data: optionData.files,
-                                    icon: File,
-                                  },
-                                  {
-                                    label: "Images",
-                                    data: optionData.images,
-                                    icon: Image,
-                                  },
-                                  {
-                                    label: "Tweets",
-                                    data: optionData.tweets,
-                                    icon: Twitter,
-                                  },
-                                  {
-                                    label: "Text",
-                                    data: optionData.text_node,
-                                    icon: PencilRuler,
-                                  },
-                                  {
-                                    label: "Websites",
-                                    data: optionData.websites,
-                                    icon: Globe2,
-                                  },
-                                  {
-                                    label: "YouTube",
-                                    data: optionData.youtube,
-                                    icon: Youtube,
-                                  },
-                                ].map(({ label, icon: Icon, data }) => {
-                                  // Only render if there's data
-                                  if (!data?.length) return null;
+                                  { label: "Files", data: optionData.files, icon: File },
+                                  { label: "Images", data: optionData.images, icon: Image },
+                                  { label: "Tweets", data: optionData.tweets, icon: Twitter },
+                                  { label: "Text", data: optionData.text_node, icon: PencilRuler },
+                                  { label: "Websites", data: optionData.websites, icon: Globe2 },
+                                  { label: "YouTube", data: optionData.youtube, icon: Youtube },
+                                ].every(({ data }) => !data?.length) ? (
+                                  <DropdownMenuItem disabled className="text-gray-800">
+                                    No data uploaded
+                                  </DropdownMenuItem>
+                                ) : (
 
-                                  // Create unique state for each submenu's search
-                                  const searchId = `search-${label.toLowerCase()}`;
+                                  <>
+                                    {[
+                                      {
+                                        label: "Files",
+                                        data: optionData.files,
+                                        icon: File,
+                                      },
+                                      {
+                                        label: "Images",
+                                        data: optionData.images,
+                                        icon: Image,
+                                      },
+                                      {
+                                        label: "Tweets",
+                                        data: optionData.tweets,
+                                        icon: Twitter,
+                                      },
+                                      {
+                                        label: "Text",
+                                        data: optionData.text_node,
+                                        icon: PencilRuler,
+                                      },
+                                      {
+                                        label: "Websites",
+                                        data: optionData.websites,
+                                        icon: Globe2,
+                                      },
+                                      {
+                                        label: "YouTube",
+                                        data: optionData.youtube,
+                                        icon: Youtube,
+                                      },
+                                    ].map(({ label, icon: Icon, data }) => {
+                                      // Only render if there's data
+                                      if (!data?.length) return null;
 
-                                  return (
-                                    <DropdownMenuSub key={label}>
-                                      <DropdownMenuSubTrigger className="gap-2">
-                                        <Icon /> <span>{label}</span>
-                                      </DropdownMenuSubTrigger>
-                                      <DropdownMenuPortal>
-                                        <DropdownMenuSubContent className="max-h-80">
-                                          {/* Search input */}
-                                          <div className="px-2 py-1.5 sticky top-0 bg-white dark:bg-blue-950/10 z-10 border-b">
-                                            <input
-                                              type="text"
-                                              placeholder={`Search ${label}...`}
-                                              className="w-full px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:ring-blue-700  dark:bg-blue-950/40"
-                                              onChange={(e) => {
-                                                const searchContainer =
-                                                  e.currentTarget.closest(
-                                                    ".max-h-80"
-                                                  );
-                                                const searchTerm =
-                                                  e.target.value.toLowerCase();
+                                      // Create unique state for each submenu's search
+                                      const searchId = `search-${label.toLowerCase()}`;
 
-                                                // Store search term in a data attribute on the element
-                                                searchContainer?.setAttribute(
-                                                  searchId,
-                                                  searchTerm
-                                                );
+                                      return (
+                                        <DropdownMenuSub key={label}>
+                                          <DropdownMenuSubTrigger className="gap-2">
+                                            <Icon /> <span>{label}</span>
+                                          </DropdownMenuSubTrigger>
+                                          <DropdownMenuPortal>
+                                            <DropdownMenuSubContent className="max-h-80">
+                                              {/* Search input */}
+                                              <div className="px-2 py-1.5 sticky top-0 bg-white dark:bg-blue-950/10 z-10 border-b">
+                                                <input
+                                                  type="text"
+                                                  placeholder={`Search ${label}...`}
+                                                  className="w-full px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:ring-blue-700  dark:bg-blue-950/40"
+                                                  onChange={(e) => {
+                                                    const searchContainer =
+                                                      e.currentTarget.closest(
+                                                        ".max-h-80"
+                                                      );
+                                                    const searchTerm =
+                                                      e.target.value.toLowerCase();
 
-                                                // Filter items
-                                                let visibleCount = 0;
-                                                searchContainer
-                                                  ?.querySelectorAll(
-                                                    ".dropdown-item"
-                                                  )
-                                                  .forEach((item) => {
-                                                    const text =
-                                                      item.textContent?.toLowerCase() ||
-                                                      "";
-                                                    if (
-                                                      text.includes(searchTerm)
-                                                    ) {
-                                                      (
-                                                        item as HTMLElement
-                                                      ).style.display = "";
-                                                      visibleCount++;
-                                                    } else {
-                                                      (
-                                                        item as HTMLElement
-                                                      ).style.display = "none";
-                                                    }
-                                                  });
+                                                    // Store search term in a data attribute on the element
+                                                    searchContainer?.setAttribute(
+                                                      searchId,
+                                                      searchTerm
+                                                    );
 
-                                                // Handle empty state display
-                                                const emptyMessage =
-                                                  searchContainer?.querySelector(
-                                                    ".empty-message"
-                                                  );
-                                                if (emptyMessage) {
-                                                  if (
-                                                    visibleCount === 0 &&
-                                                    searchTerm
-                                                  ) {
-                                                    (
-                                                      emptyMessage as HTMLElement
-                                                    ).style.display = "flex";
-                                                  } else {
-                                                    (
-                                                      emptyMessage as HTMLElement
-                                                    ).style.display = "none";
-                                                  }
-                                                }
-                                              }}
-                                              onClick={(e) =>
-                                                e.stopPropagation()
-                                              }
-                                            />
-                                          </div>
-
-                                          {/* Items container with overflow */}
-                                          <div className="overflow-y-auto max-h-64">
-                                            {/* No results message */}
-                                            <div className="empty-message p-2 text-gray-500 justify-center items-center text-sm hidden">
-                                              No items found
-                                            </div>
-
-                                            {data.map(
-                                              (
-                                                item: {
-                                                  id?: string;
-                                                  name?: string;
-                                                  url?: string;
-                                                  tweet?: string;
-                                                },
-                                                index: number
-                                              ) => {
-                                                const displayText =
-                                                  item.name ||
-                                                  item.url ||
-                                                  item.tweet ||
-                                                  "Untitled";
-                                                const itemId =
-                                                  item.id || index.toString();
-
-                                                return (
-                                                  <DropdownMenuItem
-                                                    key={itemId}
-                                                    onSelect={(e: Event) => {
-                                                      e.preventDefault();
-                                                      toggleSelect({
-                                                        id: itemId,
-                                                        label: displayText,
-                                                        type: label,
+                                                    // Filter items
+                                                    let visibleCount = 0;
+                                                    searchContainer
+                                                      ?.querySelectorAll(
+                                                        ".dropdown-item"
+                                                      )
+                                                      .forEach((item) => {
+                                                        const text =
+                                                          item.textContent?.toLowerCase() ||
+                                                          "";
+                                                        if (
+                                                          text.includes(searchTerm)
+                                                        ) {
+                                                          (
+                                                            item as HTMLElement
+                                                          ).style.display = "";
+                                                          visibleCount++;
+                                                        } else {
+                                                          (
+                                                            item as HTMLElement
+                                                          ).style.display = "none";
+                                                        }
                                                       });
-                                                    }}
-                                                    className="flex justify-between gap-2 dropdown-item"
-                                                  >
-                                                    <span className="truncate w-48">
-                                                      {displayText}
-                                                    </span>
-                                                    {selectedItems.some(
-                                                      (i) => i.id === itemId
-                                                    ) && <Check size={16} />}
-                                                  </DropdownMenuItem>
-                                                );
-                                              }
-                                            )}
-                                          </div>
-                                        </DropdownMenuSubContent>
-                                      </DropdownMenuPortal>
-                                    </DropdownMenuSub>
-                                  );
-                                })}
+
+                                                    // Handle empty state display
+                                                    const emptyMessage =
+                                                      searchContainer?.querySelector(
+                                                        ".empty-message"
+                                                      );
+                                                    if (emptyMessage) {
+                                                      if (
+                                                        visibleCount === 0 &&
+                                                        searchTerm
+                                                      ) {
+                                                        (
+                                                          emptyMessage as HTMLElement
+                                                        ).style.display = "flex";
+                                                      } else {
+                                                        (
+                                                          emptyMessage as HTMLElement
+                                                        ).style.display = "none";
+                                                      }
+                                                    }
+                                                  }}
+                                                  onClick={(e) =>
+                                                    e.stopPropagation()
+                                                  }
+                                                />
+                                              </div>
+
+                                              {/* Items container with overflow */}
+                                              <div className="overflow-y-auto max-h-64">
+                                                {/* No results message */}
+                                                <div className="empty-message p-2 text-gray-500 justify-center items-center text-sm hidden">
+                                                  No items found
+                                                </div>
+
+                                                {data.map(
+                                                  (
+                                                    item: {
+                                                      id?: string;
+                                                      name?: string;
+                                                      url?: string;
+                                                      tweet?: string;
+                                                    },
+                                                    index: number
+                                                  ) => {
+                                                    const displayText =
+                                                      item.name ||
+                                                      item.url ||
+                                                      item.tweet ||
+                                                      "Untitled";
+                                                    const itemId =
+                                                      item.id || index.toString();
+
+                                                    return (
+                                                      <DropdownMenuItem
+                                                        key={itemId}
+                                                        onSelect={(e: Event) => {
+                                                          e.preventDefault();
+                                                          toggleSelect({
+                                                            id: itemId,
+                                                            label: displayText,
+                                                            type: label,
+                                                          });
+                                                        }}
+                                                        className="flex justify-between gap-2 dropdown-item"
+                                                      >
+                                                        <span className="truncate w-48">
+                                                          {displayText}
+                                                        </span>
+                                                        {selectedItems.some(
+                                                          (i) => i.id === itemId
+                                                        ) && <Check size={16} />}
+                                                      </DropdownMenuItem>
+                                                    );
+                                                  }
+                                                )}
+                                              </div>
+                                            </DropdownMenuSubContent>
+                                          </DropdownMenuPortal>
+                                        </DropdownMenuSub>
+                                      );
+                                    })}
+                                  </>
+                                )}
                               </DropdownMenuContent>
                             </DropdownMenu>
                           )}
                         </div>
                         <div className="flex items-center gap-2">
-                          {!postGenerated &&  (
+                          {!postGenerated && (
                             <TooltipProvider>
                               <Tooltip>
                                 <TooltipTrigger>
@@ -894,7 +910,7 @@ export function PostGenerator() {
                                     disabled={improvePending}
                                     onClick={handleImproveQuery}
                                   >
-                                 {improvePending  ?  <Loader className="text-blue-900 animate-spin"/> :  <WandSparkles className="text-blue-600" /> }   
+                                    {improvePending ? <Loader className="text-blue-900 animate-spin" /> : <WandSparkles className="text-blue-600" />}
                                   </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>
