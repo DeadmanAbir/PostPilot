@@ -1,4 +1,7 @@
 import { BadgeCheck, ChevronsUpDown, LogOut, Sparkles } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+
+import { Button } from "./ui/button";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -16,9 +19,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/lib/supabaseClient";
-import { Button, } from "./ui/button";
 
 export function NavUser({
   user,
@@ -99,16 +100,12 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <Button
-
               className="w-full"
               variant={"destructive"}
               onClick={handleLogout}
             >
               <LogOut />
-              <span>
-                Log out
-
-              </span>
+              <span>Log out</span>
             </Button>
           </DropdownMenuContent>
         </DropdownMenu>

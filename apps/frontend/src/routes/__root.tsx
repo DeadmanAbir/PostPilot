@@ -1,8 +1,8 @@
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
+
 import { AuthContext } from "@/hooks/useAuth";
 import NotFoundPage from "@/pages/notfound";
-import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
-import { Toaster } from "@/components/ui/sonner"
-
+import { Toaster } from "@/components/ui/sonner";
 
 type RouterContext = {
   authentication: AuthContext;
@@ -13,11 +13,11 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     <>
       <Outlet />
       <Toaster />
-
     </>
   ),
-  notFoundComponent: () => (<>
-  <NotFoundPage/>
-  </>
-  )
+  notFoundComponent: () => (
+    <>
+      <NotFoundPage />
+    </>
+  ),
 });

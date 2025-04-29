@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
-import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
 import { useEditor, EditorContent, Editor as Tip } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Placeholder from '@tiptap/extension-placeholder';
-import { Bold, Italic,  Copy, Check } from "lucide-react";
+import Placeholder from "@tiptap/extension-placeholder";
+import { Bold, Italic, Copy, Check } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 // Unicode Converter from your code
 interface UnicodeConverterInterface {
@@ -17,11 +18,14 @@ const UnicodeConverter: UnicodeConverterInterface = {
     return text.replace(/[0-9A-Za-z]/g, (char: string) => {
       const code: number = char.charCodeAt(0);
 
-      if (code >= 48 && code <= 57) { // 0-9
+      if (code >= 48 && code <= 57) {
+        // 0-9
         return String.fromCodePoint(code + 120734);
-      } else if (code >= 65 && code <= 90) { // A-Z
+      } else if (code >= 65 && code <= 90) {
+        // A-Z
         return String.fromCodePoint(code + 120211);
-      } else if (code >= 97 && code <= 122) { // a-z
+      } else if (code >= 97 && code <= 122) {
+        // a-z
         return String.fromCodePoint(code + 120205);
       }
       return char;
@@ -32,9 +36,11 @@ const UnicodeConverter: UnicodeConverterInterface = {
     return text.replace(/[A-Za-z]/g, (char: string) => {
       const code: number = char.charCodeAt(0);
 
-      if (code >= 65 && code <= 90) { // A-Z
+      if (code >= 65 && code <= 90) {
+        // A-Z
         return String.fromCodePoint(code + 120263);
-      } else if (code >= 97 && code <= 122) { // a-z
+      } else if (code >= 97 && code <= 122) {
+        // a-z
         return String.fromCodePoint(code + 120257);
       }
       return char;
@@ -45,20 +51,22 @@ const UnicodeConverter: UnicodeConverterInterface = {
     return text.replace(/[A-Za-z]/g, (char: string) => {
       const code: number = char.charCodeAt(0);
 
-      if (code >= 65 && code <= 90) { // A-Z
+      if (code >= 65 && code <= 90) {
+        // A-Z
         return String.fromCodePoint(code + 120315);
-      } else if (code >= 97 && code <= 122) { // a-z
+      } else if (code >= 97 && code <= 122) {
+        // a-z
         return String.fromCodePoint(code + 120309);
       }
       return char;
     });
-  }
+  },
 };
 
 // Function to process HTML content and apply Unicode formatting
 export const processHTMLContent = (html: string): string => {
   // Create a temporary div to parse the HTML
-  const tempDiv: HTMLDivElement = document.createElement('div');
+  const tempDiv: HTMLDivElement = document.createElement("div");
   tempDiv.innerHTML = html;
 
   // Process the DOM tree recursively
@@ -66,39 +74,47 @@ export const processHTMLContent = (html: string): string => {
 };
 
 const processNode = (node: Node): string => {
-  let result = '';
+  let result = "";
 
   // Process each child node
   node.childNodes.forEach((child: ChildNode) => {
     if (child.nodeType === Node.TEXT_NODE) {
       // For text nodes, just add the text content
-      result += (child as Text).textContent || '';
+      result += (child as Text).textContent || "";
     } else if (child.nodeType === Node.ELEMENT_NODE) {
       const element = child as HTMLElement;
       let text = processNode(element); // Process nested content first
 
       // Apply formatting based on the element type
-      if (element.tagName === 'STRONG' || element.tagName === 'B') {
-        if (element.querySelector('em') || element.querySelector('i') ||
-          element.parentElement?.tagName === 'EM' || element.parentElement?.tagName === 'I') {
+      if (element.tagName === "STRONG" || element.tagName === "B") {
+        if (
+          element.querySelector("em") ||
+          element.querySelector("i") ||
+          element.parentElement?.tagName === "EM" ||
+          element.parentElement?.tagName === "I"
+        ) {
           text = UnicodeConverter.boldItalic(text);
         } else {
           text = UnicodeConverter.bold(text);
         }
-      } else if (element.tagName === 'EM' || element.tagName === 'I') {
-        if (element.querySelector('strong') || element.querySelector('b') ||
-          element.parentElement?.tagName === 'STRONG' || element.parentElement?.tagName === 'B') {
+      } else if (element.tagName === "EM" || element.tagName === "I") {
+        if (
+          element.querySelector("strong") ||
+          element.querySelector("b") ||
+          element.parentElement?.tagName === "STRONG" ||
+          element.parentElement?.tagName === "B"
+        ) {
           text = UnicodeConverter.boldItalic(text);
         } else {
           text = UnicodeConverter.italic(text);
         }
-      } else if (element.tagName === 'P' || element.tagName === 'DIV') {
+      } else if (element.tagName === "P" || element.tagName === "DIV") {
         // Add paragraph breaks for p tags, but not at the end of the content
-        if (result && !result.endsWith('\n\n')) {
-          text = text + '\n\n';
+        if (result && !result.endsWith("\n\n")) {
+          text = text + "\n\n";
         }
-      } else if (element.tagName === 'BR') {
-        text = '\n';
+      } else if (element.tagName === "BR") {
+        text = "\n";
       }
 
       result += text;
@@ -111,7 +127,7 @@ const processNode = (node: Node): string => {
 interface EditorProps {
   value: string;
   onChange: (value: string) => void;
-  disabled: boolean
+  disabled: boolean;
 }
 
 interface MenuBarProps {
@@ -127,7 +143,7 @@ const MenuBar = ({ editor, onCopy, copied }: MenuBarProps) => {
 
   return (
     <div className="border-b dark:border-blue-900 p-2 flex items-center justify-between gap-2 bg-background dark:bg-blue-600/20">
-      <div className='flex items-center gap-2'>
+      <div className="flex items-center gap-2">
         <Button
           variant="ghost"
           type="button"
@@ -154,20 +170,27 @@ const MenuBar = ({ editor, onCopy, copied }: MenuBarProps) => {
         >
           <Italic className="h-4 w-4" />
         </Button>
-
       </div>
-      <div className='flex items-center gap-2'>
+      <div className="flex items-center gap-2">
         <Button
           variant="ghost"
           type="button"
           size="icon"
           onClick={onCopy}
-          className={copied ? "bg-green-200 dark:bg-green-800" : editor.isActive("bold") ? "bg-muted" : ""}
+          className={
+            copied
+              ? "bg-green-200 dark:bg-green-800"
+              : editor.isActive("bold")
+                ? "bg-muted"
+                : ""
+          }
         >
-          {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+          {copied ? (
+            <Check className="h-4 w-4" />
+          ) : (
+            <Copy className="h-4 w-4" />
+          )}
         </Button>
-
-
       </div>
     </div>
   );
@@ -179,7 +202,7 @@ export default function Editor({ value, onChange, disabled }: EditorProps) {
     extensions: [
       StarterKit,
       Placeholder.configure({
-        placeholder: 'Write something …',
+        placeholder: "Write something …",
       }),
     ],
     content: value,
@@ -216,7 +239,7 @@ export default function Editor({ value, onChange, disabled }: EditorProps) {
         setTimeout(() => setCopied(false), 1200);
       } catch (err) {
         setCopied(false);
-        console.log(err)
+        console.log(err);
       }
     }
   };
@@ -231,8 +254,6 @@ export default function Editor({ value, onChange, disabled }: EditorProps) {
       >
         <EditorContent editor={editor} />
       </div>
-
-
     </div>
   );
 }

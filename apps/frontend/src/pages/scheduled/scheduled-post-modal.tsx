@@ -1,5 +1,7 @@
 "use client";
 
+import { Clock, Trash2 } from "lucide-react";
+
 import {
   Dialog,
   DialogContent,
@@ -8,8 +10,11 @@ import {
   DialogFooter,
 } from "../../components/ui/dialog";
 import { Button } from "../../components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
-import { Clock,  Trash2 } from "lucide-react";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../components/ui/avatar";
 import { ScheduledPost } from "./scheduled-posts-page";
 
 interface ScheduledPostModalProps {
@@ -23,7 +28,9 @@ export function ScheduledPostModal({
   isOpen,
   onClose,
 }: ScheduledPostModalProps) {
-  if (!post) return null;
+  if (!post) {
+    return null;
+  }
 
   // Format the date for display
   const formattedDate = new Intl.DateTimeFormat("en-US", {
@@ -88,7 +95,6 @@ export function ScheduledPostModal({
             <Trash2 className="h-4 w-4" />
             <span>Delete</span>
           </Button>
-
         </DialogFooter>
       </DialogContent>
     </Dialog>

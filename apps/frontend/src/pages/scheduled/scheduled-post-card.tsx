@@ -1,10 +1,14 @@
 "use client";
 
 import type React from "react";
-
-import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
-import { Card, CardContent, CardFooter } from "../../components/ui/card";
 import { Clock } from "lucide-react";
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../components/ui/avatar";
+import { Card, CardContent, CardFooter } from "../../components/ui/card";
 import { ScheduledPost } from "./scheduled-posts-page";
 
 interface ScheduledPostCardProps {
@@ -42,7 +46,7 @@ export function ScheduledPostCard({
 
   return (
     <Card className="h-full flex flex-col overflow-hidden hover:shadow-md transition-shadow">
-      <CardContent className="p-4 flex-grow"      onClick={onClick}>
+      <CardContent className="p-4 flex-grow" onClick={onClick}>
         {/* Account info */}
         <div className="flex items-center gap-2 mb-3">
           <Avatar className="h-8 w-8">
@@ -69,10 +73,7 @@ export function ScheduledPostCard({
         )}
 
         {/* Truncated content */}
-        <p
-          className="text-sm cursor-pointer hover:text-primary transition-colors"
-     
-        >
+        <p className="text-sm cursor-pointer hover:text-primary transition-colors">
           {truncatedContent}
         </p>
       </CardContent>

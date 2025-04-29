@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
+
 import { supabase } from "@/lib/supabaseClient";
 
 type AuthUser = {
@@ -41,7 +42,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           accessToken: session?.access_token ?? null,
         });
         setLoading(false); // Set loading to false after auth state change
-      }
+      },
     );
 
     return () => listener.subscription.unsubscribe();

@@ -1,9 +1,10 @@
 import { useState } from "react";
-import {
-  Card,
-  CardContent,
+import { motion, AnimatePresence } from "motion/react";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { toast } from "sonner";
 
-} from "../../../components/ui/card";
+import { Card, CardContent } from "../../../components/ui/card";
 import { Button } from "../../../components/ui/button";
 import { Calendar } from "../../../components/ui/calendar";
 import { Input } from "../../../components/ui/input";
@@ -14,18 +15,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../../components/ui/dialog";
+import { selectPostGenerated, useAppSelector } from "../../../../store/index";
+
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { selectPostGenerated, useAppSelector } from "../../../../store/index";
+} from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
-import { motion, AnimatePresence } from "motion/react"
 import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns"
-import { toast } from "sonner";
 
 interface ScheduledPost {
   id: string;
@@ -60,8 +58,6 @@ const mockUpcomingPosts: ScheduledPost[] = [
   },
 ];
 
-
-
 export function SchedulingSidebar() {
   const getCurrentTime = () => {
     const now = new Date();
@@ -71,7 +67,7 @@ export function SchedulingSidebar() {
   const [date, setDate] = useState<Date>(new Date());
   const [time, setTime] = useState(getCurrentTime());
   // const [open, setOpen] = useState(false);
-  const [enabled, setEnabled] = useState(false)
+  const [enabled, setEnabled] = useState(false);
   const [connectionOnly, setConnectionOnly] = useState(false);
 
   const [scheduledPosts, setScheduledPosts] =
@@ -92,10 +88,7 @@ export function SchedulingSidebar() {
     }
 
     // Prevent scheduling past times for today
-    if (
-      selectedDate.getTime() === today.getTime() &&
-      time < getCurrentTime()
-    ) {
+    if (selectedDate.getTime() === today.getTime() && time < getCurrentTime()) {
       toast.error("Cannot schedule a post in the past time.");
       return;
     }
@@ -113,7 +106,10 @@ export function SchedulingSidebar() {
   };
 
   return (
-    <aside className="w-1/3 border-l bg-muted  p-4 overflow-y-auto" id="imageLoad">
+    <aside
+      className="w-1/3 border-l bg-muted  p-4 overflow-y-auto"
+      id="imageLoad"
+    >
       {/* <Card className="mb-4">
         <CardHeader>
           <CardTitle>Upcoming Posts</CardTitle>
@@ -136,7 +132,6 @@ export function SchedulingSidebar() {
             transition={{ duration: 0.3 }}
           >
             <Card>
-
               <CardContent className="p-4">
                 <Label className="">Date</Label>
                 <Popover>
@@ -145,7 +140,7 @@ export function SchedulingSidebar() {
                       variant={"outline"}
                       className={cn(
                         " justify-start text-left font-normal w-full mt-1",
-                        !date && "text-muted-foreground"
+                        !date && "text-muted-foreground",
                       )}
                     >
                       <CalendarIcon />
@@ -177,12 +172,20 @@ export function SchedulingSidebar() {
                       id="time"
                       type="time"
                       value={time}
-                      min={date.toDateString() === new Date().toDateString() ? getCurrentTime() : undefined}
+                      min={
+                        date.toDateString() === new Date().toDateString()
+                          ? getCurrentTime()
+                          : undefined
+                      }
                       onChange={(e) => setTime(e.target.value)}
                       className="mt-1"
                     />
                   </div>
-                  <Button onClick={handleSchedule} className="w-full" disabled={!postGenerated}>
+                  <Button
+                    onClick={handleSchedule}
+                    className="w-full"
+                    disabled={!postGenerated}
+                  >
                     Schedule
                   </Button>
                 </div>
@@ -242,9 +245,7 @@ export function SchedulingSidebar() {
           transition={{ duration: 0.2 }}
           className="flex flex-col my-4 items-center w-full"
         >
-          <Button className="w-full text-lg tracking-wider">
-            Post
-          </Button>
+          <Button className="w-full text-lg tracking-wider">Post</Button>
           <div className="flex my-2 items-center gap-2">
             <span>Connection Only</span>
             <Switch
@@ -252,7 +253,6 @@ export function SchedulingSidebar() {
               onCheckedChange={setConnectionOnly}
             />
           </div>
-
         </motion.div>
       )}
       <Dialog open={!!selectedPost} onOpenChange={() => setSelectedPost(null)}>

@@ -23,7 +23,9 @@ export const groupItemsByType = ({
   selectedItems.forEach((item) => {
     const type = item.type.toLowerCase();
 
-    if (!allowedTypes.has(type)) return;
+    if (!allowedTypes.has(type)) {
+      return;
+    }
 
     const typeName = type === "text" ? "text_node" : type;
     if (!groupedItemIds[typeName]) {

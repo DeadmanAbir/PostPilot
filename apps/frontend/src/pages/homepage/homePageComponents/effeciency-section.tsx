@@ -1,12 +1,13 @@
-import { Card } from "@/components/ui/card";
 import { Clock, FileCheck, Monitor } from "lucide-react";
+
+import { Card } from "@/components/ui/card";
 
 const EfficiencySection = () => {
   return (
     <div className="w-full ">
       <div className="w-full flex items-center justify-center ">
         <div className="md:text-7xl text-5xl flex  text-center pt-10">
-          Efficiency That Scales 
+          Efficiency That Scales
         </div>
       </div>
       <section className="max-w-7xl mx-auto p-10 text-center  ">

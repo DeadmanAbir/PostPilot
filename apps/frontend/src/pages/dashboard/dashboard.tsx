@@ -1,21 +1,31 @@
+import { Helmet } from "react-helmet-async";
+
 import { PostGenerator } from "@/pages/dashboard/dashboardComponents/post-generator";
 // import { SchedulingSidebar } from "@/pages/dashboard/dashboardComponents/scheduling-sidebar";
-import { Helmet } from "react-helmet-async";
 
 export function Dashboard() {
   return (
     <>
       <Helmet>
         <title>Dashboard | PostPilot</title>
-        <meta name="description" content="Your dashboard for managing posts and campaigns in PostPilot." />
+        <meta
+          name="description"
+          content="Your dashboard for managing posts and campaigns in PostPilot."
+        />
         <meta property="og:title" content="Dashboard | PostPilot" />
-        <meta property="og:description" content="Your dashboard for managing posts and campaigns in PostPilot." />
+        <meta
+          property="og:description"
+          content="Your dashboard for managing posts and campaigns in PostPilot."
+        />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://postpilot.agentgenesis.dev/" />
         <meta property="og:image" content="/og-image.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Dashboard | PostPilot" />
-        <meta name="twitter:description" content="Your dashboard for managing posts and campaigns in PostPilot." />
+        <meta
+          name="twitter:description"
+          content="Your dashboard for managing posts and campaigns in PostPilot."
+        />
         <meta name="twitter:image" content="/og-image.png" />
       </Helmet>
       <div className="flex h-screen bg-background">

@@ -1,3 +1,7 @@
+import { PlusCircle } from "lucide-react";
+
+import { AccountCard } from "./account-card";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -5,8 +9,6 @@ import {
   CardDescription,
   CardTitle,
 } from "@/components/ui/card";
-import { PlusCircle } from "lucide-react";
-import { AccountCard } from "./account-card";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { fetchLinkedinQuery } from "@/lib/tanstack-query/query";
 import IntegrationLoading from "@/components/skeletons/integration-skeleton";
@@ -22,8 +24,7 @@ export function AccountsPage() {
 
   return (
     <div className="container mx-auto py-8 md:px-10 px-2 space-y-8 min-h-screen ">
-         <Banner/>
-
+      <Banner />
 
       {/* Connected Accounts Section */}
       {isPending ? (

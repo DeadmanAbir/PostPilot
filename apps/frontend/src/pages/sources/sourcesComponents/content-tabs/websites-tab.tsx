@@ -1,12 +1,13 @@
 import { useState } from "react";
+import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { fetchWebsiteFn } from "@/lib/tanstack-query/mutation";
-import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
 
 export function WebsitesTab() {
   const [websiteUrl, setWebsiteUrl] = useState("");
@@ -25,11 +26,13 @@ export function WebsitesTab() {
         console.log(error);
         toast.error("error in fetching");
       },
-    }
+    },
   );
 
   const validateWebsiteUrl = (url: string) => {
-    if (!url) return false;
+    if (!url) {
+      return false;
+    }
 
     try {
       const websiteUrlRegex =
@@ -52,37 +55,39 @@ export function WebsitesTab() {
 
   return (
     <div className="w-full h-full ">
-    <Card>
-      <CardHeader>
-        <CardTitle>Website/Article</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid w-full items-center gap-4">
-          <div className="flex flex-col space-y-3">
-            <Label htmlFor="website-url">Website URL</Label>
-            <div className="flex space-x-2">
-              <Input
-                id="website-url"
-                placeholder="https://example.com"
-                value={websiteUrl}
-                
-                onChange={(e) => setWebsiteUrl(e.target.value)}
-                className={`h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900 ${!isValidUrl ? "border-red-500" : ""}`}
-
-              />
-              <Button disabled={isFetching} onClick={handlePreviewWebsite} className="h-10">
-                Add Link
-              </Button>
+      <Card>
+        <CardHeader>
+          <CardTitle>Website/Article</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid w-full items-center gap-4">
+            <div className="flex flex-col space-y-3">
+              <Label htmlFor="website-url">Website URL</Label>
+              <div className="flex space-x-2">
+                <Input
+                  id="website-url"
+                  placeholder="https://example.com"
+                  value={websiteUrl}
+                  onChange={(e) => setWebsiteUrl(e.target.value)}
+                  className={`h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900 ${!isValidUrl ? "border-red-500" : ""}`}
+                />
+                <Button
+                  disabled={isFetching}
+                  onClick={handlePreviewWebsite}
+                  className="h-10"
+                >
+                  Add Link
+                </Button>
+              </div>
+              {!isValidUrl && (
+                <p className="text-sm text-red-500">
+                  Please enter a valid website URL
+                </p>
+              )}
             </div>
-            {!isValidUrl && (
-              <p className="text-sm text-red-500">
-                Please enter a valid website URL
-              </p>
-            )}
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
     </div>
   );
 }

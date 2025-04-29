@@ -1,8 +1,8 @@
 "use client";
 
 import type React from "react";
-
 import { useState, useEffect } from "react";
+
 import {
   Dialog,
   DialogContent,
@@ -30,7 +30,9 @@ export function EditScheduleModal({
   onSave,
 }: EditScheduleModalProps) {
   // If no post is provided, don't render anything
-  if (!post) return null;
+  if (!post) {
+    return null;
+  }
 
   // Initialize state with the current scheduled date
   const [date, setDate] = useState<Date | undefined>(post.scheduledDate);
@@ -58,7 +60,9 @@ export function EditScheduleModal({
 
   // Handle save button click
   const handleSave = () => {
-    if (!date) return;
+    if (!date) {
+      return;
+    }
 
     // Parse the time string
     const [hours, minutes] = time.split(":").map(Number);
@@ -90,7 +94,9 @@ export function EditScheduleModal({
           </div>
 
           <div className="w-full flex flex-col items-center justify-center ">
-            <Label className="w-full flex items-center justify-start">Date</Label>
+            <Label className="w-full flex items-center justify-start">
+              Date
+            </Label>
             <Calendar
               mode="single"
               selected={date}

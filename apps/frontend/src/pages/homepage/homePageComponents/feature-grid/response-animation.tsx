@@ -1,14 +1,15 @@
-import { TextShimmer } from "@/components/generate-text";
-import { TextEffect } from "@/components/text-effect";
 import { motion, useAnimate } from "motion/react";
 import { useState } from "react";
+
+import { TextShimmer } from "@/components/generate-text";
+import { TextEffect } from "@/components/text-effect";
 
 const ResponseEffect = () => {
   const [scope, animate] = useAnimate();
   const [trigger, setTrigger] = useState(true);
   const [triggerAns, setTriggerAns] = useState(false);
   const [hasCompleted, setHasCompleted] = useState(false);
-  const [,setCallCount] = useState(0);
+  const [, setCallCount] = useState(0);
   const [showGenerate, setShowGenerate] = useState(false);
 
   const runAnimation = async () => {
@@ -20,7 +21,9 @@ const ResponseEffect = () => {
   };
 
   const handleQuestionComplete = () => {
-    if (hasCompleted) return;
+    if (hasCompleted) {
+      return;
+    }
     setHasCompleted(true);
     runAnimation();
     setTimeout(() => {

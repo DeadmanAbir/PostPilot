@@ -14,9 +14,8 @@ const HeroSection = () => {
           transition={{ delay: 0.2 }}
           className="inline-flex items-center px-1 py-0.5 pl-2 pr-1 rounded-full bg-blue-900/70 text-blue-500 mb-5 border border-blue-500"
         >
-           <span className="text-xs mr-1 text-white/70">Trending🔥</span>
-           <ArrowRight size={12} />
-        
+          <span className="text-xs mr-1 text-white/70">Trending🔥</span>
+          <ArrowRight size={12} />
         </motion.div>
 
         {/* Main Heading */}
@@ -29,8 +28,8 @@ const HeroSection = () => {
           AI-Driven Content Automation
           <br /> Welcome to{" "}
           <span className="inline-flex items-center px-4 my-2 md:my-0  bg-blue-700/20 rounded-lg text-blue-500 mx-2">
-            PostPilot 
-            <img src="/logo.png" alt="Loogo"  className="size-28"/>
+            PostPilot
+            <img src="/logo.png" alt="Loogo" className="size-28" />
           </span>
         </motion.h1>
 

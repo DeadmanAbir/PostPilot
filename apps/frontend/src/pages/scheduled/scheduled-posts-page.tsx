@@ -1,6 +1,7 @@
 import type React from "react";
-
 import { useState } from "react";
+import { ArrowDownAZ, ArrowUpAZ } from "lucide-react";
+
 import { ScheduledPostCard } from "./scheduled-post-card";
 import { ScheduledPostModal } from "./scheduled-post-modal";
 import { EditScheduleModal } from "./edit-schedule-modal";
@@ -12,7 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
-import { ArrowDownAZ, ArrowUpAZ } from "lucide-react";
 import ComingSoonCard from "./coming-soon";
 
 // Define the ScheduledPost type
@@ -113,13 +113,13 @@ export function ScheduledPostsPage() {
 
   // Get unique account names for filter dropdown
   const accountNames = Array.from(
-    new Set(posts.map((post) => post.accountName))
+    new Set(posts.map((post) => post.accountName)),
   );
 
   // Sort and filter posts
   const sortedAndFilteredPosts = [...posts]
     .filter(
-      (post) => accountFilter === "all" || post.accountName === accountFilter
+      (post) => accountFilter === "all" || post.accountName === accountFilter,
     )
     .sort((a, b) => {
       const dateA = a.scheduledDate.getTime();
@@ -137,7 +137,7 @@ export function ScheduledPostsPage() {
   const handleSaveSchedule = (post: ScheduledPost, newDate: Date) => {
     // Update the post with the new scheduled date
     const updatedPosts = posts.map((p) =>
-      p.id === post.id ? { ...p, scheduledDate: newDate } : p
+      p.id === post.id ? { ...p, scheduledDate: newDate } : p,
     );
 
     // Update state

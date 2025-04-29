@@ -1,22 +1,4 @@
 import { useRef, useState } from "react";
-import { Button } from "../../../components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../../../components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuPortal,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
 import {
   ArrowRight,
   CalendarClock,
@@ -42,18 +24,23 @@ import {
   X,
   Youtube,
 } from "lucide-react";
-import { RegenerateModal } from "@/components/regenerate-modal";
-import { useAuth } from "@/providers/supabaseAuthProvider";
-import {
-  generatePostFn,
-  improvePostFn,
-  postToLinkedinFn,
-  regeneratePostFn,
-} from "@/lib/tanstack-query/mutation";
 import { LinkedinPostResponse } from "@repo/common/types";
-import { setPostGenerated, useAppDispatch } from "../../../../store/index";
-import { fetchSourcesQuery } from "@/lib/tanstack-query/query";
+import { motion, AnimatePresence } from "motion/react";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { nanoid } from "nanoid";
+import removeMd from "remove-markdown";
+import { toast } from "sonner";
+import { Link } from "@tanstack/react-router";
 
+import { Button } from "../../../components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
+import { setPostGenerated, useAppDispatch } from "../../../../store/index";
 import { Calendar } from "../../../components/ui/calendar";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
@@ -65,23 +52,38 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../../../components/ui/dialog";
+import { selectPostGenerated, useAppSelector } from "../../../../store/index";
+import Editor, { processHTMLContent } from "./tiptap";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuPortal,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
+import { RegenerateModal } from "@/components/regenerate-modal";
+import { useAuth } from "@/providers/supabaseAuthProvider";
+import {
+  generatePostFn,
+  improvePostFn,
+  postToLinkedinFn,
+  regeneratePostFn,
+} from "@/lib/tanstack-query/mutation";
+import { fetchSourcesQuery } from "@/lib/tanstack-query/query";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { selectPostGenerated, useAppSelector } from "../../../../store/index";
 import { Switch } from "@/components/ui/switch";
-import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
-import { nanoid } from "nanoid";
 import { supabase } from "@/lib/supabaseClient";
 import { groupItemsByType } from "@/utils/functions/groupItem";
-import removeMd from "remove-markdown";
-
-import Editor, { processHTMLContent } from "./tiptap";
 import { getTextFromHTML } from "@/utils/functions/getText";
 import {
   Tooltip,
@@ -90,14 +92,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Separator } from "@/components/ui/separator";
-import {
-  Drawer,
-  DrawerContent,
-
-  DrawerTrigger,
-} from "@/components/ui/drawer";
-import { toast } from "sonner";
-import { Link } from "@tanstack/react-router";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 
 interface ScheduledPost {
   id: string;
@@ -197,12 +192,12 @@ export function PostGenerator() {
   };
 
   const { data: optionData, isPending: isSourcesFetching } = fetchSourcesQuery(
-    user?.accessToken ?? ""
+    user?.accessToken ?? "",
   );
 
   const isExpired = optionData?.linkedin?.expires_at
     ? optionData.linkedin.expires_at &&
-    new Date(optionData.linkedin.expires_at) < new Date()
+      new Date(optionData.linkedin.expires_at) < new Date()
     : true;
   const { mutate: generatePost, isPending } = generatePostFn(
     user?.accessToken ?? "",
@@ -217,29 +212,26 @@ export function PostGenerator() {
         console.log(error);
         toast.error("error in posting");
       },
-    }
+    },
   );
 
-  const { mutate: post } = postToLinkedinFn(
-    user?.accessToken ?? "",
-    {
-      onSuccess: () => {
-        setImages([]);
-        setGeneratedPost("");
-        setGeneratedPost("");
-        setSelectedItems([]);
-        setPublishing(false);
-        setOpenPost(false)
-        dispatch(setPostGenerated(false));
+  const { mutate: post } = postToLinkedinFn(user?.accessToken ?? "", {
+    onSuccess: () => {
+      setImages([]);
+      setGeneratedPost("");
+      setGeneratedPost("");
+      setSelectedItems([]);
+      setPublishing(false);
+      setOpenPost(false);
+      dispatch(setPostGenerated(false));
 
-        toast.success("Posted to Linkedin successfully");
-      },
-      onError: (error: unknown) => {
-        console.log(error);
-        toast.error("error in posting");
-      },
-    }
-  );
+      toast.success("Posted to Linkedin successfully");
+    },
+    onError: (error: unknown) => {
+      console.log(error);
+      toast.error("error in posting");
+    },
+  });
 
   const { mutate: regeneratePost, isPending: isRegenerating } =
     regeneratePostFn(user?.accessToken ?? "", {
@@ -266,7 +258,7 @@ export function PostGenerator() {
         console.log(error);
         toast.error("error inimproving");
       },
-    }
+    },
   );
 
   const toggleSelect = (item: { id: string; label: string; type: string }) => {
@@ -375,7 +367,7 @@ export function PostGenerator() {
   const handlePost = async () => {
     const media = await uploadToSupabase("post-pilot");
     const processed = processHTMLContent(generatedPost);
-    setPublishing(true)
+    setPublishing(true);
     post({
       text: processed,
       visibility: connectionOnly ? "CONNECTIONS" : "PUBLIC",
@@ -446,17 +438,18 @@ export function PostGenerator() {
                                     <X size={16} />
                                   </motion.button>
                                 </motion.div>
-                              )
+                              ),
                           )}
 
                           {images.some((media) => media.type !== "video") && (
                             <div>
                               <label
                                 htmlFor="image-upload"
-                                className={`flex flex-col items-center justify-center size-20 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 transition ${images.some((media) => media.type === "video")
-                                  ? "opacity-50 cursor-not-allowed"
-                                  : "cursor-pointer hover:border-blue-500 hover:text-blue-500"
-                                  }`}
+                                className={`flex flex-col items-center justify-center size-20 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 transition ${
+                                  images.some((media) => media.type === "video")
+                                    ? "opacity-50 cursor-not-allowed"
+                                    : "cursor-pointer hover:border-blue-500 hover:text-blue-500"
+                                }`}
                               >
                                 <span className="text-4xl">＋</span>
                                 <span className="text-xs mt-1 text-center">
@@ -478,21 +471,33 @@ export function PostGenerator() {
                             </div>
                           )}
                           {!images.some((media) => media.type !== "video") && (
-                            <label className={`${images.some((media) => media.type === "video")
-                              ? "cursor-not-allowed"
-                              : "cursor-pointer"
-                              } -translate-y-2`}>
+                            <label
+                              className={`${
+                                images.some((media) => media.type === "video")
+                                  ? "cursor-not-allowed"
+                                  : "cursor-pointer"
+                              } -translate-y-2`}
+                            >
                               <motion.div
                                 className="flex flex-col items-center justify-center p-2 transition-all"
                                 whileHover="hover"
                               >
                                 <div className="h-24 w-32 flex items-center justify-center">
                                   <motion.div
-                                    className={`bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full md:size-14 size-12 flex items-center justify-center ${images.some((media) => media.type === "video")
-                                      ? "opacity-50 cursor-not-allowed"
-                                      : "cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40"
-                                      } transition-all duration-300`}
-                                    whileHover={!images.some((media) => media.type === "video") ? { scale: 1.1 } : {}}
+                                    className={`bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full md:size-14 size-12 flex items-center justify-center ${
+                                      images.some(
+                                        (media) => media.type === "video",
+                                      )
+                                        ? "opacity-50 cursor-not-allowed"
+                                        : "cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40"
+                                    } transition-all duration-300`}
+                                    whileHover={
+                                      !images.some(
+                                        (media) => media.type === "video",
+                                      )
+                                        ? { scale: 1.1 }
+                                        : {}
+                                    }
                                   >
                                     <ImageIcon className="md:size-8 size-6 text-blue-700 dark:text-blue-200" />
                                   </motion.div>
@@ -504,16 +509,27 @@ export function PostGenerator() {
                                   Share photos, graphics or illustration
                                 </p>
                                 <Button
-                                  className={`mt-2 rounded-lg ${images.some((media) => media.type === "video") ? "opacity-50 cursor-not-allowed" : ""
-                                    }`}
+                                  className={`mt-2 rounded-lg ${
+                                    images.some(
+                                      (media) => media.type === "video",
+                                    )
+                                      ? "opacity-50 cursor-not-allowed"
+                                      : ""
+                                  }`}
                                   variant="outline"
                                   onClick={(e) => {
                                     e.preventDefault();
-                                    if (!images.some((media) => media.type === "video")) {
+                                    if (
+                                      !images.some(
+                                        (media) => media.type === "video",
+                                      )
+                                    ) {
                                       handleImageButtonClick();
                                     }
                                   }}
-                                  disabled={images.some((media) => media.type === "video")}
+                                  disabled={images.some(
+                                    (media) => media.type === "video",
+                                  )}
                                 >
                                   <Plus />
                                   Add Images
@@ -527,7 +543,9 @@ export function PostGenerator() {
                                   ref={inputImageRef}
                                   disabled={
                                     images.length > 0 &&
-                                    images.some((media) => media.type === "video")
+                                    images.some(
+                                      (media) => media.type === "video",
+                                    )
                                   }
                                 />
                               </motion.div>
@@ -569,24 +587,36 @@ export function PostGenerator() {
                                     <X size={16} />
                                   </motion.button>
                                 </motion.div>
-                              )
+                              ),
                           )}
                           {!images.some((media) => media.type === "video") && (
-                            <label className={`${images.some((media) => media.type !== "video")
-                              ? "cursor-not-allowed"
-                              : "cursor-pointer"
-                              }`}>
+                            <label
+                              className={`${
+                                images.some((media) => media.type !== "video")
+                                  ? "cursor-not-allowed"
+                                  : "cursor-pointer"
+                              }`}
+                            >
                               <motion.div
                                 className="flex flex-col items-center justify-center p-2 transition-all"
                                 whileHover="hover"
                               >
                                 <div className="h-24 w-32 flex items-center justify-center">
                                   <motion.div
-                                    className={`bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full md:size-14 size-12 flex items-center justify-center ${images.some((media) => media.type !== "video")
-                                      ? "opacity-50 cursor-not-allowed"
-                                      : "cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40"
-                                      } transition-all duration-300`}
-                                    whileHover={!images.some((media) => media.type !== "video") ? { scale: 1.1 } : {}}
+                                    className={`bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-900 rounded-full md:size-14 size-12 flex items-center justify-center ${
+                                      images.some(
+                                        (media) => media.type !== "video",
+                                      )
+                                        ? "opacity-50 cursor-not-allowed"
+                                        : "cursor-pointer group-hover:from-blue-200 group-hover:to-blue-300 dark:group-hover:from-blue-800/40 dark:group-hover:to-blue-900/40"
+                                    } transition-all duration-300`}
+                                    whileHover={
+                                      !images.some(
+                                        (media) => media.type !== "video",
+                                      )
+                                        ? { scale: 1.1 }
+                                        : {}
+                                    }
                                   >
                                     <Video className="md:size-8 size-6 text-blue-700 dark:text-blue-200" />
                                   </motion.div>
@@ -598,16 +628,27 @@ export function PostGenerator() {
                                   Share clips, animation or reel
                                 </p>
                                 <Button
-                                  className={`mt-2 rounded-lg ${images.some((media) => media.type !== "video") ? "opacity-50 cursor-not-allowed" : ""
-                                    }`}
+                                  className={`mt-2 rounded-lg ${
+                                    images.some(
+                                      (media) => media.type !== "video",
+                                    )
+                                      ? "opacity-50 cursor-not-allowed"
+                                      : ""
+                                  }`}
                                   variant="outline"
                                   onClick={(e) => {
                                     e.preventDefault();
-                                    if (!images.some((media) => media.type !== "video")) {
+                                    if (
+                                      !images.some(
+                                        (media) => media.type !== "video",
+                                      )
+                                    ) {
                                       handleButtonClick();
                                     }
                                   }}
-                                  disabled={images.some((media) => media.type !== "video")}
+                                  disabled={images.some(
+                                    (media) => media.type !== "video",
+                                  )}
                                 >
                                   <Plus />
                                   Add Video
@@ -621,7 +662,9 @@ export function PostGenerator() {
                                   multiple={false}
                                   disabled={
                                     images.length > 0 &&
-                                    images.some((media) => media.type !== "video")
+                                    images.some(
+                                      (media) => media.type !== "video",
+                                    )
                                   }
                                 />
                               </motion.div>
@@ -710,18 +753,44 @@ export function PostGenerator() {
                                 className="w-64"
                               >
                                 {[
-                                  { label: "Files", data: optionData.files, icon: File },
-                                  { label: "Images", data: optionData.images, icon: Image },
-                                  { label: "Tweets", data: optionData.tweets, icon: Twitter },
-                                  { label: "Text", data: optionData.text_node, icon: PencilRuler },
-                                  { label: "Websites", data: optionData.websites, icon: Globe2 },
-                                  { label: "YouTube", data: optionData.youtube, icon: Youtube },
+                                  {
+                                    label: "Files",
+                                    data: optionData.files,
+                                    icon: File,
+                                  },
+                                  {
+                                    label: "Images",
+                                    data: optionData.images,
+                                    icon: Image,
+                                  },
+                                  {
+                                    label: "Tweets",
+                                    data: optionData.tweets,
+                                    icon: Twitter,
+                                  },
+                                  {
+                                    label: "Text",
+                                    data: optionData.text_node,
+                                    icon: PencilRuler,
+                                  },
+                                  {
+                                    label: "Websites",
+                                    data: optionData.websites,
+                                    icon: Globe2,
+                                  },
+                                  {
+                                    label: "YouTube",
+                                    data: optionData.youtube,
+                                    icon: Youtube,
+                                  },
                                 ].every(({ data }) => !data?.length) ? (
-                                  <DropdownMenuItem disabled className="text-gray-800">
+                                  <DropdownMenuItem
+                                    disabled
+                                    className="text-gray-800"
+                                  >
                                     No data uploaded
                                   </DropdownMenuItem>
                                 ) : (
-
                                   <>
                                     {[
                                       {
@@ -756,7 +825,9 @@ export function PostGenerator() {
                                       },
                                     ].map(({ label, icon: Icon, data }) => {
                                       // Only render if there's data
-                                      if (!data?.length) return null;
+                                      if (!data?.length) {
+                                        return null;
+                                      }
 
                                       // Create unique state for each submenu's search
                                       const searchId = `search-${label.toLowerCase()}`;
@@ -777,7 +848,7 @@ export function PostGenerator() {
                                                   onChange={(e) => {
                                                     const searchContainer =
                                                       e.currentTarget.closest(
-                                                        ".max-h-80"
+                                                        ".max-h-80",
                                                       );
                                                     const searchTerm =
                                                       e.target.value.toLowerCase();
@@ -785,21 +856,23 @@ export function PostGenerator() {
                                                     // Store search term in a data attribute on the element
                                                     searchContainer?.setAttribute(
                                                       searchId,
-                                                      searchTerm
+                                                      searchTerm,
                                                     );
 
                                                     // Filter items
                                                     let visibleCount = 0;
                                                     searchContainer
                                                       ?.querySelectorAll(
-                                                        ".dropdown-item"
+                                                        ".dropdown-item",
                                                       )
                                                       .forEach((item) => {
                                                         const text =
                                                           item.textContent?.toLowerCase() ||
                                                           "";
                                                         if (
-                                                          text.includes(searchTerm)
+                                                          text.includes(
+                                                            searchTerm,
+                                                          )
                                                         ) {
                                                           (
                                                             item as HTMLElement
@@ -808,14 +881,15 @@ export function PostGenerator() {
                                                         } else {
                                                           (
                                                             item as HTMLElement
-                                                          ).style.display = "none";
+                                                          ).style.display =
+                                                            "none";
                                                         }
                                                       });
 
                                                     // Handle empty state display
                                                     const emptyMessage =
                                                       searchContainer?.querySelector(
-                                                        ".empty-message"
+                                                        ".empty-message",
                                                       );
                                                     if (emptyMessage) {
                                                       if (
@@ -824,11 +898,13 @@ export function PostGenerator() {
                                                       ) {
                                                         (
                                                           emptyMessage as HTMLElement
-                                                        ).style.display = "flex";
+                                                        ).style.display =
+                                                          "flex";
                                                       } else {
                                                         (
                                                           emptyMessage as HTMLElement
-                                                        ).style.display = "none";
+                                                        ).style.display =
+                                                          "none";
                                                       }
                                                     }
                                                   }}
@@ -853,7 +929,7 @@ export function PostGenerator() {
                                                       url?: string;
                                                       tweet?: string;
                                                     },
-                                                    index: number
+                                                    index: number,
                                                   ) => {
                                                     const displayText =
                                                       item.name ||
@@ -861,12 +937,15 @@ export function PostGenerator() {
                                                       item.tweet ||
                                                       "Untitled";
                                                     const itemId =
-                                                      item.id || index.toString();
+                                                      item.id ||
+                                                      index.toString();
 
                                                     return (
                                                       <DropdownMenuItem
                                                         key={itemId}
-                                                        onSelect={(e: Event) => {
+                                                        onSelect={(
+                                                          e: Event,
+                                                        ) => {
                                                           e.preventDefault();
                                                           toggleSelect({
                                                             id: itemId,
@@ -880,11 +959,14 @@ export function PostGenerator() {
                                                           {displayText}
                                                         </span>
                                                         {selectedItems.some(
-                                                          (i) => i.id === itemId
-                                                        ) && <Check size={16} />}
+                                                          (i) =>
+                                                            i.id === itemId,
+                                                        ) && (
+                                                          <Check size={16} />
+                                                        )}
                                                       </DropdownMenuItem>
                                                     );
-                                                  }
+                                                  },
                                                 )}
                                               </div>
                                             </DropdownMenuSubContent>
@@ -910,7 +992,11 @@ export function PostGenerator() {
                                     disabled={improvePending}
                                     onClick={handleImproveQuery}
                                   >
-                                    {improvePending ? <Loader className="text-blue-900 animate-spin" /> : <WandSparkles className="text-blue-600" />}
+                                    {improvePending ? (
+                                      <Loader className="text-blue-900 animate-spin" />
+                                    ) : (
+                                      <WandSparkles className="text-blue-600" />
+                                    )}
                                   </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>
@@ -962,11 +1048,7 @@ export function PostGenerator() {
                             </Tooltip>
                           </TooltipProvider>
                         </div>
-
                       </div>
-
-
-
                     </div>
 
                     {selectedItems.length > 0 && (
@@ -1064,10 +1146,11 @@ export function PostGenerator() {
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
-                        className={`h-2 rounded-full transition-all ${index === currentSlide
-                          ? " bg-black dark:bg-blue-700 w-4"
-                          : " bg-black dark:bg-blue-700 bg-opacity-50 w-2"
-                          }`}
+                        className={`h-2 rounded-full transition-all ${
+                          index === currentSlide
+                            ? " bg-black dark:bg-blue-700 w-4"
+                            : " bg-black dark:bg-blue-700 bg-opacity-50 w-2"
+                        }`}
                       />
                     ))}
                   </div>
@@ -1117,10 +1200,11 @@ export function PostGenerator() {
                     </Link>
                   </div>
                 ) : (
-                  <p className="text-gray-800 dark:text-gray-200">Schedule post</p>
+                  <p className="text-gray-800 dark:text-gray-200">
+                    Schedule post
+                  </p>
                 )}
               </TooltipContent>
-
             </Tooltip>
           </TooltipProvider>
         </div>
@@ -1142,7 +1226,7 @@ export function PostGenerator() {
                         variant={"outline"}
                         className={cn(
                           " justify-start text-left font-normal w-full mt-1",
-                          !date && "text-muted-foreground"
+                          !date && "text-muted-foreground",
                         )}
                       >
                         <CalendarIcon />
@@ -1217,13 +1301,15 @@ export function PostGenerator() {
           </DialogContent>
         </Dialog>
       </aside>
-      <Dialog open={openPost} onOpenChange={setOpenPost}  >
+      <Dialog open={openPost} onOpenChange={setOpenPost}>
         <DialogTrigger className="hidden">Open</DialogTrigger>
-        <DialogContent onInteractOutside={(e) => {
-          e.preventDefault();
-        }}
+        <DialogContent
+          onInteractOutside={(e) => {
+            e.preventDefault();
+          }}
           onEscapeKeyDown={(e) => e.preventDefault()}
-          className="[&>button]:hidden"   >
+          className="[&>button]:hidden"
+        >
           <DialogHeader>
             <DialogTitle>Publish Your Post</DialogTitle>
             <p>Choose who can view this post before publishing.</p>
@@ -1232,10 +1318,11 @@ export function PostGenerator() {
                 <div className="flex flex-col items-start gap-1">
                   <div className="flex  items-center space-x-2 font-bold">
                     <Lock className="size-5" /> <span>Connection Only </span>
-
                   </div>
                   <span className="text-muted-foreground">
-                    {connectionOnly ? "Only your connections will be able to view this post." : "Everyone will be able to view this post."}
+                    {connectionOnly
+                      ? "Only your connections will be able to view this post."
+                      : "Everyone will be able to view this post."}
                   </span>
                 </div>
 
@@ -1247,10 +1334,19 @@ export function PostGenerator() {
               </div>
             </DialogDescription>
             <div className="flex items-center justify-end gap-2">
-              <Button className="flex items-center dark:text-white bg-white" variant={"outline"} onClick={() => setOpenPost(false)} disabled={publishing}>
+              <Button
+                className="flex items-center dark:text-white bg-white"
+                variant={"outline"}
+                onClick={() => setOpenPost(false)}
+                disabled={publishing}
+              >
                 <span className="text-black ">Close </span>
               </Button>
-              <Button className="flex items-center" onClick={handlePost} disabled={publishing}>
+              <Button
+                className="flex items-center"
+                onClick={handlePost}
+                disabled={publishing}
+              >
                 <Send className="text-white" />{" "}
                 <span className="text-white">Publish </span>
               </Button>
@@ -1325,10 +1421,11 @@ export function PostGenerator() {
                           <button
                             key={index}
                             onClick={() => setCurrentSlide(index)}
-                            className={`h-2 rounded-full transition-all ${index === currentSlide
-                              ? " bg-black dark:bg-blue-700 w-4"
-                              : " bg-black dark:bg-blue-700 bg-opacity-50 w-2"
-                              }`}
+                            className={`h-2 rounded-full transition-all ${
+                              index === currentSlide
+                                ? " bg-black dark:bg-blue-700 w-4"
+                                : " bg-black dark:bg-blue-700 bg-opacity-50 w-2"
+                            }`}
                           />
                         ))}
                       </div>
@@ -1389,7 +1486,7 @@ export function PostGenerator() {
                             variant={"outline"}
                             className={cn(
                               " justify-start text-left font-normal w-full mt-1",
-                              !date && "text-muted-foreground"
+                              !date && "text-muted-foreground",
                             )}
                           >
                             <CalendarIcon />

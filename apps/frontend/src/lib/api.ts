@@ -11,13 +11,16 @@ import {
 
 export const getProfileData = async (accessToken: string) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get-profile`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/get-profile`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -32,11 +35,14 @@ export const getProfileData = async (accessToken: string) => {
 
 export const connectToLinkedin = async (accessToken: string) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/linkedin/get-credentials`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/linkedin/get-credentials`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       },
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -51,17 +57,20 @@ export const connectToLinkedin = async (accessToken: string) => {
 
 export const updateProfile = async (
   accessToken: string,
-  details: ProfileDetails
+  details: ProfileDetails,
 ) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/update-user`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/update-user`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(details),
       },
-      body: JSON.stringify(details),
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -76,17 +85,20 @@ export const updateProfile = async (
 
 export const linkedinPost = async (
   accessToken: string,
-  details: PostDetail
+  details: PostDetail,
 ) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/generate-post`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/generate-post`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(details),
       },
-      body: JSON.stringify(details),
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -101,17 +113,20 @@ export const linkedinPost = async (
 
 export const regeneratePost = async (
   accessToken: string,
-  details: RegeneratePostContent
+  details: RegeneratePostContent,
 ) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/regenerate-post`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/regenerate-post`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(details),
       },
-      body: JSON.stringify(details),
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -126,14 +141,17 @@ export const regeneratePost = async (
 
 export const improvePost = async (accessToken: string, query: string) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/improve-post`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/improve-post`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ query }),
       },
-      body: JSON.stringify({ query }),
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -148,17 +166,20 @@ export const improvePost = async (accessToken: string, query: string) => {
 
 export const fetchTweet = async (
   accessToken: string,
-  content: TweetContent
+  content: TweetContent,
 ) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/fetch-tweet`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/fetch-tweet`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(content),
       },
-      body: JSON.stringify(content),
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -173,17 +194,20 @@ export const fetchTweet = async (
 
 export const addTextNode = async (
   accessToken: string,
-  details: AddNodeContent
+  details: AddNodeContent,
 ) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/add-text-node`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/add-text-node`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(details),
       },
-      body: JSON.stringify(details),
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -198,14 +222,17 @@ export const addTextNode = async (
 
 export const fetchWebsite = async (accessToken: string, url: string) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/fetch-url`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/fetch-url`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ url }),
       },
-      body: JSON.stringify({ url }),
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -220,17 +247,20 @@ export const fetchWebsite = async (accessToken: string, url: string) => {
 
 export const addRemoteImage = async (
   accessToken: string,
-  images: RemoteFileUploadDetail
+  images: RemoteFileUploadDetail,
 ) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/add-remote-image`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/add-remote-image`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(images),
       },
-      body: JSON.stringify(images),
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -245,17 +275,20 @@ export const addRemoteImage = async (
 
 export const addRemoteFile = async (
   accessToken: string,
-  files: RemoteFileUploadDetail
+  files: RemoteFileUploadDetail,
 ) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/add-remote-file`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/add-remote-file`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(files),
       },
-      body: JSON.stringify(files),
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -270,17 +303,20 @@ export const addRemoteFile = async (
 
 export const addLocalImage = async (
   accessToken: string,
-  images: LocalFileUploadDetail
+  images: LocalFileUploadDetail,
 ) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/add-local-image`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/add-local-image`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(images),
       },
-      body: JSON.stringify(images),
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -295,17 +331,20 @@ export const addLocalImage = async (
 
 export const addLocalFile = async (
   accessToken: string,
-  files: LocalFileUploadDetail
+  files: LocalFileUploadDetail,
 ) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/add-local-file`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/add-local-file`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(files),
       },
-      body: JSON.stringify(files),
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -320,13 +359,16 @@ export const addLocalFile = async (
 
 export const fetchUserSources = async (accessToken: string) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get-user`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/get-user`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
       },
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -341,17 +383,20 @@ export const fetchUserSources = async (accessToken: string) => {
 
 export const postToLinkedin = async (
   accessToken: string,
-  content: PostContent
+  content: PostContent,
 ) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/linkedin/post`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/linkedin/post`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(content),
       },
-      body: JSON.stringify(content),
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -366,13 +411,16 @@ export const postToLinkedin = async (
 
 export const getLinkedinData = async (accessToken: string) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get-linekdin-credentials`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/get-linekdin-credentials`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -387,13 +435,16 @@ export const getLinkedinData = async (accessToken: string) => {
 
 export const deleteLinkedinAccount = async (accessToken: string) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/delete-account`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/delete-account`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -408,13 +459,16 @@ export const deleteLinkedinAccount = async (accessToken: string) => {
 
 export const getPostData = async (accessToken: string) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get-posts`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/get-posts`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);

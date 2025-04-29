@@ -1,11 +1,9 @@
-import { Navigation } from "./navigation"
-import Profile from "./profile"
-import Toggle from "./toggle"
-import { Wrapper } from "./wrapper"
-
+import { Navigation } from "./navigation";
+import Profile from "./profile";
+import Toggle from "./toggle";
+import { Wrapper } from "./wrapper";
 
 const Sidebar = () => {
-
   return (
     <Wrapper>
       <div className="flex flex-col justify-between  h-full">
@@ -15,11 +13,8 @@ const Sidebar = () => {
         </div>
         <Profile />
       </div>
-
-
-
     </Wrapper>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

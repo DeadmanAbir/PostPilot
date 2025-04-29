@@ -1,6 +1,7 @@
+import { createFileRoute, redirect } from "@tanstack/react-router";
+
 import { supabase } from "@/lib/supabaseClient";
 import OnboardPage from "@/pages/onboard/onboardingPage";
-import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/onboard")({
   beforeLoad: async ({ location }) => {

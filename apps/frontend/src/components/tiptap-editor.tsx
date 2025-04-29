@@ -1,6 +1,5 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-
 import {
   Bold,
   Italic,
@@ -12,6 +11,7 @@ import {
   Undo,
   Redo,
 } from "lucide-react";
+
 import { Button } from "./ui/button";
 
 interface EditorProps {
@@ -19,7 +19,7 @@ interface EditorProps {
   onChange: (value: string) => void;
   placeholder?: string;
 }
-import { Editor  as Tip} from "@tiptap/react";
+import { Editor as Tip } from "@tiptap/react";
 
 const MenuBar = ({ editor }: { editor: Tip | null }) => {
   if (!editor) {
@@ -119,7 +119,6 @@ const MenuBar = ({ editor }: { editor: Tip | null }) => {
         <Redo className="size-6" />
       </Button>
     </div>
-
   );
 };
 

@@ -1,14 +1,17 @@
 import type React from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+
+import { ReadingIllustration } from "./reading-illustration";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 // import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
 // import { Separator } from "@/components/ui/separator";
-import { Eye, EyeOff } from "lucide-react";
-import { ReadingIllustration } from "./reading-illustration";
+
 import { supabase } from "@/lib/supabaseClient";
 
 interface SignUpProps {
@@ -53,7 +56,7 @@ export function SignUp({ onToggle }: SignUpProps) {
         return;
       }
 
-       await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/onboard-user`, {
+      await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/onboard-user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -266,28 +269,24 @@ export function SignUp({ onToggle }: SignUpProps) {
             </div> */}
 
             <div>
-              <Button
-                type="submit"
-                className="w-full text-white"
-              >
+              <Button type="submit" className="w-full text-white">
                 Create Account
               </Button>
             </div>
           </form>
 
           <div className="text-center text-black">
-  <p className="text-sm">
-    Already have an account?{' '}
-    <Button
-      variant="link"
-      onClick={onToggle}
-      className="text-sm text-primary inline p-0 m-0"
-    >
-      Login
-    </Button>
-  </p>
-</div>
-
+            <p className="text-sm">
+              Already have an account?{" "}
+              <Button
+                variant="link"
+                onClick={onToggle}
+                className="text-sm text-primary inline p-0 m-0"
+              >
+                Login
+              </Button>
+            </p>
+          </div>
         </div>
       </div>
 

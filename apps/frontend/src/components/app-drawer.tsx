@@ -1,3 +1,13 @@
+import { useState } from "react";
+import { Menu, Moon, Sun, Plus } from "lucide-react";
+import { Link, useLocation } from "@tanstack/react-router";
+import { motion } from "motion/react";
+
+import { groupedItems } from "./app-sidebar";
+import { Button, buttonVariants } from "./ui/button";
+import { NavUser } from "./nav-user";
+
+import { useTheme } from "@/providers/theme-provider";
 import {
   Drawer,
   DrawerContent,
@@ -5,20 +15,6 @@ import {
   DrawerHeader,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Button, buttonVariants } from "./ui/button";
-import { useState } from "react";
-import {
-  Menu,
-
-  Moon,
-  Sun,
-  Plus,
-} from "lucide-react";
-import { Link, useLocation } from "@tanstack/react-router";
-import { groupedItems } from "./app-sidebar";
-import { motion } from "motion/react";
-import { useTheme } from "@/providers/theme-provider";
-import { NavUser } from "./nav-user";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 
 const AppDrawer = () => {
@@ -51,7 +47,7 @@ const AppDrawer = () => {
               Post Pilot
             </motion.div>
           </DrawerHeader>
-          
+
           <div className="flex-1 overflow-y-auto">
             <div className="p-4">
               <Link
@@ -61,10 +57,10 @@ const AppDrawer = () => {
                 })}
                 onClick={() => setOpen(false)}
               >
-         <Plus/> <span>Create Post  </span>  
-         </Link>
+                <Plus /> <span>Create Post </span>
+              </Link>
             </div>
-            
+
             <div className="px-4 flex flex-col space-y-6">
               {groupedItems.map((section) => (
                 <div key={section.label}>
@@ -80,7 +76,8 @@ const AppDrawer = () => {
                           to={item.url}
                           className={buttonVariants({
                             variant: isActive ? "drawer" : "ghost",
-                            className: "w-full  flex items-center justify-start gap-2  text-left",
+                            className:
+                              "w-full  flex items-center justify-start gap-2  text-left",
                           })}
                           onClick={() => setOpen(false)}
                         >
@@ -93,10 +90,13 @@ const AppDrawer = () => {
                     })}
                     {section.label === "Configuration" && (
                       <button
-                        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                        onClick={() =>
+                          setTheme(theme === "dark" ? "light" : "dark")
+                        }
                         className={buttonVariants({
                           variant: "ghost",
-                          className: "w-full justify-start gap-2 text-left flex ",
+                          className:
+                            "w-full justify-start gap-2 text-left flex ",
                         })}
                       >
                         <div className="flex items-center gap-2  w-full">
@@ -105,7 +105,7 @@ const AppDrawer = () => {
                           ) : (
                             <Moon className="size-4 transition-all" />
                           )}
-                        {theme}
+                          {theme}
                         </div>
                       </button>
                     )}
@@ -114,7 +114,7 @@ const AppDrawer = () => {
               ))}
             </div>
           </div>
-          
+
           <DrawerFooter className="border-t p-4">
             <NavUser user={data.user} />
           </DrawerFooter>

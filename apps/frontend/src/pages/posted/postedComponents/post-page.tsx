@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { Filter, FileText, Calendar, Eye } from "lucide-react";
+
+import EmptyStateCard from "./empty-post-card";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -10,13 +13,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-import { Filter, FileText, Calendar, Eye } from "lucide-react";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { getPostQuery } from "@/lib/tanstack-query/query";
 import PostedLoading from "@/components/skeletons/posted-skeleton";
 import Banner from "@/components/banner";
-import EmptyStateCard from "./empty-post-card";
 
 export function PostsPage() {
   const { user } = useAuth();
@@ -27,13 +27,18 @@ export function PostsPage() {
   const { data: postsData, isPending } = getPostQuery(user?.accessToken!);
 
   // Sort data based on sortOrder
-  const sortedData = postsData ? [...postsData].sort((a, b) => {
-    if (sortOrder === "newest") {
-      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-    } else {
-      return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
-    }
-  }) : [];
+  const sortedData = postsData
+    ? [...postsData].sort((a, b) => {
+        if (sortOrder === "newest") {
+          return (
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          );
+        }
+        return (
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+        );
+      })
+    : [];
 
   const formatDate = (date: string) => {
     const dateObject: Date = new Date(date);
@@ -121,7 +126,7 @@ export function PostsPage() {
                   media: string[];
                   created_at: string;
                 },
-                index: number
+                index: number,
               ) => {
                 return (
                   <Card
@@ -174,7 +179,7 @@ export function PostsPage() {
                     </CardFooter>
                   </Card>
                 );
-              }
+              },
             )}
           </div>
         </>

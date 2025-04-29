@@ -1,12 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 // import { Plus } from "lucide-react";
 
-export function CreateSourceCard({
-  value,
-
-}: {
-  value: string;
-}) {
+export function CreateSourceCard({ value }: { value: string }) {
   // const navigate = useNavigate();
   return (
     <Card
@@ -39,7 +34,9 @@ export function CreateSourceCard({
         <CardTitle className="text-lg font-semibold text-blue-700 dark:text-blue-200 drop-shadow-sm">
           No Resource Found
         </CardTitle>
-        <p className="mt-4 text-base font-medium text-blue-600 dark:text-blue-300">Add {value}</p>
+        <p className="mt-4 text-base font-medium text-blue-600 dark:text-blue-300">
+          Add {value}
+        </p>
       </CardContent>
     </Card>
   );

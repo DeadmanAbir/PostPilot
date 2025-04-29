@@ -1,14 +1,15 @@
 import type React from "react";
-
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { Eye, EyeOff } from "lucide-react";
+
+import { ReadingIllustration } from "./reading-illustration";
+
 import { Button } from "@/components/ui/button";
 // import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 // import { Checkbox } from "@/components/ui/checkbox";
-import { ReadingIllustration } from "./reading-illustration";
 import { supabase } from "@/lib/supabaseClient";
 
 interface SignInProps {
@@ -36,7 +37,7 @@ export function SignIn({ onToggle }: SignInProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const {  error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email: formData.email,
       password: formData.password,
     });
@@ -202,27 +203,24 @@ export function SignIn({ onToggle }: SignInProps) {
             </div> */}
 
             <div>
-              <Button
-                type="submit"
-                className="w-full text-white"              >
+              <Button type="submit" className="w-full text-white">
                 Sign In
               </Button>
             </div>
           </form>
 
           <div className="text-center text-black">
-  <p className="text-sm">
-    Don't have an account?{' '}
-    <Button
-      variant="link"
-      onClick={onToggle}
-      className="text-sm text-primary inline p-0 m-0"
-    >
-      Create a new account
-    </Button>
-  </p>
-</div>
-
+            <p className="text-sm">
+              Don't have an account?{" "}
+              <Button
+                variant="link"
+                onClick={onToggle}
+                className="text-sm text-primary inline p-0 m-0"
+              >
+                Create a new account
+              </Button>
+            </p>
+          </div>
         </div>
       </div>
 

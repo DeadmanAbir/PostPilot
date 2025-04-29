@@ -1,11 +1,12 @@
 "use client";
 
 import { LucideIcon } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+
+import { collapseSidebar, useAppDispatch } from "../../../store/index";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Link } from "@tanstack/react-router";
-import { collapseSidebar, useAppDispatch } from "../../../store/index";
 
 interface NavItemProps {
   icon: LucideIcon;

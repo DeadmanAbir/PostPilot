@@ -8,6 +8,8 @@ import {
   RemoteFileUploadDetail,
   TweetContent,
 } from "@repo/common/types";
+import { useMutation } from "@tanstack/react-query";
+
 import {
   addLocalFile,
   addLocalImage,
@@ -23,7 +25,6 @@ import {
   regeneratePost,
   updateProfile,
 } from "../api";
-import { useMutation } from "@tanstack/react-query";
 
 export const generatePostFn = (accessToken: string, options = {}) => {
   return useMutation({

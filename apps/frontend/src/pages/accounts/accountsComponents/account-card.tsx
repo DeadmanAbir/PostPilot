@@ -1,3 +1,8 @@
+import { MoreHorizontal, Trash2, ExternalLink, Linkedin } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,14 +23,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Trash2, ExternalLink, Linkedin } from "lucide-react";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { connectLinkedinQuery } from "@/lib/tanstack-query/query";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Link } from "@tanstack/react-router";
 import { deleteLinkedinAccountFn } from "@/lib/tanstack-query/mutation";
-import { useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
 
 interface AccountCardProps {
   profile_url?: string;
@@ -41,14 +42,14 @@ export function AccountCard({
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const { refetch: connectLinkedinRefetch } = connectLinkedinQuery(
-    user?.accessToken!
+    user?.accessToken!,
   );
 
   const { mutate: deleteAccount } = deleteLinkedinAccountFn(
     user?.accessToken!,
     {
       onSuccess: () => {
-        toast.success("account disconnected  successfully")
+        toast.success("account disconnected  successfully");
 
         queryClient.invalidateQueries({ queryKey: ["linkedin"] });
       },
@@ -56,7 +57,7 @@ export function AccountCard({
         console.log(error);
         toast.error("error in disconnecting account");
       },
-    }
+    },
   );
   const handleClick = async () => {
     try {

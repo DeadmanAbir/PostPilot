@@ -1,8 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 let interval: any;
 
@@ -71,67 +72,67 @@ export const CardStack = ({
           </motion.div>
         );
       })}
-   <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/3 flex items-center gap-2">
-  <Button 
-    variant="outline" 
-    size="icon" 
-    className="rounded-full " 
-    onClick={() => {
-      setCards((prevCards) => {
-        const newArray = [...prevCards];
-        // Move the last card to the front (backward navigation)
-        const lastCard = newArray.pop();
-        if (lastCard) {
-          newArray.unshift(lastCard);
-        }
-        return newArray;
-      });
-    }}
-  >
-    <ChevronLeft />
-  </Button>
-  
-  {/* Navigation dots */}
-  <div className="flex gap-1.5">
-    {cards.map((_, index) => (
-      <button
-        key={index}
-        className={`w-2 h-2 rounded-full ${index === 0 ? 'bg-gray-300' : 'bg-gray-300'}`}
-        onClick={() => {
-          setCards((prevCards:Card[]) => {
-            const newArray = [...prevCards];
-            while (index !== 0) {
+      <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/3 flex items-center gap-2">
+        <Button
+          variant="outline"
+          size="icon"
+          className="rounded-full "
+          onClick={() => {
+            setCards((prevCards) => {
+              const newArray = [...prevCards];
+              // Move the last card to the front (backward navigation)
+              const lastCard = newArray.pop();
+              if (lastCard) {
+                newArray.unshift(lastCard);
+              }
+              return newArray;
+            });
+          }}
+        >
+          <ChevronLeft />
+        </Button>
+
+        {/* Navigation dots */}
+        <div className="flex gap-1.5">
+          {cards.map((_, index) => (
+            <button
+              key={index}
+              className={`w-2 h-2 rounded-full ${index === 0 ? "bg-gray-300" : "bg-gray-300"}`}
+              onClick={() => {
+                setCards((prevCards: Card[]) => {
+                  const newArray = [...prevCards];
+                  while (index !== 0) {
+                    const firstCard = newArray.shift();
+                    if (firstCard) {
+                      newArray.push(firstCard);
+                    }
+                    index--;
+                  }
+                  return newArray;
+                });
+              }}
+            />
+          ))}
+        </div>
+
+        <Button
+          variant="outline"
+          size="icon"
+          className="rounded-full"
+          onClick={() => {
+            setCards((prevCards) => {
+              const newArray = [...prevCards];
               const firstCard = newArray.shift();
               if (firstCard) {
                 newArray.push(firstCard);
               }
-              index--;
-            }
-            return newArray;
-          });
-        }}
-      />
-    ))}
-  </div>
-  
-  <Button 
-    variant="outline" 
-    size="icon" 
-    className="rounded-full" 
-    onClick={() => {
-      setCards((prevCards) => {
-        const newArray = [...prevCards];
-        const firstCard = newArray.shift();
-        if (firstCard) {
-          newArray.push(firstCard);
-        }
-        return newArray;
-      });
-    }}
-  >
-    <ChevronRight />
-  </Button>
-</div>
+              return newArray;
+            });
+          }}
+        >
+          <ChevronRight />
+        </Button>
+      </div>
     </div>
   );
 };

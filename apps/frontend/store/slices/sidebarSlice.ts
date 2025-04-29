@@ -1,5 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { RootState } from '../store';
+import { createSlice } from "@reduxjs/toolkit";
+
+import type { RootState } from "../store";
 
 interface SidebarState {
   collapsed: boolean;
@@ -10,7 +11,7 @@ const initialState: SidebarState = {
 };
 
 export const sidebarSlice = createSlice({
-  name: 'sidebar',
+  name: "sidebar",
   initialState,
   reducers: {
     expand: (state) => {
@@ -26,5 +27,6 @@ export const sidebarSlice = createSlice({
 });
 
 export const { expand, collapse, toggle } = sidebarSlice.actions;
-export const selectSidebarCollapsed = (state: RootState) => state.sidebar.collapsed;
+export const selectSidebarCollapsed = (state: RootState) =>
+  state.sidebar.collapsed;
 export default sidebarSlice.reducer;

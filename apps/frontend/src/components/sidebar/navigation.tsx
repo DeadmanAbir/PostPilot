@@ -2,6 +2,7 @@
 
 import { useLocation } from "@tanstack/react-router";
 import { BarChart2, Calendar, Home } from "lucide-react";
+
 import { NavItem } from "./nav-items";
 
 export const Navigation = () => {

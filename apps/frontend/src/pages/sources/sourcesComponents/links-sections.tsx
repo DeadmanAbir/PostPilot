@@ -1,10 +1,3 @@
-import { FilesTab } from "@/pages/sources/sourcesComponents/content-tabs/files-tab";
-import { ImagesTab } from "@/pages/sources/sourcesComponents/content-tabs/images-tab";
-import { TextNoteTab } from "@/pages/sources/sourcesComponents/content-tabs/text-node-tab";
-import { TweetsTab } from "@/pages/sources/sourcesComponents/content-tabs/tweets-tab";
-import { WebsitesTab } from "@/pages/sources/sourcesComponents/content-tabs/websites-tab";
-import { YouTubeTab } from "@/pages/sources/sourcesComponents/content-tabs/youtube-tab";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   FileIcon,
   FileTextIcon,
@@ -13,7 +6,16 @@ import {
   TwitterIcon,
   YoutubeIcon,
 } from "lucide-react";
-import  { CardStack } from "./cards/stacking-cards";
+
+import { CardStack } from "./cards/stacking-cards";
+
+import { FilesTab } from "@/pages/sources/sourcesComponents/content-tabs/files-tab";
+import { ImagesTab } from "@/pages/sources/sourcesComponents/content-tabs/images-tab";
+import { TextNoteTab } from "@/pages/sources/sourcesComponents/content-tabs/text-node-tab";
+import { TweetsTab } from "@/pages/sources/sourcesComponents/content-tabs/tweets-tab";
+import { WebsitesTab } from "@/pages/sources/sourcesComponents/content-tabs/websites-tab";
+import { YouTubeTab } from "@/pages/sources/sourcesComponents/content-tabs/youtube-tab";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Highlight } from "@/utils/highlight";
 const LinkSection = () => {
   return (
@@ -60,13 +62,12 @@ const LinkSection = () => {
         <TabsContent value="notes" className="h-full">
           <TextNoteTab />
         </TabsContent>
-        <TabsContent value="websites"  className="h-full">
+        <TabsContent value="websites" className="h-full">
           <WebsitesTab />
         </TabsContent>
       </Tabs>
       <div className="flex items-center justify-center col-span-2 h-[400px] ">
-      <CardStack items={CARDS} />
-
+        <CardStack items={CARDS} />
       </div>
     </div>
   );

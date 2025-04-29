@@ -1,7 +1,9 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Settings, User } from "lucide-react";
-import { Button } from "../ui/button";
 import { Link } from "@tanstack/react-router";
+
+import { Button } from "../ui/button";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Profile = () => {
   return (

@@ -12,6 +12,11 @@ import {
   Plus,
 } from "lucide-react";
 import { motion } from "motion/react";
+import { Link, useLocation } from "@tanstack/react-router";
+
+import { NavUser } from "./nav-user";
+import { buttonVariants } from "./ui/button";
+
 import {
   Sidebar,
   SidebarContent,
@@ -24,11 +29,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { NavUser } from "./nav-user";
-import { Link, useLocation } from "@tanstack/react-router";
 import { useTheme } from "@/providers/theme-provider";
 import { useAuth } from "@/providers/supabaseAuthProvider";
-import { buttonVariants } from "./ui/button";
+
 export const groupedItems = [
   {
     label: "Create",
@@ -47,7 +50,9 @@ export const groupedItems = [
     items: [
       { title: "Profile", url: "/profile", icon: <User /> },
       {
-        title: "Integration", url: "/integration", icon: <SquareDashedMousePointer />
+        title: "Integration",
+        url: "/integration",
+        icon: <SquareDashedMousePointer />,
       },
     ],
   },
@@ -66,13 +71,15 @@ export function AppSidebar() {
     },
   };
 
-
-
   return (
-    <Sidebar variant="sidebar" collapsible="icon" className="p-2 bg-white dark:bg-blue-950/10">
+    <Sidebar
+      variant="sidebar"
+      collapsible="icon"
+      className="p-2 bg-white dark:bg-blue-950/10"
+    >
       <SidebarContent className="gap-0 ">
         <SidebarGroup>
-        <motion.div
+          <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
@@ -84,7 +91,6 @@ export function AppSidebar() {
               alt="Logo"
               className="size-20 absolute -top-4 -left-5"
             />
-
             Post Pilot
           </motion.div>
         </SidebarGroup>
@@ -95,7 +101,7 @@ export function AppSidebar() {
               className: "w-full dark:text-white flex items-center ",
             })}
           >
-            <Plus />  <span> Create Post </span>
+            <Plus /> <span> Create Post </span>
           </Link>
         </div>
         {groupedItems.map((group) => (
@@ -119,38 +125,33 @@ export function AppSidebar() {
                   );
                 })}
               </SidebarMenu>
-              {group.label === "Configuration" && <SidebarMenu className="mt-1">
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                    className="w-full"
-                  >
-                    <div className="flex items-center capitalize justify-start gap-1.5 w-full">
-                      {theme === "dark" ? (
-                        <Sun className="size-4 transition-all" />
-                      ) : (
-                        <Moon className="size-4 transition-all" />
-                      )}
-                      {open && theme}
-                      <span className="sr-only">Toggle theme</span>
-                    </div>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>}
-
+              {group.label === "Configuration" && (
+                <SidebarMenu className="mt-1">
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      onClick={() =>
+                        setTheme(theme === "dark" ? "light" : "dark")
+                      }
+                      className="w-full"
+                    >
+                      <div className="flex items-center capitalize justify-start gap-1.5 w-full">
+                        {theme === "dark" ? (
+                          <Sun className="size-4 transition-all" />
+                        ) : (
+                          <Moon className="size-4 transition-all" />
+                        )}
+                        {open && theme}
+                        <span className="sr-only">Toggle theme</span>
+                      </div>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              )}
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
         <SidebarGroup>
-
-          <SidebarGroupContent>
-
-
-
-
-            {/* Theme Toggle Button */}
-
-          </SidebarGroupContent>
+          <SidebarGroupContent>{/* Theme Toggle Button */}</SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
 

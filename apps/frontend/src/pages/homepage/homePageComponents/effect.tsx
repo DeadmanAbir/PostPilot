@@ -1,14 +1,14 @@
 import { motion } from "motion/react";
 
 const Effect = () => {
-
-
   return (
     <div className="absolute inset-0 mt-20  ">
-      
       <div className="flex">
         {[...Array(20)].map((_, i) => (
-          <div key={i} className="flex flex-col items-start justify-center w-60">
+          <div
+            key={i}
+            className="flex flex-col items-start justify-center w-60"
+          >
             <div className="flex items-center justify-center">
               <div className="h-6 w-6 bg-neutral-800 flex items-center justify-center rounded-full">
                 <div className="h-2 w-2 bg-neutral-600 rounded-full"></div>
@@ -63,7 +63,11 @@ const Effect = () => {
               xmlns="http://www.w3.org/2000/svg"
               className="text-neutral-700 ml-3"
             >
-              <motion.path d="M0.5 0.5V479" stroke="currentColor" strokeWidth="2" />
+              <motion.path
+                d="M0.5 0.5V479"
+                stroke="currentColor"
+                strokeWidth="2"
+              />
               <motion.path
                 d="M0.5 0.5V479"
                 stroke={`url(#gradient-vertical-${i})`}
@@ -97,9 +101,12 @@ const Effect = () => {
           </div>
         ))}
       </div>
-         <div className="flex">
+      <div className="flex">
         {[...Array(20)].map((_, i) => (
-          <div key={i} className="flex flex-col items-start justify-center w-60">
+          <div
+            key={i}
+            className="flex flex-col items-start justify-center w-60"
+          >
             <div className="flex items-center justify-center">
               <div className="h-6 w-6 bg-neutral-800 flex items-center justify-center rounded-full">
                 <div className="h-2 w-2 bg-neutral-600 rounded-full"></div>
@@ -154,7 +161,11 @@ const Effect = () => {
               xmlns="http://www.w3.org/2000/svg"
               className="text-neutral-700 ml-3"
             >
-              <motion.path d="M0.5 0.5V479" stroke="currentColor" strokeWidth="2" />
+              <motion.path
+                d="M0.5 0.5V479"
+                stroke="currentColor"
+                strokeWidth="2"
+              />
               <motion.path
                 d="M0.5 0.5V479"
                 stroke={`url(#gradient-vertical-${i})`}

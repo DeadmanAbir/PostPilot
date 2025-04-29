@@ -9,6 +9,15 @@ import {
   Settings,
   Calendar,
 } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
+import { ProfileUpdateResponse } from "@repo/common/types";
+import { nanoid } from "nanoid";
+import { toast } from "sonner";
+
+import { NoPostsCard } from "./profilePageComponents/empty-posts";
+import { ComingSoonCard } from "./profilePageComponents/coming-soon-schedule";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -40,23 +49,16 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Link } from "@tanstack/react-router";
 import { supabase } from "@/lib/supabaseClient";
-import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/providers/supabaseAuthProvider";
 import { Route } from "@/routes/_authenticated/_dashboard/profile";
 import { updateProfileFn } from "@/lib/tanstack-query/mutation";
-import { ProfileUpdateResponse } from "@repo/common/types";
-import { nanoid } from "nanoid";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { NoPostsCard } from "./profilePageComponents/empty-posts";
-import { ComingSoonCard } from "./profilePageComponents/coming-soon-schedule";
-import { toast } from "sonner";
 
 export function ProfilePage() {
   const data = Route.useLoaderData();
@@ -216,7 +218,7 @@ export function ProfilePage() {
                       media: string[];
                       post_content: string;
                     },
-                    index: number
+                    index: number,
                   ) => (
                     <Card key={index}>
                       <CardContent className="p-4">
@@ -227,7 +229,7 @@ export function ProfilePage() {
                                 {post.post_content}
                               </h3>
                               <p className="text-sm text-muted-foreground flex items-center gap-1">
-                                <Calendar className="h-4 w-4"/>
+                                <Calendar className="h-4 w-4" />
                                 {formatDate(post.created_at)}{" "}
                               </p>
                             </div>
@@ -243,7 +245,7 @@ export function ProfilePage() {
                         </div>
                       </CardContent>
                     </Card>
-                  )
+                  ),
                 )}
 
                 {!data?.post || data.post.length === 0 ? <NoPostsCard /> : null}

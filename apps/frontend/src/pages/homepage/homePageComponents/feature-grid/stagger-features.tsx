@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Brain, Sparkles, Workflow,} from "lucide-react";
+import { Brain, Sparkles, Workflow } from "lucide-react";
 
 const features = [
   {
@@ -22,7 +22,17 @@ const features = [
   },
 ];
 
-const FeatureCard = ({ icon: Icon, title, description, color }: { icon: React.ComponentType<{ size: number }>; title: string; description: string; color: string }) => {
+const FeatureCard = ({
+  icon: Icon,
+  title,
+  description,
+  color,
+}: {
+  icon: React.ComponentType<{ size: number }>;
+  title: string;
+  description: string;
+  color: string;
+}) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

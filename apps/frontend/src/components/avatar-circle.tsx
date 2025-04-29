@@ -19,7 +19,7 @@ export const AvatarCircles = ({
 }: AvatarCirclesProps) => {
   return (
     <div className={cn("z-10 flex space-x-1 rtl:space-x-reverse", className)}>
-      {avatarUrls.slice(0,4).map((url, index) => (
+      {avatarUrls.slice(0, 4).map((url, index) => (
         <a
           key={index}
           href={url.profileUrl}

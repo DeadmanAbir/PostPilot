@@ -1,6 +1,8 @@
-import { cn } from "@/lib/utils";
 import { useState } from "react";
+
 import { Button } from "./ui/button";
+
+import { cn } from "@/lib/utils";
 
 const items = [
   {
@@ -46,7 +48,7 @@ export function Nav() {
             "flex h-12 items-center text-sm font-medium transition-colors hover:text-primary",
             activeTab === item.title
               ? "border-b-2 border-primary text-primary"
-              : "text-muted-foreground"
+              : "text-muted-foreground",
           )}
         >
           {item.title}

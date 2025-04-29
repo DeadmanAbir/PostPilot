@@ -1,12 +1,10 @@
-import { AppSidebar } from '@/components/app-sidebar'
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 
-import { SidebarProvider } from '@/components/ui/sidebar'
-import { createFileRoute, Outlet } from '@tanstack/react-router'
+import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import AppDrawer from "@/components/app-drawer";
 
-import AppDrawer from '@/components/app-drawer'
-
-export const Route = createFileRoute('/_authenticated/_dashboard')({
-
+export const Route = createFileRoute("/_authenticated/_dashboard")({
   component: () => (
     <>
       {/* <div className="p-2 flex gap-2">
@@ -20,14 +18,11 @@ export const Route = createFileRoute('/_authenticated/_dashboard')({
       <hr /> */}
       <SidebarProvider>
         <AppSidebar />
-        <AppDrawer/>
-        <main className='w-full   max-w-[1440px] mx-auto euclid'>
+        <AppDrawer />
+        <main className="w-full   max-w-[1440px] mx-auto euclid">
           <Outlet />
         </main>
       </SidebarProvider>
-
-
     </>
   ),
-})
-
+});
