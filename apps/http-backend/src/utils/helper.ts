@@ -3,6 +3,7 @@ import { ChatOpenAI } from "./chatOpenAi";
 import { improveQueryPrompt } from "./constant";
 import "dotenv/config";
 import { supabase } from "./supabaseClient";
+import { PostContent } from "@repo/common/types";
 
 interface LinkedInCredentials {
   access_token: string;
@@ -10,7 +11,6 @@ interface LinkedInCredentials {
   expires_at?: string;
   profile_id: string;
 }
-import { PostContent } from "@repo/common/types";
 
 export const extractTweetId = (url: string): string | null => {
   const match = url.match(/status\/(\d+)/);
@@ -30,7 +30,7 @@ export const improvePrompt = async (prompt: string): Promise<string> => {
 
     return JSON.stringify(data);
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     throw new Error("Error in improving prompt");
   }
 };
