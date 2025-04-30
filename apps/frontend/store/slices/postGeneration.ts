@@ -14,16 +14,16 @@ export const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
-    setPostGenerated: (state, action) => {
+    setPostGenerated: (state, action): void => {
       state.postGenerated = action.payload;
     },
-    resetPostGenerated: (state) => {
+    resetPostGenerated: (state): void => {
       state.postGenerated = false;
     },
   },
 });
 
 export const { setPostGenerated, resetPostGenerated } = postSlice.actions;
-export const selectPostGenerated = (state: RootState) =>
+export const selectPostGenerated = (state: RootState): boolean =>
   state.post.postGenerated;
 export default postSlice.reducer;

@@ -1,6 +1,9 @@
 import { cn } from "@/lib/utils";
 
-export const Highlight = ({
+export const Highlight: React.FC<{
+  children: React.ReactNode;
+  className?: string;
+}> = ({
   children,
   className,
 }: {

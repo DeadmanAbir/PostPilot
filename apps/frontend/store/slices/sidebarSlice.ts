@@ -14,19 +14,19 @@ export const sidebarSlice = createSlice({
   name: "sidebar",
   initialState,
   reducers: {
-    expand: (state) => {
+    expand: (state): void => {
       state.collapsed = false;
     },
-    collapse: (state) => {
+    collapse: (state): void => {
       state.collapsed = true;
     },
-    toggle: (state) => {
+    toggle: (state): void => {
       state.collapsed = !state.collapsed;
     },
   },
 });
 
 export const { expand, collapse, toggle } = sidebarSlice.actions;
-export const selectSidebarCollapsed = (state: RootState) =>
+export const selectSidebarCollapsed = (state: RootState): boolean =>
   state.sidebar.collapsed;
 export default sidebarSlice.reducer;
