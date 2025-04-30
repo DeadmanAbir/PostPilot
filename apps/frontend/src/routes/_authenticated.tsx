@@ -1,4 +1,5 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { JSX } from "react";
 
 import { supabase } from "@/lib/supabaseClient";
 
@@ -20,7 +21,7 @@ export const Route = createFileRoute("/_authenticated")({
   component: LayoutComponent,
 });
 
-function LayoutComponent() {
+function LayoutComponent(): JSX.Element {
   return (
     <>
       <Outlet />

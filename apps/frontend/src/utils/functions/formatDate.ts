@@ -1,4 +1,6 @@
-export function formatDate(isoString: string) {
+export const formatDate: (isoString: string) => string = (
+  isoString: string,
+) => {
   const date = new Date(isoString);
   return date.toLocaleString("en-US", {
     year: "numeric",
@@ -8,4 +10,4 @@ export function formatDate(isoString: string) {
     minute: "2-digit",
     hour12: true,
   });
-}
+};

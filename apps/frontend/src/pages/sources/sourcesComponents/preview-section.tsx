@@ -14,7 +14,7 @@ import { SourcesSkeleton } from "@/components/skeletons/sources-skeleton";
 import { formatDate } from "@/utils/functions/formatDate";
 
 // Badge component for count
-const CountBadge = ({ count }: { count: number }) => (
+const CountBadge: React.FC<{ count: number }> = ({ count }) => (
   <span className="ml-2 inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200 min-w-[1.5em]">
     {count}
   </span>

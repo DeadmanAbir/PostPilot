@@ -13,7 +13,11 @@ const allowedTypes = new Set([
   "youtube",
 ]);
 
-export const groupItemsByType = ({
+export const groupItemsByType: ({
+  selectedItems,
+}: {
+  selectedItems: Item[];
+}) => Record<string, string[]> = ({
   selectedItems,
 }: {
   selectedItems: Item[];
