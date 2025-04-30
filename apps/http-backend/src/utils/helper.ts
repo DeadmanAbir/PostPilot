@@ -12,6 +12,7 @@ interface LinkedInCredentials {
   profile_id: string;
 }
 
+
 export const extractTweetId = (url: string): string | null => {
   const match = url.match(/status\/(\d+)/);
   return match?.[1] ?? null;
@@ -35,7 +36,7 @@ export const improvePrompt = async (prompt: string): Promise<string> => {
   }
 };
 
-export const createClient = (llm: "OpenAI" | "Gemini") => {
+export const createClient = (llm: "OpenAI" | "Gemini")  :  ChatOpenAI | ChatGemini=> {
   if (llm == "OpenAI") {
     const chatOpenAI = new ChatOpenAI({
       apiKey: process.env.OPENAI_API_KEY,
@@ -241,6 +242,7 @@ export const postToLinkedIn = async (
   try {
     const { text, shareUrl, title, visibility } = content;
     // Create post payload
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
     const postPayload: any = {
       author: `urn:li:person:${profileId}`,
       lifecycleState: "PUBLISHED",
@@ -306,7 +308,7 @@ export const processMedia = async (
   profileId: string,
   mediaUrl: string,
   mediaType: string
-) => {
+) : Promise<{ status: "READY"; media: string }> => {
   const registerResponse = await fetch(
     "https://api.linkedin.com/v2/assets?action=registerUpload",
     {
@@ -361,7 +363,10 @@ export const fetchMediaData = async (media: {
   files?: string[];
   images?: string[];
   websites?: string[];
-}) => {
+}) : Promise<{
+  link: string;
+  mimetype: string;
+}[]> => {
   const results: { link: string; mimetype: string }[] = [];
 
   for (const [key, ids] of Object.entries(media)) {
@@ -393,7 +398,7 @@ export const fetchMediaData = async (media: {
 export const fetchTextualData = async (data: {
   tweets?: string[];
   text_node?: string[];
-}) => {
+}) : Promise<string> => {
   let result = "";
   let sourceCount = 1;
 

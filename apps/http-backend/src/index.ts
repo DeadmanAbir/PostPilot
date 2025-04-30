@@ -33,5 +33,5 @@ app.use("/api", profileRouter);
 app.use("/api/linkedin", linkedinRouter);
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.info(`Server is running on port ${port}`);
 });

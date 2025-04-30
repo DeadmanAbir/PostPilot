@@ -23,7 +23,7 @@ import { AuthRequest } from "@/middlewares/authMiddleware";
 export const generatePost = async (
   request: AuthRequest,
   response: Response
-) => {
+) : Promise<void> => {
   try {
     const { query, media } = postGenerateValidator.parse(request.body);
 
@@ -64,7 +64,7 @@ export const generatePost = async (
 
     response.status(200).json({ insertedData });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
@@ -80,7 +80,7 @@ export const generatePost = async (
 export const regeneratePost = async (
   request: AuthRequest,
   response: Response
-) => {
+) : Promise<void> => {
   try {
     const { query, previousPost, media } = postRegenerateValidator.parse(
       request.body
@@ -112,7 +112,7 @@ export const regeneratePost = async (
 
     response.status(200).json({ updatedData });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
@@ -125,7 +125,7 @@ export const regeneratePost = async (
   }
 };
 
-export const improvePost = async (request: AuthRequest, response: Response) => {
+export const improvePost = async (request: AuthRequest, response: Response) : Promise<void>=> {
   try {
     const { query } = improvePostValidator.parse(request.body);
     const chatOpenai = createClient("OpenAI");
@@ -143,7 +143,7 @@ export const improvePost = async (request: AuthRequest, response: Response) => {
 
     response.status(200).json({ updatedData });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)

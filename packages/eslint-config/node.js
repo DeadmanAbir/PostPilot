@@ -36,11 +36,9 @@ export default [
       // Import plugin rules
       'import/first': 'error',
       'import/no-cycle': 'error',
-      'import/no-unresolved': ['error', { commonjs: true }],
       'import/no-extraneous-dependencies': ['error', { devDependencies: false }],
 
       // Node.js plugin rules
-      'node/no-missing-import': 'error',
       'node/no-missing-require': 'error',
       'node/no-deprecated-api': 'warn',
       'node/no-extraneous-import': 'error',

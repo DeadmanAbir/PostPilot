@@ -23,7 +23,7 @@ import { AuthRequest } from "@/middlewares/authMiddleware";
 export async function getLinkedinCredentials(
   request: AuthRequest,
   response: Response
-) {
+) : Promise<void>{
   try {
     const userId = request.userId;
     const state = `${crypto.randomBytes(16).toString('hex')}_${userId}`;
@@ -31,7 +31,7 @@ export async function getLinkedinCredentials(
 
     response.status(200).json({ authUrl });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
@@ -47,7 +47,7 @@ export async function getLinkedinCredentials(
 export async function handleLinkedinCallback(
   request: AuthRequest,
   response: Response
-) {
+) : Promise<void>{
   try {
     const { code, state,  error } = linkedinCallbackValidator.parse(request.query);
     if (error) {
@@ -75,7 +75,7 @@ export async function handleLinkedinCallback(
   
     response.redirect(process.env.REDIRECT_URL!);
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
@@ -91,7 +91,7 @@ export async function handleLinkedinCallback(
 export async function getLinkedinStatus(
   request: AuthRequest,
   response: Response
-) {
+) : Promise<void>{
   try {
     const { data, error } = await supabase
       .from("linkedin")
@@ -100,7 +100,7 @@ export async function getLinkedinStatus(
       .single();
 
     if (error) {
-      console.log(error);
+      console.error(error);
       throw createError(500, "Failed to fetch LinkedIn credentials");
     }
 
@@ -112,7 +112,7 @@ export async function getLinkedinStatus(
       linkedinId: data.linkedin_id,
     });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
@@ -125,7 +125,7 @@ export async function getLinkedinStatus(
   }
 }
 
-export async function postToLinkedin(request: AuthRequest, response: Response) {
+export async function postToLinkedin(request: AuthRequest, response: Response) : Promise<void>{
   try {
     const { text, shareUrl, title, visibility, images, video } =
       linkedinPostValidator.parse(request.body);
@@ -199,7 +199,7 @@ export async function postToLinkedin(request: AuthRequest, response: Response) {
       .select("post_url");
 
     if (error) {
-      console.log(error);
+      console.error(error);
       throw createError(500, "Failed to save linkedin post");
     }
 
@@ -209,7 +209,7 @@ export async function postToLinkedin(request: AuthRequest, response: Response) {
       post: data[0]?.post_url,
     });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)

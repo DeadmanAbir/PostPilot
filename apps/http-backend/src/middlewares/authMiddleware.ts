@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction, RequestHandler } from "express";
+import { Request, Response, NextFunction} from "express";
 import createError from "http-errors";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
@@ -23,7 +23,7 @@ export const authMiddleware = (
   req: AuthRequest,
   res: Response,
   next: NextFunction
-) => {
+) : void => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -64,7 +64,8 @@ export const authMiddleware = (
     next();
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {
-      return res.status(403).json({ error: "Unauthorized: Invalid token" });
+       res.status(403).json({ error: "Unauthorized: Invalid token" });
+       return
     }
 
     next(error);

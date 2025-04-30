@@ -170,6 +170,7 @@ export class ChatOpenAI {
     return content;
   }
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   private encodeImage = (imagePath: string) => {
     const imageBuffer = fs.readFileSync(imagePath);
     return `data:image/jpeg;base64,${imageBuffer.toString("base64")}`;

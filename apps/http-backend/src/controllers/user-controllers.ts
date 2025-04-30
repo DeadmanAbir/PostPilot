@@ -7,7 +7,7 @@ import { supabase } from "@/utils/supabaseClient";
 import { AuthRequest } from "@/middlewares/authMiddleware";
 import { profileUpdateValidator } from "@repo/common/validator";
 
-export async function getProfileData(request: AuthRequest, response: Response) {
+export async function getProfileData(request: AuthRequest, response: Response) : Promise<void>{
   try {
     const { data: users, error } = await supabase
       .from("users")
@@ -17,13 +17,13 @@ export async function getProfileData(request: AuthRequest, response: Response) {
       .eq("id", request.userId);
 
     if (error) {
-      console.log(error);
+      console.error(error);
       throw createError(500, `Failed to fetch user data: ${error}`);
     }
 
     response.status(200).json({ users });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
@@ -36,7 +36,7 @@ export async function getProfileData(request: AuthRequest, response: Response) {
   }
 }
 
-export async function addNewUserData(request: AuthRequest, response: Response) {
+export async function addNewUserData(request: AuthRequest, response: Response) : Promise<void>{
   try {
     const { data, error } = await supabase
       .from("users")
@@ -50,13 +50,13 @@ export async function addNewUserData(request: AuthRequest, response: Response) {
       .select();
 
     if (error) {
-      console.log(error);
+      console.error(error);
       throw createError(500, `Failed to insert user data: ${error.message}`);
     }
 
     response.status(200).json({ data });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
@@ -69,7 +69,7 @@ export async function addNewUserData(request: AuthRequest, response: Response) {
   }
 }
 
-export async function updateUserData(request: AuthRequest, response: Response) {
+export async function updateUserData(request: AuthRequest, response: Response): Promise<void> {
   try {
     const { name, profile_url } = profileUpdateValidator.parse(request.body);
     const updateFields: Record<string, string> = {};
@@ -107,7 +107,7 @@ export async function updateUserData(request: AuthRequest, response: Response) {
   }
 }
 
-export async function getUser(request: AuthRequest, response: Response) {
+export async function getUser(request: AuthRequest, response: Response): Promise<void> {
   try {
     const { data: users, error } = await supabase
       .from("users")
@@ -127,13 +127,13 @@ export async function getUser(request: AuthRequest, response: Response) {
       .eq("id", request.userId);
 
     if (error) {
-      console.log(error);
+      console.error(error);
       throw createError(500, `Failed to get user data: ${error.message}`);
     }
 
     response.status(200).json({ users });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
@@ -149,7 +149,7 @@ export async function getUser(request: AuthRequest, response: Response) {
 export async function getLinkedinData(
   request: AuthRequest,
   response: Response
-) {
+): Promise<void> {
   try {
     const { data: users, error } = await supabase
       .from("users")
@@ -157,13 +157,13 @@ export async function getLinkedinData(
       .eq("id", request.userId);
 
     if (error) {
-      console.log(error);
+      console.error(error);
       throw createError(500, `Failed to fetch user linkedin data: ${error}`);
     }
 
     response.status(200).json({ users });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
@@ -179,7 +179,7 @@ export async function getLinkedinData(
 export async function deleteLinkedinAccount(
   request: AuthRequest,
   response: Response
-) {
+) : Promise<void>{
   try {
     const { error } = await supabase
       .from("linkedin")
@@ -209,20 +209,20 @@ export async function deleteLinkedinAccount(
   }
 }
 
-export async function getPostData(request: AuthRequest, response: Response) {
+export async function getPostData(request: AuthRequest, response: Response): Promise<void> {
   try {
     const { data: posts, error } = await supabase
       .from("post")
       .select("post_url, media, post_content, created_at")
       .eq("user_id", request.userId);
     if (error) {
-      console.log(error);
+      console.error(error);
       throw createError(500, `Failed to get post data: ${error.message}`);
     }
 
     response.status(200).json({ posts });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)

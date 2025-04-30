@@ -19,7 +19,7 @@ import { AuthRequest } from "@/middlewares/authMiddleware";
 export async function fetchYoutubeVideoDetails(
   request: AuthRequest,
   response: Response
-) {
+) : Promise<void>{
   try {
     const body = youtubeValidator.parse(request.body);
 
@@ -44,7 +44,7 @@ export async function fetchYoutubeVideoDetails(
       video: items[0]?.captions,
     };
 
-    const { data, error } = await supabase.from("files").insert([
+    const {  error } = await supabase.from("files").insert([
       {
         user_id: getUserId(),
         tweet: JSON.stringify(videoData),
@@ -52,7 +52,7 @@ export async function fetchYoutubeVideoDetails(
     ]);
 
     if (error) {
-      console.log(error);
+      console.error(error);
       throw createError(
         500,
         `Failed to insert youtube video transcripts : ${error}`
@@ -61,7 +61,7 @@ export async function fetchYoutubeVideoDetails(
 
     response.status(200).json(videoData);
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
@@ -74,7 +74,7 @@ export async function fetchYoutubeVideoDetails(
   }
 }
 
-export const fetchTweets = async (request: AuthRequest, response: Response) => {
+export const fetchTweets = async (request: AuthRequest, response: Response) : Promise<void>=> {
   try {
     const { tweetUrl, title } = twitterValidator.parse(request.body);
     const tweetId = extractTweetId(tweetUrl);
@@ -107,19 +107,19 @@ export const fetchTweets = async (request: AuthRequest, response: Response) => {
       .select();
 
     if (error) {
-      console.log(error);
+      console.error(error);
       throw createError(500, `Failed to insert tweet data: ${error}`);
     }
 
     response.status(200).json({ success: true });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
         .json({ error: "Invalid request body", details: e.errors });
     } else if (e instanceof Error) {
-      console.log(e);
+      console.error(e);
       response.status(500).json({ error: e.message });
     } else {
       response.status(500).json({ error: "An unknown error occurred" });
@@ -130,7 +130,7 @@ export const fetchTweets = async (request: AuthRequest, response: Response) => {
 export async function fetchWebsiteUrl(
   request: AuthRequest,
   response: Response
-) {
+) : Promise<void>{
   try {
     const { url } = websiteUrlValidator.parse(request.body);
     const app = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
@@ -161,13 +161,13 @@ export async function fetchWebsiteUrl(
       .select();
 
     if (error) {
-      console.log(error);
+      console.error(error);
       throw createError(500, `Failed to insert website data`);
     }
 
     response.status(200).json({ success: true });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
@@ -183,7 +183,7 @@ export async function fetchWebsiteUrl(
 export async function saveLocalFileData(
   request: AuthRequest,
   response: Response
-) {
+) : Promise<void>{
   try {
     const paths = localFileUploadDetailsValidator.parse(request.body);
 
@@ -196,15 +196,15 @@ export async function saveLocalFileData(
       };
     });
 
-    const { data: fileData, error } = await supabase.from("files").insert(data);
+    const {  error } = await supabase.from("files").insert(data);
 
     if (error) {
-      console.log(error);
+      console.error(error);
       throw createError(500, `Failed to insert file data: ${error.message}`);
     }
     response.status(200).json({ success: true });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
@@ -220,7 +220,7 @@ export async function saveLocalFileData(
 export async function saveRemoteFileData(
   request: AuthRequest,
   response: Response
-) {
+) : Promise<void>{
   try {
     const data = remoteFileUploadDetailsValidator.parse(request.body);
 
@@ -235,12 +235,12 @@ export async function saveRemoteFileData(
     const { error } = await supabase.from("files").insert(imageData).select();
 
     if (error) {
-      console.log(error);
+      console.error(error);
       throw createError(500, `Failed to insert file data: ${error.message}`);
     }
     response.status(200).json({ success: true });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
@@ -256,7 +256,7 @@ export async function saveRemoteFileData(
 export async function saveTextNodeData(
   request: AuthRequest,
   response: Response
-) {
+): Promise<void> {
   try {
     const { name, description } = textNodeDataValidaor.parse(request.body);
     const userId = request.userId;
@@ -266,7 +266,7 @@ export async function saveTextNodeData(
       .select();
 
     if (error) {
-      console.log(error);
+      console.error(error);
       throw createError(
         500,
         `Failed to insert text node  data: ${error.message}`
@@ -274,7 +274,7 @@ export async function saveTextNodeData(
     }
     response.status(200).json({ success: true });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
@@ -290,7 +290,7 @@ export async function saveTextNodeData(
 export async function saveLocalImageData(
   request: AuthRequest,
   response: Response
-) {
+) : Promise<void>{
   try {
     const paths = localFileUploadDetailsValidator.parse(request.body);
 
@@ -306,12 +306,12 @@ export async function saveLocalImageData(
     const { error } = await supabase.from("images").insert(data);
 
     if (error) {
-      console.log(error);
+      console.error(error);
       throw createError(500, `Failed to insert image : ${error.message}`);
     }
     response.status(200).json({ sucess: true });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
@@ -327,7 +327,7 @@ export async function saveLocalImageData(
 export async function saveRemoteImageData(
   request: AuthRequest,
   response: Response
-) {
+) : Promise<void>{
   try {
     const data = remoteFileUploadDetailsValidator.parse(request.body);
 
@@ -342,7 +342,7 @@ export async function saveRemoteImageData(
     const { error } = await supabase.from("images").insert(imageData);
 
     if (error) {
-      console.log(error);
+      console.error(error);
       throw createError(
         500,
         `Failed to insert remote image data: ${error.message}`
@@ -350,7 +350,7 @@ export async function saveRemoteImageData(
     }
     response.status(200).json({ success: true });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
@@ -363,6 +363,10 @@ export async function saveRemoteImageData(
   }
 }
 
-export function getUsersAdmin(request: AuthRequest, response: Response) {
-  response.status(200).json("Sorry, cant find that");
-}
+export const getUsersAdmin = async (
+  request: AuthRequest,
+  response: Response
+): Promise<void> => {
+  response.status(200).json({ message: "Sorry, can't find that" });
+};
+

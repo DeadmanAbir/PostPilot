@@ -219,12 +219,12 @@ export class ChatGemini {
 
     return content;
   }
-
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   private async fileUpload(
     file:
       | Record<"path" | "mimetype", string>[]
       | Record<"link" | "mimetype", string>[]
-  ) {
+  )   {
     const fileUploads = file.some((f) => "path" in f)
       ? await Promise.all(
           (file as Record<"path" | "mimetype", string>[]).map((img) =>
