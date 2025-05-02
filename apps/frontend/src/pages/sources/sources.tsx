@@ -12,7 +12,7 @@ const Sources = () => {
   useEffect(() => {
     const container = containerRef.current;
     if (!container) {
-      return;
+      return () => {};
     }
 
     let isScrolling = false;

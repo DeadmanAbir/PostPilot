@@ -177,13 +177,15 @@ const MenuBar = ({ editor, onCopy, copied }: MenuBarProps) => {
           type="button"
           size="icon"
           onClick={onCopy}
-          className={
-            copied
-              ? "bg-green-200 dark:bg-green-800"
-              : editor.isActive("bold")
-                ? "bg-muted"
-                : ""
-          }
+          className={(() => {
+            if (copied) {
+              return "bg-green-200 dark:bg-green-800";
+            }
+            if (editor.isActive("bold")) {
+              return "bg-muted";
+            }
+            return "";
+          })()}
         >
           {copied ? (
             <Check className="h-4 w-4" />
@@ -251,6 +253,13 @@ export default function Editor({ value, onChange, disabled }: EditorProps) {
         className="h-[160px] overflow-auto bg-white dark:bg-blue-900/20 cursor-text"
         id="editor"
         onClick={() => editor?.commands.focus()}
+        tabIndex={0}
+        role="button"
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            editor?.commands.focus();
+          }
+        }}
       >
         <EditorContent editor={editor} />
       </div>

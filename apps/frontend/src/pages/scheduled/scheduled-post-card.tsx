@@ -82,6 +82,13 @@ export function ScheduledPostCard({
         <div
           className="flex items-center text-muted-foreground text-sm cursor-pointer hover:text-primary transition-colors"
           onClick={handleDateClick}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              handleDateClick(e as unknown as React.MouseEvent);
+            }
+          }}
         >
           <Clock className="h-4 w-4 mr-2" />
           <span>{formattedDate}</span>
