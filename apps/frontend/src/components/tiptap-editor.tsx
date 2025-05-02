@@ -11,6 +11,7 @@ import {
   Undo,
   Redo,
 } from "lucide-react";
+import { Editor as Tip } from "@tiptap/react";
 
 import { Button } from "./ui/button";
 
@@ -19,7 +20,6 @@ interface EditorProps {
   onChange: (value: string) => void;
   placeholder?: string;
 }
-import { Editor as Tip } from "@tiptap/react";
 
 const MenuBar = ({ editor }: { editor: Tip | null }) => {
   if (!editor) {

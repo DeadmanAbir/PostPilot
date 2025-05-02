@@ -371,8 +371,8 @@ export function PostGenerator() {
     post({
       text: processed,
       visibility: connectionOnly ? "CONNECTIONS" : "PUBLIC",
-      images: images[0]?.type == "image" ? media : undefined,
-      video: images[0]?.type == "video" ? media[0] : undefined,
+      images: images[0]?.type === "image" ? media : undefined,
+      video: images[0]?.type === "video" ? media[0] : undefined,
     });
   };
 

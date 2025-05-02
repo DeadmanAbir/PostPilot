@@ -79,6 +79,33 @@ export function AccountCard({
   const handleDelete = () => {
     deleteAccount();
   };
+
+  const renderAccountContent = () => {
+    if (isLoading) {
+      return <p className="text-slate-600 dark:text-gray-400">loading....</p>;
+    }
+    if (isExpired === false) {
+      return (
+        <Avatar className="size-14 border-4 border-background dark:border-gray-700">
+          <AvatarImage src={profile_url} alt={"pp"} />
+          <AvatarFallback className="dark:bg-gray-700 dark:text-gray-200">
+            {"Abir"}
+          </AvatarFallback>
+        </Avatar>
+      );
+    }
+    return (
+      <Button
+        variant="outline"
+        size="sm"
+        className="flex text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-700 dark:hover:text-blue-300 hover:border-blue-300 dark:hover:border-blue-800 font-medium shadow-sm transition-all duration-200"
+        onClick={handleClick}
+      >
+        Add Account
+      </Button>
+    );
+  };
+
   return (
     <Card className="overflow-hidden border border-slate-100 dark:border-blue-700 hover:shadow-md transition-all duration-200 dark:bg-blue-900/20 p-2">
       <CardContent className="px-2 md:px-6 py-4 flex items-center gap-4">
@@ -106,25 +133,7 @@ export function AccountCard({
         </div>
 
         <div className="flex items-center gap-2">
-          {isLoading ? (
-            <p className="text-slate-600 dark:text-gray-400">loading....</p>
-          ) : isExpired === false ? (
-            <Avatar className="size-14 border-4 border-background dark:border-gray-700">
-              <AvatarImage src={profile_url} alt={"pp"} />
-              <AvatarFallback className="dark:bg-gray-700 dark:text-gray-200">
-                {"Abir"}
-              </AvatarFallback>
-            </Avatar>
-          ) : (
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-700 dark:hover:text-blue-300 hover:border-blue-300 dark:hover:border-blue-800 font-medium shadow-sm transition-all duration-200"
-              onClick={handleClick}
-            >
-              Add Account
-            </Button>
-          )}
+          {renderAccountContent()}
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild disabled={isLoading}>
