@@ -1,8 +1,8 @@
-import { motion, useAnimate } from "motion/react";
-import { useState } from "react";
+import { motion, useAnimate } from 'motion/react';
+import { useState } from 'react';
 
-import { TextShimmer } from "@/components/generate-text";
-import { TextEffect } from "@/components/text-effect";
+import { TextShimmer } from '@/components/generate-text';
+import { TextEffect } from '@/components/text-effect';
 
 const ResponseEffect = () => {
   const [scope, animate] = useAnimate();
@@ -13,8 +13,8 @@ const ResponseEffect = () => {
   const [showGenerate, setShowGenerate] = useState(false);
 
   const runAnimation = async () => {
-    await animate(".enter-button", { scale: 0.9 }, { duration: 0.1 });
-    await animate(".enter-button", { scale: 1 }, { duration: 0.1 });
+    await animate('.enter-button', { scale: 0.9 }, { duration: 0.1 });
+    await animate('.enter-button', { scale: 1 }, { duration: 0.1 });
     setTimeout(() => {
       setShowGenerate(true);
     }, 1000);
@@ -64,13 +64,13 @@ const ResponseEffect = () => {
     item: {
       hidden: {
         opacity: 0,
-        filter: "blur(10px) brightness(0%)",
+        filter: 'blur(10px) brightness(0%)',
         y: 0,
       },
       visible: {
         opacity: 1,
         y: 0,
-        filter: "blur(0px) brightness(100%)",
+        filter: 'blur(0px) brightness(100%)',
         transition: {
           duration: 0.4,
         },
@@ -78,7 +78,7 @@ const ResponseEffect = () => {
       exit: {
         opacity: 0,
         y: -30,
-        filter: "blur(10px) brightness(0%)",
+        filter: 'blur(10px) brightness(0%)',
         transition: {
           duration: 0.4,
         },
@@ -104,9 +104,9 @@ const ResponseEffect = () => {
           <motion.div
             className="enter-button px-4 py-1 bg-neutral-700 rounded text-sm "
             layout
-            initial={{ width: "auto" }}
-            animate={{ width: "auto" }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
+            initial={{ width: 'auto' }}
+            animate={{ width: 'auto' }}
+            transition={{ duration: 0.2, ease: 'easeInOut' }}
           >
             {showGenerate ? (
               <TextShimmer className="font-mono text-sm" duration={1}>

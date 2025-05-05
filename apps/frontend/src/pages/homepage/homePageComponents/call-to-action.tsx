@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
 const CallToAction = () => {
   return (
@@ -16,7 +16,7 @@ const CallToAction = () => {
             </span>
             <Button
               onClick={() => {
-                window.location.href = "mailto:abirdutta90990@gmail.com";
+                window.location.href = 'mailto:abirdutta90990@gmail.com';
               }}
               className="bg-neutral-900 relative z-40 hover:bg-black/90 border border-transparent text-white text-sm md:text-sm transition font-medium duration-200 rounded-full px-4 py-2 flex items-center justify-center shadow-[0px_-1px_0px_0px_#FFFFFF40_inset,_0px_1px_0px_0px_#FFFFFF40_inset] "
             >

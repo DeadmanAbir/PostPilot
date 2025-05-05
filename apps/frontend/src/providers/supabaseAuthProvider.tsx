@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { User } from "@supabase/supabase-js";
+import { createContext, useContext, useEffect, useState } from 'react';
+import { User } from '@supabase/supabase-js';
 
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from '@/lib/supabaseClient';
 
 type AuthUser = {
   user: User | null;
@@ -58,7 +58,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };

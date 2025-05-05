@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import {
   AnimatePresence,
   motion,
@@ -6,14 +6,14 @@ import {
   Transition,
   Variant,
   Variants,
-} from "motion/react";
-import React from "react";
+} from 'motion/react';
+import React from 'react';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
-export type PresetType = "blur" | "fade-in-blur" | "scale" | "fade" | "slide";
+export type PresetType = 'blur' | 'fade-in-blur' | 'scale' | 'fade' | 'slide';
 
-export type PerType = "word" | "char" | "line";
+export type PerType = 'word' | 'char' | 'line';
 
 export type TextEffectProps = {
   children: string;
@@ -71,17 +71,17 @@ const presetVariants: Record<
   blur: {
     container: defaultContainerVariants,
     item: {
-      hidden: { opacity: 0, filter: "blur(12px)" },
-      visible: { opacity: 1, filter: "blur(0px)" },
-      exit: { opacity: 0, filter: "blur(12px)" },
+      hidden: { opacity: 0, filter: 'blur(12px)' },
+      visible: { opacity: 1, filter: 'blur(0px)' },
+      exit: { opacity: 0, filter: 'blur(12px)' },
     },
   },
-  "fade-in-blur": {
+  'fade-in-blur': {
     container: defaultContainerVariants,
     item: {
-      hidden: { opacity: 0, y: 20, filter: "blur(12px)" },
-      visible: { opacity: 1, y: 0, filter: "blur(0px)" },
-      exit: { opacity: 0, y: 20, filter: "blur(12px)" },
+      hidden: { opacity: 0, y: 20, filter: 'blur(12px)' },
+      visible: { opacity: 1, y: 0, filter: 'blur(0px)' },
+      exit: { opacity: 0, y: 20, filter: 'blur(12px)' },
     },
   },
   scale: {
@@ -113,16 +113,16 @@ const presetVariants: Record<
 const AnimationComponent: React.FC<{
   segment: string;
   variants: Variants;
-  per: "line" | "word" | "char";
+  per: 'line' | 'word' | 'char';
   segmentWrapperClassName?: string;
 }> = React.memo(({ segment, variants, per, segmentWrapperClassName }) => {
   const content =
     // eslint-disable-next-line no-nested-ternary
-    per === "line" ? (
+    per === 'line' ? (
       <motion.span variants={variants} className="block">
         {segment}
       </motion.span>
-    ) : per === "word" ? (
+    ) : per === 'word' ? (
       <motion.span
         aria-hidden="true"
         variants={variants}
@@ -132,7 +132,7 @@ const AnimationComponent: React.FC<{
       </motion.span>
     ) : (
       <motion.span className="inline-block whitespace-pre">
-        {segment.split("").map((char, charIndex) => (
+        {segment.split('').map((char, charIndex) => (
           <motion.span
             key={`char-${charIndex}`}
             aria-hidden="true"
@@ -149,7 +149,7 @@ const AnimationComponent: React.FC<{
     return content;
   }
 
-  const defaultWrapperClassName = per === "line" ? "block" : "inline-block";
+  const defaultWrapperClassName = per === 'line' ? 'block' : 'inline-block';
 
   return (
     <span className={cn(defaultWrapperClassName, segmentWrapperClassName)}>
@@ -158,11 +158,11 @@ const AnimationComponent: React.FC<{
   );
 });
 
-AnimationComponent.displayName = "AnimationComponent";
+AnimationComponent.displayName = 'AnimationComponent';
 
-const splitText = (text: string, per: "line" | "word" | "char") => {
-  if (per === "line") {
-    return text.split("\n");
+const splitText = (text: string, per: 'line' | 'word' | 'char') => {
+  if (per === 'line') {
+    return text.split('\n');
   }
   return text.split(/(\s+)/);
 };
@@ -171,7 +171,7 @@ const hasTransition = (
   variant: Variant,
 ): variant is TargetAndTransition & { transition?: Transition } => {
   return (
-    typeof variant === "object" && variant !== null && "transition" in variant
+    typeof variant === 'object' && variant !== null && 'transition' in variant
   );
 };
 
@@ -211,11 +211,11 @@ const createVariantsWithTransition = (
 
 export function TextEffect({
   children,
-  per = "word",
-  as = "p",
+  per = 'word',
+  as = 'p',
   variants,
   className,
-  preset = "fade",
+  preset = 'fade',
   delay = 0,
   speedReveal = 1,
   speedSegment = 1,
@@ -280,7 +280,7 @@ export function TextEffect({
           onAnimationStart={onAnimationStart}
           style={style}
         >
-          {per !== "line" ? <span className="sr-only">{children}</span> : null}
+          {per !== 'line' ? <span className="sr-only">{children}</span> : null}
           {segments.map((segment, index) => (
             <AnimationComponent
               key={`${per}-${index}-${segment}`}

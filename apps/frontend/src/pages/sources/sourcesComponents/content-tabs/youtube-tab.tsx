@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { toast } from "sonner";
+import { useState } from 'react';
+import { toast } from 'sonner';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 export function YouTubeTab() {
-  const [youtubeUrl, setYoutubeUrl] = useState("");
-  const [videoId, setVideoId] = useState("");
-  const [videoTitle, setVideoTitle] = useState("");
+  const [youtubeUrl, setYoutubeUrl] = useState('');
+  const [videoId, setVideoId] = useState('');
+  const [videoTitle, setVideoTitle] = useState('');
   const [isUploading, setIsUploading] = useState(false);
 
   const extractYouTubeVideoId = (url: string): string | null => {
@@ -26,37 +26,37 @@ export function YouTubeTab() {
     if (id) {
       setVideoId(id);
     } else {
-      setVideoId("");
+      setVideoId('');
     }
   };
 
   const handleUpload = async () => {
     if (!videoId || !videoTitle.trim()) {
-      toast.error("Please enter a valid YouTube URL and title.");
+      toast.error('Please enter a valid YouTube URL and title.');
       return;
     }
 
     try {
       setIsUploading(true);
-      const res = await fetch("/api/upload-youtube", {
-        method: "POST",
+      const res = await fetch('/api/upload-youtube', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ title: videoTitle, url: youtubeUrl, videoId }),
       });
 
       if (!res.ok) {
-        throw new Error("Failed to upload");
+        throw new Error('Failed to upload');
       }
 
-      toast.success("YouTube video uploaded successfully!");
-      setYoutubeUrl("");
-      setVideoTitle("");
-      setVideoId("");
+      toast.success('YouTube video uploaded successfully!');
+      setYoutubeUrl('');
+      setVideoTitle('');
+      setVideoId('');
     } catch (error) {
       console.error(error);
-      toast.error("Error uploading YouTube video.");
+      toast.error('Error uploading YouTube video.');
     } finally {
       setIsUploading(false);
     }
@@ -86,7 +86,7 @@ export function YouTubeTab() {
                 className="w-fit h-10"
                 disabled={isUploading}
               >
-                {isUploading ? "Uploading..." : "Upload to API"}
+                {isUploading ? 'Uploading...' : 'Upload to API'}
               </Button>
             </div>
 

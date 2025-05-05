@@ -1,7 +1,7 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore } from '@reduxjs/toolkit';
 
-import sidebarReducer from "./slices/sidebarSlice";
-import postReducer from "./slices/postGeneration";
+import sidebarReducer from './slices/sidebarSlice';
+import postReducer from './slices/postGeneration';
 
 export const store = configureStore({
   reducer: {

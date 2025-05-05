@@ -1,16 +1,16 @@
-import { ImageCard } from "./cards/image-card";
-import { CreateSourceCard } from "./cards/create-source-card";
+import { ImageCard } from './cards/image-card';
+import { CreateSourceCard } from './cards/create-source-card';
 
-import { DocumentCard } from "@/pages/sources/sourcesComponents/cards/document-card";
-import { NoteCard } from "@/pages/sources/sourcesComponents/cards/note-card";
-import { TweetCard } from "@/pages/sources/sourcesComponents/cards/tweet-card";
-import { WebpageCard } from "@/pages/sources/sourcesComponents/cards/webpage-card";
+import { DocumentCard } from '@/pages/sources/sourcesComponents/cards/document-card';
+import { NoteCard } from '@/pages/sources/sourcesComponents/cards/note-card';
+import { TweetCard } from '@/pages/sources/sourcesComponents/cards/tweet-card';
+import { WebpageCard } from '@/pages/sources/sourcesComponents/cards/webpage-card';
 // import { YoutubeCard } from "@/pages/sources/sourcesComponents/cards/youtube-card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { fetchSourcesQuery } from "@/lib/tanstack-query/query";
-import { useAuth } from "@/providers/supabaseAuthProvider";
-import { SourcesSkeleton } from "@/components/skeletons/sources-skeleton";
-import { formatDate } from "@/utils/functions/formatDate";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { fetchSourcesQuery } from '@/lib/tanstack-query/query';
+import { useAuth } from '@/providers/supabaseAuthProvider';
+import { SourcesSkeleton } from '@/components/skeletons/sources-skeleton';
+import { formatDate } from '@/utils/functions/formatDate';
 
 // Badge component for count
 const CountBadge: React.FC<{ count: number }> = ({ count }) => (
@@ -129,23 +129,23 @@ const PreviewSection = () => {
                   const allItems = [
                     ...(data?.websites?.map((item: any) => ({
                       ...item,
-                      _type: "website",
+                      _type: 'website',
                     })) || []),
                     ...(data?.files?.map((item: any) => ({
                       ...item,
-                      _type: "file",
+                      _type: 'file',
                     })) || []),
                     ...(data?.text_node?.map((item: any) => ({
                       ...item,
-                      _type: "text_node",
+                      _type: 'text_node',
                     })) || []),
                     ...(data?.images?.map((item: any) => ({
                       ...item,
-                      _type: "image",
+                      _type: 'image',
                     })) || []),
                     ...(data?.tweets?.map((item: any) => ({
                       ...item,
-                      _type: "tweet",
+                      _type: 'tweet',
                     })) || []),
                   ];
                   // Sort all items by created_at descending
@@ -156,7 +156,7 @@ const PreviewSection = () => {
                   );
                   return allItems.map((item: any) => {
                     switch (item._type) {
-                      case "website":
+                      case 'website':
                         return (
                           <WebpageCard
                             key={item.url}
@@ -166,7 +166,7 @@ const PreviewSection = () => {
                             screenShot={item.screenshot}
                           />
                         );
-                      case "file":
+                      case 'file':
                         return (
                           <DocumentCard
                             key={item.name}
@@ -176,7 +176,7 @@ const PreviewSection = () => {
                             createdAt={formatDate(item.created_at)}
                           />
                         );
-                      case "text_node":
+                      case 'text_node':
                         return (
                           <NoteCard
                             key={item.name}
@@ -185,7 +185,7 @@ const PreviewSection = () => {
                             timestamp={formatDate(item.created_at)}
                           />
                         );
-                      case "image":
+                      case 'image':
                         return (
                           <ImageCard
                             key={item.url}
@@ -194,7 +194,7 @@ const PreviewSection = () => {
                             createdAt={item.created_at}
                           />
                         );
-                      case "tweet":
+                      case 'tweet':
                         return <TweetCard key={item.id} url={item.url} />;
                       default:
                         return null;

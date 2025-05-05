@@ -1,30 +1,30 @@
-import type React from "react";
-import { useState } from "react";
-import { Trash } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
-import { nanoid } from "nanoid";
-import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
+import type React from 'react';
+import { useState } from 'react';
+import { Trash } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { nanoid } from 'nanoid';
+import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   addLocalImagesFn,
   addRemoteImagesFn,
-} from "@/lib/tanstack-query/mutation";
-import { useAuth } from "@/providers/supabaseAuthProvider";
-import { supabase } from "@/lib/supabaseClient";
+} from '@/lib/tanstack-query/mutation';
+import { useAuth } from '@/providers/supabaseAuthProvider';
+import { supabase } from '@/lib/supabaseClient';
 
 export function ImagesTab() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [localImages, setLocalImages] = useState<File[]>([]);
   const [remoteImageUrl, setRemoteImageUrl] = useState({
-    name: "",
-    url: "",
+    name: '',
+    url: '',
   });
   const [remoteImages, setRemoteImages] = useState<
     { name: string; url: string }[]
@@ -33,26 +33,26 @@ export function ImagesTab() {
   const { mutate: addRemoteImages, isPending: isRemoteFetching } =
     addRemoteImagesFn(user?.accessToken!, {
       onSuccess: () => {
-        toast.success("remote images added  successfully");
+        toast.success('remote images added  successfully');
         setRemoteImages([]);
-        queryClient.invalidateQueries({ queryKey: ["sources"] });
+        queryClient.invalidateQueries({ queryKey: ['sources'] });
       },
       onError: (error: unknown) => {
         console.error(error);
-        toast.error("error in adding remote images");
+        toast.error('error in adding remote images');
       },
     });
 
   const { mutate: addLocalImages, isPending: isLocalFetching } =
     addLocalImagesFn(user?.accessToken!, {
       onSuccess: () => {
-        toast.success("local images added  successfully");
+        toast.success('local images added  successfully');
         setLocalImages([]);
-        queryClient.invalidateQueries({ queryKey: ["sources"] });
+        queryClient.invalidateQueries({ queryKey: ['sources'] });
       },
       onError: (error: unknown) => {
         console.error(error);
-        toast.error("error in adding local images");
+        toast.error('error in adding local images');
       },
     });
 
@@ -60,7 +60,7 @@ export function ImagesTab() {
     const fileUrls: { name: string; url: string; storage_name: string }[] = [];
     try {
       for (const image of localImages) {
-        const fileExtension = image.name.split(".").pop();
+        const fileExtension = image.name.split('.').pop();
         const fileName = `${nanoid()}.${fileExtension}`;
         const actualFileName = image.name;
 
@@ -71,8 +71,8 @@ export function ImagesTab() {
           .upload(filePath, image);
 
         if (error) {
-          console.error("Error uploading file:", error.message);
-          toast.error("error in uploading file");
+          console.error('Error uploading file:', error.message);
+          toast.error('error in uploading file');
           throw error;
         }
 
@@ -91,7 +91,7 @@ export function ImagesTab() {
 
       return fileUrls;
     } catch (error) {
-      console.error("Error in file upload process:", error);
+      console.error('Error in file upload process:', error);
       throw error;
     }
   };
@@ -111,7 +111,7 @@ export function ImagesTab() {
       }
 
       setRemoteImages([...remoteImages, remoteImageUrl]);
-      setRemoteImageUrl({ name: "", url: "" });
+      setRemoteImageUrl({ name: '', url: '' });
     }
   };
 
@@ -124,7 +124,7 @@ export function ImagesTab() {
   };
 
   const handleLocalImageUpload = async () => {
-    const bucket = "post-pilot";
+    const bucket = 'post-pilot';
 
     const uploadedResults = await uploadToSupabase(bucket);
     addLocalImages(uploadedResults);
@@ -193,11 +193,11 @@ export function ImagesTab() {
                         ></path>
                       </svg>
                       <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                        <span className="font-semibold">Click to upload</span>{" "}
+                        <span className="font-semibold">Click to upload</span>{' '}
                         or drag and drop
                       </p>
                       <p className="text-xs text-gray-500 dark:text-gray-400">
-                        {" "}
+                        {' '}
                         Supported formats: JPG, PNG, WebP, GIF, SVG
                       </p>
                     </div>
@@ -228,7 +228,7 @@ export function ImagesTab() {
                         >
                           <img
                             src={
-                              URL.createObjectURL(file) || "/placeholder.svg"
+                              URL.createObjectURL(file) || '/placeholder.svg'
                             }
                             alt={`Local image ${index + 1}`}
                             className="object-cover rounded size-16"
@@ -319,7 +319,7 @@ export function ImagesTab() {
                           transition={{ duration: 0.2 }}
                         >
                           <img
-                            src={url.url || "/placeholder.svg"}
+                            src={url.url || '/placeholder.svg'}
                             alt={`Remote image ${index + 1}`}
                             className="object-cover rounded size-16"
                           />

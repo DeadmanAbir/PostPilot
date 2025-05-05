@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Wand } from "lucide-react";
+import { useState } from 'react';
+import { Wand } from 'lucide-react';
 
-import { Dialog, DialogContent } from "./ui/dialog";
+import { Dialog, DialogContent } from './ui/dialog';
 
 interface RegenerateModalProps {
   isOpen: boolean;
@@ -18,11 +18,11 @@ export function RegenerateModal({
   currentPost,
   isRegenerating,
 }: RegenerateModalProps) {
-  const [additionalContext, setAdditionalContext] = useState("");
+  const [additionalContext, setAdditionalContext] = useState('');
 
   const handleRegenerate = () => {
     onRegenerate(additionalContext);
-    setAdditionalContext("");
+    setAdditionalContext('');
   };
 
   return (

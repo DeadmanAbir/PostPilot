@@ -5,12 +5,12 @@ interface Item {
 }
 
 const allowedTypes = new Set([
-  "files",
-  "images",
-  "text",
-  "tweets",
-  "websites",
-  "youtube",
+  'files',
+  'images',
+  'text',
+  'tweets',
+  'websites',
+  'youtube',
 ]);
 
 export const groupItemsByType: ({
@@ -31,7 +31,7 @@ export const groupItemsByType: ({
       return;
     }
 
-    const typeName = type === "text" ? "text_node" : type;
+    const typeName = type === 'text' ? 'text_node' : type;
     if (!groupedItemIds[typeName]) {
       groupedItemIds[typeName] = [];
     }

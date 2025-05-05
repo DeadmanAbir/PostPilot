@@ -1,4 +1,4 @@
-import { InboxIcon } from "lucide-react";
+import { InboxIcon } from 'lucide-react';
 
 import {
   Card,
@@ -7,8 +7,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+} from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 
 export default function EmptyStateCard() {
   return (

@@ -1,11 +1,11 @@
-import { motion } from "motion/react";
+import { motion } from 'motion/react';
 import {
   FileIcon,
   ImageIcon,
   YoutubeIcon,
   LinkIcon,
   FileTextIcon,
-} from "lucide-react";
+} from 'lucide-react';
 
 const Rotate = () => {
   return (
@@ -27,9 +27,9 @@ const Rotate = () => {
             stroke="#ed8936"
             strokeWidth="1"
             opacity="0.4"
-            style={{ transformOrigin: "134.5px 126.5px" }}
+            style={{ transformOrigin: '134.5px 126.5px' }}
             animate={{ rotate: [0, 360] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
           />
 
           <motion.rect
@@ -41,9 +41,9 @@ const Rotate = () => {
             stroke="#ed8936"
             strokeWidth="1.1"
             opacity="0.4"
-            style={{ transformOrigin: "134px 128px" }}
+            style={{ transformOrigin: '134px 128px' }}
             animate={{ rotate: [0, -360] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
           />
 
           <motion.rect
@@ -55,9 +55,9 @@ const Rotate = () => {
             stroke="#ed8936"
             strokeWidth="1.2"
             opacity="0.4"
-            style={{ transformOrigin: "133px 125px" }}
+            style={{ transformOrigin: '133px 125px' }}
             animate={{ rotate: [0, 360] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 7, repeat: Infinity, ease: 'linear' }}
           />
 
           <motion.rect
@@ -69,9 +69,9 @@ const Rotate = () => {
             stroke="#ed8936"
             strokeWidth="1.3"
             opacity="0.4"
-            style={{ transformOrigin: "133.5px 124.5px" }}
+            style={{ transformOrigin: '133.5px 124.5px' }}
             animate={{ rotate: [0, -360] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
           />
         </svg>
 
@@ -85,11 +85,11 @@ const Rotate = () => {
             transition={{
               rotate: {
                 duration: 8,
-                ease: "linear",
+                ease: 'linear',
                 repeat: Infinity,
               },
               scale: {
-                type: "spring",
+                type: 'spring',
                 stiffness: 100,
                 damping: 10,
               },
@@ -111,7 +111,7 @@ const Rotate = () => {
           className="absolute top-[25%] left-[12%] bg-black/80 backdrop-blur-sm py-2 rounded-xl border border-zinc-500/50 px-2 hover:bg-black/90 hover:scale-110 transition-all duration-300 cursor-pointer"
           initial={{ scale: 0, rotate: -15 }}
           animate={{ scale: 1 }}
-          transition={{ delay: 0.2, type: "spring" }}
+          transition={{ delay: 0.2, type: 'spring' }}
         >
           <YoutubeIcon className="size-8 text-red-500" />
         </motion.div>
@@ -121,7 +121,7 @@ const Rotate = () => {
           className="absolute bottom-[25%] left-[14%] bg-black/80 backdrop-blur-sm py-2 rounded-xl border border-zinc-500/50 px-2 hover:bg-black/90 hover:scale-110 transition-all duration-300 cursor-pointer"
           initial={{ scale: 0, rotate: 15 }}
           animate={{ scale: 1 }}
-          transition={{ delay: 0.4, type: "spring" }}
+          transition={{ delay: 0.4, type: 'spring' }}
         >
           <FileIcon className="size-8 text-blue-500" />
         </motion.div>
@@ -131,7 +131,7 @@ const Rotate = () => {
           className="absolute top-[10%] right-[35%] bg-black/80 backdrop-blur-sm py-2 rounded-xl border border-zinc-500/50 px-2 hover:bg-black/90 hover:scale-110 transition-all duration-300 cursor-pointer"
           initial={{ scale: 0, rotate: -30 }}
           animate={{ scale: 1 }}
-          transition={{ delay: 0.6, type: "spring" }}
+          transition={{ delay: 0.6, type: 'spring' }}
         >
           <ImageIcon className="size-8 text-green-500" />
         </motion.div>
@@ -141,7 +141,7 @@ const Rotate = () => {
           className="absolute top-[25%] right-[5%] bg-black/80 backdrop-blur-sm py-2 rounded-xl border border-zinc-500/50 px-2 hover:bg-black/90 hover:scale-110 transition-all duration-300 cursor-pointer"
           initial={{ scale: 0, rotate: 30 }}
           animate={{ scale: 1 }}
-          transition={{ delay: 0.8, type: "spring" }}
+          transition={{ delay: 0.8, type: 'spring' }}
         >
           <LinkIcon className="size-8 text-purple-500" />
         </motion.div>
@@ -151,7 +151,7 @@ const Rotate = () => {
           className="absolute bottom-[25%] right-[5%] bg-black/80 backdrop-blur-sm py-2 rounded-xl border border-zinc-500/50 px-2 hover:bg-black/90 hover:scale-110 transition-all duration-300 cursor-pointer"
           initial={{ scale: 0, rotate: -15 }}
           animate={{ scale: 1 }}
-          transition={{ delay: 1, type: "spring" }}
+          transition={{ delay: 1, type: 'spring' }}
         >
           <FileTextIcon className="size-8 text-amber-500" />
         </motion.div>

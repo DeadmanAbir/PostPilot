@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-import type { RootState } from "../store";
+import type { RootState } from '../store';
 
 interface PostState {
   postGenerated: boolean;
@@ -11,7 +11,7 @@ const initialState: PostState = {
 };
 
 export const postSlice = createSlice({
-  name: "post",
+  name: 'post',
   initialState,
   reducers: {
     setPostGenerated: (state, action): void => {

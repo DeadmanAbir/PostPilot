@@ -1,14 +1,14 @@
-import { Image as ImageIcon } from "lucide-react";
-import { CalendarIcon } from "lucide-react";
+import { Image as ImageIcon } from 'lucide-react';
+import { CalendarIcon } from 'lucide-react';
 
 import {
   Card,
   CardHeader,
   CardContent,
   CardFooter,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { formatDate } from "@/utils/functions/formatDate";
+} from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { formatDate } from '@/utils/functions/formatDate';
 
 interface ImageCardProps {
   title: string;

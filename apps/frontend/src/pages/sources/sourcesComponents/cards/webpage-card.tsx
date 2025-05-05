@@ -1,7 +1,7 @@
-import { CalendarIcon, Globe } from "lucide-react";
+import { CalendarIcon, Globe } from 'lucide-react';
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { formatDate } from "@/utils/functions/formatDate";
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { formatDate } from '@/utils/functions/formatDate';
 
 interface WebpageCardProps {
   title?: string;

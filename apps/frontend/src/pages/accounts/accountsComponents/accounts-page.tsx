@@ -1,18 +1,18 @@
-import { PlusCircle } from "lucide-react";
+import { PlusCircle } from 'lucide-react';
 
-import { AccountCard } from "./account-card";
+import { AccountCard } from './account-card';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardTitle,
-} from "@/components/ui/card";
-import { useAuth } from "@/providers/supabaseAuthProvider";
-import { fetchLinkedinQuery } from "@/lib/tanstack-query/query";
-import IntegrationLoading from "@/components/skeletons/integration-skeleton";
-import Banner from "@/components/banner";
+} from '@/components/ui/card';
+import { useAuth } from '@/providers/supabaseAuthProvider';
+import { fetchLinkedinQuery } from '@/lib/tanstack-query/query';
+import IntegrationLoading from '@/components/skeletons/integration-skeleton';
+import Banner from '@/components/banner';
 
 export function AccountsPage() {
   const { user } = useAuth();

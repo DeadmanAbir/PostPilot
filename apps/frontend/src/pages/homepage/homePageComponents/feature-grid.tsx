@@ -1,9 +1,9 @@
-import ResponseEffect from "./feature-grid/response-animation";
-import SelectAnimation from "./feature-grid/select-animation";
-import StaggerFeatures from "./feature-grid/stagger-features";
-import OrbitAnimation from "./feature-grid/rotate-animation";
-import StepsAnimation from "./feature-grid/steps-animation";
-import Rotate from "./feature-grid/rotater-animation";
+import ResponseEffect from './feature-grid/response-animation';
+import SelectAnimation from './feature-grid/select-animation';
+import StaggerFeatures from './feature-grid/stagger-features';
+import OrbitAnimation from './feature-grid/rotate-animation';
+import StepsAnimation from './feature-grid/steps-animation';
+import Rotate from './feature-grid/rotater-animation';
 
 const FeatureGrid = () => {
   return (
@@ -65,7 +65,7 @@ const FeatureGrid = () => {
                 </p>
                 <p className="my-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
                   Easily attach images and videos to your posts, making your
-                  content stand out on LinkedIn.{" "}
+                  content stand out on LinkedIn.{' '}
                 </p>
               </div>
               <div className="h-40  ">

@@ -1,30 +1,30 @@
-import type React from "react";
-import { useState } from "react";
-import { X } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
-import { nanoid } from "nanoid";
-import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
+import type React from 'react';
+import { useState } from 'react';
+import { X } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { nanoid } from 'nanoid';
+import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { supabase } from "@/lib/supabaseClient";
-import { useAuth } from "@/providers/supabaseAuthProvider";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { supabase } from '@/lib/supabaseClient';
+import { useAuth } from '@/providers/supabaseAuthProvider';
 import {
   addLocalFilesFn,
   addRemoteFilesFn,
-} from "@/lib/tanstack-query/mutation";
+} from '@/lib/tanstack-query/mutation';
 
 export function FilesTab() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [localFiles, setLocalFiles] = useState<File[]>([]);
   const [remoteFileUrl, setRemoteFileUrl] = useState({
-    name: "",
-    url: "",
+    name: '',
+    url: '',
   });
   const [remoteFiles, setRemoteFiles] = useState<
     { name: string; url: string }[]
@@ -33,13 +33,13 @@ export function FilesTab() {
   const { mutate: addRemoteFile, isPending: isRemoteFetching } =
     addRemoteFilesFn(user?.accessToken!, {
       onSuccess: () => {
-        toast.success("remote file added  successfully");
+        toast.success('remote file added  successfully');
         setRemoteFiles([]);
-        queryClient.invalidateQueries({ queryKey: ["sources"] });
+        queryClient.invalidateQueries({ queryKey: ['sources'] });
       },
       onError: (error: unknown) => {
         console.error(error);
-        toast.error("error in adding remote file");
+        toast.error('error in adding remote file');
       },
     });
 
@@ -47,13 +47,13 @@ export function FilesTab() {
     user?.accessToken!,
     {
       onSuccess: () => {
-        toast.success("Local file added  successfully");
+        toast.success('Local file added  successfully');
         setLocalFiles([]);
-        queryClient.invalidateQueries({ queryKey: ["sources"] });
+        queryClient.invalidateQueries({ queryKey: ['sources'] });
       },
       onError: (error: unknown) => {
         console.error(error);
-        toast.error("error in adding local file");
+        toast.error('error in adding local file');
       },
     },
   );
@@ -62,7 +62,7 @@ export function FilesTab() {
     const fileUrls: { name: string; url: string; storage_name: string }[] = [];
     try {
       for (const file of localFiles) {
-        const fileExtension = file.name.split(".").pop();
+        const fileExtension = file.name.split('.').pop();
         const fileName = `${nanoid()}.${fileExtension}`;
         const actualFileName = file.name;
 
@@ -72,8 +72,8 @@ export function FilesTab() {
           .from(bucket)
           .upload(filePath, file);
         if (error) {
-          console.error("Error uploading file:", error.message);
-          toast.error("error in uploading file");
+          console.error('Error uploading file:', error.message);
+          toast.error('error in uploading file');
           throw error;
         }
 
@@ -92,7 +92,7 @@ export function FilesTab() {
 
       return fileUrls;
     } catch (error) {
-      console.error("Error in file upload process:", error);
+      console.error('Error in file upload process:', error);
       throw error;
     }
   };
@@ -108,7 +108,7 @@ export function FilesTab() {
   const handleRemoteFileLoad = () => {
     if (remoteFileUrl.name && remoteFileUrl.url) {
       setRemoteFiles([...remoteFiles, remoteFileUrl]);
-      setRemoteFileUrl({ name: "", url: "" });
+      setRemoteFileUrl({ name: '', url: '' });
     }
   };
 
@@ -128,7 +128,7 @@ export function FilesTab() {
     addRemoteFile(remoteFileData);
   };
   const handleLocalFileUpload = async () => {
-    const fileData = await uploadToSupabase("post-pilot");
+    const fileData = await uploadToSupabase('post-pilot');
     addLocalFile(fileData);
   };
 
@@ -172,7 +172,7 @@ export function FilesTab() {
                         ></path>
                       </svg>
                       <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                        <span className="font-semibold">Click to upload</span>{" "}
+                        <span className="font-semibold">Click to upload</span>{' '}
                         or drag and drop
                       </p>
                       <p className="text-xs text-gray-500 dark:text-gray-400">

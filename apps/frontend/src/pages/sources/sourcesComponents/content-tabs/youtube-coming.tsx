@@ -1,4 +1,4 @@
-import { Video } from "lucide-react";
+import { Video } from 'lucide-react';
 
 const YoutubeComingSoon = () => {
   return (

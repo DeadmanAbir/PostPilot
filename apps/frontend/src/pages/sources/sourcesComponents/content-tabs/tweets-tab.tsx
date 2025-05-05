@@ -1,24 +1,24 @@
-import { useState } from "react";
-import { Tweet } from "react-tweet";
-import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
+import { useState } from 'react';
+import { Tweet } from 'react-tweet';
+import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { fetchTweetFn } from "@/lib/tanstack-query/mutation";
-import { useAuth } from "@/providers/supabaseAuthProvider";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { fetchTweetFn } from '@/lib/tanstack-query/mutation';
+import { useAuth } from '@/providers/supabaseAuthProvider';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 
 export function TweetsTab() {
-  const [tweetUrl, setTweetUrl] = useState("");
-  const [tweetName, setTweetName] = useState("");
+  const [tweetUrl, setTweetUrl] = useState('');
+  const [tweetName, setTweetName] = useState('');
   const [isValidUrl, setIsValidUrl] = useState(true);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
@@ -28,15 +28,15 @@ export function TweetsTab() {
     user?.accessToken!,
     {
       onSuccess: () => {
-        toast.success("Tweet fetched successfully");
-        setTweetUrl("");
-        setTweetName("");
+        toast.success('Tweet fetched successfully');
+        setTweetUrl('');
+        setTweetName('');
         setIsValidUrl(true);
-        queryClient.invalidateQueries({ queryKey: ["sources"] });
+        queryClient.invalidateQueries({ queryKey: ['sources'] });
       },
       onError: (error: unknown) => {
         console.error(error);
-        toast.error("Error in fetching tweet");
+        toast.error('Error in fetching tweet');
       },
     },
   );
@@ -98,7 +98,7 @@ export function TweetsTab() {
                     setTweetUrl(e.target.value);
                     setIsValidUrl(true);
                   }}
-                  className={`h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900 ${!isValidUrl ? "border-red-500" : ""}`}
+                  className={`h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900 ${!isValidUrl ? 'border-red-500' : ''}`}
                   required
                 />
                 <Button type="submit" disabled={isFetching} className="h-10">

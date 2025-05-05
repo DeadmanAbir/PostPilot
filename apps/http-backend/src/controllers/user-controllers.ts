@@ -1,20 +1,23 @@
-import { Response } from "express";
-import "dotenv/config";
-import createError from "http-errors";
-import { ZodError } from "zod";
+import { Response } from 'express';
+import 'dotenv/config';
+import createError from 'http-errors';
+import { ZodError } from 'zod';
 
-import { supabase } from "@/utils/supabaseClient";
-import { AuthRequest } from "@/middlewares/authMiddleware";
-import { profileUpdateValidator } from "@repo/common/validator";
+import { supabase } from '@/utils/supabaseClient';
+import { AuthRequest } from '@/middlewares/authMiddleware';
+import { profileUpdateValidator } from '@repo/common/validator';
 
-export async function getProfileData(request: AuthRequest, response: Response) : Promise<void>{
+export async function getProfileData(
+  request: AuthRequest,
+  response: Response,
+): Promise<void> {
   try {
     const { data: users, error } = await supabase
-      .from("users")
+      .from('users')
       .select(
-        "name , email, profile_url, linkedin(expires_at, profile_pic), post(post_content, created_at, media)"
+        'name , email, profile_url, linkedin(expires_at, profile_pic), post(post_content, created_at, media)',
       )
-      .eq("id", request.userId);
+      .eq('id', request.userId);
 
     if (error) {
       console.error(error);
@@ -27,19 +30,22 @@ export async function getProfileData(request: AuthRequest, response: Response) :
     if (e instanceof ZodError) {
       response
         .status(422)
-        .json({ error: "Invalid request body", details: e.errors });
+        .json({ error: 'Invalid request body', details: e.errors });
     } else if (e instanceof Error) {
       response.status(500).json({ error: e.message });
     } else {
-      response.status(500).json({ error: "An unknown error occurred" });
+      response.status(500).json({ error: 'An unknown error occurred' });
     }
   }
 }
 
-export async function addNewUserData(request: AuthRequest, response: Response) : Promise<void>{
+export async function addNewUserData(
+  request: AuthRequest,
+  response: Response,
+): Promise<void> {
   try {
     const { data, error } = await supabase
-      .from("users")
+      .from('users')
       .insert([
         {
           id: request.userId,
@@ -60,16 +66,19 @@ export async function addNewUserData(request: AuthRequest, response: Response) :
     if (e instanceof ZodError) {
       response
         .status(422)
-        .json({ error: "Invalid request body", details: e.errors });
+        .json({ error: 'Invalid request body', details: e.errors });
     } else if (e instanceof Error) {
       response.status(500).json({ error: e.message });
     } else {
-      response.status(500).json({ error: "An unknown error occurred" });
+      response.status(500).json({ error: 'An unknown error occurred' });
     }
   }
 }
 
-export async function updateUserData(request: AuthRequest, response: Response): Promise<void> {
+export async function updateUserData(
+  request: AuthRequest,
+  response: Response,
+): Promise<void> {
   try {
     const { name, profile_url } = profileUpdateValidator.parse(request.body);
     const updateFields: Record<string, string> = {};
@@ -78,14 +87,14 @@ export async function updateUserData(request: AuthRequest, response: Response): 
     if (profile_url) updateFields.profile_url = profile_url;
 
     if (Object.keys(updateFields).length === 0) {
-      response.status(400).json({ error: "No fields to update" });
+      response.status(400).json({ error: 'No fields to update' });
       return;
     }
 
     const { error } = await supabase
-      .from("users")
+      .from('users')
       .update(updateFields)
-      .eq("id", request.userId);
+      .eq('id', request.userId);
 
     if (error) {
       console.error(error);
@@ -98,19 +107,22 @@ export async function updateUserData(request: AuthRequest, response: Response): 
     if (e instanceof ZodError) {
       response
         .status(422)
-        .json({ error: "Invalid request body", details: e.errors });
+        .json({ error: 'Invalid request body', details: e.errors });
     } else if (e instanceof Error) {
       response.status(500).json({ error: e.message });
     } else {
-      response.status(500).json({ error: "An unknown error occurred" });
+      response.status(500).json({ error: 'An unknown error occurred' });
     }
   }
 }
 
-export async function getUser(request: AuthRequest, response: Response): Promise<void> {
+export async function getUser(
+  request: AuthRequest,
+  response: Response,
+): Promise<void> {
   try {
     const { data: users, error } = await supabase
-      .from("users")
+      .from('users')
       .select(
         `
           *,
@@ -122,9 +134,9 @@ export async function getUser(request: AuthRequest, response: Response): Promise
           files(*),
           linkedin(expires_at)
          
-      `
+      `,
       )
-      .eq("id", request.userId);
+      .eq('id', request.userId);
 
     if (error) {
       console.error(error);
@@ -137,24 +149,24 @@ export async function getUser(request: AuthRequest, response: Response): Promise
     if (e instanceof ZodError) {
       response
         .status(422)
-        .json({ error: "Invalid request body", details: e.errors });
+        .json({ error: 'Invalid request body', details: e.errors });
     } else if (e instanceof Error) {
       response.status(500).json({ error: e.message });
     } else {
-      response.status(500).json({ error: "An unknown error occurred" });
+      response.status(500).json({ error: 'An unknown error occurred' });
     }
   }
 }
 
 export async function getLinkedinData(
   request: AuthRequest,
-  response: Response
+  response: Response,
 ): Promise<void> {
   try {
     const { data: users, error } = await supabase
-      .from("users")
-      .select("linkedin(expires_at, profile_pic)")
-      .eq("id", request.userId);
+      .from('users')
+      .select('linkedin(expires_at, profile_pic)')
+      .eq('id', request.userId);
 
     if (error) {
       console.error(error);
@@ -167,30 +179,30 @@ export async function getLinkedinData(
     if (e instanceof ZodError) {
       response
         .status(422)
-        .json({ error: "Invalid request body", details: e.errors });
+        .json({ error: 'Invalid request body', details: e.errors });
     } else if (e instanceof Error) {
       response.status(500).json({ error: e.message });
     } else {
-      response.status(500).json({ error: "An unknown error occurred" });
+      response.status(500).json({ error: 'An unknown error occurred' });
     }
   }
 }
 
 export async function deleteLinkedinAccount(
   request: AuthRequest,
-  response: Response
-) : Promise<void>{
+  response: Response,
+): Promise<void> {
   try {
     const { error } = await supabase
-      .from("linkedin")
+      .from('linkedin')
       .delete()
-      .eq("user_id", request.userId);
+      .eq('user_id', request.userId);
 
     if (error) {
       console.error(error);
       throw createError(
         500,
-        `Failed to delete linkedin account: ${error.message}`
+        `Failed to delete linkedin account: ${error.message}`,
       );
     }
 
@@ -200,21 +212,24 @@ export async function deleteLinkedinAccount(
     if (e instanceof ZodError) {
       response
         .status(422)
-        .json({ error: "Invalid request body", details: e.errors });
+        .json({ error: 'Invalid request body', details: e.errors });
     } else if (e instanceof Error) {
       response.status(500).json({ error: e.message });
     } else {
-      response.status(500).json({ error: "An unknown error occurred" });
+      response.status(500).json({ error: 'An unknown error occurred' });
     }
   }
 }
 
-export async function getPostData(request: AuthRequest, response: Response): Promise<void> {
+export async function getPostData(
+  request: AuthRequest,
+  response: Response,
+): Promise<void> {
   try {
     const { data: posts, error } = await supabase
-      .from("post")
-      .select("post_url, media, post_content, created_at")
-      .eq("user_id", request.userId);
+      .from('post')
+      .select('post_url, media, post_content, created_at')
+      .eq('user_id', request.userId);
     if (error) {
       console.error(error);
       throw createError(500, `Failed to get post data: ${error.message}`);
@@ -226,11 +241,11 @@ export async function getPostData(request: AuthRequest, response: Response): Pro
     if (e instanceof ZodError) {
       response
         .status(422)
-        .json({ error: "Invalid request body", details: e.errors });
+        .json({ error: 'Invalid request body', details: e.errors });
     } else if (e instanceof Error) {
       response.status(500).json({ error: e.message });
     } else {
-      response.status(500).json({ error: "An unknown error occurred" });
+      response.status(500).json({ error: 'An unknown error occurred' });
     }
   }
 }

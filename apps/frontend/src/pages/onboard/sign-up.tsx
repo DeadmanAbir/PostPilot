@@ -1,16 +1,16 @@
-import type React from "react";
-import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import type React from 'react';
+import { useNavigate } from '@tanstack/react-router';
+import { useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
 
-import { ReadingIllustration } from "./reading-illustration";
+import { ReadingIllustration } from './reading-illustration';
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 // import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
+import { Label } from '@/components/ui/label';
 // import { Separator } from "@/components/ui/separator";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from '@/lib/supabaseClient';
 
 interface SignUpProps {
   onToggle: () => void;
@@ -19,10 +19,10 @@ interface SignUpProps {
 export function SignUp({ onToggle }: SignUpProps) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
     agreeToTerms: false,
   });
 
@@ -55,9 +55,9 @@ export function SignUp({ onToggle }: SignUpProps) {
       }
 
       await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/onboard-user`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${data?.session?.access_token}`,
         },
       });
@@ -65,10 +65,10 @@ export function SignUp({ onToggle }: SignUpProps) {
       // const result = await response.json();
       // console.log("Backend response:", result);
       navigate({
-        to: "/dashboard",
+        to: '/dashboard',
       });
     } catch (err: unknown) {
-      console.error("Error:", err);
+      console.error('Error:', err);
     }
   };
 
@@ -201,7 +201,7 @@ export function SignUp({ onToggle }: SignUpProps) {
                   <Input
                     id="password"
                     name="password"
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? 'text' : 'password'}
                     value={formData.password}
                     onChange={handleChange}
                     placeholder="Enter Your Password"
@@ -233,7 +233,7 @@ export function SignUp({ onToggle }: SignUpProps) {
                   <Input
                     id="confirmPassword"
                     name="confirmPassword"
-                    type={showConfirmPassword ? "text" : "password"}
+                    type={showConfirmPassword ? 'text' : 'password'}
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     placeholder="Enter Your Password"
@@ -275,7 +275,7 @@ export function SignUp({ onToggle }: SignUpProps) {
 
           <div className="text-center text-black">
             <p className="text-sm">
-              Already have an account?{" "}
+              Already have an account?{' '}
               <Button
                 variant="link"
                 onClick={onToggle}

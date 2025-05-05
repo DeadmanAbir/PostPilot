@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   ArrowLeftIcon,
   FileIcon,
@@ -8,74 +8,74 @@ import {
   LinkIcon,
   TwitterIcon,
   YoutubeIcon,
-} from "lucide-react";
-import { Lightbulb } from "lucide-react";
+} from 'lucide-react';
+import { Lightbulb } from 'lucide-react';
 
-import YoutubeComingSoon from "./content-tabs/youtube-coming";
+import YoutubeComingSoon from './content-tabs/youtube-coming';
 
-import { FilesTab } from "@/pages/sources/sourcesComponents/content-tabs/files-tab";
-import { ImagesTab } from "@/pages/sources/sourcesComponents/content-tabs/images-tab";
-import { TextNoteTab } from "@/pages/sources/sourcesComponents/content-tabs/text-node-tab";
-import { TweetsTab } from "@/pages/sources/sourcesComponents/content-tabs/tweets-tab";
-import { WebsitesTab } from "@/pages/sources/sourcesComponents/content-tabs/websites-tab";
+import { FilesTab } from '@/pages/sources/sourcesComponents/content-tabs/files-tab';
+import { ImagesTab } from '@/pages/sources/sourcesComponents/content-tabs/images-tab';
+import { TextNoteTab } from '@/pages/sources/sourcesComponents/content-tabs/text-node-tab';
+import { TweetsTab } from '@/pages/sources/sourcesComponents/content-tabs/tweets-tab';
+import { WebsitesTab } from '@/pages/sources/sourcesComponents/content-tabs/websites-tab';
 // import { YouTubeTab } from "@/pages/sources/sourcesComponents/content-tabs/youtube-tab";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Banner from "@/components/banner";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Banner from '@/components/banner';
 
 const LinkSection2 = () => {
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
   const sections = [
     {
-      id: "youtube",
-      title: "YouTube Videos",
+      id: 'youtube',
+      title: 'YouTube Videos',
       icon: <YoutubeIcon className="size-10" />,
-      iconColor: "text-red-500",
+      iconColor: 'text-red-500',
       component: <YoutubeComingSoon />,
       protip:
-        "LOrem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        'LOrem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     },
     {
-      id: "files",
-      title: "Files",
+      id: 'files',
+      title: 'Files',
       icon: <FileIcon className="size-10" />,
-      iconColor: "text-blue-500",
+      iconColor: 'text-blue-500',
       component: <FilesTab />,
       protip:
-        "Easily add your files from either your local system or remote URLs. When uploading from a remote source, be sure to provide a filename—this helps us organize and track your files more effectively.",
+        'Easily add your files from either your local system or remote URLs. When uploading from a remote source, be sure to provide a filename—this helps us organize and track your files more effectively.',
     },
     {
-      id: "images",
-      title: "Images",
+      id: 'images',
+      title: 'Images',
       icon: <ImageIcon className="size-10" />,
-      iconColor: "text-green-500",
+      iconColor: 'text-green-500',
       component: <ImagesTab />,
       protip:
-        "Easily add your images from either your local system or remote URLs. When uploading from a remote source, be sure to provide a imagename—this helps us organize and track your images more effectively.",
+        'Easily add your images from either your local system or remote URLs. When uploading from a remote source, be sure to provide a imagename—this helps us organize and track your images more effectively.',
     },
     {
-      id: "tweets",
-      title: "Tweets",
+      id: 'tweets',
+      title: 'Tweets',
       icon: <TwitterIcon className="size-10" />,
-      iconColor: "text-sky-500",
+      iconColor: 'text-sky-500',
       component: <TweetsTab />,
       protip:
-        "Effortlessly add tweets by simply providing the tweet link. We’ll automatically fetch, process, and store the tweet’s text content on our servers. This content can then be used as contextual material when creating your posts.",
+        'Effortlessly add tweets by simply providing the tweet link. We’ll automatically fetch, process, and store the tweet’s text content on our servers. This content can then be used as contextual material when creating your posts.',
     },
     {
-      id: "notes",
-      title: "Text Notes",
+      id: 'notes',
+      title: 'Text Notes',
       icon: <FileTextIcon className="size-10" />,
-      iconColor: "text-amber-500",
+      iconColor: 'text-amber-500',
       component: <TextNoteTab />,
       protip:
-        "Write your own handwritten content and format it however you like. Once saved, it will be securely stored for future use—whether you need it as a personal reference or as contextual input for generating new posts.",
+        'Write your own handwritten content and format it however you like. Once saved, it will be securely stored for future use—whether you need it as a personal reference or as contextual input for generating new posts.',
     },
     {
-      id: "websites",
-      title: "Websites & Articles",
+      id: 'websites',
+      title: 'Websites & Articles',
       icon: <LinkIcon className="size-10" />,
-      iconColor: "text-purple-500",
+      iconColor: 'text-purple-500',
       component: <WebsitesTab />,
       protip: `We don’t scrape website content—we simply capture a homepage screenshot and store it on our servers. Our AI reads the content from the image during post generation.
 
@@ -183,14 +183,14 @@ For better accuracy, consider pasting the website text into the Notes section or
                 className="h-[calc(100%-6rem)] w-full  flex md:flex-row flex-col   md:space-x-6 space-y-3 "
               >
                 <div
-                  className={` w-full  ${activeSection === "youtube" ? "md:w-full" : "md:w-2/3"} `}
+                  className={` w-full  ${activeSection === 'youtube' ? 'md:w-full' : 'md:w-2/3'} `}
                 >
                   {
                     sections.find((section) => section.id === activeSection)
                       ?.component
                   }
                 </div>
-                {activeSection !== "youtube" && (
+                {activeSection !== 'youtube' && (
                   <Card className="md:w-1/2 w-full flex h-full items-center justify-center cursor-pointer rounded-xl p-1 border dark:border-gray-700 shadow-[0_3px_10px_rgb(0,0,0,0.1)] hover:shadow-[0_6px_10px_rgb(0,0,0,0.2)] dark:shadow-[0_3px_10px_rgb(255,255,255,0.05)] dark:hover:shadow-[0_6px_10px_rgb(255,255,255,0.1)] bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-900  flex-col  text-center dark:text-white">
                     <CardHeader className="flex flex-row items-center justify-start  w-full     space-x-2 ">
                       <Lightbulb className="w-5 h-5 text-yellow-500" />

@@ -1,8 +1,8 @@
-import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
 
-import { AuthContext } from "@/hooks/useAuth";
-import NotFoundPage from "@/pages/notfound";
-import { Toaster } from "@/components/ui/sonner";
+import { AuthContext } from '@/hooks/useAuth';
+import NotFoundPage from '@/pages/notfound';
+import { Toaster } from '@/components/ui/sonner';
 
 type RouterContext = {
   authentication: AuthContext;

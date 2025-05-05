@@ -1,6 +1,6 @@
-import { Helmet } from "react-helmet-async";
+import { Helmet } from 'react-helmet-async';
 
-import { PostGenerator } from "@/pages/dashboard/dashboardComponents/post-generator";
+import { PostGenerator } from '@/pages/dashboard/dashboardComponents/post-generator';
 // import { SchedulingSidebar } from "@/pages/dashboard/dashboardComponents/scheduling-sidebar";
 
 export function Dashboard() {

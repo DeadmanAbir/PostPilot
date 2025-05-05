@@ -1,21 +1,21 @@
-import { useState } from "react";
-import { Menu, Moon, Sun, Plus } from "lucide-react";
-import { Link, useLocation } from "@tanstack/react-router";
-import { motion } from "motion/react";
+import { useState } from 'react';
+import { Menu, Moon, Sun, Plus } from 'lucide-react';
+import { Link, useLocation } from '@tanstack/react-router';
+import { motion } from 'motion/react';
 
-import { groupedItems } from "./app-sidebar";
-import { Button, buttonVariants } from "./ui/button";
-import { NavUser } from "./nav-user";
+import { groupedItems } from './app-sidebar';
+import { Button, buttonVariants } from './ui/button';
+import { NavUser } from './nav-user';
 
-import { useTheme } from "@/providers/theme-provider";
+import { useTheme } from '@/providers/theme-provider';
 import {
   Drawer,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
   DrawerTrigger,
-} from "@/components/ui/drawer";
-import { useAuth } from "@/providers/supabaseAuthProvider";
+} from '@/components/ui/drawer';
+import { useAuth } from '@/providers/supabaseAuthProvider';
 
 const AppDrawer = () => {
   const [open, setOpen] = useState(false);
@@ -25,9 +25,9 @@ const AppDrawer = () => {
 
   const data = {
     user: {
-      name: user?.user?.user_metadata.displayName ?? "Guest",
-      email: user?.user?.email ?? "No email provided",
-      avatar: user?.user?.user_metadata.profile_url ?? "/default-avatar.png",
+      name: user?.user?.user_metadata.displayName ?? 'Guest',
+      email: user?.user?.email ?? 'No email provided',
+      avatar: user?.user?.user_metadata.profile_url ?? '/default-avatar.png',
     },
   };
 
@@ -41,7 +41,7 @@ const AppDrawer = () => {
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
               className="text-3xl font-bold"
             >
               Post Pilot
@@ -53,7 +53,7 @@ const AppDrawer = () => {
               <Link
                 to="/dashboard"
                 className={buttonVariants({
-                  className: "w-full dark:text-white flex items-center ",
+                  className: 'w-full dark:text-white flex items-center ',
                 })}
                 onClick={() => setOpen(false)}
               >
@@ -75,9 +75,9 @@ const AppDrawer = () => {
                           key={item.title}
                           to={item.url}
                           className={buttonVariants({
-                            variant: isActive ? "drawer" : "ghost",
+                            variant: isActive ? 'drawer' : 'ghost',
                             className:
-                              "w-full  flex items-center justify-start gap-2  text-left",
+                              'w-full  flex items-center justify-start gap-2  text-left',
                           })}
                           onClick={() => setOpen(false)}
                         >
@@ -88,19 +88,19 @@ const AppDrawer = () => {
                         </Link>
                       );
                     })}
-                    {section.label === "Configuration" && (
+                    {section.label === 'Configuration' && (
                       <button
                         onClick={() =>
-                          setTheme(theme === "dark" ? "light" : "dark")
+                          setTheme(theme === 'dark' ? 'light' : 'dark')
                         }
                         className={buttonVariants({
-                          variant: "ghost",
+                          variant: 'ghost',
                           className:
-                            "w-full justify-start gap-2 text-left flex ",
+                            'w-full justify-start gap-2 text-left flex ',
                         })}
                       >
                         <div className="flex items-center gap-2  w-full">
-                          {theme === "dark" ? (
+                          {theme === 'dark' ? (
                             <Sun className="size-4 transition-all" />
                           ) : (
                             <Moon className="size-4 transition-all" />

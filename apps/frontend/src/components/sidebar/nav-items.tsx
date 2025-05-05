@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { LucideIcon } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import { LucideIcon } from 'lucide-react';
+import { Link } from '@tanstack/react-router';
 
-import { collapseSidebar, useAppDispatch } from "../../../store/index";
+import { collapseSidebar, useAppDispatch } from '../../../store/index';
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 interface NavItemProps {
   icon: LucideIcon;
@@ -26,12 +26,12 @@ export const NavItem = ({
     <Button
       asChild
       variant="ghost"
-      className={cn("w-full h-12", "justify-start", isActive && "bg-accent")}
+      className={cn('w-full h-12', 'justify-start', isActive && 'bg-accent')}
       onClick={() => dispatch(collapseSidebar())}
     >
       <Link to={href}>
         <div className="flex items-center gap-x-4">
-          <Icon className={cn("h-4 w-4", "mr-2")} />
+          <Icon className={cn('h-4 w-4', 'mr-2')} />
           {<span>{label}</span>}
         </div>
       </Link>

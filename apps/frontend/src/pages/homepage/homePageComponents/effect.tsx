@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion } from 'motion/react';
 
 const Effect = () => {
   return (
@@ -40,7 +40,7 @@ const Effect = () => {
                     }}
                     transition={{
                       duration: 2 + i * 0.3, // Small variation in duration
-                      ease: "easeInOut", // Smoother easing
+                      ease: 'easeInOut', // Smoother easing
                       repeat: Infinity,
                       delay: i * 0.5, // Stagger the start time
                     }}
@@ -85,7 +85,7 @@ const Effect = () => {
                   }}
                   transition={{
                     duration: 2 + i * 0.4, // Small variation in duration
-                    ease: "easeInOut",
+                    ease: 'easeInOut',
                     repeat: Infinity,
                     delay: i * 0.3, // Stagger the start time
                   }}
@@ -138,7 +138,7 @@ const Effect = () => {
                     }}
                     transition={{
                       duration: 2 + i * 0.3, // Small variation in duration
-                      ease: "easeInOut", // Smoother easing
+                      ease: 'easeInOut', // Smoother easing
                       repeat: Infinity,
                       delay: i * 0.5, // Stagger the start time
                     }}
@@ -183,7 +183,7 @@ const Effect = () => {
                   }}
                   transition={{
                     duration: 2 + i * 0.4, // Small variation in duration
-                    ease: "easeInOut",
+                    ease: 'easeInOut',
                     repeat: Infinity,
                     delay: i * 0.3, // Stagger the start time
                   }}

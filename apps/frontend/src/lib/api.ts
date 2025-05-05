@@ -7,17 +7,17 @@ import {
   RegeneratePostContent,
   RemoteFileUploadDetail,
   TweetContent,
-} from "@repo/common/types";
+} from '@repo/common/types';
 
 export const getProfileData = async (accessToken: string) => {
   try {
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/get-profile`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       },
     );
@@ -28,7 +28,7 @@ export const getProfileData = async (accessToken: string) => {
 
     return await response.json();
   } catch (error) {
-    console.error("Failed to fetch profile data:", error);
+    console.error('Failed to fetch profile data:', error);
     throw error;
   }
 };
@@ -50,7 +50,7 @@ export const connectToLinkedin = async (accessToken: string) => {
 
     return await response.json();
   } catch (error) {
-    console.error("Failed to connect to Linkedin:", error);
+    console.error('Failed to connect to Linkedin:', error);
     throw error;
   }
 };
@@ -63,10 +63,10 @@ export const updateProfile = async (
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/update-user`,
       {
-        method: "PATCH",
+        method: 'PATCH',
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(details),
       },
@@ -78,7 +78,7 @@ export const updateProfile = async (
 
     return await response.json();
   } catch (error) {
-    console.error("Failed to update profile:", error);
+    console.error('Failed to update profile:', error);
     throw error;
   }
 };
@@ -91,9 +91,9 @@ export const linkedinPost = async (
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/generate-post`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(details),
@@ -106,7 +106,7 @@ export const linkedinPost = async (
     const data = await response.json();
     return data.insertedData[0];
   } catch (error) {
-    console.error("Failed to post:", error);
+    console.error('Failed to post:', error);
     throw error;
   }
 };
@@ -119,9 +119,9 @@ export const regeneratePost = async (
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/regenerate-post`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(details),
@@ -134,7 +134,7 @@ export const regeneratePost = async (
     const data = await response.json();
     return data.updatedData[0];
   } catch (error) {
-    console.error("Failed to regenerate post:", error);
+    console.error('Failed to regenerate post:', error);
     throw error;
   }
 };
@@ -144,9 +144,9 @@ export const improvePost = async (accessToken: string, query: string) => {
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/improve-post`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ query }),
@@ -159,7 +159,7 @@ export const improvePost = async (accessToken: string, query: string) => {
     const data = await response.json();
     return data.updatedData[0];
   } catch (error) {
-    console.error("Failed to improve post:", error);
+    console.error('Failed to improve post:', error);
     throw error;
   }
 };
@@ -172,9 +172,9 @@ export const fetchTweet = async (
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/fetch-tweet`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(content),
@@ -187,7 +187,7 @@ export const fetchTweet = async (
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Failed to fetch tweet data:", error);
+    console.error('Failed to fetch tweet data:', error);
     throw error;
   }
 };
@@ -200,9 +200,9 @@ export const addTextNode = async (
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/add-text-node`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(details),
@@ -215,7 +215,7 @@ export const addTextNode = async (
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Failed to add node content:", error);
+    console.error('Failed to add node content:', error);
     throw error;
   }
 };
@@ -225,9 +225,9 @@ export const fetchWebsite = async (accessToken: string, url: string) => {
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/fetch-url`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ url }),
@@ -240,7 +240,7 @@ export const fetchWebsite = async (accessToken: string, url: string) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Failed to fetch url:", error);
+    console.error('Failed to fetch url:', error);
     throw error;
   }
 };
@@ -253,9 +253,9 @@ export const addRemoteImage = async (
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/add-remote-image`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(images),
@@ -268,7 +268,7 @@ export const addRemoteImage = async (
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Failed to fetch remote images:", error);
+    console.error('Failed to fetch remote images:', error);
     throw error;
   }
 };
@@ -281,9 +281,9 @@ export const addRemoteFile = async (
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/add-remote-file`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(files),
@@ -296,7 +296,7 @@ export const addRemoteFile = async (
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Failed to fetch remote files:", error);
+    console.error('Failed to fetch remote files:', error);
     throw error;
   }
 };
@@ -309,9 +309,9 @@ export const addLocalImage = async (
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/add-local-image`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(images),
@@ -324,7 +324,7 @@ export const addLocalImage = async (
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Failed to add local image:", error);
+    console.error('Failed to add local image:', error);
     throw error;
   }
 };
@@ -337,9 +337,9 @@ export const addLocalFile = async (
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/add-local-file`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(files),
@@ -352,7 +352,7 @@ export const addLocalFile = async (
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Failed to add local file:", error);
+    console.error('Failed to add local file:', error);
     throw error;
   }
 };
@@ -362,9 +362,9 @@ export const fetchUserSources = async (accessToken: string) => {
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/get-user`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
       },
@@ -376,7 +376,7 @@ export const fetchUserSources = async (accessToken: string) => {
     const data = await response.json();
     return data.users[0];
   } catch (error) {
-    console.error("Failed to get user sources:", error);
+    console.error('Failed to get user sources:', error);
     throw error;
   }
 };
@@ -389,9 +389,9 @@ export const postToLinkedin = async (
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/linkedin/post`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(content),
@@ -404,7 +404,7 @@ export const postToLinkedin = async (
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Failed to post:", error);
+    console.error('Failed to post:', error);
     throw error;
   }
 };
@@ -414,10 +414,10 @@ export const getLinkedinData = async (accessToken: string) => {
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/get-linekdin-credentials`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       },
     );
@@ -428,7 +428,7 @@ export const getLinkedinData = async (accessToken: string) => {
     const data = await response.json();
     return data.users[0];
   } catch (error) {
-    console.error("Failed to fetch profile data:", error);
+    console.error('Failed to fetch profile data:', error);
     throw error;
   }
 };
@@ -438,10 +438,10 @@ export const deleteLinkedinAccount = async (accessToken: string) => {
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/delete-account`,
       {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       },
     );
@@ -452,7 +452,7 @@ export const deleteLinkedinAccount = async (accessToken: string) => {
 
     return await response.json();
   } catch (error) {
-    console.error("Failed to delete linkedin account:", error);
+    console.error('Failed to delete linkedin account:', error);
     throw error;
   }
 };
@@ -462,10 +462,10 @@ export const getPostData = async (accessToken: string) => {
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/get-posts`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       },
     );
@@ -476,7 +476,7 @@ export const getPostData = async (accessToken: string) => {
     const data = await response.json();
     return data.posts;
   } catch (error) {
-    console.error("Failed to fetch post data:", error);
+    console.error('Failed to fetch post data:', error);
     throw error;
   }
 };

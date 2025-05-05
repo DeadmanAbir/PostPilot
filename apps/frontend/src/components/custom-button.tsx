@@ -1,8 +1,8 @@
-import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
-import { AnchorHTMLAttributes, ReactNode } from "react";
+import { Link } from '@tanstack/react-router';
+import { ArrowRight } from 'lucide-react';
+import { AnchorHTMLAttributes, ReactNode } from 'react';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 interface ButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   children: ReactNode;
@@ -10,9 +10,9 @@ interface ButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 const CustomButton = ({ className, children, href, ...props }: ButtonProps) => {
   return (
     <Link
-      to={href ?? "#"}
+      to={href ?? '#'}
       className={cn(
-        "group relative flex transform items-center justify-center gap-2 overflow-hidden whitespace-nowrap  border border-white bg-stone-700 px-8 text-base/7 font-medium text-white transition-all duration-300 hover:ring-2 hover:ring-stone-700 hover:ring-offset-2 focus:outline-none focus:ring-2 focus:ring-offset-2",
+        'group relative flex transform items-center justify-center gap-2 overflow-hidden whitespace-nowrap  border border-white bg-stone-700 px-8 text-base/7 font-medium text-white transition-all duration-300 hover:ring-2 hover:ring-stone-700 hover:ring-offset-2 focus:outline-none focus:ring-2 focus:ring-offset-2',
         className,
       )}
       {...props}

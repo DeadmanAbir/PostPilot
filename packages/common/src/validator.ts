@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const demoValidator = z.object({
   name: z.string(),
@@ -55,14 +55,14 @@ export const localFileUploadDetailsValidator = z.array(
     name: z.string(),
     url: z.string(),
     storage_name: z.string(),
-  })
+  }),
 );
 
 export const remoteFileUploadDetailsValidator = z.array(
   z.object({
     fileName: z.string().optional(),
     url: z.string().url(),
-  })
+  }),
 );
 
 export const textNodeDataValidaor = z.object({
@@ -80,7 +80,7 @@ export const linkedinPostValidator = z.object({
   text: z.string(),
   shareUrl: z.string().optional(),
   title: z.string().optional(),
-  visibility: z.enum(["PUBLIC", "CONNECTIONS"]),
+  visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
   images: z.array(z.string()).optional(),
   video: z.string().optional(),
 });

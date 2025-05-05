@@ -1,26 +1,26 @@
-import { useState } from "react";
-import { Filter, FileText, Calendar, Eye } from "lucide-react";
+import { useState } from 'react';
+import { Filter, FileText, Calendar, Eye } from 'lucide-react';
 
-import EmptyStateCard from "./empty-post-card";
+import EmptyStateCard from './empty-post-card';
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { useAuth } from "@/providers/supabaseAuthProvider";
-import { getPostQuery } from "@/lib/tanstack-query/query";
-import PostedLoading from "@/components/skeletons/posted-skeleton";
-import Banner from "@/components/banner";
+} from '@/components/ui/select';
+import { useAuth } from '@/providers/supabaseAuthProvider';
+import { getPostQuery } from '@/lib/tanstack-query/query';
+import PostedLoading from '@/components/skeletons/posted-skeleton';
+import Banner from '@/components/banner';
 
 export function PostsPage() {
   const { user } = useAuth();
-  const [sortOrder, setSortOrder] = useState<string>("newest");
+  const [sortOrder, setSortOrder] = useState<string>('newest');
   // const [platformFilter, setPlatformFilter] = useState<string>("all");
   // const [timeFilter, setTimeFilter] = useState<string>("all");
 
@@ -29,7 +29,7 @@ export function PostsPage() {
   // Sort data based on sortOrder
   const sortedData = postsData
     ? [...postsData].sort((a, b) => {
-        if (sortOrder === "newest") {
+        if (sortOrder === 'newest') {
           return (
             new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
           );
@@ -43,8 +43,8 @@ export function PostsPage() {
   const formatDate = (date: string) => {
     const dateObject: Date = new Date(date);
 
-    const day = String(dateObject.getDate()).padStart(2, "0");
-    const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
+    const day = String(dateObject.getDate()).padStart(2, '0');
+    const month = String(dateObject.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
     const year = String(dateObject.getFullYear()).slice(-2);
 
     const formattedDate = `${day}/${month}/${year}`;
@@ -137,11 +137,11 @@ export function PostsPage() {
                       <div className="flex justify-between items-start mb-4">
                         <div className="flex items-center justify-between w-full">
                           <div className="text-sm font-medium flex items-center gap-1 text-slate-600 dark:text-gray-400">
-                            <Calendar className="size-5" />{" "}
+                            <Calendar className="size-5" />{' '}
                             {formatDate(post.created_at)}
                             <span className="text-slate-300 dark:text-gray-600 mx-1">
                               •
-                            </span>{" "}
+                            </span>{' '}
                           </div>
                           <div className="flex items-center gap-3">
                             <Badge className="bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 shadow-sm px-3 py-1 font-semibold rounded-full">
@@ -171,7 +171,7 @@ export function PostsPage() {
                       <Button
                         variant="outline"
                         className="text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-700 dark:hover:text-blue-300 hover:border-blue-300 dark:hover:border-blue-800 font-medium px-4 shadow-sm transition-all duration-200"
-                        onClick={() => window.open(post.post_url, "_blank")}
+                        onClick={() => window.open(post.post_url, '_blank')}
                       >
                         <Eye className="mr-2 h-4 w-4" />
                         View Post

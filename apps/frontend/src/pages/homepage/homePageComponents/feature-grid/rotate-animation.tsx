@@ -12,7 +12,7 @@ const CubeFace = ({ bgColor, transform, icon: Icon, label }: CubeFaceProps) => (
     className={`absolute w-40 h-40 flex items-center justify-center  ${bgColor} border border-white/20`}
     style={{
       transform,
-      backfaceVisibility: "hidden",
+      backfaceVisibility: 'hidden',
     }}
   >
     <div className="flex flex-col items-center gap-4">
@@ -26,8 +26,8 @@ const OrbitAnimation = () => {
   // Data for cube faces with brand colors and icons
   const faces = [
     {
-      bgColor: "bg-[#FF0000]",
-      label: "YouTube",
+      bgColor: 'bg-[#FF0000]',
+      label: 'YouTube',
       icon: () => (
         <svg viewBox="0 0 24 24" className="w-16 h-16 text-red-900">
           <path
@@ -38,8 +38,8 @@ const OrbitAnimation = () => {
       ),
     },
     {
-      bgColor: "bg-[#1DA1F2]",
-      label: "Twitter",
+      bgColor: 'bg-[#1DA1F2]',
+      label: 'Twitter',
       icon: () => (
         <svg viewBox="0 0 24 24" className="w-16 h-16 text-blue-900">
           <path
@@ -50,8 +50,8 @@ const OrbitAnimation = () => {
       ),
     },
     {
-      bgColor: "bg-[#4285F4]",
-      label: "Docs",
+      bgColor: 'bg-[#4285F4]',
+      label: 'Docs',
       icon: () => (
         <svg viewBox="0 0 24 24" className="w-16 h-16 text-blue-900">
           <path
@@ -62,8 +62,8 @@ const OrbitAnimation = () => {
       ),
     },
     {
-      bgColor: "bg-[#34A853]",
-      label: "URL",
+      bgColor: 'bg-[#34A853]',
+      label: 'URL',
       icon: () => (
         <svg viewBox="0 0 24 24" className="w-16 h-16 text-green-900">
           <path
@@ -74,8 +74,8 @@ const OrbitAnimation = () => {
       ),
     },
     {
-      bgColor: "bg-[#EA4335]",
-      label: "Post Pilot",
+      bgColor: 'bg-[#EA4335]',
+      label: 'Post Pilot',
       icon: () => (
         <svg viewBox="0 0 24 24" className="w-16 h-16 text-red-900">
           <path
@@ -86,8 +86,8 @@ const OrbitAnimation = () => {
       ),
     },
     {
-      bgColor: "bg-[#FBBC05]",
-      label: "AI",
+      bgColor: 'bg-[#FBBC05]',
+      label: 'AI',
       icon: () => (
         <svg viewBox="0 0 24 24" className="w-16 h-16 text-yellow-900">
           <path
@@ -102,14 +102,14 @@ const OrbitAnimation = () => {
   return (
     <div
       className="w-full flex items-center justify-center h-[280px] overflow-hidden "
-      style={{ perspective: "2000px" }}
+      style={{ perspective: '2000px' }}
     >
       <div
         className="relative w-48 h-48"
         style={{
-          transformStyle: "preserve-3d",
-          transform: "rotateX(15deg) rotateY(-15deg)",
-          animation: "rotateCube 20s infinite linear",
+          transformStyle: 'preserve-3d',
+          transform: 'rotateX(15deg) rotateY(-15deg)',
+          animation: 'rotateCube 20s infinite linear',
         }}
       >
         <CubeFace {...faces[0]} transform="translateZ(80px)" />

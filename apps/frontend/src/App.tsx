@@ -1,20 +1,20 @@
-import { createRouter, RouterProvider } from "@tanstack/react-router";
-import { Provider } from "react-redux";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HelmetProvider } from "react-helmet-async";
-import { Analytics } from "@vercel/analytics/react";
+import { createRouter, RouterProvider } from '@tanstack/react-router';
+import { Provider } from 'react-redux';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { HelmetProvider } from 'react-helmet-async';
+import { Analytics } from '@vercel/analytics/react';
 
-import { useAuth } from "./hooks/useAuth";
-import { store } from "../store/index";
-import { routeTree } from "./routeTree.gen";
+import { useAuth } from './hooks/useAuth';
+import { store } from '../store/index';
+import { routeTree } from './routeTree.gen';
 
-import { ThemeProvider } from "@/providers/theme-provider";
+import { ThemeProvider } from '@/providers/theme-provider';
 
 const router = createRouter({
   routeTree,
   context: { authentication: undefined! },
 });
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router;
   }

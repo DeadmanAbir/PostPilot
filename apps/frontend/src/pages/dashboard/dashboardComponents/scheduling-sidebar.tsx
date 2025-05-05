@@ -1,29 +1,29 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
-import { toast } from "sonner";
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { CalendarIcon } from 'lucide-react';
+import { format } from 'date-fns';
+import { toast } from 'sonner';
 
-import { Card, CardContent } from "../../../components/ui/card";
-import { Button } from "../../../components/ui/button";
-import { Calendar } from "../../../components/ui/calendar";
-import { Input } from "../../../components/ui/input";
-import { Label } from "../../../components/ui/label";
+import { Card, CardContent } from '../../../components/ui/card';
+import { Button } from '../../../components/ui/button';
+import { Calendar } from '../../../components/ui/calendar';
+import { Input } from '../../../components/ui/input';
+import { Label } from '../../../components/ui/label';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "../../../components/ui/dialog";
-import { selectPostGenerated, useAppSelector } from "../../../../store/index";
+} from '../../../components/ui/dialog';
+import { selectPostGenerated, useAppSelector } from '../../../../store/index';
 
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Switch } from "@/components/ui/switch";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/popover';
+import { Switch } from '@/components/ui/switch';
+import { cn } from '@/lib/utils';
 
 interface ScheduledPost {
   id: string;
@@ -36,25 +36,25 @@ interface ScheduledPost {
 // Mock data for upcoming posts
 const mockUpcomingPosts: ScheduledPost[] = [
   {
-    id: "1",
+    id: '1',
     date: new Date(2024, 2, 15),
-    time: "10:00",
-    content: "Exciting news coming soon!",
-    image: "/placeholder.svg?height=40&width=40",
+    time: '10:00',
+    content: 'Exciting news coming soon!',
+    image: '/placeholder.svg?height=40&width=40',
   },
   {
-    id: "2",
+    id: '2',
     date: new Date(2024, 2, 16),
-    time: "14:30",
-    content: "Check out our latest product launch",
-    image: "/placeholder.svg?height=40&width=40",
+    time: '14:30',
+    content: 'Check out our latest product launch',
+    image: '/placeholder.svg?height=40&width=40',
   },
   {
-    id: "3",
+    id: '3',
     date: new Date(2024, 2, 17),
-    time: "09:00",
-    content: "Join us for a live webinar",
-    image: "/placeholder.svg?height=40&width=40",
+    time: '09:00',
+    content: 'Join us for a live webinar',
+    image: '/placeholder.svg?height=40&width=40',
   },
 ];
 
@@ -83,13 +83,13 @@ export function SchedulingSidebar() {
 
     // Prevent scheduling past dates
     if (selectedDate < today) {
-      toast.error("Cannot schedule a post in the past.");
+      toast.error('Cannot schedule a post in the past.');
       return;
     }
 
     // Prevent scheduling past times for today
     if (selectedDate.getTime() === today.getTime() && time < getCurrentTime()) {
-      toast.error("Cannot schedule a post in the past time.");
+      toast.error('Cannot schedule a post in the past time.');
       return;
     }
 
@@ -97,8 +97,8 @@ export function SchedulingSidebar() {
       id: (scheduledPosts.length + 1).toString(),
       date,
       time,
-      content: "New scheduled post",
-      image: "/placeholder.svg?height=40&width=40",
+      content: 'New scheduled post',
+      image: '/placeholder.svg?height=40&width=40',
     };
 
     setScheduledPosts([...scheduledPosts, newPost]);
@@ -127,7 +127,7 @@ export function SchedulingSidebar() {
           <motion.div
             key="schedule"
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
+            animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
@@ -137,14 +137,14 @@ export function SchedulingSidebar() {
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
-                      variant={"outline"}
+                      variant={'outline'}
                       className={cn(
-                        " justify-start text-left font-normal w-full mt-1",
-                        !date && "text-muted-foreground",
+                        ' justify-start text-left font-normal w-full mt-1',
+                        !date && 'text-muted-foreground',
                       )}
                     >
                       <CalendarIcon />
-                      {date ? format(date, "PPP") : <span>Pick a date</span>}
+                      {date ? format(date, 'PPP') : <span>Pick a date</span>}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0">
@@ -272,7 +272,7 @@ export function SchedulingSidebar() {
                 <strong>Content:</strong> {selectedPost.content}
               </p>
               <img
-                src={selectedPost.image || "/placeholder.svg"}
+                src={selectedPost.image || '/placeholder.svg'}
                 alt="Post preview"
                 className="mt-2 rounded-md"
               />

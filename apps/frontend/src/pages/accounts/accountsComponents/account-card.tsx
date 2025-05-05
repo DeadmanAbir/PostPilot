@@ -1,11 +1,11 @@
-import { MoreHorizontal, Trash2, ExternalLink, Linkedin } from "lucide-react";
-import { Link } from "@tanstack/react-router";
-import { useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { MoreHorizontal, Trash2, ExternalLink, Linkedin } from 'lucide-react';
+import { Link } from '@tanstack/react-router';
+import { useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,17 +16,17 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+} from '@/components/ui/alert-dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useAuth } from "@/providers/supabaseAuthProvider";
-import { connectLinkedinQuery } from "@/lib/tanstack-query/query";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { deleteLinkedinAccountFn } from "@/lib/tanstack-query/mutation";
+} from '@/components/ui/dropdown-menu';
+import { useAuth } from '@/providers/supabaseAuthProvider';
+import { connectLinkedinQuery } from '@/lib/tanstack-query/query';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { deleteLinkedinAccountFn } from '@/lib/tanstack-query/mutation';
 
 interface AccountCardProps {
   profile_url?: string;
@@ -49,13 +49,13 @@ export function AccountCard({
     user?.accessToken!,
     {
       onSuccess: () => {
-        toast.success("account disconnected  successfully");
+        toast.success('account disconnected  successfully');
 
-        queryClient.invalidateQueries({ queryKey: ["linkedin"] });
+        queryClient.invalidateQueries({ queryKey: ['linkedin'] });
       },
       onError: (error: unknown) => {
         console.error(error);
-        toast.error("error in disconnecting account");
+        toast.error('error in disconnecting account');
       },
     },
   );
@@ -65,14 +65,14 @@ export function AccountCard({
         await connectLinkedinRefetch();
 
       if (newError) {
-        console.error("LinkedIn connection error:", newError);
-        toast.error("LinkedIn connection error:");
+        console.error('LinkedIn connection error:', newError);
+        toast.error('LinkedIn connection error:');
         return;
       }
 
       window.location.href = AuthData?.authUrl!;
     } catch (error) {
-      console.error("LinkedIn connection error:", error);
+      console.error('LinkedIn connection error:', error);
     }
   };
 
@@ -87,9 +87,9 @@ export function AccountCard({
     if (isExpired === false) {
       return (
         <Avatar className="size-14 border-4 border-background dark:border-gray-700">
-          <AvatarImage src={profile_url} alt={"pp"} />
+          <AvatarImage src={profile_url} alt={'pp'} />
           <AvatarFallback className="dark:bg-gray-700 dark:text-gray-200">
-            {"Abir"}
+            {'Abir'}
           </AvatarFallback>
         </Avatar>
       );
@@ -111,7 +111,7 @@ export function AccountCard({
       <CardContent className="px-2 md:px-6 py-4 flex items-center gap-4">
         <div
           className="flex items-center justify-center w-16 h-16 rounded-2xl"
-          style={{ backgroundColor: "#0A66C2" }}
+          style={{ backgroundColor: '#0A66C2' }}
         >
           <Linkedin className="h-8 w-8 text-white" />
         </div>
@@ -119,7 +119,7 @@ export function AccountCard({
         <div className="flex-1">
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-1">
             <h3 className="text-lg font-semibold text-slate-800 dark:text-white">
-              {"Linkedin"}
+              {'Linkedin'}
             </h3>
             {!isLoading && !isExpired && (
               <Badge

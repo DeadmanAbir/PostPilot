@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 interface Avatar {
   imageUrl: string;
@@ -18,7 +18,7 @@ export const AvatarCircles = ({
   avatarUrls,
 }: AvatarCirclesProps) => {
   return (
-    <div className={cn("z-10 flex space-x-1 rtl:space-x-reverse", className)}>
+    <div className={cn('z-10 flex space-x-1 rtl:space-x-reverse', className)}>
       {avatarUrls.slice(0, 4).map((url, index) => (
         <a
           key={index}

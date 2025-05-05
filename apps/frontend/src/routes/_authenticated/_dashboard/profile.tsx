@@ -1,10 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from '@tanstack/react-router';
 
-import { getProfileData } from "@/lib/api";
-import { supabase } from "@/lib/supabaseClient";
-import { ProfilePage } from "@/pages/profile/profile-page";
+import { getProfileData } from '@/lib/api';
+import { supabase } from '@/lib/supabaseClient';
+import { ProfilePage } from '@/pages/profile/profile-page';
 
-export const Route = createFileRoute("/_authenticated/_dashboard/profile")({
+export const Route = createFileRoute('/_authenticated/_dashboard/profile')({
   component: ProfilePage,
   loader: async () => {
     const {

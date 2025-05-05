@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/providers/supabaseAuthProvider";
-import { fetchWebsiteFn } from "@/lib/tanstack-query/mutation";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/providers/supabaseAuthProvider';
+import { fetchWebsiteFn } from '@/lib/tanstack-query/mutation';
 
 export function WebsitesTab() {
-  const [websiteUrl, setWebsiteUrl] = useState("");
+  const [websiteUrl, setWebsiteUrl] = useState('');
   const [isValidUrl, setIsValidUrl] = useState(true);
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -18,13 +18,13 @@ export function WebsitesTab() {
     user?.accessToken!,
     {
       onSuccess: () => {
-        toast.success("website fetched  successfully");
-        setWebsiteUrl("");
-        queryClient.invalidateQueries({ queryKey: ["sources"] });
+        toast.success('website fetched  successfully');
+        setWebsiteUrl('');
+        queryClient.invalidateQueries({ queryKey: ['sources'] });
       },
       onError: (error: unknown) => {
         console.error(error);
-        toast.error("error in fetching");
+        toast.error('error in fetching');
       },
     },
   );
@@ -69,7 +69,7 @@ export function WebsitesTab() {
                   placeholder="https://example.com"
                   value={websiteUrl}
                   onChange={(e) => setWebsiteUrl(e.target.value)}
-                  className={`h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900 ${!isValidUrl ? "border-red-500" : ""}`}
+                  className={`h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900 ${!isValidUrl ? 'border-red-500' : ''}`}
                 />
                 <Button
                   disabled={isFetching}

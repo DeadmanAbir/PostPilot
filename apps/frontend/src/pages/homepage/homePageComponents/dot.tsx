@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 const getRandomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -16,7 +16,7 @@ const Dots = () => {
       indices.push(value);
     }
   }
-  const states = ["off", "medium", "high"];
+  const states = ['off', 'medium', 'high'];
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -36,42 +36,42 @@ const Dots = () => {
 
         const pulse =
           Math.random() > 0.2 &&
-          ((currentState === "off" && nextState === "high") ||
-            (currentState === "off" && nextState === "medium") ||
-            (currentState === "medium" && nextState === "high"));
+          ((currentState === 'off' && nextState === 'high') ||
+            (currentState === 'off' && nextState === 'medium') ||
+            (currentState === 'medium' && nextState === 'high'));
 
         if (pulse) {
           const delay = getRandomNumber(100, 500);
 
           timeoutIds.push(
             window.setTimeout(() => {
-              (light as HTMLElement).style.transform = "scale(2)";
+              (light as HTMLElement).style.transform = 'scale(2)';
             }, delay),
           );
 
           timeoutIds.push(
             window.setTimeout(() => {
-              (light as HTMLElement).style.transform = "scale(1)";
+              (light as HTMLElement).style.transform = 'scale(1)';
             }, transitionDuration + delay),
           );
         }
 
-        if (currentState === "high" && nextState === "medium" && pulse) {
-          (light as HTMLElement).dataset.state = "off";
+        if (currentState === 'high' && nextState === 'medium' && pulse) {
+          (light as HTMLElement).dataset.state = 'off';
         } else {
           (light as HTMLElement).dataset.state = nextState;
         }
 
         // Update background color based on state
         switch (nextState) {
-          case "off":
-            (light as HTMLElement).style.background = "#333";
+          case 'off':
+            (light as HTMLElement).style.background = '#333';
             break;
-          case "medium":
-            (light as HTMLElement).style.background = "#666";
+          case 'medium':
+            (light as HTMLElement).style.background = '#666';
             break;
-          case "high":
-            (light as HTMLElement).style.background = "#fff";
+          case 'high':
+            (light as HTMLElement).style.background = '#fff';
             break;
         }
       });
@@ -87,7 +87,7 @@ const Dots = () => {
     <div
       ref={ref}
       style={{
-        display: "grid",
+        display: 'grid',
         gap: `${columns}px`,
         gridTemplateColumns: `repeat(${columns}, 1fr)`,
       }}
@@ -98,10 +98,10 @@ const Dots = () => {
           data-state="off"
           data-index={i}
           style={{
-            width: "4px",
-            height: "4px",
-            borderRadius: "50%",
-            background: "#333",
+            width: '4px',
+            height: '4px',
+            borderRadius: '50%',
+            background: '#333',
             transition: `all ${transitionDuration}ms ease`,
           }}
         />

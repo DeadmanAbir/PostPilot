@@ -1,8 +1,8 @@
-import { CalendarIcon, FileText } from "lucide-react";
-import { Suspense } from "react";
+import { CalendarIcon, FileText } from 'lucide-react';
+import { Suspense } from 'react';
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Textarea } from '@/components/ui/textarea';
 interface NoteCardProps {
   title: string;
   content: string;

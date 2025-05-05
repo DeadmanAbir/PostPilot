@@ -1,10 +1,10 @@
-import { useEffect, useRef } from "react";
-import { ChevronDown } from "lucide-react";
+import { useEffect, useRef } from 'react';
+import { ChevronDown } from 'lucide-react';
 
-import PreviewSection from "./sourcesComponents/preview-section";
-import LinkSection2 from "./sourcesComponents/links-sections-2";
+import PreviewSection from './sourcesComponents/preview-section';
+import LinkSection2 from './sourcesComponents/links-sections-2';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
 const Sources = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -39,7 +39,7 @@ const Sources = () => {
           ),
         );
 
-        sections[nextIndex].scrollIntoView({ behavior: "smooth" });
+        sections[nextIndex].scrollIntoView({ behavior: 'smooth' });
       }
 
       setTimeout(() => {
@@ -47,9 +47,9 @@ const Sources = () => {
       }, 800);
     };
 
-    container.addEventListener("wheel", handleScroll);
+    container.addEventListener('wheel', handleScroll);
 
-    return () => container.removeEventListener("wheel", handleScroll);
+    return () => container.removeEventListener('wheel', handleScroll);
   }, []);
 
   const scrollToNextSection = (direction: 1 | -1) => {
@@ -72,7 +72,7 @@ const Sources = () => {
         ),
       );
 
-      sections[nextIndex].scrollIntoView({ behavior: "smooth" });
+      sections[nextIndex].scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -83,8 +83,8 @@ const Sources = () => {
         <div className="flex flex-col items-center absolute bottom-5">
           <span> Your Sources</span>
           <Button
-            variant={"ghost"}
-            size={"icon"}
+            variant={'ghost'}
+            size={'icon'}
             onClick={() => scrollToNextSection(1)}
           >
             <ChevronDown />

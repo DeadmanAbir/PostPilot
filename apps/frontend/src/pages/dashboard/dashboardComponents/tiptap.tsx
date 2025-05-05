@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import { useEditor, EditorContent, Editor as Tip } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Placeholder from "@tiptap/extension-placeholder";
-import { Bold, Italic, Copy, Check } from "lucide-react";
+import { useState, useEffect } from 'react';
+import { useEditor, EditorContent, Editor as Tip } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import Placeholder from '@tiptap/extension-placeholder';
+import { Bold, Italic, Copy, Check } from 'lucide-react';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
 // Unicode Converter from your code
 interface UnicodeConverterInterface {
@@ -66,7 +66,7 @@ const UnicodeConverter: UnicodeConverterInterface = {
 // Function to process HTML content and apply Unicode formatting
 export const processHTMLContent = (html: string): string => {
   // Create a temporary div to parse the HTML
-  const tempDiv: HTMLDivElement = document.createElement("div");
+  const tempDiv: HTMLDivElement = document.createElement('div');
   tempDiv.innerHTML = html;
 
   // Process the DOM tree recursively
@@ -74,47 +74,47 @@ export const processHTMLContent = (html: string): string => {
 };
 
 const processNode = (node: Node): string => {
-  let result = "";
+  let result = '';
 
   // Process each child node
   node.childNodes.forEach((child: ChildNode) => {
     if (child.nodeType === Node.TEXT_NODE) {
       // For text nodes, just add the text content
-      result += (child as Text).textContent || "";
+      result += (child as Text).textContent || '';
     } else if (child.nodeType === Node.ELEMENT_NODE) {
       const element = child as HTMLElement;
       let text = processNode(element); // Process nested content first
 
       // Apply formatting based on the element type
-      if (element.tagName === "STRONG" || element.tagName === "B") {
+      if (element.tagName === 'STRONG' || element.tagName === 'B') {
         if (
-          element.querySelector("em") ||
-          element.querySelector("i") ||
-          element.parentElement?.tagName === "EM" ||
-          element.parentElement?.tagName === "I"
+          element.querySelector('em') ||
+          element.querySelector('i') ||
+          element.parentElement?.tagName === 'EM' ||
+          element.parentElement?.tagName === 'I'
         ) {
           text = UnicodeConverter.boldItalic(text);
         } else {
           text = UnicodeConverter.bold(text);
         }
-      } else if (element.tagName === "EM" || element.tagName === "I") {
+      } else if (element.tagName === 'EM' || element.tagName === 'I') {
         if (
-          element.querySelector("strong") ||
-          element.querySelector("b") ||
-          element.parentElement?.tagName === "STRONG" ||
-          element.parentElement?.tagName === "B"
+          element.querySelector('strong') ||
+          element.querySelector('b') ||
+          element.parentElement?.tagName === 'STRONG' ||
+          element.parentElement?.tagName === 'B'
         ) {
           text = UnicodeConverter.boldItalic(text);
         } else {
           text = UnicodeConverter.italic(text);
         }
-      } else if (element.tagName === "P" || element.tagName === "DIV") {
+      } else if (element.tagName === 'P' || element.tagName === 'DIV') {
         // Add paragraph breaks for p tags, but not at the end of the content
-        if (result && !result.endsWith("\n\n")) {
-          text = text + "\n\n";
+        if (result && !result.endsWith('\n\n')) {
+          text = text + '\n\n';
         }
-      } else if (element.tagName === "BR") {
-        text = "\n";
+      } else if (element.tagName === 'BR') {
+        text = '\n';
       }
 
       result += text;
@@ -153,7 +153,7 @@ const MenuBar = ({ editor, onCopy, copied }: MenuBarProps) => {
             editor.chain().focus().toggleBold().run();
           }}
           disabled={!editor.can().chain().focus().toggleBold().run()}
-          className={`${editor.isActive("bold") ? "bg-muted" : ""} hover:text-blue-500 dark:hover:bg-blue-900/40`}
+          className={`${editor.isActive('bold') ? 'bg-muted' : ''} hover:text-blue-500 dark:hover:bg-blue-900/40`}
         >
           <Bold className="h-4 w-4" />
         </Button>
@@ -166,7 +166,7 @@ const MenuBar = ({ editor, onCopy, copied }: MenuBarProps) => {
             editor.chain().focus().toggleItalic().run();
           }}
           disabled={!editor.can().chain().focus().toggleItalic().run()}
-          className={`${editor.isActive("italic") ? "bg-muted" : ""} hover:text-blue-500 dark:hover:bg-blue-900/40`}
+          className={`${editor.isActive('italic') ? 'bg-muted' : ''} hover:text-blue-500 dark:hover:bg-blue-900/40`}
         >
           <Italic className="h-4 w-4" />
         </Button>
@@ -179,12 +179,12 @@ const MenuBar = ({ editor, onCopy, copied }: MenuBarProps) => {
           onClick={onCopy}
           className={(() => {
             if (copied) {
-              return "bg-green-200 dark:bg-green-800";
+              return 'bg-green-200 dark:bg-green-800';
             }
-            if (editor.isActive("bold")) {
-              return "bg-muted";
+            if (editor.isActive('bold')) {
+              return 'bg-muted';
             }
-            return "";
+            return '';
           })()}
         >
           {copied ? (
@@ -204,7 +204,7 @@ export default function Editor({ value, onChange, disabled }: EditorProps) {
     extensions: [
       StarterKit,
       Placeholder.configure({
-        placeholder: "Write something …",
+        placeholder: 'Write something …',
       }),
     ],
     content: value,
@@ -212,7 +212,7 @@ export default function Editor({ value, onChange, disabled }: EditorProps) {
 
     editorProps: {
       attributes: {
-        class: "prose prose-sm max-w-none focus:outline-none p-4",
+        class: 'prose prose-sm max-w-none focus:outline-none p-4',
       },
     },
     onUpdate: ({ editor }) => {
@@ -224,7 +224,7 @@ export default function Editor({ value, onChange, disabled }: EditorProps) {
   useEffect(() => {
     if (editor) {
       if (value !== editor.getHTML()) {
-        const htmlValue = value.replace(/\n/g, "<br>");
+        const htmlValue = value.replace(/\n/g, '<br>');
         editor.commands.setContent(htmlValue);
       }
       editor.setEditable(!disabled);
@@ -256,7 +256,7 @@ export default function Editor({ value, onChange, disabled }: EditorProps) {
         tabIndex={0}
         role="button"
         onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
+          if (e.key === 'Enter' || e.key === ' ') {
             editor?.commands.focus();
           }
         }}

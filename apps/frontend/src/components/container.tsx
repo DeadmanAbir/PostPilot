@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { selectSidebarCollapsed, useAppSelector } from "../../store/index";
+import { selectSidebarCollapsed, useAppSelector } from '../../store/index';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 interface ContainerProps {
   children: React.ReactNode;
@@ -14,8 +14,8 @@ export const Container = ({ children }: ContainerProps) => {
   return (
     <div
       className={cn(
-        "flex-1 overflow-hidden transition-all duration-200 ease-in-out",
-        collapsed ? "ml-[70px]" : "ml-[70px] lg:ml-60",
+        'flex-1 overflow-hidden transition-all duration-200 ease-in-out',
+        collapsed ? 'ml-[70px]' : 'ml-[70px] lg:ml-60',
       )}
     >
       {children}

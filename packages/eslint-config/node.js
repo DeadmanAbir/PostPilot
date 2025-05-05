@@ -10,7 +10,8 @@ import { fixupPluginRules } from '@eslint/compat';
 export default [
   ...baseConfig,
   {
-    files: ['**/*.{ts,js}'],
+    files: ['**/*.{ts}'],
+   
     plugins: {
       import: importPlugin,
       '@typescript-eslint': tsPlugin,

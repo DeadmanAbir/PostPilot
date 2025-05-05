@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction} from "express";
-import createError from "http-errors";
-import jwt from "jsonwebtoken";
-import "dotenv/config";
+import { Request, Response, NextFunction } from 'express';
+import createError from 'http-errors';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 export interface AuthRequest extends Request {
   userId: string;
@@ -22,39 +22,39 @@ declare global {
 export const authMiddleware = (
   req: AuthRequest,
   res: Response,
-  next: NextFunction
-) : void => {
+  next: NextFunction,
+): void => {
   try {
     const authHeader = req.headers.authorization;
 
-    if (!authHeader?.startsWith("Bearer")) {
+    if (!authHeader?.startsWith('Bearer')) {
       throw createError(
         401,
-        "Unauthorized: Missing or invalid Authorization header."
+        'Unauthorized: Missing or invalid Authorization header.',
       );
     }
 
-    const token = authHeader.split(" ")[1];
+    const token = authHeader.split(' ')[1];
 
     if (!token) {
-      throw createError(401, "Unauthorized: Token not provided.");
+      throw createError(401, 'Unauthorized: Token not provided.');
     }
 
     const secret = process.env.SUPABASE_JWT_SECRET;
     if (!secret) {
-      throw createError(500, "Internal Server Error: Missing JWT secret.");
+      throw createError(500, 'Internal Server Error: Missing JWT secret.');
     }
 
     const decoded = jwt.verify(token, secret);
 
     if (
-      typeof decoded === "string" ||
+      typeof decoded === 'string' ||
       !decoded.sub ||
       !decoded.email ||
       !decoded.role ||
-      decoded.role !== "authenticated"
+      decoded.role !== 'authenticated'
     ) {
-      throw createError(401, "Unauthorized: Invalid token payload.");
+      throw createError(401, 'Unauthorized: Invalid token payload.');
     }
 
     req.userId = decoded.sub;
@@ -64,8 +64,8 @@ export const authMiddleware = (
     next();
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {
-       res.status(403).json({ error: "Unauthorized: Invalid token" });
-       return
+      res.status(403).json({ error: 'Unauthorized: Invalid token' });
+      return;
     }
 
     next(error);

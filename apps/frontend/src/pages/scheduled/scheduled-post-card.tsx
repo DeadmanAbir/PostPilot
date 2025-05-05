@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import type React from "react";
-import { Clock } from "lucide-react";
+import type React from 'react';
+import { Clock } from 'lucide-react';
 
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../../components/ui/avatar";
-import { Card, CardContent, CardFooter } from "../../components/ui/card";
-import { ScheduledPost } from "./scheduled-posts-page";
+} from '../../components/ui/avatar';
+import { Card, CardContent, CardFooter } from '../../components/ui/card';
+import { ScheduledPost } from './scheduled-posts-page';
 
 interface ScheduledPostCardProps {
   post: ScheduledPost;
@@ -23,12 +23,12 @@ export function ScheduledPostCard({
   onDateClick,
 }: ScheduledPostCardProps) {
   // Format the date for display
-  const formattedDate = new Intl.DateTimeFormat("en-US", {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
+  const formattedDate = new Intl.DateTimeFormat('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
     hour12: true,
   }).format(post.scheduledDate);
 
@@ -60,7 +60,7 @@ export function ScheduledPostCard({
         {post.images.length > 0 && (
           <div className="relative w-full h-40 mb-3 rounded-md overflow-hidden">
             <img
-              src={post.images[0] || "/placeholder.svg"}
+              src={post.images[0] || '/placeholder.svg'}
               alt="Post preview"
               className="w-full h-full object-cover"
             />
@@ -85,7 +85,7 @@ export function ScheduledPostCard({
           role="button"
           tabIndex={0}
           onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
+            if (e.key === 'Enter' || e.key === ' ') {
               handleDateClick(e as unknown as React.MouseEvent);
             }
           }}

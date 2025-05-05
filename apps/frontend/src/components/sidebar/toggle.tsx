@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import { Menu } from "lucide-react";
+import { Menu } from 'lucide-react';
 
-import { Hint } from "../ui/hint";
+import { Hint } from '../ui/hint';
 import {
   useAppSelector,
   selectSidebarCollapsed,
   useAppDispatch,
   expandSidebar,
   collapseSidebar,
-} from "../../../store/index";
+} from '../../../store/index';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
 const Toggle = () => {
   const collapsed = useAppSelector(selectSidebarCollapsed);
   const dispatch = useAppDispatch();
-  const label = collapsed ? "Expand" : "Collapse";
+  const label = collapsed ? 'Expand' : 'Collapse';
 
   return (
     <>
