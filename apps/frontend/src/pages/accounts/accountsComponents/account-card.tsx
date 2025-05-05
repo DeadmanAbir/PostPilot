@@ -54,7 +54,7 @@ export function AccountCard({
         queryClient.invalidateQueries({ queryKey: ["linkedin"] });
       },
       onError: (error: unknown) => {
-        console.log(error);
+        console.error(error);
         toast.error("error in disconnecting account");
       },
     },

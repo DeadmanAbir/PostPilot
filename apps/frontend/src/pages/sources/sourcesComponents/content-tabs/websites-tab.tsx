@@ -23,7 +23,7 @@ export function WebsitesTab() {
         queryClient.invalidateQueries({ queryKey: ["sources"] });
       },
       onError: (error: unknown) => {
-        console.log(error);
+        console.error(error);
         toast.error("error in fetching");
       },
     },

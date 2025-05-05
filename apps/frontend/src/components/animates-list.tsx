@@ -37,7 +37,7 @@ export const AnimatedList = React.memo(
       () => React.Children.toArray(children),
       [children],
     );
-
+    // eslint-disable-next-line consistent-return
     useEffect(() => {
       if (index < childrenArray.length - 1) {
         const timeout = setTimeout(() => {

@@ -35,7 +35,7 @@ export function TweetsTab() {
         queryClient.invalidateQueries({ queryKey: ["sources"] });
       },
       onError: (error: unknown) => {
-        console.log(error);
+        console.error(error);
         toast.error("Error in fetching tweet");
       },
     },

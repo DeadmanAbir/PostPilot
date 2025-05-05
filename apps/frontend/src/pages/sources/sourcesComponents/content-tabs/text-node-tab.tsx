@@ -29,7 +29,7 @@ export function TextNoteTab(): React.ReactElement {
         queryClient.invalidateQueries({ queryKey: ["sources"] });
       },
       onError: (error: unknown) => {
-        console.log(error);
+        console.error(error);
         toast.error("error in adding content");
       },
     },

@@ -241,7 +241,7 @@ export default function Editor({ value, onChange, disabled }: EditorProps) {
         setTimeout(() => setCopied(false), 1200);
       } catch (err) {
         setCopied(false);
-        console.log(err);
+        console.error(err);
       }
     }
   };

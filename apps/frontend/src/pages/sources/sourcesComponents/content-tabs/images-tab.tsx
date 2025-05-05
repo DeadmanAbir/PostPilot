@@ -38,7 +38,7 @@ export function ImagesTab() {
         queryClient.invalidateQueries({ queryKey: ["sources"] });
       },
       onError: (error: unknown) => {
-        console.log(error);
+        console.error(error);
         toast.error("error in adding remote images");
       },
     });
@@ -51,7 +51,7 @@ export function ImagesTab() {
         queryClient.invalidateQueries({ queryKey: ["sources"] });
       },
       onError: (error: unknown) => {
-        console.log(error);
+        console.error(error);
         toast.error("error in adding local images");
       },
     });

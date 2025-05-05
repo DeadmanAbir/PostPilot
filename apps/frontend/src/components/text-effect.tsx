@@ -117,6 +117,7 @@ const AnimationComponent: React.FC<{
   segmentWrapperClassName?: string;
 }> = React.memo(({ segment, variants, per, segmentWrapperClassName }) => {
   const content =
+    // eslint-disable-next-line no-nested-ternary
     per === "line" ? (
       <motion.span variants={variants} className="block">
         {segment}
@@ -181,7 +182,7 @@ const createVariantsWithTransition = (
   if (!transition) {
     return baseVariants;
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { exit: _, ...mainTransition } = transition;
 
   return {

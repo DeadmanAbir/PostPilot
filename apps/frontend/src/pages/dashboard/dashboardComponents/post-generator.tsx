@@ -209,7 +209,7 @@ export function PostGenerator() {
         dispatch(setPostGenerated(true));
       },
       onError: (error: unknown) => {
-        console.log(error);
+        console.error(error);
         toast.error("error in posting");
       },
     },
@@ -228,7 +228,7 @@ export function PostGenerator() {
       toast.success("Posted to Linkedin successfully");
     },
     onError: (error: unknown) => {
-      console.log(error);
+      console.error(error);
       toast.error("error in posting");
     },
   });
@@ -241,7 +241,7 @@ export function PostGenerator() {
         toast.success("Post re-generated successfully");
       },
       onError: (error: unknown) => {
-        console.log(error);
+        console.error(error);
         toast.error("error in posting");
       },
     });
@@ -255,7 +255,7 @@ export function PostGenerator() {
         toast.success("Post improved successfully");
       },
       onError: (error: unknown) => {
-        console.log(error);
+        console.error(error);
         toast.error("error inimproving");
       },
     },

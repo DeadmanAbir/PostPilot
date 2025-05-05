@@ -38,7 +38,7 @@ export function FilesTab() {
         queryClient.invalidateQueries({ queryKey: ["sources"] });
       },
       onError: (error: unknown) => {
-        console.log(error);
+        console.error(error);
         toast.error("error in adding remote file");
       },
     });
@@ -52,7 +52,7 @@ export function FilesTab() {
         queryClient.invalidateQueries({ queryKey: ["sources"] });
       },
       onError: (error: unknown) => {
-        console.log(error);
+        console.error(error);
         toast.error("error in adding local file");
       },
     },
