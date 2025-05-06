@@ -1,12 +1,13 @@
-import { Card } from "@/components/ui/card";
-import { Clock, FileCheck, Monitor } from "lucide-react";
+import { Clock, FileCheck, Monitor } from 'lucide-react';
+
+import { Card } from '@/components/ui/card';
 
 const EfficiencySection = () => {
   return (
     <div className="w-full ">
       <div className="w-full flex items-center justify-center ">
         <div className="md:text-7xl text-5xl flex  text-center pt-10">
-          Efficiency That Scales 
+          Efficiency That Scales
         </div>
       </div>
       <section className="max-w-7xl mx-auto p-10 text-center  ">
@@ -19,7 +20,7 @@ const EfficiencySection = () => {
             <h3 className="text-xl font-bold">3x Faster Post Creation</h3>
             <p className="mt-2 text-sm text-muted-foreground">
                Generate high-quality content quickly using AI and contextual
-              sources.{" "}
+              sources.{' '}
             </p>
           </Card>
 
@@ -29,7 +30,7 @@ const EfficiencySection = () => {
               <FileCheck className="h-6 w-6" />
             </div>
             <h3 className="text-xl font-bold">
-              {" "}
+              {' '}
               70% Reduction in Manual Edits
             </h3>
             <p className="mt-2 text-sm text-muted-foreground">
@@ -44,7 +45,7 @@ const EfficiencySection = () => {
             </div>
             <h3 className="text-xl font-bold">40% Time Saved on Publishing</h3>
             <p className="mt-2 text-sm text-muted-foreground">
-               Post directly to LinkedIn without switching tabs or tools.{" "}
+               Post directly to LinkedIn without switching tabs or tools.{' '}
             </p>
           </Card>
         </div>

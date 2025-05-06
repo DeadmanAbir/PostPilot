@@ -1,11 +1,15 @@
-"use client";
+'use client';
 
-import type React from "react";
+import type React from 'react';
+import { Clock } from 'lucide-react';
 
-import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
-import { Card, CardContent, CardFooter } from "../../components/ui/card";
-import { Clock } from "lucide-react";
-import { ScheduledPost } from "./scheduled-posts-page";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '../../components/ui/avatar';
+import { Card, CardContent, CardFooter } from '../../components/ui/card';
+import { ScheduledPost } from './scheduled-posts-page';
 
 interface ScheduledPostCardProps {
   post: ScheduledPost;
@@ -19,12 +23,12 @@ export function ScheduledPostCard({
   onDateClick,
 }: ScheduledPostCardProps) {
   // Format the date for display
-  const formattedDate = new Intl.DateTimeFormat("en-US", {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
+  const formattedDate = new Intl.DateTimeFormat('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
     hour12: true,
   }).format(post.scheduledDate);
 
@@ -42,7 +46,7 @@ export function ScheduledPostCard({
 
   return (
     <Card className="h-full flex flex-col overflow-hidden hover:shadow-md transition-shadow">
-      <CardContent className="p-4 flex-grow"      onClick={onClick}>
+      <CardContent className="p-4 flex-grow" onClick={onClick}>
         {/* Account info */}
         <div className="flex items-center gap-2 mb-3">
           <Avatar className="h-8 w-8">
@@ -56,7 +60,7 @@ export function ScheduledPostCard({
         {post.images.length > 0 && (
           <div className="relative w-full h-40 mb-3 rounded-md overflow-hidden">
             <img
-              src={post.images[0] || "/placeholder.svg"}
+              src={post.images[0] || '/placeholder.svg'}
               alt="Post preview"
               className="w-full h-full object-cover"
             />
@@ -69,10 +73,7 @@ export function ScheduledPostCard({
         )}
 
         {/* Truncated content */}
-        <p
-          className="text-sm cursor-pointer hover:text-primary transition-colors"
-     
-        >
+        <p className="text-sm cursor-pointer hover:text-primary transition-colors">
           {truncatedContent}
         </p>
       </CardContent>
@@ -81,6 +82,13 @@ export function ScheduledPostCard({
         <div
           className="flex items-center text-muted-foreground text-sm cursor-pointer hover:text-primary transition-colors"
           onClick={handleDateClick}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              handleDateClick(e as unknown as React.MouseEvent);
+            }
+          }}
         >
           <Clock className="h-4 w-4 mr-2" />
           <span>{formattedDate}</span>

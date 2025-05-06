@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { Check } from "lucide-react";
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Check } from 'lucide-react';
 
-const contentTypes = ["YouTube", "Files", "Tweet", "Website"];
+const contentTypes = ['YouTube', 'Files', 'Tweet', 'Website'];
 
 const SelectAnimation = () => {
   const [selected, setSelected] = useState<string[]>([]);
@@ -35,7 +35,7 @@ const SelectAnimation = () => {
         className="flex flex-wrap gap-3 overflow-visible"
         layout
         transition={{
-          type: "spring",
+          type: 'spring',
           stiffness: 500,
           damping: 30,
           mass: 0.5,
@@ -50,21 +50,21 @@ const SelectAnimation = () => {
               initial={false}
               animate={{
                 backgroundColor: isSelected
-                  ? "#2a1711"
-                  : "rgba(39, 39, 42, 0.5)",
+                  ? '#2a1711'
+                  : 'rgba(39, 39, 42, 0.5)',
               }}
               whileHover={{
                 backgroundColor: isSelected
-                  ? "#2a1711"
-                  : "rgba(39, 39, 42, 0.8)",
+                  ? '#2a1711'
+                  : 'rgba(39, 39, 42, 0.8)',
               }}
               whileTap={{
                 backgroundColor: isSelected
-                  ? "#1f1209"
-                  : "rgba(39, 39, 42, 0.9)",
+                  ? '#1f1209'
+                  : 'rgba(39, 39, 42, 0.9)',
               }}
               transition={{
-                type: "spring",
+                type: 'spring',
                 stiffness: 500,
                 damping: 30,
                 mass: 0.5,
@@ -75,16 +75,16 @@ const SelectAnimation = () => {
                   whitespace-nowrap overflow-hidden ring-1 ring-inset
                   ${
                     isSelected
-                      ? "text-[#ff9066] ring-[hsla(0,0%,100%,0.12)]"
-                      : "text-zinc-400 ring-[hsla(0,0%,100%,0.06)]"
+                      ? 'text-[#ff9066] ring-[hsla(0,0%,100%,0.12)]'
+                      : 'text-zinc-400 ring-[hsla(0,0%,100%,0.06)]'
                   }
                 `}
             >
               <motion.div
                 className="relative flex items-center"
                 animate={{
-                  width: isSelected ? "auto" : "100%",
-                  paddingRight: isSelected ? "1.5rem" : "0",
+                  width: isSelected ? 'auto' : '100%',
+                  paddingRight: isSelected ? '1.5rem' : '0',
                 }}
                 transition={{
                   ease: [0.175, 0.885, 0.32, 1.275],
@@ -99,7 +99,7 @@ const SelectAnimation = () => {
                       animate={{ scale: 1, opacity: 1 }}
                       exit={{ scale: 0, opacity: 0 }}
                       transition={{
-                        type: "spring",
+                        type: 'spring',
                         stiffness: 500,
                         damping: 30,
                         mass: 0.5,

@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from '@tanstack/react-router';
 
 interface BannerProps {
   heading?: string;
@@ -8,10 +8,10 @@ interface BannerProps {
 }
 
 const Banner = ({
-  heading = "Ready to share your latest update?",
-  subheading = "Create a new post and engage with your network.",
-  buttonLabel = "Create Post",
-  href = "/dashboard",
+  heading = 'Ready to share your latest update?',
+  subheading = 'Create a new post and engage with your network.',
+  buttonLabel = 'Create Post',
+  href = '/dashboard',
 }: BannerProps) => {
   return (
     <div className="rounded-lg border bg-card shadow-sm relative overflow-hidden bg-gradient-to-r from-blue-500 to-blue-700 border-none text-white">

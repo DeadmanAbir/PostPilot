@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Calendar,
@@ -10,8 +10,13 @@ import {
   Book,
   SquareDashedMousePointer,
   Plus,
-} from "lucide-react";
-import { motion } from "motion/react";
+} from 'lucide-react';
+import { motion } from 'motion/react';
+import { Link, useLocation } from '@tanstack/react-router';
+
+import { NavUser } from './nav-user';
+import { buttonVariants } from './ui/button';
+
 import {
   Sidebar,
   SidebarContent,
@@ -23,31 +28,31 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar";
-import { NavUser } from "./nav-user";
-import { Link, useLocation } from "@tanstack/react-router";
-import { useTheme } from "@/providers/theme-provider";
-import { useAuth } from "@/providers/supabaseAuthProvider";
-import { buttonVariants } from "./ui/button";
+} from '@/components/ui/sidebar';
+import { useTheme } from '@/providers/theme-provider';
+import { useAuth } from '@/providers/supabaseAuthProvider';
+
 export const groupedItems = [
   {
-    label: "Create",
-    items: [{ title: "New Post", url: "/dashboard", icon: <FilePlus /> }],
+    label: 'Create',
+    items: [{ title: 'New Post', url: '/dashboard', icon: <FilePlus /> }],
   },
   {
-    label: "Posts",
+    label: 'Posts',
     items: [
-      { title: "Scheduled", url: "/scheduled", icon: <Calendar /> },
-      { title: "Sources", url: "/sources", icon: <Book /> },
-      { title: "Posted", url: "/posted", icon: <Send /> },
+      { title: 'Scheduled', url: '/scheduled', icon: <Calendar /> },
+      { title: 'Sources', url: '/sources', icon: <Book /> },
+      { title: 'Posted', url: '/posted', icon: <Send /> },
     ],
   },
   {
-    label: "Configuration",
+    label: 'Configuration',
     items: [
-      { title: "Profile", url: "/profile", icon: <User /> },
+      { title: 'Profile', url: '/profile', icon: <User /> },
       {
-        title: "Integration", url: "/integration", icon: <SquareDashedMousePointer />
+        title: 'Integration',
+        url: '/integration',
+        icon: <SquareDashedMousePointer />,
       },
     ],
   },
@@ -66,17 +71,19 @@ export function AppSidebar() {
     },
   };
 
-
-
   return (
-    <Sidebar variant="sidebar" collapsible="icon" className="p-2 bg-white dark:bg-blue-950/10">
+    <Sidebar
+      variant="sidebar"
+      collapsible="icon"
+      className="p-2 bg-white dark:bg-blue-950/10"
+    >
       <SidebarContent className="gap-0 ">
         <SidebarGroup>
-        <motion.div
+          <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
             className="text-3xl font-bold my-3 px-2 whitespace-nowrap relative text-center"
           >
             <img
@@ -84,7 +91,6 @@ export function AppSidebar() {
               alt="Logo"
               className="size-20 absolute -top-4 -left-5"
             />
-
             Post Pilot
           </motion.div>
         </SidebarGroup>
@@ -92,10 +98,10 @@ export function AppSidebar() {
           <Link
             to="/dashboard"
             className={buttonVariants({
-              className: "w-full dark:text-white flex items-center ",
+              className: 'w-full dark:text-white flex items-center ',
             })}
           >
-            <Plus />  <span> Create Post </span>
+            <Plus /> <span> Create Post </span>
           </Link>
         </div>
         {groupedItems.map((group) => (
@@ -119,38 +125,33 @@ export function AppSidebar() {
                   );
                 })}
               </SidebarMenu>
-              {group.label === "Configuration" && <SidebarMenu className="mt-1">
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                    className="w-full"
-                  >
-                    <div className="flex items-center capitalize justify-start gap-1.5 w-full">
-                      {theme === "dark" ? (
-                        <Sun className="size-4 transition-all" />
-                      ) : (
-                        <Moon className="size-4 transition-all" />
-                      )}
-                      {open && theme}
-                      <span className="sr-only">Toggle theme</span>
-                    </div>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>}
-
+              {group.label === 'Configuration' && (
+                <SidebarMenu className="mt-1">
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      onClick={() =>
+                        setTheme(theme === 'dark' ? 'light' : 'dark')
+                      }
+                      className="w-full"
+                    >
+                      <div className="flex items-center capitalize justify-start gap-1.5 w-full">
+                        {theme === 'dark' ? (
+                          <Sun className="size-4 transition-all" />
+                        ) : (
+                          <Moon className="size-4 transition-all" />
+                        )}
+                        {open && theme}
+                        <span className="sr-only">Toggle theme</span>
+                      </div>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              )}
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
         <SidebarGroup>
-
-          <SidebarGroupContent>
-
-
-
-
-            {/* Theme Toggle Button */}
-
-          </SidebarGroupContent>
+          <SidebarGroupContent>{/* Theme Toggle Button */}</SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
 

@@ -1,5 +1,5 @@
-import type React from "react";
-import { useState } from "react";
+import type React from 'react';
+import { useState } from 'react';
 import {
   ChevronRight,
   Pencil,
@@ -8,18 +8,27 @@ import {
   MoreHorizontal,
   Settings,
   Calendar,
-} from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+} from 'lucide-react';
+import { Link } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
+import { ProfileUpdateResponse } from '@repo/common/types';
+import { nanoid } from 'nanoid';
+import { toast } from 'sonner';
+
+import { NoPostsCard } from './profilePageComponents/empty-posts';
+import { ComingSoonCard } from './profilePageComponents/coming-soon-schedule';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Dialog,
   DialogContent,
@@ -27,8 +36,8 @@ import {
   DialogTitle,
   DialogFooter,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
+} from '@/components/ui/dialog';
+import { Separator } from '@/components/ui/separator';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -39,24 +48,17 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Link } from "@tanstack/react-router";
-import { supabase } from "@/lib/supabaseClient";
-import { useNavigate } from "@tanstack/react-router";
-import { useAuth } from "@/providers/supabaseAuthProvider";
-import { Route } from "@/routes/_authenticated/_dashboard/profile";
-import { updateProfileFn } from "@/lib/tanstack-query/mutation";
-import { ProfileUpdateResponse } from "@repo/common/types";
-import { nanoid } from "nanoid";
+} from '@/components/ui/alert-dialog';
+import { supabase } from '@/lib/supabaseClient';
+import { useAuth } from '@/providers/supabaseAuthProvider';
+import { Route } from '@/routes/_authenticated/_dashboard/profile';
+import { updateProfileFn } from '@/lib/tanstack-query/mutation';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { NoPostsCard } from "./profilePageComponents/empty-posts";
-import { ComingSoonCard } from "./profilePageComponents/coming-soon-schedule";
-import { toast } from "sonner";
+} from '@/components/ui/dropdown-menu';
 
 export function ProfilePage() {
   const data = Route.useLoaderData();
@@ -69,7 +71,7 @@ export function ProfilePage() {
   });
   const [profileImage, setProfileImage] = useState(data.profile_url);
   const [newprofileImage, setNewProfileImage] = useState<File>();
-  const [editName, setEditName] = useState("");
+  const [editName, setEditName] = useState('');
 
   const isExpired = data?.linkedin
     ? data.linkedin.expires_at &&
@@ -84,21 +86,21 @@ export function ProfilePage() {
         });
         if (error) {
           console.error(error.message);
-          toast.error("Error in updating profile:");
+          toast.error('Error in updating profile:');
         }
-        toast.success("profile name updated successfully");
+        toast.success('profile name updated successfully');
       } else if (data.success) {
-        toast.success("profile image updated successfully");
+        toast.success('profile image updated successfully');
         await supabase.auth.updateUser({
           data: { profile_url: profileImage },
         });
       } else {
-        toast.error("Profile update failed");
+        toast.error('Profile update failed');
       }
     },
     onError: (error: unknown) => {
-      console.log(error);
-      toast.error("Profile update failed");
+      console.error(error);
+      toast.error('Profile update failed');
     },
   });
 
@@ -134,12 +136,12 @@ export function ProfilePage() {
       console.error(error.message);
     }
     navigate({
-      to: "/onboard",
+      to: '/onboard',
     });
   };
 
   const handlePictureChange = async () => {
-    const profileData = await uploadToSupabase("post-pilot");
+    const profileData = await uploadToSupabase('post-pilot');
     setProfileImage(profileData.profile_url);
     updateProfile(profileData);
     setOpen((prev) => ({ ...prev, profileModal: false }));
@@ -147,7 +149,7 @@ export function ProfilePage() {
 
   const uploadToSupabase = async (bucket: string) => {
     try {
-      const fileExtension = newprofileImage?.name.split(".").pop();
+      const fileExtension = newprofileImage?.name.split('.').pop();
       const fileName = `${nanoid()}.${fileExtension}`;
       const filePath = `${user?.user?.id}/${fileName}`;
 
@@ -156,8 +158,8 @@ export function ProfilePage() {
         .upload(filePath, newprofileImage!);
 
       if (error) {
-        console.error("Error uploading file:", error.message);
-        toast.error("error in uploading file");
+        console.error('Error uploading file:', error.message);
+        toast.error('error in uploading file');
         throw error;
       }
 
@@ -167,7 +169,7 @@ export function ProfilePage() {
 
       return { profile_url: urlData.publicUrl };
     } catch (error) {
-      console.error("Error in file upload process:", error);
+      console.error('Error in file upload process:', error);
       throw error;
     }
   };
@@ -175,8 +177,8 @@ export function ProfilePage() {
   const formatDate = (date: string) => {
     const dateObject: Date = new Date(date);
 
-    const day = String(dateObject.getDate()).padStart(2, "0");
-    const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
+    const day = String(dateObject.getDate()).padStart(2, '0');
+    const month = String(dateObject.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
     const year = String(dateObject.getFullYear()).slice(-2);
 
     const formattedDate = `${day}/${month}/${year}`;
@@ -216,7 +218,7 @@ export function ProfilePage() {
                       media: string[];
                       post_content: string;
                     },
-                    index: number
+                    index: number,
                   ) => (
                     <Card key={index}>
                       <CardContent className="p-4">
@@ -227,15 +229,15 @@ export function ProfilePage() {
                                 {post.post_content}
                               </h3>
                               <p className="text-sm text-muted-foreground flex items-center gap-1">
-                                <Calendar className="h-4 w-4"/>
-                                {formatDate(post.created_at)}{" "}
+                                <Calendar className="h-4 w-4" />
+                                {formatDate(post.created_at)}{' '}
                               </p>
                             </div>
                           </div>
                           <ChevronRight
                             onClick={() => {
                               navigate({
-                                to: "/posted",
+                                to: '/posted',
                               });
                             }}
                             className="h-5 w-5 text-muted-foreground"
@@ -243,7 +245,7 @@ export function ProfilePage() {
                         </div>
                       </CardContent>
                     </Card>
-                  )
+                  ),
                 )}
 
                 {!data?.post || data.post.length === 0 ? <NoPostsCard /> : null}
@@ -358,7 +360,7 @@ export function ProfilePage() {
                         <DialogFooter>
                           <Button
                             variant="outline"
-                            onClick={() => setEditName("")}
+                            onClick={() => setEditName('')}
                           >
                             Cancel
                           </Button>

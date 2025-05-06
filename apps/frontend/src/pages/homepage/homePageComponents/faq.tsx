@@ -3,27 +3,27 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from '@/components/ui/accordion';
 
 const faqData = [
   {
-    id: "item-1",
-    question: "Is it accessible?",
+    id: 'item-1',
+    question: 'Is it accessible?',
     answer:
-      "Yes! PostPilot works across all devices with an intuitive interface designed for professionals at all technical levels.",
+      'Yes! PostPilot works across all devices with an intuitive interface designed for professionals at all technical levels.',
   },
   {
-    id: "item-2",
-    question: "How do I get started?",
+    id: 'item-2',
+    question: 'How do I get started?',
     answer:
-      "Simply create an account, connect your LinkedIn profile, and start creating or enhancing posts immediately with our AI-powered tools.",
+      'Simply create an account, connect your LinkedIn profile, and start creating or enhancing posts immediately with our AI-powered tools.',
   },
 
   {
-    id: "item-5",
-    question: "Do you offer customer support?",
+    id: 'item-5',
+    question: 'Do you offer customer support?',
     answer:
-      "Yes, I am available via chat and email to assist with any questions or technical issues you might encounter.",
+      'Yes, I am available via chat and email to assist with any questions or technical issues you might encounter.',
   },
 ];
 

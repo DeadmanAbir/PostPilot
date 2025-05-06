@@ -5,12 +5,12 @@ import {
   GenerativeModel,
   GoogleGenerativeAI,
   RequestOptions,
-} from "@google/generative-ai";
+} from '@google/generative-ai';
 import {
   FileState,
   GoogleAIFileManager,
   UploadFileResponse,
-} from "@google/generative-ai/server";
+} from '@google/generative-ai/server';
 interface ChatGeminiArgs {
   apiKey: string;
   model: string;
@@ -24,12 +24,12 @@ interface GeminiChatProps {
   context?: string;
   outputFormat?: string;
   file?:
-    | Record<"path" | "mimetype", string>[]
-    | Record<"link" | "mimetype", string>[];
+    | Record<'path' | 'mimetype', string>[]
+    | Record<'link' | 'mimetype', string>[];
 }
 
 interface GeminiChatWithHistoryProps extends GeminiChatProps {
-  chatHistory: Record<"model" | "user", string>[];
+  chatHistory: Record<'model' | 'user', string>[];
   maxOutputTokens?: number;
 }
 
@@ -40,7 +40,7 @@ interface ChatGeminiResponse {
 }
 
 interface ChatGeminiHistoryCountTokensProps {
-  chatHistory: Record<"model" | "user", string>[];
+  chatHistory: Record<'model' | 'user', string>[];
   options?: RequestOptions;
 }
 
@@ -50,8 +50,8 @@ interface ChatGeminiCountTokensProps {
   context?: string;
   outputFormat?: string;
   file?:
-    | Record<"path" | "mimetype", string>[]
-    | Record<"link" | "mimetype", string>[];
+    | Record<'path' | 'mimetype', string>[]
+    | Record<'link' | 'mimetype', string>[];
 }
 
 export class ChatGemini {
@@ -62,7 +62,7 @@ export class ChatGemini {
   constructor(props: ChatGeminiArgs) {
     const { apiKey, model } = props;
     if (!apiKey || apiKey.length === 0) {
-      throw new Error("No API key provided for Gemini AI.");
+      throw new Error('No API key provided for Gemini AI.');
     }
     this.client = new GoogleGenerativeAI(apiKey);
     this.fileManager = new GoogleAIFileManager(apiKey);
@@ -70,7 +70,7 @@ export class ChatGemini {
   }
 
   async chat(
-    props: GeminiChatProps
+    props: GeminiChatProps,
   ): Promise<ChatGeminiResponse | GenerateContentStreamResult> {
     const {
       prompt,
@@ -97,7 +97,7 @@ export class ChatGemini {
     const text = await response.text();
 
     return {
-      content: text.replace("```json\n", "").replace("\n```", "") ?? "",
+      content: text.replace('```json\n', '').replace('\n```', '') ?? '',
       promptTokenCount: response?.usageMetadata?.promptTokenCount ?? null,
       candidatesTokenCount:
         response?.usageMetadata?.candidatesTokenCount ?? null,
@@ -105,7 +105,7 @@ export class ChatGemini {
   }
 
   async chatWithHistory(
-    props: GeminiChatWithHistoryProps
+    props: GeminiChatWithHistoryProps,
   ): Promise<ChatGeminiResponse | GenerateContentStreamResult> {
     const {
       prompt,
@@ -137,7 +137,7 @@ export class ChatGemini {
       const text = await response.text();
 
       return {
-        content: text.replace("```json\n", "").replace("\n```", "") ?? "",
+        content: text.replace('```json\n', '').replace('\n```', '') ?? '',
         promptTokenCount: response?.usageMetadata?.promptTokenCount ?? null,
         candidatesTokenCount:
           response?.usageMetadata?.candidatesTokenCount ?? null,
@@ -149,7 +149,7 @@ export class ChatGemini {
   }
 
   async countChatHistoryTokens(
-    props: ChatGeminiHistoryCountTokensProps
+    props: ChatGeminiHistoryCountTokensProps,
   ): Promise<CountTokensResponse> {
     const { options, chatHistory } = props;
 
@@ -167,7 +167,7 @@ export class ChatGemini {
   }
 
   async countTokens(
-    props: ChatGeminiCountTokensProps
+    props: ChatGeminiCountTokensProps,
   ): Promise<CountTokensResponse> {
     const { prompt, context, outputFormat, file, options } = props;
 
@@ -182,18 +182,18 @@ export class ChatGemini {
   }
 
   private createChatHistory(
-    chatHistory: Record<"model" | "user", string>[]
+    chatHistory: Record<'model' | 'user', string>[],
   ): Content[] {
     return chatHistory.flatMap((entry) => [
-      { role: "user" as const, parts: [{ text: entry.user }] },
-      { role: "model" as const, parts: [{ text: entry.model }] },
+      { role: 'user' as const, parts: [{ text: entry.user }] },
+      { role: 'model' as const, parts: [{ text: entry.model }] },
     ]);
   }
 
   private createClient(
     model: string,
     systemInstruction?: string,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): GenerativeModel {
     return this.client.getGenerativeModel({
       model,
@@ -205,7 +205,7 @@ export class ChatGemini {
   private createContext(
     prompt: string,
     context?: string,
-    outputFormat?: string
+    outputFormat?: string,
   ): string {
     let content = prompt;
 
@@ -222,14 +222,14 @@ export class ChatGemini {
 
   private async fileUpload(
     file:
-      | Record<"path" | "mimetype", string>[]
-      | Record<"link" | "mimetype", string>[]
+      | Record<'path' | 'mimetype', string>[]
+      | Record<'link' | 'mimetype', string>[],
   ) {
-    const fileUploads = file.some((f) => "path" in f)
+    const fileUploads = file.some((f) => 'path' in f)
       ? await Promise.all(
-          (file as Record<"path" | "mimetype", string>[]).map((img) =>
-            this.handleFileUpload(img.path, img.mimetype)
-          )
+          (file as Record<'path' | 'mimetype', string>[]).map((img) =>
+            this.handleFileUpload(img.path, img.mimetype),
+          ),
         )
       : [];
 
@@ -239,22 +239,22 @@ export class ChatGemini {
           fileUri: upload.file.uri,
           mimeType: upload.file.mimeType,
         },
-      }))
+      })),
     );
 
-    const onlineFileParts = file.some((f) => "link" in f)
+    const onlineFileParts = file.some((f) => 'link' in f)
       ? await Promise.all(
-          (file as Record<"link" | "mimetype", string>[]).map(async (img) => {
+          (file as Record<'link' | 'mimetype', string>[]).map(async (img) => {
             const response = await fetch(img.link);
             const buffer = await response.arrayBuffer();
 
             return {
               inlineData: {
-                data: Buffer.from(buffer).toString("base64"),
+                data: Buffer.from(buffer).toString('base64'),
                 mimeType: img.mimetype,
               },
             };
-          })
+          }),
         )
       : [];
 
@@ -265,7 +265,7 @@ export class ChatGemini {
 
   private async handleFileUpload(
     path: string,
-    mimeType: string
+    mimeType: string,
   ): Promise<UploadFileResponse> {
     const uploadResult = await this.fileManager.uploadFile(path, {
       mimeType: mimeType,
@@ -273,14 +273,14 @@ export class ChatGemini {
     let file = await this.fileManager.getFile(uploadResult.file.name);
 
     while (file.state === FileState.PROCESSING) {
-      process.stdout.write(".");
+      process.stdout.write('.');
 
       await new Promise((resolve) => setTimeout(resolve, 5000));
       file = await this.fileManager.getFile(uploadResult.file.name);
     }
 
     if (file.state === FileState.FAILED) {
-      throw new Error("Media processing failed.");
+      throw new Error('Media processing failed.');
     }
     return uploadResult;
   }

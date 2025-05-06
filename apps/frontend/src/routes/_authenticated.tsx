@@ -1,7 +1,9 @@
-import { supabase } from "@/lib/supabaseClient";
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { JSX } from 'react';
 
-export const Route = createFileRoute("/_authenticated")({
+import { supabase } from '@/lib/supabaseClient';
+
+export const Route = createFileRoute('/_authenticated')({
   beforeLoad: async ({ location }) => {
     const {
       data: { session },
@@ -9,7 +11,7 @@ export const Route = createFileRoute("/_authenticated")({
 
     if (!session?.access_token || !session.user) {
       throw redirect({
-        to: "/onboard",
+        to: '/onboard',
         search: {
           redirect: location.href,
         },
@@ -19,7 +21,7 @@ export const Route = createFileRoute("/_authenticated")({
   component: LayoutComponent,
 });
 
-function LayoutComponent() {
+function LayoutComponent(): JSX.Element {
   return (
     <>
       <Outlet />

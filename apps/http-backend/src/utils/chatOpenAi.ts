@@ -1,14 +1,14 @@
-import OpenAI from "openai";
-import { ClientOptions } from "openai";
-import { RequestOptions } from "openai/core.mjs";
+import OpenAI from 'openai';
+import { ClientOptions } from 'openai';
+import { RequestOptions } from 'openai/core.mjs';
 import {
   ChatCompletion,
   ChatCompletionMessageParam,
   ChatModel,
-} from "openai/resources/index.mjs";
-import { ChatCompletionChunk } from "openai/src/resources/index.js";
-import { Stream } from "openai/streaming.mjs";
-import fs from "fs";
+} from 'openai/resources/index.mjs';
+import { ChatCompletionChunk } from 'openai/src/resources/index.js';
+import { Stream } from 'openai/streaming.mjs';
+import fs from 'fs';
 
 type ChatOpenAICompletionProps = {
   stream?: boolean;
@@ -17,10 +17,10 @@ type ChatOpenAICompletionProps = {
 interface ChatOpenAiArgs extends ClientOptions {
   model:
     | ChatModel
-    | "text-moderation-latest"
-    | "text-moderation-stable"
-    | "text-moderation-007"
-    | "gpt-4o-mini";
+    | 'text-moderation-latest'
+    | 'text-moderation-stable'
+    | 'text-moderation-007'
+    | 'gpt-4o-mini';
 }
 
 interface OpenAICallProps {
@@ -28,9 +28,9 @@ interface OpenAICallProps {
   context?: string;
   systemInstruction?: string;
   outputFormat?: string;
-  chatHistory?: Record<"assistant" | "user", string>[];
+  chatHistory?: Record<'assistant' | 'user', string>[];
   temperature?: number;
-  image?: { path: string; type: "local" | "remote" }[];
+  image?: { path: string; type: 'local' | 'remote' }[];
   options?: ChatOpenAICompletionProps;
 }
 
@@ -49,16 +49,16 @@ export class ChatOpenAI {
   private client: OpenAI;
   private model:
     | ChatModel
-    | "text-moderation-latest"
-    | "text-moderation-stable"
-    | "text-moderation-007"
-    | "gpt-4o-mini";
+    | 'text-moderation-latest'
+    | 'text-moderation-stable'
+    | 'text-moderation-007'
+    | 'gpt-4o-mini';
 
   constructor(props: ChatOpenAiArgs) {
     const { apiKey, model } = props;
 
     if (!apiKey || apiKey.length === 0) {
-      throw new Error("No API key provided for OpenAI.");
+      throw new Error('No API key provided for OpenAI.');
     }
 
     this.client = new OpenAI({ apiKey });
@@ -66,7 +66,7 @@ export class ChatOpenAI {
   }
 
   async chat(
-    props: OpenAICallProps
+    props: OpenAICallProps,
   ): Promise<
     Stream<ChatCompletionChunk> | ChatCompletion | ChatCompletionOutput
   > {
@@ -84,19 +84,19 @@ export class ChatOpenAI {
     let userMessages: Array<ChatCompletionMessageParam> = [];
 
     if (systemInstruction) {
-      userMessages.push({ role: "system", content: systemInstruction });
+      userMessages.push({ role: 'system', content: systemInstruction });
     }
 
     if (chatHistory && chatHistory.length > 0) {
       chatHistory.forEach((chat) => {
-        userMessages.push({ role: "user", content: chat.user });
-        userMessages.push({ role: "assistant", content: chat.assistant });
+        userMessages.push({ role: 'user', content: chat.user });
+        userMessages.push({ role: 'assistant', content: chat.assistant });
       });
     }
 
     const content = this.createContext(prompt, context, outputFormat, image);
     userMessages.push({
-      role: "user",
+      role: 'user',
       content: image && image.length > 0 ? JSON.parse(content) : content,
     });
 
@@ -116,8 +116,8 @@ export class ChatOpenAI {
         output:
           // @ts-ignore
           chatCompletion.choices[0].message?.content
-            .replace("```json\n", "")
-            .replace("\n```", "") ?? "",
+            .replace('```json\n', '')
+            .replace('\n```', '') ?? '',
       };
     }
 
@@ -125,7 +125,7 @@ export class ChatOpenAI {
   }
 
   async detectThreat(
-    props: OpenAiThreatDetectionProps
+    props: OpenAiThreatDetectionProps,
   ): Promise<OpenAI.Moderations.ModerationCreateResponse> {
     const { input, options } = props;
 
@@ -142,7 +142,7 @@ export class ChatOpenAI {
     prompt: string,
     context?: string,
     outputFormat?: string,
-    file?: { path: string; type: "local" | "remote" }[]
+    file?: { path: string; type: 'local' | 'remote' }[],
   ): string {
     let content = prompt;
 
@@ -156,11 +156,11 @@ export class ChatOpenAI {
 
     if (file && file.length > 0) {
       let finalContent = [
-        { type: "text", text: content },
+        { type: 'text', text: content },
         ...file.map((f) => ({
-          type: "image_url",
+          type: 'image_url',
           image_url: {
-            url: f.type === "local" ? this.encodeImage(f.path) : f.path,
+            url: f.type === 'local' ? this.encodeImage(f.path) : f.path,
           },
         })),
       ];
@@ -172,6 +172,6 @@ export class ChatOpenAI {
 
   private encodeImage = (imagePath: string) => {
     const imageBuffer = fs.readFileSync(imagePath);
-    return `data:image/jpeg;base64,${imageBuffer.toString("base64")}`;
+    return `data:image/jpeg;base64,${imageBuffer.toString('base64')}`;
   };
 }

@@ -1,25 +1,26 @@
-"use client";
+'use client';
 
-import { useLocation } from "@tanstack/react-router";
-import { BarChart2, Calendar, Home } from "lucide-react";
-import { NavItem } from "./nav-items";
+import { useLocation } from '@tanstack/react-router';
+import { BarChart2, Calendar, Home } from 'lucide-react';
+
+import { NavItem } from './nav-items';
 
 export const Navigation = () => {
   const location = useLocation();
 
   const routes = [
     {
-      label: "Dashboard",
+      label: 'Dashboard',
       href: `/dashboard`,
       icon: Home,
     },
     {
-      label: "Sources",
+      label: 'Sources',
       href: `/sources`,
       icon: BarChart2,
     },
     {
-      label: "Scheduled Posts",
+      label: 'Scheduled Posts',
       href: `/scheduled`,
       icon: Calendar,
     },

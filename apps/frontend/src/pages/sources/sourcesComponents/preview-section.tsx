@@ -1,27 +1,32 @@
-import { DocumentCard } from "@/pages/sources/sourcesComponents/cards/document-card";
-import { NoteCard } from "@/pages/sources/sourcesComponents/cards/note-card";
-import { TweetCard } from "@/pages/sources/sourcesComponents/cards/tweet-card";
-import { WebpageCard } from "@/pages/sources/sourcesComponents/cards/webpage-card";
-// import { YoutubeCard } from "@/pages/sources/sourcesComponents/cards/youtube-card";
+import { ImageCard } from './cards/image-card';
+import { CreateSourceCard } from './cards/create-source-card';
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { fetchSourcesQuery } from "@/lib/tanstack-query/query";
-import { useAuth } from "@/providers/supabaseAuthProvider";
-import { ImageCard } from "./cards/image-card";
-import { CreateSourceCard } from "./cards/create-source-card";
-import { SourcesSkeleton } from "@/components/skeletons/sources-skeleton";
-import { formatDate } from "@/utils/functions/formatDate";
+import { DocumentCard } from '@/pages/sources/sourcesComponents/cards/document-card';
+import { NoteCard } from '@/pages/sources/sourcesComponents/cards/note-card';
+import { TweetCard } from '@/pages/sources/sourcesComponents/cards/tweet-card';
+import { WebpageCard } from '@/pages/sources/sourcesComponents/cards/webpage-card';
+// import { YoutubeCard } from "@/pages/sources/sourcesComponents/cards/youtube-card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { fetchSourcesQuery } from '@/lib/tanstack-query/query';
+import { useAuth } from '@/providers/supabaseAuthProvider';
+import { SourcesSkeleton } from '@/components/skeletons/sources-skeleton';
+import { formatDate } from '@/utils/functions/formatDate';
 
 // Badge component for count
-const CountBadge = ({ count }: { count: number }) => (
+const CountBadge: React.FC<{ count: number }> = ({ count }) => (
   <span className="ml-2 inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200 min-w-[1.5em]">
     {count}
   </span>
 );
 
 type SourceData = {
-  websites: { title: string; url: string; created_at: string,screenshot:string }[];
-  files: { name: string ,created_at: string }[];
+  websites: {
+    title: string;
+    url: string;
+    created_at: string;
+    screenshot: string;
+  }[];
+  files: { name: string; created_at: string }[];
   text_node: { name: string; description: string; created_at: string }[];
   images: { name: string; url: string; created_at: string }[];
   tweets: { id: string; url: string }[];
@@ -39,7 +44,7 @@ const PreviewSection = () => {
   const counts = {
     all: Object.values(data ?? {}).reduce(
       (acc, arr) => acc + (Array.isArray(arr) ? arr.length : 0),
-      0
+      0,
     ),
     websites: data?.websites?.length ?? 0,
     tweets: data?.tweets?.length ?? 0,
@@ -114,24 +119,52 @@ const PreviewSection = () => {
           className="min-h-[600px] max-h-[70vh] overflow-y-auto transition-all duration-300"
         >
           <TabsContent value="all">
-            {data && Object.values(data).some((arr) => Array.isArray(arr) && arr.length > 0) ? (
+            {data &&
+            Object.values(data).some(
+              (arr) => Array.isArray(arr) && arr.length > 0,
+            ) ? (
               <div className="md:columns-3 columns-1 space-y-4">
                 {(() => {
                   // Flatten all arrays into a single array with type info
                   const allItems = [
-                    ...(data?.websites?.map((item: any) => ({ ...item, _type: 'website' })) || []),
-                    ...(data?.files?.map((item: any) => ({ ...item, _type: 'file' })) || []),
-                    ...(data?.text_node?.map((item: any) => ({ ...item, _type: 'text_node' })) || []),
-                    ...(data?.images?.map((item: any) => ({ ...item, _type: 'image' })) || []),
-                    ...(data?.tweets?.map((item: any) => ({ ...item, _type: 'tweet' })) || []),
+                    ...(data?.websites?.map((item: any) => ({
+                      ...item,
+                      _type: 'website',
+                    })) || []),
+                    ...(data?.files?.map((item: any) => ({
+                      ...item,
+                      _type: 'file',
+                    })) || []),
+                    ...(data?.text_node?.map((item: any) => ({
+                      ...item,
+                      _type: 'text_node',
+                    })) || []),
+                    ...(data?.images?.map((item: any) => ({
+                      ...item,
+                      _type: 'image',
+                    })) || []),
+                    ...(data?.tweets?.map((item: any) => ({
+                      ...item,
+                      _type: 'tweet',
+                    })) || []),
                   ];
                   // Sort all items by created_at descending
-                  allItems.sort((a, b) => new Date(b.created_at || b.createdAt).getTime() - new Date(a.created_at || a.createdAt).getTime());
+                  allItems.sort(
+                    (a, b) =>
+                      new Date(b.created_at || b.createdAt).getTime() -
+                      new Date(a.created_at || a.createdAt).getTime(),
+                  );
                   return allItems.map((item: any) => {
                     switch (item._type) {
                       case 'website':
                         return (
-                          <WebpageCard key={item.url} title={item.title} url={item.url} createdAt={item.created_at} screenShot={item.screenshot} />
+                          <WebpageCard
+                            key={item.url}
+                            title={item.title}
+                            url={item.url}
+                            createdAt={item.created_at}
+                            screenShot={item.screenshot}
+                          />
                         );
                       case 'file':
                         return (
@@ -179,7 +212,13 @@ const PreviewSection = () => {
             {data && data.websites && data.websites.length > 0 ? (
               <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
                 {data?.websites?.map((item) => (
-                  <WebpageCard key={item.url} title={item.title} url={item.url} createdAt={item.created_at} screenShot={item.screenshot} />
+                  <WebpageCard
+                    key={item.url}
+                    title={item.title}
+                    url={item.url}
+                    createdAt={item.created_at}
+                    screenShot={item.screenshot}
+                  />
                 ))}
               </div>
             ) : (
@@ -197,7 +236,7 @@ const PreviewSection = () => {
               </div>
             ) : (
               <div className="flex flex-col items-start justify-start min-h-[400px]">
-                <CreateSourceCard value="tweets"  />
+                <CreateSourceCard value="tweets" />
               </div>
             )}
           </TabsContent>
@@ -211,13 +250,12 @@ const PreviewSection = () => {
                     type="PDF Document"
                     preview="A comprehensive proposal for..."
                     createdAt={formatDate(item.created_at)}
-
                   />
                 ))}
               </div>
             ) : (
               <div className="flex flex-col items-start justify-start min-h-[400px]">
-                <CreateSourceCard value="files"  />
+                <CreateSourceCard value="files" />
               </div>
             )}
           </TabsContent>
@@ -235,7 +273,7 @@ const PreviewSection = () => {
               </div>
             ) : (
               <div className="flex flex-col items-start justify-start min-h-[400px]">
-                <CreateSourceCard value="Notes"  />
+                <CreateSourceCard value="Notes" />
               </div>
             )}
           </TabsContent>
@@ -253,7 +291,7 @@ const PreviewSection = () => {
               </div>
             ) : (
               <div className="flex flex-col items-start justify-start min-h-[400px]">
-                <CreateSourceCard value="images"  />
+                <CreateSourceCard value="images" />
               </div>
             )}
           </TabsContent>

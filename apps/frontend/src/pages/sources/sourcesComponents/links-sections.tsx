@@ -1,10 +1,3 @@
-import { FilesTab } from "@/pages/sources/sourcesComponents/content-tabs/files-tab";
-import { ImagesTab } from "@/pages/sources/sourcesComponents/content-tabs/images-tab";
-import { TextNoteTab } from "@/pages/sources/sourcesComponents/content-tabs/text-node-tab";
-import { TweetsTab } from "@/pages/sources/sourcesComponents/content-tabs/tweets-tab";
-import { WebsitesTab } from "@/pages/sources/sourcesComponents/content-tabs/websites-tab";
-import { YouTubeTab } from "@/pages/sources/sourcesComponents/content-tabs/youtube-tab";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   FileIcon,
   FileTextIcon,
@@ -12,9 +5,18 @@ import {
   LinkIcon,
   TwitterIcon,
   YoutubeIcon,
-} from "lucide-react";
-import  { CardStack } from "./cards/stacking-cards";
-import { Highlight } from "@/utils/highlight";
+} from 'lucide-react';
+
+import { CardStack } from './cards/stacking-cards';
+
+import { FilesTab } from '@/pages/sources/sourcesComponents/content-tabs/files-tab';
+import { ImagesTab } from '@/pages/sources/sourcesComponents/content-tabs/images-tab';
+import { TextNoteTab } from '@/pages/sources/sourcesComponents/content-tabs/text-node-tab';
+import { TweetsTab } from '@/pages/sources/sourcesComponents/content-tabs/tweets-tab';
+import { WebsitesTab } from '@/pages/sources/sourcesComponents/content-tabs/websites-tab';
+import { YouTubeTab } from '@/pages/sources/sourcesComponents/content-tabs/youtube-tab';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Highlight } from '@/utils/highlight';
 const LinkSection = () => {
   return (
     <div className="h-full w-full p-5 grid grid-cols-6 gap-5 ">
@@ -60,13 +62,12 @@ const LinkSection = () => {
         <TabsContent value="notes" className="h-full">
           <TextNoteTab />
         </TabsContent>
-        <TabsContent value="websites"  className="h-full">
+        <TabsContent value="websites" className="h-full">
           <WebsitesTab />
         </TabsContent>
       </Tabs>
       <div className="flex items-center justify-center col-span-2 h-[400px] ">
-      <CardStack items={CARDS} />
-
+        <CardStack items={CARDS} />
       </div>
     </div>
   );
@@ -77,8 +78,8 @@ export default LinkSection;
 const CARDS = [
   {
     id: 0,
-    name: "Manu Arora",
-    designation: "Senior Software Engineer",
+    name: 'Manu Arora',
+    designation: 'Senior Software Engineer',
     content: (
       <p>
         These cards are amazing, <Highlight>I want to use them</Highlight> in my
@@ -88,11 +89,11 @@ const CARDS = [
   },
   {
     id: 1,
-    name: "Elon Musk",
-    designation: "Senior Shitposter",
+    name: 'Elon Musk',
+    designation: 'Senior Shitposter',
     content: (
       <p>
-        I dont like this Twitter thing,{" "}
+        I dont like this Twitter thing,{' '}
         <Highlight>deleting it right away</Highlight> because yolo. Instead, I
         would like to call it <Highlight>X.com</Highlight> so that it can easily
         be confused with adult sites.
@@ -101,8 +102,8 @@ const CARDS = [
   },
   {
     id: 2,
-    name: "Tyler Durden",
-    designation: "Manager Project Mayhem",
+    name: 'Tyler Durden',
+    designation: 'Manager Project Mayhem',
     content: (
       <p>
         The first rule of

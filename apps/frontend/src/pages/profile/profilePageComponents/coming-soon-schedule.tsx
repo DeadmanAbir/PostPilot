@@ -1,5 +1,6 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Calendar } from "lucide-react";
+import { Calendar } from 'lucide-react';
+
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 export function ComingSoonCard() {
   return (
@@ -19,7 +20,8 @@ export function ComingSoonCard() {
             Coming soon
           </p>
           <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
-            This feature is currently under development and will be available soon.
+            This feature is currently under development and will be available
+            soon.
           </p>
         </div>
       </CardContent>

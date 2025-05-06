@@ -1,6 +1,7 @@
-import { ModeToggle } from "../../../components/mode-toggle";
-import { Button } from "../../../components/ui/button";
-import { LinkedinIcon as LinkedInIcon } from "lucide-react";
+import { LinkedinIcon as LinkedInIcon } from 'lucide-react';
+
+import { ModeToggle } from '../../../components/mode-toggle';
+import { Button } from '../../../components/ui/button';
 
 export function Header() {
   return (

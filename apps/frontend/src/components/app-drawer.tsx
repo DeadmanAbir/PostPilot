@@ -1,25 +1,21 @@
+import { useState } from 'react';
+import { Menu, Moon, Sun, Plus } from 'lucide-react';
+import { Link, useLocation } from '@tanstack/react-router';
+import { motion } from 'motion/react';
+
+import { groupedItems } from './app-sidebar';
+import { Button, buttonVariants } from './ui/button';
+import { NavUser } from './nav-user';
+
+import { useTheme } from '@/providers/theme-provider';
 import {
   Drawer,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
   DrawerTrigger,
-} from "@/components/ui/drawer";
-import { Button, buttonVariants } from "./ui/button";
-import { useState } from "react";
-import {
-  Menu,
-
-  Moon,
-  Sun,
-  Plus,
-} from "lucide-react";
-import { Link, useLocation } from "@tanstack/react-router";
-import { groupedItems } from "./app-sidebar";
-import { motion } from "motion/react";
-import { useTheme } from "@/providers/theme-provider";
-import { NavUser } from "./nav-user";
-import { useAuth } from "@/providers/supabaseAuthProvider";
+} from '@/components/ui/drawer';
+import { useAuth } from '@/providers/supabaseAuthProvider';
 
 const AppDrawer = () => {
   const [open, setOpen] = useState(false);
@@ -29,9 +25,9 @@ const AppDrawer = () => {
 
   const data = {
     user: {
-      name: user?.user?.user_metadata.displayName ?? "Guest",
-      email: user?.user?.email ?? "No email provided",
-      avatar: user?.user?.user_metadata.profile_url ?? "/default-avatar.png",
+      name: user?.user?.user_metadata.displayName ?? 'Guest',
+      email: user?.user?.email ?? 'No email provided',
+      avatar: user?.user?.user_metadata.profile_url ?? '/default-avatar.png',
     },
   };
 
@@ -45,26 +41,26 @@ const AppDrawer = () => {
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
               className="text-3xl font-bold"
             >
               Post Pilot
             </motion.div>
           </DrawerHeader>
-          
+
           <div className="flex-1 overflow-y-auto">
             <div className="p-4">
               <Link
                 to="/dashboard"
                 className={buttonVariants({
-                  className: "w-full dark:text-white flex items-center ",
+                  className: 'w-full dark:text-white flex items-center ',
                 })}
                 onClick={() => setOpen(false)}
               >
-         <Plus/> <span>Create Post  </span>  
-         </Link>
+                <Plus /> <span>Create Post </span>
+              </Link>
             </div>
-            
+
             <div className="px-4 flex flex-col space-y-6">
               {groupedItems.map((section) => (
                 <div key={section.label}>
@@ -79,8 +75,9 @@ const AppDrawer = () => {
                           key={item.title}
                           to={item.url}
                           className={buttonVariants({
-                            variant: isActive ? "drawer" : "ghost",
-                            className: "w-full  flex items-center justify-start gap-2  text-left",
+                            variant: isActive ? 'drawer' : 'ghost',
+                            className:
+                              'w-full  flex items-center justify-start gap-2  text-left',
                           })}
                           onClick={() => setOpen(false)}
                         >
@@ -91,21 +88,24 @@ const AppDrawer = () => {
                         </Link>
                       );
                     })}
-                    {section.label === "Configuration" && (
+                    {section.label === 'Configuration' && (
                       <button
-                        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                        onClick={() =>
+                          setTheme(theme === 'dark' ? 'light' : 'dark')
+                        }
                         className={buttonVariants({
-                          variant: "ghost",
-                          className: "w-full justify-start gap-2 text-left flex ",
+                          variant: 'ghost',
+                          className:
+                            'w-full justify-start gap-2 text-left flex ',
                         })}
                       >
                         <div className="flex items-center gap-2  w-full">
-                          {theme === "dark" ? (
+                          {theme === 'dark' ? (
                             <Sun className="size-4 transition-all" />
                           ) : (
                             <Moon className="size-4 transition-all" />
                           )}
-                        {theme}
+                          {theme}
                         </div>
                       </button>
                     )}
@@ -114,7 +114,7 @@ const AppDrawer = () => {
               ))}
             </div>
           </div>
-          
+
           <DrawerFooter className="border-t p-4">
             <NavUser user={data.user} />
           </DrawerFooter>

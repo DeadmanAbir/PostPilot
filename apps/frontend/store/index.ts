@@ -1,15 +1,14 @@
 export { store } from './store';
 export { useAppDispatch, useAppSelector } from './hooks';
-export { 
+export {
   expand as expandSidebar,
   collapse as collapseSidebar,
   toggle as toggleSidebar,
-  selectSidebarCollapsed
+  selectSidebarCollapsed,
 } from './slices/sidebarSlice';
-
 
 export {
   setPostGenerated,
   resetPostGenerated,
-  selectPostGenerated
+  selectPostGenerated,
 } from './slices/postGeneration';

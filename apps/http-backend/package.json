@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc -b && tsc-alias",
     "start": "node dist/index.js",
+    "lint": "eslint . --fix",
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node -r tsconfig-paths/register src/index.ts"
   },
   "dependencies": {
@@ -25,11 +26,13 @@
   },
   "devDependencies": {
     "@repo/common": "workspace:*",
+    "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/http-errors": "^2.0.4",
     "@types/jsonwebtoken": "^9.0.9",
+    "eslint": "^9.25.1",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.15"

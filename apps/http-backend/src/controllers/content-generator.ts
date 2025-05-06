@@ -1,29 +1,29 @@
-import { Response } from "express";
+import { Response } from 'express';
 
 import {
   generatePostPrompt,
   improvePostPrompt,
   regeneratePostPrompt,
-} from "@/utils/constant";
-import { ZodError } from "zod";
+} from '@/utils/constant';
+import { ZodError } from 'zod';
 import {
   improvePostValidator,
   postGenerateValidator,
   postRegenerateValidator,
-} from "@repo/common/validator";
+} from '@repo/common/validator';
 import {
   createClient,
   fetchMediaData,
   fetchTextualData,
   improvePrompt,
-} from "@/utils/helper";
-import "dotenv/config";
-import { AuthRequest } from "@/middlewares/authMiddleware";
+} from '@/utils/helper';
+import 'dotenv/config';
+import { AuthRequest } from '@/middlewares/authMiddleware';
 
 export const generatePost = async (
   request: AuthRequest,
-  response: Response
-) => {
+  response: Response,
+): Promise<void> => {
   try {
     const { query, media } = postGenerateValidator.parse(request.body);
 
@@ -43,14 +43,14 @@ export const generatePost = async (
 
     const parsedPromptData = JSON.parse(promptData.output);
     const prompt = parsedPromptData.enhanced_prompt.concat(
-      "\n",
-      "Note : If any context is available (in any form), **use it heavily** on your response."
+      '\n',
+      'Note : If any context is available (in any form), **use it heavily** on your response.',
     );
-    const chatGemini = createClient("Gemini");
+    const chatGemini = createClient('Gemini');
     const data = await chatGemini.chat({
       prompt,
       systemInstruction: generatePostPrompt,
-      outputFormat: "{`post_content`: ``}",
+      outputFormat: '{`post_content`: ``}',
       file: mockdata,
       context: textData,
     });
@@ -64,26 +64,26 @@ export const generatePost = async (
 
     response.status(200).json({ insertedData });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
-        .json({ error: "Invalid request body", details: e.errors });
+        .json({ error: 'Invalid request body', details: e.errors });
     } else if (e instanceof Error) {
       response.status(500).json({ error: e.message });
     } else {
-      response.status(500).json({ error: "An unknown error occurred" });
+      response.status(500).json({ error: 'An unknown error occurred' });
     }
   }
 };
 
 export const regeneratePost = async (
   request: AuthRequest,
-  response: Response
-) => {
+  response: Response,
+): Promise<void> => {
   try {
     const { query, previousPost, media } = postRegenerateValidator.parse(
-      request.body
+      request.body,
     );
 
     const mockdata = await fetchMediaData({
@@ -96,12 +96,12 @@ export const regeneratePost = async (
       tweets: media.tweets,
     });
 
-    const chatGemini = createClient("Gemini");
+    const chatGemini = createClient('Gemini');
     const data = await chatGemini.chat({
-      prompt: query || "Revamp the post",
+      prompt: query || 'Revamp the post',
       systemInstruction: regeneratePostPrompt,
-      context: previousPost.concat("\n", textData),
-      outputFormat: "{`post_content`: ``}",
+      context: previousPost.concat('\n', textData),
+      outputFormat: '{`post_content`: ``}',
       file: mockdata,
     });
 
@@ -112,23 +112,26 @@ export const regeneratePost = async (
 
     response.status(200).json({ updatedData });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
-        .json({ error: "Invalid request body", details: e.errors });
+        .json({ error: 'Invalid request body', details: e.errors });
     } else if (e instanceof Error) {
       response.status(500).json({ error: e.message });
     } else {
-      response.status(500).json({ error: "An unknown error occurred" });
+      response.status(500).json({ error: 'An unknown error occurred' });
     }
   }
 };
 
-export const improvePost = async (request: AuthRequest, response: Response) => {
+export const improvePost = async (
+  request: AuthRequest,
+  response: Response,
+): Promise<void> => {
   try {
     const { query } = improvePostValidator.parse(request.body);
-    const chatOpenai = createClient("OpenAI");
+    const chatOpenai = createClient('OpenAI');
     const data = await chatOpenai.chat({
       prompt:
         "Here's a LinkedIn post I want to publish. Please enhance it according to your instructions.",
@@ -143,15 +146,15 @@ export const improvePost = async (request: AuthRequest, response: Response) => {
 
     response.status(200).json({ updatedData });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     if (e instanceof ZodError) {
       response
         .status(422)
-        .json({ error: "Invalid request body", details: e.errors });
+        .json({ error: 'Invalid request body', details: e.errors });
     } else if (e instanceof Error) {
       response.status(500).json({ error: e.message });
     } else {
-      response.status(500).json({ error: "An unknown error occurred" });
+      response.status(500).json({ error: 'An unknown error occurred' });
     }
   }
 };

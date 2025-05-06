@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import type React from "react";
+import type React from 'react';
+import { useState, useEffect } from 'react';
 
-import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "../../components/ui/dialog";
-import { Button } from "../../components/ui/button";
-import { Calendar } from "../../components/ui/calendar";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
-import { ScheduledPost } from "./scheduled-posts-page";
+} from '../../components/ui/dialog';
+import { Button } from '../../components/ui/button';
+import { Calendar } from '../../components/ui/calendar';
+import { Input } from '../../components/ui/input';
+import { Label } from '../../components/ui/label';
+import { ScheduledPost } from './scheduled-posts-page';
 
 interface EditScheduleModalProps {
   post: ScheduledPost | null;
@@ -30,15 +30,17 @@ export function EditScheduleModal({
   onSave,
 }: EditScheduleModalProps) {
   // If no post is provided, don't render anything
-  if (!post) return null;
+  if (!post) {
+    return null;
+  }
 
   // Initialize state with the current scheduled date
   const [date, setDate] = useState<Date | undefined>(post.scheduledDate);
 
   // Format the time string (HH:MM) from the date
   const formatTimeString = (date: Date) => {
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`;
   };
 
@@ -58,10 +60,12 @@ export function EditScheduleModal({
 
   // Handle save button click
   const handleSave = () => {
-    if (!date) return;
+    if (!date) {
+      return;
+    }
 
     // Parse the time string
-    const [hours, minutes] = time.split(":").map(Number);
+    const [hours, minutes] = time.split(':').map(Number);
 
     // Create a new date with the selected date and time
     const newDate = new Date(date);
@@ -85,12 +89,14 @@ export function EditScheduleModal({
             <Label htmlFor="post-title">Post</Label>
             <p className="text-sm text-muted-foreground truncate">
               {post.content.substring(0, 100)}
-              {post.content.length > 100 ? "..." : ""}
+              {post.content.length > 100 ? '...' : ''}
             </p>
           </div>
 
           <div className="w-full flex flex-col items-center justify-center ">
-            <Label className="w-full flex items-center justify-start">Date</Label>
+            <Label className="w-full flex items-center justify-start">
+              Date
+            </Label>
             <Calendar
               mode="single"
               selected={date}

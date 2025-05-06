@@ -7,7 +7,9 @@ import {
   RegeneratePostContent,
   RemoteFileUploadDetail,
   TweetContent,
-} from "@repo/common/types";
+} from '@repo/common/types';
+import { useMutation } from '@tanstack/react-query';
+
 import {
   addLocalFile,
   addLocalImage,
@@ -22,8 +24,7 @@ import {
   postToLinkedin,
   regeneratePost,
   updateProfile,
-} from "../api";
-import { useMutation } from "@tanstack/react-query";
+} from '../api';
 
 export const generatePostFn = (accessToken: string, options = {}) => {
   return useMutation({

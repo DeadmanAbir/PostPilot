@@ -1,27 +1,35 @@
-'use client'
+'use client';
 
-import { cn } from '@/lib/utils'
-import { useAppSelector, selectSidebarCollapsed, useAppDispatch, collapseSidebar, expandSidebar } from '../../../store/index';
 import { useEffect } from 'react';
 
+import {
+  useAppSelector,
+  selectSidebarCollapsed,
+  useAppDispatch,
+  collapseSidebar,
+  expandSidebar,
+} from '../../../store/index';
+
+import { cn } from '@/lib/utils';
+
 interface WrapperProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export const Wrapper = ({ children }: WrapperProps) => {
-  const collapsed = useAppSelector(selectSidebarCollapsed)
-  const dispatch = useAppDispatch()
+  const collapsed = useAppSelector(selectSidebarCollapsed);
+  const dispatch = useAppDispatch();
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      const threshold = 20
+      const threshold = 20;
       if (e.clientX <= threshold) {
-        dispatch(expandSidebar())
+        dispatch(expandSidebar());
       }
-    }
+    };
 
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [dispatch])
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [dispatch]);
 
   return (
     <aside
@@ -33,5 +41,5 @@ export const Wrapper = ({ children }: WrapperProps) => {
     >
       {children}
     </aside>
-  )
-}
+  );
+};

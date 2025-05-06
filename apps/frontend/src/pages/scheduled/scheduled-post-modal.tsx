@@ -1,4 +1,6 @@
-"use client";
+'use client';
+
+import { Clock, Trash2 } from 'lucide-react';
 
 import {
   Dialog,
@@ -6,11 +8,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "../../components/ui/dialog";
-import { Button } from "../../components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
-import { Clock,  Trash2 } from "lucide-react";
-import { ScheduledPost } from "./scheduled-posts-page";
+} from '../../components/ui/dialog';
+import { Button } from '../../components/ui/button';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '../../components/ui/avatar';
+import { ScheduledPost } from './scheduled-posts-page';
 
 interface ScheduledPostModalProps {
   post: ScheduledPost | null;
@@ -23,16 +28,18 @@ export function ScheduledPostModal({
   isOpen,
   onClose,
 }: ScheduledPostModalProps) {
-  if (!post) return null;
+  if (!post) {
+    return null;
+  }
 
   // Format the date for display
-  const formattedDate = new Intl.DateTimeFormat("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
+  const formattedDate = new Intl.DateTimeFormat('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
     hour12: true,
   }).format(post.scheduledDate);
 
@@ -73,7 +80,7 @@ export function ScheduledPostModal({
                   className="relative w-full rounded-md overflow-hidden"
                 >
                   <img
-                    src={image || "/placeholder.svg"}
+                    src={image || '/placeholder.svg'}
                     alt={`Post image ${index + 1}`}
                     className="w-full object-cover rounded-md"
                   />
@@ -88,7 +95,6 @@ export function ScheduledPostModal({
             <Trash2 className="h-4 w-4" />
             <span>Delete</span>
           </Button>
-
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -1,6 +1,11 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { MoreHorizontal, Trash2, ExternalLink, Linkedin } from 'lucide-react';
+import { Link } from '@tanstack/react-router';
+import { useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
+
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,21 +16,17 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+} from '@/components/ui/alert-dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Trash2, ExternalLink, Linkedin } from "lucide-react";
-import { useAuth } from "@/providers/supabaseAuthProvider";
-import { connectLinkedinQuery } from "@/lib/tanstack-query/query";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Link } from "@tanstack/react-router";
-import { deleteLinkedinAccountFn } from "@/lib/tanstack-query/mutation";
-import { useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+} from '@/components/ui/dropdown-menu';
+import { useAuth } from '@/providers/supabaseAuthProvider';
+import { connectLinkedinQuery } from '@/lib/tanstack-query/query';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { deleteLinkedinAccountFn } from '@/lib/tanstack-query/mutation';
 
 interface AccountCardProps {
   profile_url?: string;
@@ -41,22 +42,22 @@ export function AccountCard({
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const { refetch: connectLinkedinRefetch } = connectLinkedinQuery(
-    user?.accessToken!
+    user?.accessToken!,
   );
 
   const { mutate: deleteAccount } = deleteLinkedinAccountFn(
     user?.accessToken!,
     {
       onSuccess: () => {
-        toast.success("account disconnected  successfully")
+        toast.success('account disconnected  successfully');
 
-        queryClient.invalidateQueries({ queryKey: ["linkedin"] });
+        queryClient.invalidateQueries({ queryKey: ['linkedin'] });
       },
       onError: (error: unknown) => {
-        console.log(error);
-        toast.error("error in disconnecting account");
+        console.error(error);
+        toast.error('error in disconnecting account');
       },
-    }
+    },
   );
   const handleClick = async () => {
     try {
@@ -64,26 +65,53 @@ export function AccountCard({
         await connectLinkedinRefetch();
 
       if (newError) {
-        console.error("LinkedIn connection error:", newError);
-        toast.error("LinkedIn connection error:");
+        console.error('LinkedIn connection error:', newError);
+        toast.error('LinkedIn connection error:');
         return;
       }
 
       window.location.href = AuthData?.authUrl!;
     } catch (error) {
-      console.error("LinkedIn connection error:", error);
+      console.error('LinkedIn connection error:', error);
     }
   };
 
   const handleDelete = () => {
     deleteAccount();
   };
+
+  const renderAccountContent = () => {
+    if (isLoading) {
+      return <p className="text-slate-600 dark:text-gray-400">loading....</p>;
+    }
+    if (isExpired === false) {
+      return (
+        <Avatar className="size-14 border-4 border-background dark:border-gray-700">
+          <AvatarImage src={profile_url} alt={'pp'} />
+          <AvatarFallback className="dark:bg-gray-700 dark:text-gray-200">
+            {'Abir'}
+          </AvatarFallback>
+        </Avatar>
+      );
+    }
+    return (
+      <Button
+        variant="outline"
+        size="sm"
+        className="flex text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-700 dark:hover:text-blue-300 hover:border-blue-300 dark:hover:border-blue-800 font-medium shadow-sm transition-all duration-200"
+        onClick={handleClick}
+      >
+        Add Account
+      </Button>
+    );
+  };
+
   return (
     <Card className="overflow-hidden border border-slate-100 dark:border-blue-700 hover:shadow-md transition-all duration-200 dark:bg-blue-900/20 p-2">
       <CardContent className="px-2 md:px-6 py-4 flex items-center gap-4">
         <div
           className="flex items-center justify-center w-16 h-16 rounded-2xl"
-          style={{ backgroundColor: "#0A66C2" }}
+          style={{ backgroundColor: '#0A66C2' }}
         >
           <Linkedin className="h-8 w-8 text-white" />
         </div>
@@ -91,7 +119,7 @@ export function AccountCard({
         <div className="flex-1">
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-1">
             <h3 className="text-lg font-semibold text-slate-800 dark:text-white">
-              {"Linkedin"}
+              {'Linkedin'}
             </h3>
             {!isLoading && !isExpired && (
               <Badge
@@ -105,25 +133,7 @@ export function AccountCard({
         </div>
 
         <div className="flex items-center gap-2">
-          {isLoading ? (
-            <p className="text-slate-600 dark:text-gray-400">loading....</p>
-          ) : isExpired === false ? (
-            <Avatar className="size-14 border-4 border-background dark:border-gray-700">
-              <AvatarImage src={profile_url} alt={"pp"} />
-              <AvatarFallback className="dark:bg-gray-700 dark:text-gray-200">
-                {"Abir"}
-              </AvatarFallback>
-            </Avatar>
-          ) : (
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-700 dark:hover:text-blue-300 hover:border-blue-300 dark:hover:border-blue-800 font-medium shadow-sm transition-all duration-200"
-              onClick={handleClick}
-            >
-              Add Account
-            </Button>
-          )}
+          {renderAccountContent()}
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild disabled={isLoading}>

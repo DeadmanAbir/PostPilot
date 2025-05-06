@@ -1,4 +1,4 @@
-import express, { Router } from "express";
+import express, { Router } from 'express';
 
 import {
   fetchTweets,
@@ -10,26 +10,26 @@ import {
   saveRemoteFileData,
   saveRemoteImageData,
   saveTextNodeData,
-} from "@/controllers/file-controllers";
+} from '@/controllers/file-controllers';
 
 const router: Router = express.Router();
 
-router.post("/youtube-video", fetchYoutubeVideoDetails);
+router.post('/youtube-video', fetchYoutubeVideoDetails);
 
-router.post("/fetch-tweet", fetchTweets);
+router.post('/fetch-tweet', fetchTweets);
 
-router.post("/fetch-url", fetchWebsiteUrl);
+router.post('/fetch-url', fetchWebsiteUrl);
 
-router.post("/add-local-file", saveLocalFileData);
+router.post('/add-local-file', saveLocalFileData);
 
-router.post("/add-local-image", saveLocalImageData);
+router.post('/add-local-image', saveLocalImageData);
 
-router.post("/add-remote-file", saveRemoteFileData);
+router.post('/add-remote-file', saveRemoteFileData);
 
-router.post("/add-remote-image", saveRemoteImageData);
+router.post('/add-remote-image', saveRemoteImageData);
 
-router.post("/add-text-node", saveTextNodeData);
+router.post('/add-text-node', saveTextNodeData);
 
-router.get("/files", getUsersAdmin);
+router.get('/files', getUsersAdmin);
 
 export default router;

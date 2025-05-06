@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { SignUp } from "./sign-up";
-import { SignIn } from "./sign-in";
+import { useState } from 'react';
+
+import { SignUp } from './sign-up';
+import { SignIn } from './sign-in';
 
 export default function OnboardPage() {
   const [isSignUp, setIsSignUp] = useState(true);

@@ -1,29 +1,30 @@
-import type React from "react";
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Trash } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+import type React from 'react';
+import { useState } from 'react';
+import { Trash } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { nanoid } from 'nanoid';
+import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
+
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   addLocalImagesFn,
   addRemoteImagesFn,
-} from "@/lib/tanstack-query/mutation";
-import { useAuth } from "@/providers/supabaseAuthProvider";
-import { nanoid } from "nanoid";
-import { supabase } from "@/lib/supabaseClient";
-import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
+} from '@/lib/tanstack-query/mutation';
+import { useAuth } from '@/providers/supabaseAuthProvider';
+import { supabase } from '@/lib/supabaseClient';
 
 export function ImagesTab() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [localImages, setLocalImages] = useState<File[]>([]);
   const [remoteImageUrl, setRemoteImageUrl] = useState({
-    name: "",
-    url: "",
+    name: '',
+    url: '',
   });
   const [remoteImages, setRemoteImages] = useState<
     { name: string; url: string }[]
@@ -32,26 +33,26 @@ export function ImagesTab() {
   const { mutate: addRemoteImages, isPending: isRemoteFetching } =
     addRemoteImagesFn(user?.accessToken!, {
       onSuccess: () => {
-        toast.success("remote images added  successfully");
+        toast.success('remote images added  successfully');
         setRemoteImages([]);
-        queryClient.invalidateQueries({ queryKey: ["sources"] });
+        queryClient.invalidateQueries({ queryKey: ['sources'] });
       },
       onError: (error: unknown) => {
-        console.log(error);
-        toast.error("error in adding remote images");
+        console.error(error);
+        toast.error('error in adding remote images');
       },
     });
 
   const { mutate: addLocalImages, isPending: isLocalFetching } =
     addLocalImagesFn(user?.accessToken!, {
       onSuccess: () => {
-        toast.success("local images added  successfully");
+        toast.success('local images added  successfully');
         setLocalImages([]);
-        queryClient.invalidateQueries({ queryKey: ["sources"] });
+        queryClient.invalidateQueries({ queryKey: ['sources'] });
       },
       onError: (error: unknown) => {
-        console.log(error);
-        toast.error("error in adding local images");
+        console.error(error);
+        toast.error('error in adding local images');
       },
     });
 
@@ -59,7 +60,7 @@ export function ImagesTab() {
     const fileUrls: { name: string; url: string; storage_name: string }[] = [];
     try {
       for (const image of localImages) {
-        const fileExtension = image.name.split(".").pop();
+        const fileExtension = image.name.split('.').pop();
         const fileName = `${nanoid()}.${fileExtension}`;
         const actualFileName = image.name;
 
@@ -70,8 +71,8 @@ export function ImagesTab() {
           .upload(filePath, image);
 
         if (error) {
-          console.error("Error uploading file:", error.message);
-          toast.error("error in uploading file");
+          console.error('Error uploading file:', error.message);
+          toast.error('error in uploading file');
           throw error;
         }
 
@@ -90,7 +91,7 @@ export function ImagesTab() {
 
       return fileUrls;
     } catch (error) {
-      console.error("Error in file upload process:", error);
+      console.error('Error in file upload process:', error);
       throw error;
     }
   };
@@ -110,7 +111,7 @@ export function ImagesTab() {
       }
 
       setRemoteImages([...remoteImages, remoteImageUrl]);
-      setRemoteImageUrl({ name: "", url: "" });
+      setRemoteImageUrl({ name: '', url: '' });
     }
   };
 
@@ -123,7 +124,7 @@ export function ImagesTab() {
   };
 
   const handleLocalImageUpload = async () => {
-    const bucket = "post-pilot";
+    const bucket = 'post-pilot';
 
     const uploadedResults = await uploadToSupabase(bucket);
     addLocalImages(uploadedResults);
@@ -146,15 +147,16 @@ export function ImagesTab() {
         <CardContent>
           <Tabs defaultValue="local" className="w-full">
             <TabsList className="w-full justify-start h-10">
-              <TabsTrigger value="local" className="flex-1 h-full">Local Upload</TabsTrigger>
-              <TabsTrigger value="remote" className="flex-1 h-full">Remote URL</TabsTrigger>
+              <TabsTrigger value="local" className="flex-1 h-full">
+                Local Upload
+              </TabsTrigger>
+              <TabsTrigger value="remote" className="flex-1 h-full">
+                Remote URL
+              </TabsTrigger>
             </TabsList>
 
             {/* Local Upload Tab */}
-            <TabsContent
-              value="local"
-              className="mt-5"
-            >
+            <TabsContent value="local" className="mt-5">
               {/* <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="image-upload">Upload Images</Label>
                 <Input
@@ -171,15 +173,32 @@ export function ImagesTab() {
               <div className="flex flex-col space-y-4 mt-5">
                 {/* <Label htmlFor="file-upload" className="text-base font-medium dark:text-gray-200">Upload Files</Label> */}
                 <div className="flex flex-col items-center justify-center w-full ">
-                  <label htmlFor="file-upload" className="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer  hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200">
+                  <label
+                    htmlFor="file-upload"
+                    className="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer  hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200"
+                  >
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                      <svg className="w-10 h-10 mb-3 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                      <svg
+                        className="w-10 h-10 mb-3 text-gray-400 dark:text-gray-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                        ></path>
                       </svg>
                       <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                        <span className="font-semibold">Click to upload</span> or drag and drop
+                        <span className="font-semibold">Click to upload</span>{' '}
+                        or drag and drop
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">                  Supported formats: JPG, PNG, WebP, GIF, SVG
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        {' '}
+                        Supported formats: JPG, PNG, WebP, GIF, SVG
                       </p>
                     </div>
                     <Input
@@ -208,7 +227,9 @@ export function ImagesTab() {
                           transition={{ duration: 0.2 }}
                         >
                           <img
-                            src={URL.createObjectURL(file) || "/placeholder.svg"}
+                            src={
+                              URL.createObjectURL(file) || '/placeholder.svg'
+                            }
                             alt={`Local image ${index + 1}`}
                             className="object-cover rounded size-16"
                           />
@@ -238,10 +259,7 @@ export function ImagesTab() {
             </TabsContent>
 
             {/* Remote URL Tab */}
-            <TabsContent
-              value="remote"
-              className="mt-5"
-            >
+            <TabsContent value="remote" className="mt-5">
               <div className="flex flex-col space-y-3">
                 <Label htmlFor="image-url">Image URL</Label>
                 <form
@@ -256,7 +274,7 @@ export function ImagesTab() {
                     placeholder="Image Name"
                     value={remoteImageUrl.name}
                     required
-                                 className="h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900"
+                    className="h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900"
                     onChange={(e) =>
                       setRemoteImageUrl((prev) => ({
                         ...prev,
@@ -269,7 +287,7 @@ export function ImagesTab() {
                     placeholder="https://example.com/image.jpg"
                     value={remoteImageUrl.url}
                     required
-                                 className="h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900"
+                    className="h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900"
                     onChange={(e) =>
                       setRemoteImageUrl((prev) => ({
                         ...prev,
@@ -301,7 +319,7 @@ export function ImagesTab() {
                           transition={{ duration: 0.2 }}
                         >
                           <img
-                            src={url.url || "/placeholder.svg"}
+                            src={url.url || '/placeholder.svg'}
                             alt={`Remote image ${index + 1}`}
                             className="object-cover rounded size-16"
                           />

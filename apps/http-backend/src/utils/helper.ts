@@ -1,8 +1,9 @@
-import { ChatGemini } from "./chatGemini";
-import { ChatOpenAI } from "./chatOpenAi";
-import { improveQueryPrompt } from "./constant";
-import "dotenv/config";
-import { supabase } from "./supabaseClient";
+import { ChatGemini } from './chatGemini';
+import { ChatOpenAI } from './chatOpenAi';
+import { improveQueryPrompt } from './constant';
+import 'dotenv/config';
+import { supabase } from './supabaseClient';
+import { PostContent } from '@repo/common/types';
 
 interface LinkedInCredentials {
   access_token: string;
@@ -10,7 +11,6 @@ interface LinkedInCredentials {
   expires_at?: string;
   profile_id: string;
 }
-import { PostContent } from "@repo/common/types";
 
 export const extractTweetId = (url: string): string | null => {
   const match = url.match(/status\/(\d+)/);
@@ -19,7 +19,7 @@ export const extractTweetId = (url: string): string | null => {
 
 export const improvePrompt = async (prompt: string): Promise<string> => {
   try {
-    const chatOpenAI = createClient("OpenAI");
+    const chatOpenAI = createClient('OpenAI');
 
     const data = await chatOpenAI.chat({
       prompt: prompt,
@@ -30,23 +30,25 @@ export const improvePrompt = async (prompt: string): Promise<string> => {
 
     return JSON.stringify(data);
   } catch (e: unknown) {
-    console.log(e);
-    throw new Error("Error in improving prompt");
+    console.error(e);
+    throw new Error('Error in improving prompt');
   }
 };
 
-export const createClient = (llm: "OpenAI" | "Gemini") => {
-  if (llm == "OpenAI") {
+export const createClient = (
+  llm: 'OpenAI' | 'Gemini',
+): ChatOpenAI | ChatGemini => {
+  if (llm == 'OpenAI') {
     const chatOpenAI = new ChatOpenAI({
       apiKey: process.env.OPENAI_API_KEY,
-      model: "gpt-4o-mini",
+      model: 'gpt-4o-mini',
     });
 
     return chatOpenAI;
   }
   const chatGemini = new ChatGemini({
     apiKey: process.env.GEMINI_API_KEY!,
-    model: "gemini-2.0-flash",
+    model: 'gemini-2.0-flash',
   });
   return chatGemini;
 };
@@ -61,7 +63,7 @@ export const getLinkedInAuthUrl = (state: string): string => {
     !LINKEDIN_CLIENT_SECRET ||
     !LINKEDIN_REDIRECT_URI
   ) {
-    throw new Error("Missing LinkedIn environment variables");
+    throw new Error('Missing LinkedIn environment variables');
   }
 
   return (
@@ -75,7 +77,7 @@ export const getLinkedInAuthUrl = (state: string): string => {
 };
 
 export const exchangeCodeForToken = async (
-  code: string
+  code: string,
 ): Promise<{
   access_token: string;
   expires_in: number;
@@ -89,12 +91,12 @@ export const exchangeCodeForToken = async (
     !LINKEDIN_CLIENT_SECRET ||
     !LINKEDIN_REDIRECT_URI
   ) {
-    throw new Error("Missing LinkedIn environment variables");
+    throw new Error('Missing LinkedIn environment variables');
   }
 
   try {
     const params = new URLSearchParams({
-      grant_type: "authorization_code",
+      grant_type: 'authorization_code',
       code,
       redirect_uri: LINKEDIN_REDIRECT_URI,
       client_id: LINKEDIN_CLIENT_ID,
@@ -102,14 +104,14 @@ export const exchangeCodeForToken = async (
     });
 
     const response = await fetch(
-      "https://www.linkedin.com/oauth/v2/accessToken",
+      'https://www.linkedin.com/oauth/v2/accessToken',
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: params,
-      }
+      },
     );
 
     if (!response.ok) {
@@ -118,16 +120,16 @@ export const exchangeCodeForToken = async (
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("LinkedIn token exchange error:", error);
+    console.error('LinkedIn token exchange error:', error);
     throw error;
   }
 };
 
 export const getLinkedInProfile = async (
-  accessToken: string
+  accessToken: string,
 ): Promise<{ id: string; email: string; picture?: string }> => {
   try {
-    const response = await fetch("https://api.linkedin.com/v2/userinfo", {
+    const response = await fetch('https://api.linkedin.com/v2/userinfo', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -144,33 +146,33 @@ export const getLinkedInProfile = async (
       picture: data.picture,
     };
   } catch (error) {
-    console.error("LinkedIn profile error:", error);
+    console.error('LinkedIn profile error:', error);
     throw error;
   }
 };
 
 export const getUserId = (): string => {
-  return "bd3ab8a6-a4d0-4b15-8242-32b9902f3673";
+  return 'bd3ab8a6-a4d0-4b15-8242-32b9902f3673';
 };
 
 export const getCredentialsFromDB = async (
-  userId: string
+  userId: string,
 ): Promise<LinkedInCredentials | null> => {
   try {
     const { data, error } = await supabase
-      .from("linkedin")
-      .select("*")
-      .eq("user_id", userId)
+      .from('linkedin')
+      .select('*')
+      .eq('user_id', userId)
       .single();
 
     if (error) {
-      console.error("Supabase error fetching LinkedIn credentials:", error);
+      console.error('Supabase error fetching LinkedIn credentials:', error);
       return null;
     }
 
     return data;
   } catch (error) {
-    console.error("Error getting LinkedIn credentials:", error);
+    console.error('Error getting LinkedIn credentials:', error);
     return null;
   }
 };
@@ -180,13 +182,13 @@ export const storeCredentialsInDB = async (
   accessToken: string,
   expiresIn: number,
   linkedinId: string,
-  picture?: string
+  picture?: string,
 ): Promise<boolean> => {
   try {
     const expiresAt = new Date();
     expiresAt.setSeconds(expiresAt.getSeconds() + expiresIn);
 
-    const { error } = await supabase.from("linkedin").upsert(
+    const { error } = await supabase.from('linkedin').upsert(
       [
         {
           user_id: userId,
@@ -197,23 +199,23 @@ export const storeCredentialsInDB = async (
           updated_at: new Date().toISOString(),
         },
       ],
-      { onConflict: "user_id" }
+      { onConflict: 'user_id' },
     );
 
     if (error) {
-      console.error("Error storing LinkedIn credentials:", error);
+      console.error('Error storing LinkedIn credentials:', error);
       return false;
     }
 
     return true;
   } catch (error) {
-    console.error("Error storing credentials:", error);
+    console.error('Error storing credentials:', error);
     return false;
   }
 };
 
 export const validateAndRefreshToken = async (
-  credentials: LinkedInCredentials
+  credentials: LinkedInCredentials,
 ): Promise<string | null> => {
   try {
     if (
@@ -226,7 +228,7 @@ export const validateAndRefreshToken = async (
     // Token is still valid
     return credentials.access_token;
   } catch (error) {
-    console.error("Access Token Expired:", error);
+    console.error('Access Token Expired:', error);
     return null;
   }
 };
@@ -236,16 +238,17 @@ export const postToLinkedIn = async (
   profileId: string,
   content: PostContent,
   mediaAttachments: { status: string; media: string }[],
-  mediaCategory: "NONE" | "IMAGE" | "VIDEO"
+  mediaCategory: 'NONE' | 'IMAGE' | 'VIDEO',
 ): Promise<string> => {
   try {
     const { text, shareUrl, title, visibility } = content;
     // Create post payload
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const postPayload: any = {
       author: `urn:li:person:${profileId}`,
-      lifecycleState: "PUBLISHED",
+      lifecycleState: 'PUBLISHED',
       specificContent: {
-        "com.linkedin.ugc.ShareContent": {
+        'com.linkedin.ugc.ShareContent': {
           shareCommentary: {
             text: text,
           },
@@ -254,18 +257,18 @@ export const postToLinkedIn = async (
         },
       },
       visibility: {
-        "com.linkedin.ugc.MemberNetworkVisibility": visibility,
+        'com.linkedin.ugc.MemberNetworkVisibility': visibility,
       },
     };
 
     // Add URL if provided
     if (shareUrl) {
       postPayload.specificContent[
-        "com.linkedin.ugc.ShareContent"
-      ].shareMediaCategory = "ARTICLE";
-      postPayload.specificContent["com.linkedin.ugc.ShareContent"].media = [
+        'com.linkedin.ugc.ShareContent'
+      ].shareMediaCategory = 'ARTICLE';
+      postPayload.specificContent['com.linkedin.ugc.ShareContent'].media = [
         {
-          status: "READY",
+          status: 'READY',
           originalUrl: shareUrl,
         },
       ];
@@ -273,19 +276,19 @@ export const postToLinkedIn = async (
       // Add title if provided
       if (title) {
         postPayload.specificContent[
-          "com.linkedin.ugc.ShareContent"
+          'com.linkedin.ugc.ShareContent'
         ].media[0].title = {
           text: title,
         };
       }
     }
     // Send post request to LinkedIn API
-    const response = await fetch("https://api.linkedin.com/v2/ugcPosts", {
-      method: "POST",
+    const response = await fetch('https://api.linkedin.com/v2/ugcPosts', {
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "X-Restli-Protocol-Version": "2.0.0",
-        "Content-Type": "application/json",
+        'X-Restli-Protocol-Version': '2.0.0',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(postPayload),
     });
@@ -296,7 +299,7 @@ export const postToLinkedIn = async (
     const data = await response.json();
     return data.id;
   } catch (error) {
-    console.error("LinkedIn posting error:", error);
+    console.error('LinkedIn posting error:', error);
     throw error;
   }
 };
@@ -305,16 +308,16 @@ export const processMedia = async (
   accessToken: string,
   profileId: string,
   mediaUrl: string,
-  mediaType: string
-) => {
+  mediaType: string,
+): Promise<{ status: 'READY'; media: string }> => {
   const registerResponse = await fetch(
-    "https://api.linkedin.com/v2/assets?action=registerUpload",
+    'https://api.linkedin.com/v2/assets?action=registerUpload',
     {
-      method: "POST",
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-        "X-Restli-Protocol-Version": "2.0.0",
+        'Content-Type': 'application/json',
+        'X-Restli-Protocol-Version': '2.0.0',
       },
       body: JSON.stringify({
         registerUploadRequest: {
@@ -322,19 +325,19 @@ export const processMedia = async (
           owner: `urn:li:person:${profileId}`,
           serviceRelationships: [
             {
-              relationshipType: "OWNER",
-              identifier: "urn:li:userGeneratedContent",
+              relationshipType: 'OWNER',
+              identifier: 'urn:li:userGeneratedContent',
             },
           ],
         },
       }),
-    }
+    },
   );
 
   const registerData = await registerResponse.json();
   const uploadUrl =
     registerData.value.uploadMechanism[
-      "com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"
+      'com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest'
     ].uploadUrl;
   const asset = registerData.value.asset;
 
@@ -344,7 +347,7 @@ export const processMedia = async (
 
   // Upload media to LinkedIn's provided URL
   await fetch(uploadUrl, {
-    method: "PUT",
+    method: 'PUT',
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -352,7 +355,7 @@ export const processMedia = async (
   });
 
   return {
-    status: "READY",
+    status: 'READY',
     media: asset,
   };
 };
@@ -361,18 +364,23 @@ export const fetchMediaData = async (media: {
   files?: string[];
   images?: string[];
   websites?: string[];
-}) => {
+}): Promise<
+  {
+    link: string;
+    mimetype: string;
+  }[]
+> => {
   const results: { link: string; mimetype: string }[] = [];
 
   for (const [key, ids] of Object.entries(media)) {
     if (
       Array.isArray(ids) &&
-      (key === "files" || key === "images" || key === "websites")
+      (key === 'files' || key === 'images' || key === 'websites')
     ) {
       const { data, error } = await supabase
         .from(key)
-        .select(key === "websites" ? "screenshot" : "url")
-        .in("id", ids);
+        .select(key === 'websites' ? 'screenshot' : 'url')
+        .in('id', ids);
 
       if (error) {
         console.error(`Error fetching data from ${key}:`, error);
@@ -380,8 +388,8 @@ export const fetchMediaData = async (media: {
       }
       data?.forEach((item: { url?: string; screenshot?: string }) => {
         results.push({
-          link: item.url || item.screenshot || "",
-          mimetype: key === "files" ? "application/pdf" : "image/jpeg",
+          link: item.url || item.screenshot || '',
+          mimetype: key === 'files' ? 'application/pdf' : 'image/jpeg',
         });
       });
     }
@@ -393,16 +401,16 @@ export const fetchMediaData = async (media: {
 export const fetchTextualData = async (data: {
   tweets?: string[];
   text_node?: string[];
-}) => {
-  let result = "";
+}): Promise<string> => {
+  let result = '';
   let sourceCount = 1;
 
   for (const [key, ids] of Object.entries(data)) {
-    if (Array.isArray(ids) && (key === "tweets" || key === "text_node")) {
+    if (Array.isArray(ids) && (key === 'tweets' || key === 'text_node')) {
       const { data: fetchedData, error } = await supabase
         .from(key)
-        .select(key === "tweets" ? "tweet" : "description")
-        .in("id", ids);
+        .select(key === 'tweets' ? 'tweet' : 'description')
+        .in('id', ids);
 
       if (error) {
         console.error(`Error fetching data from ${key}:`, error);
@@ -410,7 +418,7 @@ export const fetchTextualData = async (data: {
       }
 
       fetchedData?.forEach((item: { tweet?: string; description?: string }) => {
-        const content = key === "tweets" ? item.tweet : item.description;
+        const content = key === 'tweets' ? item.tweet : item.description;
         if (content) {
           result += `source ${sourceCount}: "${content}"\n\n`;
           sourceCount++;

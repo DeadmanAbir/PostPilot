@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 import {
   demoValidator,
   linkedinPostValidator,
@@ -9,7 +9,7 @@ import {
   remoteFileUploadDetailsValidator,
   textNodeDataValidaor,
   twitterValidator,
-} from "./validator";
+} from './validator';
 
 export type DemoType = z.infer<typeof demoValidator>;
 

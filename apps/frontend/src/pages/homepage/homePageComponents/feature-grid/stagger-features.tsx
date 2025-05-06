@@ -1,42 +1,52 @@
-import { motion } from "motion/react";
-import { Brain, Sparkles, Workflow,} from "lucide-react";
+import { motion } from 'motion/react';
+import { Brain, Sparkles, Workflow } from 'lucide-react';
 
 const features = [
   {
     icon: Brain,
-    title: "One-Stop Posting",
-    description: "Manage, create and schedule your post",
-    color: "text-blue-500",
+    title: 'One-Stop Posting',
+    description: 'Manage, create and schedule your post',
+    color: 'text-blue-500',
   },
   {
     icon: Sparkles,
-    title: "Upcoming Integrations",
-    description: "Twitter support and scheduled posts, coming soon",
-    color: "text-purple-500",
+    title: 'Upcoming Integrations',
+    description: 'Twitter support and scheduled posts, coming soon',
+    color: 'text-purple-500',
   },
   {
     icon: Workflow,
-    title: "Contextual Relevance",
-    description: "Upload sources to provide context for AI-generated posts",
-    color: "text-green-500",
+    title: 'Contextual Relevance',
+    description: 'Upload sources to provide context for AI-generated posts',
+    color: 'text-green-500',
   },
 ];
 
-const FeatureCard = ({ icon: Icon, title, description, color }: { icon: React.ComponentType<{ size: number }>; title: string; description: string; color: string }) => {
+const FeatureCard = ({
+  icon: Icon,
+  title,
+  description,
+  color,
+}: {
+  icon: React.ComponentType<{ size: number }>;
+  title: string;
+  description: string;
+  color: string;
+}) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
         duration: 0.3,
-        type: "spring",
+        type: 'spring',
         stiffness: 100,
       }}
       whileHover={{ scale: 1.05 }}
       className="relative  rounded-xl p-3 bg-blue-400/10 backdrop-blur-3xl  border-2 border-blue-950 "
     >
       <motion.div
-        transition={{ duration: 0.6, ease: "easeInOut" }}
+        transition={{ duration: 0.6, ease: 'easeInOut' }}
         className={`${color} mb-4`}
       >
         <Icon size={16} />

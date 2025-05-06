@@ -1,20 +1,21 @@
-"use client";
+'use client';
 
-import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion } from 'motion/react';
 import React, {
   ComponentPropsWithoutRef,
   useEffect,
   useMemo,
   useState,
-} from "react";
+} from 'react';
+
+import { cn } from '@/lib/utils';
 
 export function AnimatedListItem({ children }: { children: React.ReactNode }) {
   const animations = {
     initial: { scale: 0, opacity: 0 },
     animate: { scale: 1, opacity: 1, originY: 0 },
     exit: { scale: 0, opacity: 0 },
-    transition: { type: "spring", stiffness: 350, damping: 40 },
+    transition: { type: 'spring', stiffness: 350, damping: 40 },
   };
 
   return (
@@ -24,7 +25,7 @@ export function AnimatedListItem({ children }: { children: React.ReactNode }) {
   );
 }
 
-export interface AnimatedListProps extends ComponentPropsWithoutRef<"div"> {
+export interface AnimatedListProps extends ComponentPropsWithoutRef<'div'> {
   children: React.ReactNode;
   delay?: number;
 }
@@ -36,7 +37,7 @@ export const AnimatedList = React.memo(
       () => React.Children.toArray(children),
       [children],
     );
-
+    // eslint-disable-next-line consistent-return
     useEffect(() => {
       if (index < childrenArray.length - 1) {
         const timeout = setTimeout(() => {
@@ -69,4 +70,4 @@ export const AnimatedList = React.memo(
   },
 );
 
-AnimatedList.displayName = "AnimatedList";
+AnimatedList.displayName = 'AnimatedList';

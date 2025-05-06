@@ -1,42 +1,45 @@
-import type React from "react";
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { supabase } from "@/lib/supabaseClient";
-import { useAuth } from "@/providers/supabaseAuthProvider";
-import { motion, AnimatePresence } from "motion/react";
+import type React from 'react';
+import { useState } from 'react';
+import { X } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { nanoid } from 'nanoid';
+import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
+
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { supabase } from '@/lib/supabaseClient';
+import { useAuth } from '@/providers/supabaseAuthProvider';
 import {
   addLocalFilesFn,
   addRemoteFilesFn,
-} from "@/lib/tanstack-query/mutation";
-import { nanoid } from "nanoid";
-import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
+} from '@/lib/tanstack-query/mutation';
 
 export function FilesTab() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [localFiles, setLocalFiles] = useState<File[]>([]);
   const [remoteFileUrl, setRemoteFileUrl] = useState({
-    name: "",
-    url: ""
+    name: '',
+    url: '',
   });
-  const [remoteFiles, setRemoteFiles] = useState<{ name: string; url: string }[]>([]);
+  const [remoteFiles, setRemoteFiles] = useState<
+    { name: string; url: string }[]
+  >([]);
 
   const { mutate: addRemoteFile, isPending: isRemoteFetching } =
     addRemoteFilesFn(user?.accessToken!, {
       onSuccess: () => {
-        toast.success("remote file added  successfully");
+        toast.success('remote file added  successfully');
         setRemoteFiles([]);
-        queryClient.invalidateQueries({ queryKey: ["sources"] });
+        queryClient.invalidateQueries({ queryKey: ['sources'] });
       },
       onError: (error: unknown) => {
-        console.log(error);
-        toast.error("error in adding remote file");
+        console.error(error);
+        toast.error('error in adding remote file');
       },
     });
 
@@ -44,22 +47,22 @@ export function FilesTab() {
     user?.accessToken!,
     {
       onSuccess: () => {
-        toast.success("Local file added  successfully");
+        toast.success('Local file added  successfully');
         setLocalFiles([]);
-        queryClient.invalidateQueries({ queryKey: ["sources"] });
+        queryClient.invalidateQueries({ queryKey: ['sources'] });
       },
       onError: (error: unknown) => {
-        console.log(error);
-        toast.error("error in adding local file");
+        console.error(error);
+        toast.error('error in adding local file');
       },
-    }
+    },
   );
 
   const uploadToSupabase = async (bucket: string) => {
     const fileUrls: { name: string; url: string; storage_name: string }[] = [];
     try {
       for (const file of localFiles) {
-        const fileExtension = file.name.split(".").pop();
+        const fileExtension = file.name.split('.').pop();
         const fileName = `${nanoid()}.${fileExtension}`;
         const actualFileName = file.name;
 
@@ -69,8 +72,8 @@ export function FilesTab() {
           .from(bucket)
           .upload(filePath, file);
         if (error) {
-          console.error("Error uploading file:", error.message);
-          toast.error("error in uploading file");
+          console.error('Error uploading file:', error.message);
+          toast.error('error in uploading file');
           throw error;
         }
 
@@ -89,13 +92,13 @@ export function FilesTab() {
 
       return fileUrls;
     } catch (error) {
-      console.error("Error in file upload process:", error);
+      console.error('Error in file upload process:', error);
       throw error;
     }
   };
 
   const handleLocalFileChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     if (e.target.files) {
       setLocalFiles(Array.from(e.target.files));
@@ -105,10 +108,9 @@ export function FilesTab() {
   const handleRemoteFileLoad = () => {
     if (remoteFileUrl.name && remoteFileUrl.url) {
       setRemoteFiles([...remoteFiles, remoteFileUrl]);
-      setRemoteFileUrl({ name: "", url: "" });
+      setRemoteFileUrl({ name: '', url: '' });
     }
   };
-
 
   const removeLocalFile = (index: number) => {
     setLocalFiles(localFiles.filter((_, i) => i !== index));
@@ -126,7 +128,7 @@ export function FilesTab() {
     addRemoteFile(remoteFileData);
   };
   const handleLocalFileUpload = async () => {
-    const fileData = await uploadToSupabase("post-pilot");
+    const fileData = await uploadToSupabase('post-pilot');
     addLocalFile(fileData);
   };
 
@@ -139,26 +141,43 @@ export function FilesTab() {
         <CardContent>
           <Tabs defaultValue="local" className="w-full">
             <TabsList className="w-full h-10">
-              <TabsTrigger value="local" className="w-full h-full">Local Upload</TabsTrigger>
-              <TabsTrigger value="remote" className="w-full h-full">Remote URL</TabsTrigger>
+              <TabsTrigger value="local" className="w-full h-full">
+                Local Upload
+              </TabsTrigger>
+              <TabsTrigger value="remote" className="w-full h-full">
+                Remote URL
+              </TabsTrigger>
             </TabsList>
-            <TabsContent
-              id="imageLoad"
-              value="local"
-              className="max-h-[40vh] "
-            >
+            <TabsContent id="imageLoad" value="local" className="max-h-[40vh] ">
               <div className="flex flex-col space-y-4 mt-5">
                 {/* <Label htmlFor="file-upload" className="text-base font-medium dark:text-gray-200">Upload Files</Label> */}
                 <div className="flex flex-col items-center justify-center w-full ">
-                  <label htmlFor="file-upload" className="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer  hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200">
+                  <label
+                    htmlFor="file-upload"
+                    className="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer  hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200"
+                  >
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                      <svg className="w-10 h-10 mb-3 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                      <svg
+                        className="w-10 h-10 mb-3 text-gray-400 dark:text-gray-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                        ></path>
                       </svg>
                       <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                        <span className="font-semibold">Click to upload</span> or drag and drop
+                        <span className="font-semibold">Click to upload</span>{' '}
+                        or drag and drop
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">PDF, DOC, DOCX (MAX. 10MB)</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        PDF, DOC, DOCX (MAX. 10MB)
+                      </p>
                     </div>
                     <Input
                       id="file-upload"
@@ -226,9 +245,12 @@ export function FilesTab() {
                     placeholder="File Name"
                     required
                     value={remoteFileUrl.name}
-                        className="h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900"
+                    className="h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900"
                     onChange={(e) =>
-                      setRemoteFileUrl((prev) => ({ ...prev, name: e.target.value }))
+                      setRemoteFileUrl((prev) => ({
+                        ...prev,
+                        name: e.target.value,
+                      }))
                     }
                   />
                   <Input
@@ -238,14 +260,20 @@ export function FilesTab() {
                     value={remoteFileUrl.url}
                     className="h-10 focus:outline-none focus:ring-2 focus:ring-offset-[3px] focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900"
                     onChange={(e) =>
-                      setRemoteFileUrl((prev) => ({ ...prev, url: e.target.value }))
+                      setRemoteFileUrl((prev) => ({
+                        ...prev,
+                        url: e.target.value,
+                      }))
                     }
                   />
-                  <Button type="submit" disabled={isRemoteFetching || isLocalFetching} className="h-10">
+                  <Button
+                    type="submit"
+                    disabled={isRemoteFetching || isLocalFetching}
+                    className="h-10"
+                  >
                     Add File
                   </Button>
                 </form>
-
               </div>
               {remoteFiles.length > 0 && (
                 <div className="mt-4">
@@ -271,7 +299,6 @@ export function FilesTab() {
                           </Button>
                         </motion.li>
                       ))}
-
                     </AnimatePresence>
                   </ul>
                   <div className="w-full flex items-center justify-center mt-2">
@@ -292,6 +319,5 @@ export function FilesTab() {
         </CardContent>
       </Card>
     </div>
-
   );
 }

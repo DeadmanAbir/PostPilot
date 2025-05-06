@@ -5,15 +5,19 @@ interface Item {
 }
 
 const allowedTypes = new Set([
-  "files",
-  "images",
-  "text",
-  "tweets",
-  "websites",
-  "youtube",
+  'files',
+  'images',
+  'text',
+  'tweets',
+  'websites',
+  'youtube',
 ]);
 
-export const groupItemsByType = ({
+export const groupItemsByType: ({
+  selectedItems,
+}: {
+  selectedItems: Item[];
+}) => Record<string, string[]> = ({
   selectedItems,
 }: {
   selectedItems: Item[];
@@ -23,9 +27,11 @@ export const groupItemsByType = ({
   selectedItems.forEach((item) => {
     const type = item.type.toLowerCase();
 
-    if (!allowedTypes.has(type)) return;
+    if (!allowedTypes.has(type)) {
+      return;
+    }
 
-    const typeName = type === "text" ? "text_node" : type;
+    const typeName = type === 'text' ? 'text_node' : type;
     if (!groupedItemIds[typeName]) {
       groupedItemIds[typeName] = [];
     }

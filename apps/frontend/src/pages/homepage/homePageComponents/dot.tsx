@@ -1,4 +1,4 @@
-import  { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 const getRandomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -27,16 +27,18 @@ const Dots = () => {
       indices.forEach((index) => {
         const light = ref.current?.querySelector(`[data-index="${index}"]`);
 
-        if (!light) return;
+        if (!light) {
+          return;
+        }
 
         const nextState = states[Math.floor(Math.random() * states.length)];
         const currentState = (light as HTMLElement).dataset.state;
-        
-        const pulse = Math.random() > 0.2 && (
-          (currentState === 'off' && nextState === 'high') ||
-          (currentState === 'off' && nextState === 'medium') ||
-          (currentState === 'medium' && nextState === 'high')
-        );
+
+        const pulse =
+          Math.random() > 0.2 &&
+          ((currentState === 'off' && nextState === 'high') ||
+            (currentState === 'off' && nextState === 'medium') ||
+            (currentState === 'medium' && nextState === 'high'));
 
         if (pulse) {
           const delay = getRandomNumber(100, 500);
@@ -44,13 +46,13 @@ const Dots = () => {
           timeoutIds.push(
             window.setTimeout(() => {
               (light as HTMLElement).style.transform = 'scale(2)';
-            }, delay)
+            }, delay),
           );
-          
+
           timeoutIds.push(
             window.setTimeout(() => {
               (light as HTMLElement).style.transform = 'scale(1)';
-            }, transitionDuration + delay)
+            }, transitionDuration + delay),
           );
         }
 
@@ -91,7 +93,7 @@ const Dots = () => {
       }}
     >
       {Array.from({ length: columns * rows }).map((_, i) => (
-        <div 
+        <div
           key={i}
           data-state="off"
           data-index={i}

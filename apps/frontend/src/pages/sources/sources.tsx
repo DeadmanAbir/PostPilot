@@ -1,26 +1,33 @@
-import { useEffect, useRef } from "react";
-import PreviewSection from "./sourcesComponents/preview-section";
-import { ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import LinkSection2 from "./sourcesComponents/links-sections-2";
+import { useEffect, useRef } from 'react';
+import { ChevronDown } from 'lucide-react';
+
+import PreviewSection from './sourcesComponents/preview-section';
+import LinkSection2 from './sourcesComponents/links-sections-2';
+
+import { Button } from '@/components/ui/button';
+
 const Sources = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container) {
+      return () => {};
+    }
 
     let isScrolling = false;
 
     const handleScroll = (event: WheelEvent) => {
-      if (isScrolling) return;
+      if (isScrolling) {
+        return;
+      }
 
       isScrolling = true;
       const sections = Array.from(container.children) as HTMLElement[];
       const direction = event.deltaY > 0 ? 1 : -1;
 
       const currentSection = sections.find(
-        (section) => section.getBoundingClientRect().top >= 0
+        (section) => section.getBoundingClientRect().top >= 0,
       );
 
       if (currentSection) {
@@ -28,11 +35,11 @@ const Sources = () => {
           0,
           Math.min(
             sections.indexOf(currentSection) + direction,
-            sections.length - 1
-          )
+            sections.length - 1,
+          ),
         );
 
-        sections[nextIndex].scrollIntoView({ behavior: "smooth" });
+        sections[nextIndex].scrollIntoView({ behavior: 'smooth' });
       }
 
       setTimeout(() => {
@@ -40,18 +47,20 @@ const Sources = () => {
       }, 800);
     };
 
-    container.addEventListener("wheel", handleScroll);
+    container.addEventListener('wheel', handleScroll);
 
-    return () => container.removeEventListener("wheel", handleScroll);
+    return () => container.removeEventListener('wheel', handleScroll);
   }, []);
 
   const scrollToNextSection = (direction: 1 | -1) => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container) {
+      return;
+    }
 
     const sections = Array.from(container.children) as HTMLElement[];
     const currentSection = sections.find(
-      (section) => section.getBoundingClientRect().top >= 0
+      (section) => section.getBoundingClientRect().top >= 0,
     );
 
     if (currentSection) {
@@ -59,11 +68,11 @@ const Sources = () => {
         0,
         Math.min(
           sections.indexOf(currentSection) + direction,
-          sections.length - 1
-        )
+          sections.length - 1,
+        ),
       );
 
-      sections[nextIndex].scrollIntoView({ behavior: "smooth" });
+      sections[nextIndex].scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -74,8 +83,8 @@ const Sources = () => {
         <div className="flex flex-col items-center absolute bottom-5">
           <span> Your Sources</span>
           <Button
-            variant={"ghost"}
-            size={"icon"}
+            variant={'ghost'}
+            size={'icon'}
             onClick={() => scrollToNextSection(1)}
           >
             <ChevronDown />

@@ -1,0 +1,4 @@
+pnpm run format
+turbo lint
+
+git add .
